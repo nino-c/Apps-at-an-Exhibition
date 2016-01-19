@@ -1,0 +1,85 @@
+<html lang="en_US">
+
+<head>
+
+    
+
+    <script type="text/javascript" src="/static/site/js/jQuery2.1.1.js"></script>
+    <script type="text/javascript" src="/static/site/js/three.js"></script>
+    <script type="text/javascript">
+
+
+    function ChaosWave() {
+        console.log("init actual app");
+        gl.clearRect(0,0,WW,WH);
+
+        // establish area size as if ellipse
+        this.radiusX = canvas.width / 2;
+        this.radiusY = canvas.height / 2;
+
+        this.initial = [0,0];
+
+        window.requestAnimationFrame(this.render);
+    }
+
+    ChaosWave.prototype = {
+
+        render: function() {
+            
+
+            window.requestAnimationFrame(this.render);
+        }
+
+    }
+
+
+
+
+    var colors = [
+        'rgba(255, 50, 50, 0.5)',
+        'rgba(50, 255, 50, 0.5)',
+        'rgba(50, 50, 255, 0.5)'
+    ];
+
+    var primes = [2,3,5,7,11,13,17,19,23];
+
+    var WW = $(window).width();
+    var WH = $(window).height();
+
+    var canvas = undefined;
+    var gl = undefined;
+
+    $(document).ready(function() {
+
+        canvas = document.createElement('canvas');
+        canvas.width = WW;
+        canvas.height = WH;
+
+        document.body.appendChild(canvas);
+        gl = canvas.getContext("2d");
+        gl.translate(canvas.width/2, Canvas.height/2);
+
+        ChaosWave = new ChaosWave();
+
+    });
+
+
+</script>
+
+<style type="text/css">
+
+    body {
+        margin: 0px;
+    }
+
+</style>
+
+</head>
+
+<body>
+    
+
+
+</body>
+
+</html>
