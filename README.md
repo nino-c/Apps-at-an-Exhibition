@@ -1,5 +1,5 @@
-## plerp.org
-"Interactive math, music, and art programming"
+##plerp.org##
+*"Interactive math, music, and art programming"*
 
 Plerp.org is a project planned in two phases. The current site is the first phase, and it serves as a portfolio for its creator.
 
