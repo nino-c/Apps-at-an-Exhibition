@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^portfolio/', include(portfolio.urls, namespace='portfolio')),
     url(r'^deployments/', include(deployments.urls, namespace='deployments')),
+    url(r'^templatetest/(?P<template>[a-zA-Z0-9\-\_]+)$', views.templatetest),
     url(r'^', include(accounts.urls, namespace='accounts')),
 ]
 

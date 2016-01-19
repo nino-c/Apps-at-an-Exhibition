@@ -9,5 +9,8 @@ def index(request):
 	return render(request, "home.html", {'categories': categories,
 		'iframe_src': '/deployments/breathing-cosines-light'})
 
+def templatetest(request, template):
+	return render(request, template+".html")
+
 class AboutPage(generic.TemplateView):
     template_name = "about.html"
