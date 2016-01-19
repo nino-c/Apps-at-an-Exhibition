@@ -1,26 +1,17 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django import forms
 
-from crispy_forms.helper import *
-from crispy_forms.layout import *
 
 from . import models
 
 
 def index(request):
     categories = models.PortfolioCategory.objects.all()
-    return render(request, "portfolio/index.html", {'categories': categories, 'iframe_src': '/deployments/breathing-cosines-light'})
+    return render(request, "portfolio/index.html", {'categories': categories})
 
 def iframe(request, appname):
     template_name = "iframe.html"
     return render(request, "iframe.html", {'appname': appname})
-
-# def index(request):
-#   categories = models.PortfolioCategory.objects.all()
-#   return render(request, "portfolio/index.html", {'categories': categories})
-
-
 
 def list_category(request, id):
     categories = models.PortfolioCategory.objects.all()
@@ -44,5 +35,6 @@ def show_item(request, id):
         #return redirect('portfolio:mainindex')
         raise Exception("Item could not be found")
 
-    raise Exception("Neen needs to learn 404 response")
+    return render(request, "portfolio/show.html", {'iframe_src': item.url})
+    #raise Exception("Neen needs to learn 404 response")
 

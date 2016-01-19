@@ -4,16 +4,45 @@ html, body{
     height:100%;		/* For full height images */
 }
 
-iframe {
+#big-canvas {
   border: 0px;
   width: 100%;
   height: 100%;
+}
+
+#inline-canvas {
+  border: 0px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 52px;
+  left: 0px;
+}
+
+body {
+  font-weight: 300;
 }
 
 #big-canvas {
   position: absolute;
   top: 0px;
   left: 0px;
+}
+
+.left-floater {
+  float: left;
+  margin-right: 25px;
+  margin-bottom: 25px;
+}
+
+.right-floater {
+  float: right;
+  margin-left: 25px;
+  margin-bottom: 25px;
+}
+
+.displaybox {
+  height: 450px;
 }
 
 .starter-template {

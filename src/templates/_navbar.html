@@ -2,7 +2,7 @@
     <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categories <span class="caret"></span></a>
     <ul class="dropdown-menu">
       {% for cat in categories %}
-        <li><a href="#">{{ cat.name }}</a></li>
+        <li><a href="{% url 'portfolio:list-category' cat.id %}">{{ cat.name }}</a></li>
       {% endfor %}
     </ul>
   </li>

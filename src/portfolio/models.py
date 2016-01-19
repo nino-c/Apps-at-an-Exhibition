@@ -21,8 +21,9 @@ class PortfolioItem(models.Model):
     category = models.ForeignKey(PortfolioCategory)
     title = models.CharField(max_length=100)
     subtitle = models.CharField(max_length=500, blank=True)
+    url = models.CharField(max_length=150, null=True)
     description = models.TextField()
-    sourcecode = models.CharField(null=True, max_length=200)
+    sourcecode = models.CharField(null=True, blank=True, max_length=200)
     image = ImageWithThumbsField(null=True, sizes=((125,125),(200,200)))
     creationdate = models.DateField(auto_now=False, auto_now_add=False)
 

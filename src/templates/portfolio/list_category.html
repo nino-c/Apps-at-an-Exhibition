@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title %}Portfolio{% endblock %}
+
+
+{% block container %}
+<!-- Benefits of the Django application -->
+
+<div class="text-page">
+  <div class="container">
+
+
+
+  <div class="page-header">
+    <h1>Portfolio <small>{{ category.name }}</small></h1>
+    <section>{{ category.description }}</section>
+  </div>
+
+
+  {% for item in items %}
+  <div class="media">
+    <div class="media-left media-top">
+      <a href="#">
+        <img class="media-object thumbnail" src="{{ item.image.url_200x200 }}" />
+      </a>
+    </div>
+    <div class="media-body">
+      <div class="media-heading">
+        <h4>{{ item.title }} <br /><small>{{ item.subtitle }}</small></h4>
+      </div>
+
+      {% if category.deployment_type == 'description' %}
+      <section>
+        <strong>Company: </strong>{{ item.company }}<br />
+        <strong>Year: </strong>{{ item.year }}<br />
+      </section>
+      {% endif %}
+      <br />
+      <p>{{ item.description }}</p>
+      
+      <a href="{% url 'portfolio:show-item' item.id %}" class="btn btn-primary" role="button">View &raquo;</a>
+
+      {% if item.gallery %}
+        <hr />
+        <h4>Gallery of screenshots <span class="label label-primary pull-right">click to enlarge</span></h4>
+        <div class="container-fluid">
+        {% for image in item.gallery.images.all %}
+          <img class="thumbnail floatmargins pull-left" src="{{ image.image.url_200x200 }}" />
+        {% endfor %}
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+  {% endfor %}
+
+
+
+  </div>
+</div>
+
+{% endblock container %}

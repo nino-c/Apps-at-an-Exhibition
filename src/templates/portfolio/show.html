@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block splash %}
+  <div class="jumbotron jumbotron-carousel corporate-jumbo">
+    {% if iframe_src %}
+      <iframe id="inline-canvas" scrolling="no" src="{{ iframe_src }}"></iframe>
+    {% endif %}
+  </div>
+{% endblock splash %}
