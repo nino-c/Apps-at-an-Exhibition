@@ -43,9 +43,14 @@ functions = [
         })
     }, [-10, 10], "f(x) = \\sum\\limits_{n=0}^{N} \\frac{1}{p_{n}}\\space x\\space cos(p_{n} x) \\space \\frac{1}{7}( \\sin(\\omega t)+1)"),
 
-    function() {
-        return 4;
-    }
+    new Function(function(x) {
+        return _.reduce(
+        _.map(_.range(6), function(i) {
+            return Math.pow(x, (i+1)) * (Math.random() - 0.5);
+        }), function(j,k) { 
+        return j+k; 
+        })
+    }, [-1.3,1.3], "")
 
 ];
 
@@ -55,8 +60,10 @@ primes = [1,2,3,5,7,11,13,17,19,23];
 N = 20;
 
 function addFunction(func) {
+
     domain = numeric.linspace(func.xrange[0], func.xrange[1], 100);
     graphs = [];
+
     layer = new Layer({
         backgroundColor: new Color(1,1,1,0)
     });
@@ -88,11 +95,13 @@ function addFunction(func) {
     // enforce Cartesian
     _w = Math.abs(func.xrange[1] - func.xrange[0]);
 
-    project.activeLayer.transform( 
-        new Matrix(
-            (view.size.width / _w), 0,
-            0, (view.size.height / func.xrange[0]), 
-            view.center.x, view.center.y) );
+    T = new Matrix(
+        (view.size.width / _w), 0,
+        0, (view.size.height / func.xrange[0]), 
+        view.center.x, view.center.y);
+    console.log(T);
+    project.activeLayer.transform(T); 
+        
 }
 
 
@@ -101,15 +110,15 @@ function addFunction(func) {
 
 ////////////
 
-currentFunction = functions[0];
+currentFunction = functions[1];
 
 function onResize(event) {
 
 }
 
 function onFrame(event) {
-    amplitude = (1/7)
-    rate = 1.5
+    amplitude = (1/10)
+    rate = 1.3
     scale = ((Math.sin(rate*event.time)*amplitude))+1
 
     _.each(currentFunction.graphs, function(g) {
