@@ -33,114 +33,91 @@ Function = function(func, xrange, latex) {
     this.graphs = [];
 }
 
-functions = [
-    
-    new Function(function(x) {
-        return _.reduce(
-        _.map(primes,
-            function(p) {
-                return (1/p) * Math.cos(p*x) * x
-            }
-        ), function(j,k) { 
-            return j+k; 
-        })
-    }, [-10, 10], "f(x, t) = \\sum\\limits_{n=0}^{N} \\frac{1}{p_{n}}\\space x\\space cos(p_{n} x) \\space \\frac{1}{7}( \\sin(\\omega t)+1)"),
+surface = new Function(function(x,y) {
+    //return Math.cos(Math.pow(x,2) + Math.pow(y,2));
+    return Math.pow(x,2) + Math.pow(y,2);
+}, [-2, 2]);
 
-    new Function(function(x) {
-        return _.reduce(
-        _.map(_.range(6), function(i) {
-            return Math.pow(x, (i+1)) * (Math.random() - 0.5);
-        }), function(j,k) { 
-        return j+k; 
-        })
-    }, [-1.7,1.7], "f(x, t) = \\Bigl( \\sum_{n=0}^{N} \\Bigl(\\sum_{i=1}^{6} c_{i} x^{i} \\Bigr)\\Bigr),\\space c_{i} \\in (-1, 1)")
+COLOR = new Color();
+COLOR.hue = 360 * Math.random();
 
+
+
+x = numeric.linspace(surface.xrange[0], surface.xrange[1], 10);
+y = numeric.linspace(surface.xrange[0], surface.xrange[1], 10);
+
+domain = [];
+_.each(x, function(x1) {
+    _.each(y, function(y1) {
+        domain.push(new Point(x1, y1));
+    });
+});
+
+layer = new Layer({
+    backgroundColor: new Color(1,1,1,0)
+});
+
+surface.layer = layer;
+
+thickness = 2
+graph = new Path({
+    strokeColor: COLOR,
+    strokeWidth: thickness
+});
+
+// get list of 3-points
+points3 = []
+_.each(domain, function(point) {
+    points3.push([point.x, point.y, surface.func(point.x, point.y)]);
+});
+
+// project back onto 2 dimensions
+
+// this matrix simply shows the y-z plane
+matrix = [  
+    [0, 1, 0],
+    [0, 0, 1],
 ];
 
-
-INITCOLOR = _.map(_.range(3), Math.random);
-primes = [1,2,3,5,7,11,13,17,19,23];
-N = 20;
-
-
-function showSystem(func) {
-
-    domain = numeric.linspace(func.xrange[0], func.xrange[1], 100);
-    graphs = [];
-
-    layer = new Layer({
-        backgroundColor: new Color(1,1,1,0)
+points2 = _.map(
+    _.filter(points3, function(point) {
+        return Math.abs(0 - point[0]) < 1.5;
+        //return point[0] == 0;
+    }), function(point) {
+        return numeric.dot(matrix, point);
     });
+//print(points2);
 
-    func.layer = layer;
+_.each(points2, function(p) {
+    graph.add(new Point(p));
+})
 
-    _.map(_.range(N), function(n) {
+surface.max = _.max(_.unzip(points2)[1]);
+surface.min = _.min(_.unzip(points2)[1]);
 
-        thickness = (n == 0 ? 3 : 1)
-        alpha = 0.5 - (n/(N*2))
-        graph = new Path({
-            strokeColor: new Color(  INITCOLOR.concat([alpha]) ),
-            strokeWidth: thickness
-        });
+print(["MAX-MIN: ", surface.max, surface.min])
 
-        
-        image = _.map(domain, function(x) {
-            // the actual mathematical function
-            return func.func(x) * (1-(n/N))
-        });
+//graph.smooth()
+// func.graphs.push(graph)
 
-        // make note of critical values
-        if (n==0) {
-            func.max = _.max(image);
-            func.min = _.min(image);
-        }
 
-        _.each(_.zip(domain,image), function(x) { 
-            graph.add(new Point(x)); 
-        })
 
-        graph.smooth()
-        func.graphs.push(graph)
+// enforce Cartesian
+_w = Math.abs(surface.xrange[1] - surface.xrange[0]);
+_h = Math.abs(surface.max - surface.min);
 
-    });
+T = new Matrix(
+    (view.size.width / _w), 0,
+    0, (view.size.height / (-1.2*_h)), 
+    view.center.x, view.center.y);
 
-    print(["MAX, MIN:", func.max, func.min]);
-
-    // enforce Cartesian
-    _w = Math.abs(func.xrange[1] - func.xrange[0]);
-    _h = Math.abs(func.max - func.min);
-
-    T = new Matrix(
-        (view.size.width / _w), 0,
-        0, (view.size.height / (-1.2*_h)), 
-        view.center.x, view.center.y);
-    console.log(T);
-    project.activeLayer.transform(T); 
-        
-}
-
-// vars to keep track of current function
-previousFunction = null;
-currentFunction = functions[0];
-showSystem(currentFunction);
+project.activeLayer.transform(T); 
+    
 
 // animation
 function onFrame(event) {
 
-    amplitude = (1/10)
-    rate = 1.3
-    scale = ((Math.sin(rate*event.time)*amplitude))+1
-
-    _.each(currentFunction.graphs, function(g) {
-        g.scale(1, scale);
-    });
-
-    if (!currentFunction.latexRendered) {
-        if (display = document.getElementById("function-katex")) {
-            katex.render(currentFunction.latex, display);
-            currentFunction.latexRendered = true;
-        }
-    }
+  
 }
 
 
