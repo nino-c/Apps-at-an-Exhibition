@@ -23,7 +23,7 @@
 
 // setup Cartesian
 
-layer1 = new Layer();
+//layer1 = new Layer();
 
 DARK_GREY = new Color(0.3, 0.3, 0.3, 0.8);
 LIGHT_GREY = new Color(0.9, 0.9, 0.9, 0.2);
@@ -33,6 +33,8 @@ view.viewSize = new Size($(window).width(), $(window).height());
 x_axis = new Path({ strokeColor: DARK_GREY, strokeWidth: 0.3, strokeScaling: false });
 x_axis.add(new Point(-view.size.width/2, 0));
 x_axis.add(new Point(view.size.width/2, 0));
+x_axis.closed = true;
+//project.activeLayer.insertChild(0,x_axis)
 
 y_axis = new Path({ strokeColor: DARK_GREY, strokeWidth: 0.3, strokeScaling: false });
 y_axis.add(new Point(0, -view.size.height/2));
@@ -43,6 +45,8 @@ _.each(_.range(-10,10), function(n) {
     line = new Path({strokeColor: LIGHT_GREY });
     line.add( new Point(n, view.size.height/2) );
     line.add( new Point(n, -view.size.height/2) );
+    line.closed = true;
+    //project.activeLayer.insertChild(0, line);
     x_lines.push( line );
 });
 
@@ -51,11 +55,13 @@ _.each(_.range(-10,10), function(n) {
     line = new Path({strokeColor: LIGHT_GREY });
     line.add( new Point(view.size.width/2, n) );
     line.add( new Point(-view.size.width/2, n) );
+    line.closed = true;
+    //project.activeLayer.insertChild(0, line);
     y_lines.push( line );
 });
 
-function transformToCartesian(layer) {
-    layer.transform( new Matrix((view.size.width / 10),0,0,(view.size.height / -10), view.center.x, view.center.y) );
+function transformToCartesian(lay) {
+    lay.transform( new Matrix((view.size.width / 10),0,0,(view.size.height / -10), view.center.x, view.center.y) );
 }
 
 transformToCartesian(project.activeLayer);
@@ -85,7 +91,7 @@ Function = function(func, extrema) {
 Function.prototype = {
     
     compute: function(delta) {
-        if (!delta) { delta = 100; }
+        if (!delta) { delta = 30; }
         this.domain.elements = numeric.linspace(this.domain.min, this.domain.max, delta);
         this.codomain.elements = _.map(this.domain.elements, this.func);
         this.codomain.min = _.min(this.codomain.elements);
@@ -100,12 +106,14 @@ Function.prototype = {
             0, (view.size.height / (-1*this._h)), 
             view.center.x, view.center.y);
 
+        this.computed = true;
+        print("computed")
     },
 
     // "flattens" mapping
     // i.e. [[1,2],3] -> [1,2,3]
     getPoints: function() {
-        if (!this.mapping) { this.compute(); }
+        if (!this.computed) { this.compute(); }
         this.points = _.map(this.mapping, function(pair) {
             return _.flatten(pair);
         });
@@ -229,9 +237,9 @@ Polynomial = new BivariatePolynomialFunction(5, ['x','y'], null, [[-10, -5, -1, 
 
 
 slices = [];
-zrange = [0,-10];
+zrange = [0,-8];
 xrange = [-9, 9];
-zspace = numeric.linspace(zrange[0], zrange[1], 25);
+zspace = numeric.linspace(zrange[0], zrange[1], 15);
 
 F0 = function(x) { return Polynomial(x,0); }
 slice0 = new Function(F0, [xrange[0],xrange[1]]);
@@ -258,7 +266,7 @@ function onFrame(event) {
         //prevLayer = project.activeLayer;
 
         z = zspace[zindex];
-        //print(project.activeLayer);
+        //print(z)
     
 
         F = function(x) { return Polynomial(x,z); }
@@ -270,40 +278,53 @@ function onFrame(event) {
         slice.points3d = points3d
 
         transformation = [
-            [1, 0, 5*Math.cos(Math.PI/-4)],
-            [0, 1, 5*Math.sin(Math.PI/-4)],
+            [1, 0, 0], //5*Math.cos(Math.PI/-4)],
+            [0, 1, 0] //5*Math.sin(Math.PI/-4)],
         ];
 
-        path = new Path({
+        path1 = new Path({
             strokeColor: new Color(0.3, 0.3, 0.3, 0.5),
             strokeWidth: 1,
             closed: true,
-            fillColor: new Color(Math.random(),1,Math.random(),0.8),
+            fillColor: new Color(Math.random(),1,Math.random(),0.5),
         });
 
-        slice.draw(path, transformation, true, global_matrix);
+        slice.draw(path1, transformation, true, global_matrix);
         //path.transform(CartesianMatrix)
 
-        project.activeLayer.insertChild(0,path);
+        // transformation2 = new Matrix(
+        //     1-(z/50), 0, 0, 1-(z/50), 0, 0 //5*Math.sin(Math.PI/-4)],
+        // );
+
+        transformation2 = new Matrix(
+            1, 0, 0, 1, 0, 0 //5*Math.sin(Math.PI/-4)],
+        );
+
+        path1.transform(transformation2)
+
+        project.activeLayer.insertChild(0,path1);
 
         slices.push({layer: project.activeLayer,
             func: slice,
             transformation: transformation,
-            path: path});
+            path: path1});
+
+        //print(path.position)
         
         if (zindex == zspace.length-1) { 
-            print(slices);
+            //print(slices);
             //view.pause();
         }
         zindex++;
-    }
-    view.update();
-    if (!function_shown) {
-        if (display = document.getElementById("function-katex")) {
-            katex.render(Polynomial.latex, display);
-            function_shown = true;
+
+        if (!function_shown) {
+            if (display = document.getElementById("function-katex")) {
+                katex.render(Polynomial.latex, display);
+                function_shown = true;
+            }
         }
     }
+    
 }
 
 
@@ -363,6 +384,7 @@ canvas {
 
 #function-display {
     position: fixed;
+    display:none;
     top: 60px;
     right: 10px;
     font-size:10px;
