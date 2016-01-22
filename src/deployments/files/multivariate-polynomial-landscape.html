@@ -81,6 +81,10 @@ Function.prototype = {
         _.each(this.points, function(p) {
             path.add(new Point(p));
         })
+
+        path.add(new Point(this.domain.max, -_h/2));
+        path.add(new Point(this.domain.min, -_h/2));
+        path.closed = true;
         
         T = new Matrix(
             (view.size.width / _w), 0,
@@ -115,6 +119,7 @@ function CartesianProduct(A,B) {
 BivariatePolynomialFunction = function(degree, vars, coeffs) {
 
     // num coeffs should be 1 less than degree-th triangular number
+    
 
     term_exps = _.filter(CartesianProduct(_.range(degree+1), _.range(degree+1)),
         function(x) {
@@ -133,6 +138,7 @@ BivariatePolynomialFunction = function(degree, vars, coeffs) {
             + vars[0]+"^"+term[0].toString() + " "
             + vars[1]+"^"+term[1].toString();
     });
+    print(terms_sym.join(" + "));
 
     f = function(x,z) {
         terms = _.map(term_exps, function(term, i) {
@@ -146,25 +152,40 @@ BivariatePolynomialFunction = function(degree, vars, coeffs) {
 
 
 
-GraphLayer = new Layer();
+// choose a polynomial
+Polynomial = new BivariatePolynomialFunction(3, ['x','y'], [1,-1,0,0,0,0,-2,3,1]);
 
-path = new Path({
-    strokeColor: new Color(0.3, 0.3, 0.3, 0.7),
-    strokeWidth: 2
+// begin drawing process
+GraphLayer = new Layer({
+    blendMode: "multiply"
 });
 
-// QUAD = new Function(function(x) { return Math.pow(x,2); }, [-3,3]);
-// transformation = [
-//     [1, 0],
-//     [0, 1]
-// ];
-// QUAD.draw(path, transformation);
+// draw different slices
+// for each z-val
+zvals=numeric.linspace(-30,10,10);
+for (i=0; i<zvals.length; i++) {
+    
+    GraphLayer = new Layer({
+    blendMode: "multiply"
+});
 
-MV = new BivariatePolynomialFunction(5, ['x','y']);
-x = numeric.linspace(-2,2,100)
-y = _.map(x, function(x) { return MV(x,0); });
-points = _.zip(x,y);
-print(points)
+    z = zvals[i];
+
+    F = function(x) { return Polynomial(x,z); }
+    slice = new Function(F, [-5,5]);
+    transformation = [
+        [1, 0],
+        [0, 1]
+    ];
+
+    path = new Path({
+        strokeColor: new Color(0.3, 0.3, 0.3, 0.7),
+        strokeWidth: 1,
+        closed: true,
+        fillColor: new Color(1,Math.random(),Math.random(),0.2)
+    });
+    slice.draw(path, transformation);
+}
 
 
 
