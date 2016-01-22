@@ -12,7 +12,7 @@
 <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="/static/site/js/katex/katex.min.css">
 
-<!-- <script type="text/paperscript" canvas="artboard" src="/static/site/paperscript/decartes.js"></script> -->
+<script type="text/paperscript" canvas="artboard" src="/static/site/paperscript/decartes.js"></script>
 <script type="text/paperscript" canvas="artboard">
 /*
     *
@@ -20,46 +20,6 @@
     *   (c) 2016
     *
 */
-
-// setup Cartesian
-
-layer1 = new Layer();
-
-DARK_GREY = new Color(0.3, 0.3, 0.3, 0.8);
-LIGHT_GREY = new Color(0.9, 0.9, 0.9, 0.2);
-
-view.viewSize = new Size($(window).width(), $(window).height());
-
-x_axis = new Path({ strokeColor: DARK_GREY, strokeWidth: 0.3, strokeScaling: false });
-x_axis.add(new Point(-view.size.width/2, 0));
-x_axis.add(new Point(view.size.width/2, 0));
-
-y_axis = new Path({ strokeColor: DARK_GREY, strokeWidth: 0.3, strokeScaling: false });
-y_axis.add(new Point(0, -view.size.height/2));
-y_axis.add(new Point(0, view.size.height/2));
-
-x_lines = [];
-_.each(_.range(-10,10), function(n) {
-    line = new Path({strokeColor: LIGHT_GREY });
-    line.add( new Point(n, view.size.height/2) );
-    line.add( new Point(n, -view.size.height/2) );
-    x_lines.push( line );
-});
-
-y_lines = [];
-_.each(_.range(-10,10), function(n) {
-    line = new Path({strokeColor: LIGHT_GREY });
-    line.add( new Point(view.size.width/2, n) );
-    line.add( new Point(-view.size.width/2, n) );
-    y_lines.push( line );
-});
-
-function transformToCartesian(layer) {
-    layer.transform( new Matrix((view.size.width / 10),0,0,(view.size.height / -10), view.center.x, view.center.y) );
-}
-
-transformToCartesian(project.activeLayer);
-
 
 // define formal mathematical function
 Function = function(func, extrema) {
@@ -133,18 +93,15 @@ Function.prototype = {
             path.add(new Point(p));
         })
 
-        path.add(new Point(this.domain.max, this.codomain.min*20));
-        path.add(new Point(this.domain.min, this.codomain.min*20));
+        path.add(new Point(this.domain.max, this._h*-20));
+        path.add(new Point(this.domain.min, this._h*-20));
         path.closed = true;
-
-        //path.transform(this.transformation_matrix);
-
         //path.smooth();
         
         if (tmatrix) {
-            path.transform(tmatrix);
+            project.activeLayer.transform(tmatrix);
         } else {
-            path.transform(this.transformation_matrix);
+            project.activeLayer.transform(this.transformation_matrix);
         } 
     }
 }
@@ -225,79 +182,64 @@ BivariatePolynomialFunction = function(degree, vars, coeffs, roots) {
 
 // choose a polynomial
 //Polynomial = new BivariatePolynomialFunction(3, ['x','y'], [1,-1,0,0,0,0,-2,3,1]);
-Polynomial = new BivariatePolynomialFunction(5, ['x','y'], null, [[-10, -5, -1, 7],[-8,-1,6]]);
+Polynomial = new BivariatePolynomialFunction(6, ['x','y'], null, [[-10.2, 2, 5,11],[-20, -8, -4,-1]]);
+
+
+// begin drawing process
+GraphLayer = new Layer({
+    //blendMode: "multiply"
+});
 
 
 slices = [];
 zrange = [0,-10];
 xrange = [-9, 9];
-zspace = numeric.linspace(zrange[0], zrange[1], 25);
 
 F0 = function(x) { return Polynomial(x,0); }
 slice0 = new Function(F0, [xrange[0],xrange[1]]);
 slice0.compute();
 global_matrix = slice0.transformation_matrix;
-
-CartesianMatrix = new Matrix(1,0,0,-1, view.center.x, view.center.y);
-
-// begin drawing process
-GraphLayer = new Layer({
-     blendMode: "multiply",
-});
-//GraphLayer.globalMatrix = CartesianMatrix;
-//GraphLayer.transform(CartesianMatrix);
-
 print("global matrix"); print(global_matrix);
 
-function_shown = false;
-zindex=0
+_.each(numeric.linspace(zrange[1], zrange[0], 25), function(z) {
+//_.each([-6,-5,-4,-3,-2,-1,0], function(z) {
 
-function onFrame(event) {
-    if (zindex < zspace.length) {
-        
-        //prevLayer = project.activeLayer;
+    layer = new Layer({
+        //blendMode: "multiply"
+    });
 
-        z = zspace[zindex];
-        //print(project.activeLayer);
+    F = function(x) { return Polynomial(x,z); }
+    slice = new Function(F, [xrange[0],xrange[1]]);
+
+    points3d = slice.getPoints();
+    _.each(_.range(points3d.length), function(i) { points3d[i].push(z); });
+
+    slice.points3d = points3d
+
+    transformation = [
+        [1, 0, 1*Math.cos(Math.PI/6)],
+        [0, 1, 1*Math.sin(Math.PI/6)],
+    ];
+
+    path = new Path({
+        strokeColor: new Color(0.3, 0.3, 0.3, 0.5),
+        strokeWidth: 1,
+        closed: true,
+        fillColor: new Color(Math.random(),1,Math.random(),0.8)
+    });
     
+    slices.push({layer: null,
+        func: null,
+        transformation: null,
+        path: null});
 
-        F = function(x) { return Polynomial(x,z); }
-        slice = new Function(F, [xrange[0],xrange[1]]);
+    slice.draw(path, transformation, true, global_matrix);
 
-        points3d = slice.getPoints();
-        _.each(_.range(points3d.length), function(i) { points3d[i].push(z); });
+});
 
-        slice.points3d = points3d
 
-        transformation = [
-            [1, 0, 5*Math.cos(Math.PI/-4)],
-            [0, 1, 5*Math.sin(Math.PI/-4)],
-        ];
-
-        path = new Path({
-            strokeColor: new Color(0.3, 0.3, 0.3, 0.5),
-            strokeWidth: 1,
-            closed: true,
-            fillColor: new Color(Math.random(),1,Math.random(),0.8),
-        });
-
-        slice.draw(path, transformation, true, global_matrix);
-        //path.transform(CartesianMatrix)
-
-        project.activeLayer.insertChild(0,path);
-
-        slices.push({layer: project.activeLayer,
-            func: slice,
-            transformation: transformation,
-            path: path});
-        
-        if (zindex == zspace.length-1) { 
-            print(slices);
-            //view.pause();
-        }
-        zindex++;
-    }
-    view.update();
+function_shown = false;
+function onFrame(event) {
     if (!function_shown) {
         if (display = document.getElementById("function-katex")) {
             katex.render(Polynomial.latex, display);
