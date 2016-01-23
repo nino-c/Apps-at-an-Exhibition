@@ -9,6 +9,10 @@
 <script type="text/javascript" src="/static/site/js/katex/katex.min.js"></script>
 <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
 
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
 <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="/static/site/js/katex/katex.min.css">
 
@@ -91,7 +95,7 @@ Function = function(func, extrema) {
 Function.prototype = {
     
     compute: function(delta) {
-        if (!delta) { delta = 30; }
+        if (!delta) { delta = 50; }
         this.domain.elements = numeric.linspace(this.domain.min, this.domain.max, delta);
         this.codomain.elements = _.map(this.domain.elements, this.func);
         this.codomain.min = _.min(this.codomain.elements);
@@ -141,8 +145,8 @@ Function.prototype = {
             path.add(new Point(p));
         })
 
-        path.add(new Point(this.domain.max, this.codomain.min*20));
-        path.add(new Point(this.domain.min, this.codomain.min*20));
+        path.add(new Point(this.domain.max*2, Math.abs(this.codomain.min)*-5 + Math.abs(this.codomain.max)*-5));
+        path.add(new Point(this.domain.min*2, Math.abs(this.codomain.min)*-5 + Math.abs(this.codomain.max)*-5));
         path.closed = true;
 
         //path.transform(this.transformation_matrix);
@@ -170,37 +174,6 @@ function CartesianProduct(A,B) {
 
 BivariatePolynomialFunction = function(degree, vars, coeffs, roots) {
 
-    // num coeffs should be 1 less than degree-th triangular number
-    if (coeffs && !roots) {
-
-        term_exps = _.filter(CartesianProduct(_.range(degree+1), _.range(degree+1)),
-            function(x) {
-                return (x[0] + x[1]) <= degree && (x[0] + x[1]) != 0;
-            });
-        
-        if (!coeffs) {
-            coeffs = _.map(_.range(term_exps.length), function(i) {
-                rand = (Math.random() * degree) - (degree/2);
-                return Math.round(rand*100)/100;
-            });
-        }
-        
-        terms_sym = _.map(term_exps, function(term, i) {
-            return coeffs[i].toString() + " "
-                + vars[0]+"^"+term[0].toString() + " "
-                + vars[1]+"^"+term[1].toString();
-        });
-        //print(terms_sym.join(" + "));
-
-        f = function(x,z) {
-            terms = _.map(term_exps, function(term, i) {
-                return coeffs[i] * Math.pow(x, term[0]) * Math.pow(z, term[1]);
-                });
-            return _.reduce(terms, function(j,k) { return j+k; });
-        }
-        f.latex = terms_sym.join(" + ");
-        return f;
-    }
 
     if (roots) {
         // each set of roots must be <= degree in order
@@ -223,7 +196,48 @@ BivariatePolynomialFunction = function(degree, vars, coeffs, roots) {
             });
             return _.reduce(factors, function(j,k) { return j*k; });
         }
-        f.latex = "\\small f("+vars[0]+", "+vars[1]+")=" +latex.split('--').join('+');
+        f.latex = "f("+vars[0]+", "+vars[1]+")=" +latex.split('--').join('+');
+        return f;
+
+    } else {
+
+        // num coeffs should be 1 less than degree-th triangular number
+        term_exps = _.filter(CartesianProduct(_.range(degree+1), _.range(degree+1)),
+            function(x) {
+                return (x[0] + x[1]) <= degree && (x[0] + x[1]) != 0;
+            });
+        
+        if (!coeffs) {
+            coeffs = _.map(_.range(term_exps.length), function(i) {
+                rand = (Math.random() * degree) - (degree/2);
+                if (Math.random() > .4) return 0;
+                return Math.round(rand*3);
+            });
+        }  
+        
+        terms_sym = _.map(term_exps, function(term, i) {
+            if (coeffs[i] == 0) return "";
+            if (coeffs[i] == 1) {
+                coeff = "";
+            } else if (coeffs[i] == -1) {
+                coeff = "-"
+            } else coeff = coeffs[i].toString();
+            return coeff + " "
+                + vars[0]+"^"+term[0].toString() + " "
+                + vars[1]+"^"+term[1].toString();
+        });
+        terms_sym = _.filter(terms_sym, function(x) { return x != ""; })
+        //print(terms_sym.join(" + "));
+
+        f = function(x,z) {
+            terms = _.map(term_exps, function(term, i) {
+                return coeffs[i] * Math.pow(x, term[0]) * Math.pow(z, term[1]);
+                });
+            return _.reduce(terms, function(j,k) { return j+k; });
+        }
+        f.latex = terms_sym.join("+").split("+-").join("-").split("+").join(" + ");
+        f.latex = f.latex.split("^1").join("");
+        f.latex = "f("+vars[0]+", "+vars[1]+")=" + f.latex.split(/[a-z]\^0/).join("");
         return f;
     }
 
@@ -233,13 +247,13 @@ BivariatePolynomialFunction = function(degree, vars, coeffs, roots) {
 
 // choose a polynomial
 //Polynomial = new BivariatePolynomialFunction(3, ['x','y'], [1,-1,0,0,0,0,-2,3,1]);
-Polynomial = new BivariatePolynomialFunction(5, ['x','y'], null, [[-10, -5, -1, 7],[-8,-1,6]]);
+Polynomial = new BivariatePolynomialFunction(5, ['x','y']);//, null, [[2,3,0,-7,0],[1,-2, -4, -13]]);
 
 
 slices = [];
-zrange = [0,-8];
+zrange = [-15,0];
 xrange = [-9, 9];
-zspace = numeric.linspace(zrange[0], zrange[1], 15);
+zspace = numeric.linspace(zrange[0], zrange[1], 50);
 
 F0 = function(x) { return Polynomial(x,0); }
 slice0 = new Function(F0, [xrange[0],xrange[1]]);
@@ -264,6 +278,9 @@ function onFrame(event) {
     if (zindex < zspace.length) {
         
         //prevLayer = project.activeLayer;
+        l = new Layer({
+            //blendMode: "multiply"
+        });
 
         z = zspace[zindex];
         //print(z)
@@ -286,7 +303,7 @@ function onFrame(event) {
             strokeColor: new Color(0.3, 0.3, 0.3, 0.5),
             strokeWidth: 1,
             closed: true,
-            fillColor: new Color(Math.random(),1,Math.random(),0.5),
+            fillColor: new Color(Math.random(),1,Math.random(),0.2),
         });
 
         slice.draw(path1, transformation, true, global_matrix);
@@ -300,8 +317,10 @@ function onFrame(event) {
             1, 0, 0, 1, 0, 0 //5*Math.sin(Math.PI/-4)],
         );
 
-        path1.transform(transformation2)
-
+        //path1.transform(transformation2);
+        path1.scale(1-(z/50), 1-(z/50), view.center)
+        path1.translate(new Point(-10*z, 30*z))
+        
         project.activeLayer.insertChild(0,path1);
 
         slices.push({layer: project.activeLayer,
@@ -319,7 +338,14 @@ function onFrame(event) {
 
         if (!function_shown) {
             if (display = document.getElementById("function-katex")) {
-                katex.render(Polynomial.latex, display);
+                //katex.render(Polynomial.latex, display);
+                tokens = Polynomial.latex.split(" ");
+                line_length = Math.ceil(tokens.length/2);
+                line2 = tokens.splice(-1*line_length).join(" ");
+                line1 = tokens.join(" ");
+                $("#function-katex").text(
+                    "$$" + line1 + "$$\n$$\\space \\space \\space \\space " + line2 + "$$ \n"
+                     + "$$\\left(\\begin{array}{rrr}\n1 & 0 & \\frac{1}{2} \\, \\sqrt{2} \\\\\n0 & 1 & \\frac{1}{2} \\, \\sqrt{2}\\\\\n \\end{array}\\right)$$");
                 function_shown = true;
             }
         }
@@ -384,14 +410,15 @@ canvas {
 
 #function-display {
     position: fixed;
-    display:none;
-    top: 60px;
-    right: 10px;
-    font-size:10px;
-    background-color: rgba(255, 255, 255, 0.5);
+    /*display:none;*/
+    top: 100px;
+    right: 50px;
+    font-size: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
     border: 1px solid #cccccc;
     border-radius: 8px;
     padding: 15px;
+    max-width: 400px;
     box-shadow: 0px 0px 2px #ddd;
 }
 
@@ -419,7 +446,7 @@ pre {
 
               <button type="button" class="btn btn-default">
                   <span class="glyphicon glyphicon-pencil"></span>
-                  &nbsp;&nbsp;enter function</button>
+                  &nbsp;&nbsp;change polynomial</button>
 
               <button type="button" class="btn btn-default" onclick="showSource();">
                   <span class="glyphicon glyphicon-align-left"></span>

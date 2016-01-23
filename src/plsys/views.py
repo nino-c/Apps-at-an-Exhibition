@@ -7,7 +7,7 @@ from portfolio import models
 def index(request):
 	categories = models.PortfolioCategory.objects.all()
 	return render(request, "home.html", {'categories': categories,
-		'iframe_src': '/deployments/function-1-var-1-param'})
+		'iframe_src': '/deployments/bivariate-polynomial-landscape'})
 
 def templatetest(request, template):
 	return render(request, template+".html")
