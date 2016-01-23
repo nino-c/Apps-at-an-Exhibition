@@ -7,15 +7,14 @@ Generalize the "polynomial landscape" app into THE framework for plerpingapps.
 (So that I personally don't have to mess with anything off-the-cloud to make a new "plerp", describe and categorize it, and publish it.  At the same time, that upgrades plerp.org to a multi-user platform, which it already is due to Django-edge.
 
 # Rules of the Game #
-=============
-* Need word: hybrid("post", "app", "gallery", "art", "creation") = [___, "space"] = "plerper?" *
-=============
 
 A "plerper" or "plerpingapp" is an app, whose goal it is to generate galleries of art, moving and not moving
 Any gallery-item (snapshot) should be completely reproducable by the same initial condition set.
 	- Use of Math.random() is forbidden INSIDE the algorithm (level 1 app), 
 		so it is only used to search the space (level 2 app).
 	- an algorithm to search the space may use Math.random()
+
+* Need word: hybrid("post", "app", "gallery", "art", "creation") = [___, "space"] = "plerper?"
 
 
 # FRONT END #
