@@ -61,7 +61,7 @@ Categories are global, but only a user's plerpingapp is a member of a category.
 	- show source code
 	- edit source code for one-time run?
 
-## Level One (the "spotfinder"):
+## Level One (the "spot-finder"):
 	"""A level one user is a "spot finder" (the finder of a particular 
 	set of clever initial conditions in someone else's space).  More like 
 	"save favorites", but is visible (publically or not)"""
@@ -77,11 +77,13 @@ Categories are global, but only a user's plerpingapp is a member of a category.
 ## Level Three (the "synesthesiologist") ##
 	- adds music interface
 
-## Level Four (admin, github contributers) ##
+## Level Four (the "code-switcher") ##
+- admin, github contributers
 
 
+## Level Five ("Magister Ludi") ##
 
-
+...
 
 
 
