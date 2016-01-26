@@ -5,6 +5,8 @@ from django.db import models
 from django.conf import settings
 
 
+
+
 class BaseProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 primary_key=True)
@@ -25,4 +27,4 @@ class BaseProfile(models.Model):
 @python_2_unicode_compatible
 class Profile(BaseProfile):
     def __str__(self):
-        return "{}'s profile". format(self.user)
+        return "{}'s most wondrous profile". format(self.user)

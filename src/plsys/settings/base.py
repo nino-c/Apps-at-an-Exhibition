@@ -74,13 +74,13 @@ INSTALLED_APPS = (
     'authtools',
     'crispy_forms',
     'easy_thumbnails',
-
     'profiles',
     'accounts',
+    'rest_framework',
 
     'portfolio',
     'deployments',
-
+    'game',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -96,6 +96,14 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'plsys.urls'
 
 WSGI_APPLICATION = 'plsys.wsgi.application'
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
