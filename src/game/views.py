@@ -16,6 +16,10 @@ def index(request):
     categories = Category.objects.all()
     return render(request, "game/index.html")
 
+def showGame(request, id):
+    game = ZeroPlayerGame.objects.get(pk=id)
+    return render(request, "game/show.html", {'game': game})
+
 
 ##############################
 #                            #

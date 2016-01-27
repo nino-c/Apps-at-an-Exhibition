@@ -25,8 +25,10 @@ class ZeroPlayerGame(models.Model):
     description = models.TextField(blank=True)
     category = models.ForeignKey(Category)
     created = models.DateTimeField(auto_now=True)
-    scriptName = models.CharField(max_length=500, null=True, blank=True)
+    scriptName = models.CharField(max_length=500, null=True, blank=False)
     scriptType = models.CharField(max_length=100, null=True, blank=False)
+    source = models.TextField(blank=True)
+    defaultSeed = JSONField(null=True, blank=True)
 
     def __unicode__(self):
         return "\"%s\", by %s" % (self.title, self.owner.name)
@@ -40,6 +42,16 @@ class ZeroPlayerGame(models.Model):
             return s
         else:
             raise Exception("Script does not exist @ %s", (scriptPath,))
+
+    def instantiate(self, seed):
+        inst = GameInstance(
+            instantiator=request.user, 
+            seed=seed, 
+            source=self.getScript(),
+            game=self
+            )
+        inst.save()
+        return inst
 
 
 class GameInstance(models.Model):
