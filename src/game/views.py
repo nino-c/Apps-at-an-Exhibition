@@ -5,25 +5,36 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.parsers import JSONParser
-from game.models import PlerpingApp
-from game.serializers import PlerpingAppSerializer
+from game.models import ZeroPlayerGame
+from game.serializers import ZeroPlayerGameSerializer
 
+
+
+def index(request):
+    return render(request, "game/index.html")
+
+
+##############################
+#
+#            API
+#
+##############################
 
 @api_view(['GET', 'POST'])
 @permission_classes((AllowAny,))
 @csrf_exempt
-def apps_list(request, format=None):
+def games_list(request, format=None):
     """
     List all apps, or create a new app.
     """
     if request.method == 'GET':
-        games = PlerpingApp.objects.all()
-        serializer = PlerpingAppSerializer(games, many=True)
+        games = ZeroPlayerGame.objects.all()
+        serializer = ZeroPlayerGameSerializer(games, many=True)
         return Response(serializer.data)
 
     elif request.method == 'POST':
         data = JSONParser().parse(request)
-        serializer = PlerpingAppSerializer(data=data)
+        serializer = ZeroPlayerGameSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=201)
@@ -32,27 +43,27 @@ def apps_list(request, format=None):
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes((AllowAny,))
 @csrf_exempt
-def app_detail(request, pk, format=None):
+def game_detail(request, pk, format=None):
     """
-    Retrieve, update or delete a code plerpingapp.
+    Retrieve, update or delete a code game.
     """
     try:
-        plerpingapp = PlerpingApp.objects.get(pk=pk)
-    except PlerpingApp.DoesNotExist:
+        game = ZeroPlayerGame.objects.get(pk=pk)
+    except ZeroPlayerGame.DoesNotExist:
         return HttpResponse(status=404)
 
     if request.method == 'GET':
-        serializer = PlerpingAppSerializer(plerpingapp)
+        serializer = ZeroPlayerGameSerializer(game)
         return Response(serializer.data)
 
     elif request.method == 'PUT':
         data = JSONParser().parse(request)
-        serializer = PlerpingAppSerializer(plerpingapp, data=data)
+        serializer = ZeroPlayerGameSerializer(game, data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
 
     elif request.method == 'DELETE':
-        plerpingapp.delete()
+        game.delete()
         return HttpResponse(status=204)

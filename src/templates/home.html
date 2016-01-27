@@ -16,32 +16,29 @@
 {% endblock %}
 
 {% block splash %}
+
 <div id="shield">&nbsp;</div>
-  <div class="jumbotron jumbotron-carousel corporate-jumbo">
 
-    {% if iframe_src %}
-      <iframe id="big-canvas" scrolling="no" src="{{ iframe_src }}"></iframe>
-    {% endif %}
-    <div class="container" style="z-index: 15;">
-      <div class="row">
-        <div class="col-md-8 col-sm-8">
-          <h1>plerp.org</h1>
-          <p>Interactive math, music, and art programming</p>
-    <a class="btn btn-primary" href="{% templatetag openblock %} url 'accounts:signup' {% templatetag closeblock %}" role="button">Sign up for Free!</a>
-        </div>
-        <div class="col-md-4 col-sm-4">
+<div class="jumbotron jumbotron-carousel corporate-jumbo">
+  <!--{% if iframe_src %}
+    <iframe id="big-canvas" scrolling="no" src="{{ iframe_src }}"></iframe>
+  {% endif %}-->
+  
+  <canvas id="big-canvas"></canvas>
 
-        </div>
+  <div class="container" style="z-index: 15;">
+    <div class="row">
+      <div class="col-md-8 col-sm-8">
+        <h1>plerp.org</h1>
+        <p>Interactive math, music, and art programming</p>
+  <a class="btn btn-primary" href="{% templatetag openblock %} url 'accounts:signup' {% templatetag closeblock %}" 
+    role="button">Sign up for Free!</a>
       </div>
-      
-
+      <div class="col-md-4 col-sm-4">
+      </div>
     </div>
-
   </div>
-
-  <div class="n-panel">
-      
-  </div>
+</div>
 
 {% endblock splash %}
 
@@ -72,6 +69,6 @@
 {% endblock container %}
 
 {% block scripts %}
-<script src="{% static 'site/js/site.js' %}"></script>
+<script src="{% static 'site/js/app/site.js' %}"></script>
 {% endblock scripts %}
 

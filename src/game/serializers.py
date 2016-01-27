@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import PlerpingApp
+from .models import ZeroPlayerGame
 
-class PlerpingAppSerializer(serializers.ModelSerializer):
+class ZeroPlayerGameSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = PlerpingApp
+		model = ZeroPlayerGame
 		fields = ('title', 'description', 'category', 'owner', 'created')

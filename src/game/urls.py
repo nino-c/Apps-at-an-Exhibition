@@ -23,9 +23,10 @@ from . import views
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     #url(r'^', include(router.urls)),
+    url(r'^$', views.index, name='game-index'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^plerpingapps/$', views.apps_list),
-    url(r'^plerpingapps/(?P<pk>[0-9]+)/$', views.app_detail)
+    url(r'^zero-player/$', views.games_list),
+    url(r'^zero-player/(?P<pk>[0-9]+)/$', views.game_detail)
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

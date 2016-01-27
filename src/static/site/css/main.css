@@ -5,6 +5,26 @@ html, body{
     font-weight: 300;
 }
 
+
+#control-panel {
+    position: fixed;
+    top: 100px;
+    right: 50px;
+    font-size: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0px 0px 2px #ddd;
+}
+
+.modal {
+    max-height: 90%;
+    overflow-y: auto;
+}
+
+
+
 #inline-canvas {
   border: 0px;
   width: 100%;

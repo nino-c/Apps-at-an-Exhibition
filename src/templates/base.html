@@ -8,10 +8,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{% block description %}{% endblock description %}">
-    <meta name="author" content="Arun Ravindran">
+    <meta name="author" content="Nino P. Cocchiarella">
     <link rel="shortcut icon" href="{% static 'site/ico/favicon.ico' %}">
 
     <title>{% block title %}{% include "_brandname.html" %} :: {% endblock %}</title>
+
+
+    <!--<script data-main="/static/site/js/main" src="{% static 'site/js/require.js' %}">
+    </script>-->
+
+    <!-- Scripts that MUST be loaded on all pages -->
+    <script type="text/javascript" src="{% static 'site/js/lib/coffee-script.js' %}"></script>
+    <script type="text/javascript" src="{% static 'site/js/lib/jQuery2.1.1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'site/js/lib/numeric-1.2.6.js' %}"></script>
+    <script type="text/javascript" src="{% static 'site/js/lib/underscore.js' %}"></script>
+    <script type="text/javascript" src="{% static 'site/js/lib/backbone.js' %}"></script>
+    <script type="text/javascript" src="{% static 'site/js/app/util.js' %}"></script>
+    <script type="text/javascript" src="{% static 'site/js/main.js' %}"></script>
+
+
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -20,11 +35,6 @@
     {% block styles %}
     <link href="{% static 'site/css/main.css' %}" rel="stylesheet">
     {% endblock styles %}
-
-    <!-- Scripts that MUST be loaded on all pages -->
-    <script data-main="/static/site/js/main" src="{% static 'site/js/require.js' %}"></script>
-    <!-- <link rel="stylesheet" href="{% static 'site/js/katex/katex.min.css' %}"> -->
-
 
     <!-- Custom tags for the head tag -->
     {% block extrahead %}{% endblock extrahead %}
@@ -129,10 +139,12 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+    
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
     {% block scripts %}
     {% endblock scripts %}
+
   </body>
 </html>
 
