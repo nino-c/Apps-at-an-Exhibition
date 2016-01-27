@@ -4,4 +4,5 @@ from .models import ZeroPlayerGame
 class ZeroPlayerGameSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = ZeroPlayerGame
-		fields = ('title', 'description', 'category', 'owner', 'created')
+
+		
