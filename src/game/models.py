@@ -28,7 +28,6 @@ class ZeroPlayerGame(models.Model):
     scriptName = models.CharField(max_length=500, null=True, blank=False)
     scriptType = models.CharField(max_length=100, null=True, blank=False)
     source = models.TextField(blank=True)
-    defaultSeed = JSONField(null=True, blank=True)
 
     def __unicode__(self):
         return "\"%s\", by %s" % (self.title, self.owner.name)
@@ -57,9 +56,10 @@ class ZeroPlayerGame(models.Model):
 class GameInstance(models.Model):
     game = models.ForeignKey(ZeroPlayerGame)
     instantiator = models.ForeignKey(User)
-    timestamp = models.DateTimeField(auto_now=True, editable=False)
+    timestamp = models.DateTimeField(auto_now_add=True, editable=False)
     seed = JSONField()
     source = models.TextField()
+    pagecache = models.TextField(null=True, editable=False)
 
     def __unicode__(self):
         return "%s's instance of \"%s\", by %s" % (self.instantiator.name, self.title, self.owner.name)
@@ -70,6 +70,7 @@ class GameInstanceSnapshot(models.Model):
     image = ImageWithThumbsField(sizes=((125,125),(200,200)))
     time = models.FloatField(default=0, blank=False)
     gallery = models.ForeignKey(GameInstance, null=True, related_name='images')
+    timestamp = models.DateTimeField(auto_now_add=True, editable=False)
 
     
     
