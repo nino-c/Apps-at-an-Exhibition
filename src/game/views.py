@@ -13,7 +13,7 @@ from game.serializers import ZeroPlayerGameSerializer
 
 
 def index(request):
-    categories = Category.objects.all()
+    games = Game.objects.all().group_by('category').order_by('-created')
     return render(request, "game/index.html")
 
 def showGame(request, id):
