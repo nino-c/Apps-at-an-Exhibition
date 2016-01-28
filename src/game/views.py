@@ -13,12 +13,11 @@ from game.serializers import ZeroPlayerGameSerializer
 
 
 def index(request):
-    games = Game.objects.all().group_by('category').order_by('-created')
-    return render(request, "game/index.html")
+    return render(request, "game/index.html");
 
-def showGame(request, id):
-    game = ZeroPlayerGame.objects.get(pk=id)
-    return render(request, "game/show.html", {'game': game})
+def display(request, id):
+    game = ZeroPlayerGame.objects.get(id=id)
+    return render(request, "game/display.html", {'game': game})
 
 
 ##############################

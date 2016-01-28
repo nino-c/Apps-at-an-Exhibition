@@ -24,6 +24,7 @@ from . import views
 urlpatterns = [
     #url(r'^', include(router.urls)),
     url(r'^$', views.index, name='game-index'),
+    url(r'^display/(?P<id>[0-9]+)/$', views.display, name='game-display'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     #url(r'^zero-player/$', views.games_list),
     #url(r'^zero-player/(?P<pk>[0-9]+)/$', views.game_detail),

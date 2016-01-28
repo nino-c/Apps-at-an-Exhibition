@@ -1,52 +1,31 @@
+{% extends 'game/gamebase.html' %}
 {% load staticfiles %}
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Canvas-game</title>
 
-        <!-- data-main attribute tells require.js to load scripts/main.js after require.js loads. -->
-        <script data-main="/static/site/js/game" src="{% static 'site/js/require.js' %}">
-        </script>
+{% block extrahead %}
+<script type="text/javascript" src="{% static 'site/js/app/game.js' %}"></script>
+{% endblock %}
 
-        <!-- Bootstrap core CSS -->
-    	<link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
-    	<link href="{% static 'site/css/main.css' %}" rel="stylesheet" />
+{% block splash %}
+  <canvas id="big-canvas"></canvas>
+{% endblock %}
 
-    </head>
-    <body>
+{% block controlPanel %}
+<div id="floating-display-control" class="nav-panel">
+    <div class="panel-header">
+    {{ game.title }}
+    </div>
+    <div class="panel-body">
         
-        <h1>Games</h1>
-        
-        <div id="control-panel" class="nav-panel">
-        	<div>
-        		
-        	</div>
-        	<div class="text-center">
-	            <div class="btn-group" role="group">
-	              <button type="button" class="btn btn-default">
-	                  <span class="glyphicon glyphicon-plus-sign"></span>
-	                  &nbsp;&nbsp;Create New Game</button>
-	              <button type="button" class="btn btn-default" onclick="showSource();">
-	                  <span class="glyphicon glyphicon-align-left"></span>
-	                  &nbsp;&nbsp;Alter Game</button>
-	            </div>
-	        </div>
+    </div>
+    <div class="panel-footer">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default">
+              <span class="glyphicon glyphicon-plus-sign"></span>
+              &nbsp;&nbsp;Create New Game</button>
+          <button type="button" class="btn btn-default" onclick="showSource();">
+              <span class="glyphicon glyphicon-align-left"></span>
+              &nbsp;&nbsp;Alter Game</button>
         </div>
-
-        <div id="list-apps-container">
-        </div>
-
-        <canvas id="big-canvas">
-        </canvas>
-
-
-        <script type="text/template" id="list-apps">
-	        <div class="view">
-		        <h3><%- title %><%- id %></h3>
-		        <aside><%- description %></aside>
-	        </div>
-        </script>
-
-
-    </body>
-</html>
+    </div>
+</div>
+{% endblock %}

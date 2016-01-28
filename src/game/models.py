@@ -73,4 +73,3 @@ class GameInstanceSnapshot(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True, editable=False)
 
     
-    

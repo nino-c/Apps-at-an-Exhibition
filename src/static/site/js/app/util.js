@@ -1,5 +1,12 @@
+/*
+	*************************************
+	* @author: Nino P. Cocchiarella
+	* (c) 2016
+	* 
+	* Das Plerpenspiel
+	* utility functions
+	*
+	*************************************
+*/
 
-
-function print(x) {
-  console.log(x);
-}
+var echo = function(x) { console.log(x); }

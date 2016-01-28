@@ -1,53 +1,49 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
-{% block extrahead %}
-<script type="text/javascript" src="{% static 'site/js/app/game.js' %}"></script>
+{% block splash %}
+  <canvas id="big-canvas" style="display: none;"></canvas>
 {% endblock %}
 
-{% block container %}
 
-<div class="container text-page">
-
-	<h1>Games</h1>
-	
-	<div id="list-apps-container">
-	</div>
-
-	<canvas id="big-canvas">
-	</canvas>
-	        
-	<div id="floating-display-control" class="nav-panel">
-		<div class="panel-header">
-		{{ app.title }}
-		</div>
-		<div class="panel-body">
-			
-		</div>
-		<div class="panel-footer">
-	        <div class="btn-group" role="group">
-	          <button type="button" class="btn btn-default">
-	              <span class="glyphicon glyphicon-plus-sign"></span>
-	              &nbsp;&nbsp;Create New Game</button>
-	          <button type="button" class="btn btn-default" onclick="showSource();">
-	              <span class="glyphicon glyphicon-align-left"></span>
-	              &nbsp;&nbsp;Alter Game</button>
-	        </div>
-	    </div>
-	</div>
-
-	
-
-	
-
-
+{% block backboneTemplates %}
 	<script type="text/template" id="list-apps">
-	    <div class="nav-panel">
-	        <h3><%- title %></h3>
-	        <aside><%- description %></aside>
-	    </div>
-	</script>
+	    <h1>Games</h1>
+	    <ul>
+		    <% _.each(games, function(game) { %>
+		    	<li><a href="<%-game.id %>"><%-game.title %></a></li>
+		    <% }); %>
+	    </ul>
+    </script>
+{% endblock backboneTemplates %}
 
+
+
+{% block container %}
+	<div class="container text-page">
+		<div id="list-apps-container"></div>
+	</div>    
+{% endblock container %}
+
+
+
+{% block controlPanel %}
+<div id="floating-display-control" class="nav-panel">
+    <div class="panel-header">
+    {{ game.title }}
+    </div>
+    <div class="panel-body">
+        
+    </div>
+    <div class="panel-footer">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default">
+              <span class="glyphicon glyphicon-plus-sign"></span>
+              &nbsp;&nbsp;Create New Game</button>
+          <button type="button" class="btn btn-default" onclick="showSource();">
+              <span class="glyphicon glyphicon-align-left"></span>
+              &nbsp;&nbsp;Alter Game</button>
+        </div>
+    </div>
 </div>
-
 {% endblock %}

@@ -14,19 +14,19 @@
     <title>{% block title %}{% include "_brandname.html" %} :: {% endblock %}</title>
 
 
-    <!--<script data-main="/static/site/js/main" src="{% static 'site/js/require.js' %}">
-    </script>-->
-
     <!-- Scripts that MUST be loaded on all pages -->
-    <script type="text/javascript" src="{% static 'site/js/lib/coffee-script.js' %}"></script>
-    <script type="text/javascript" src="{% static 'site/js/lib/numeric-1.2.6.js' %}"></script>
-    
+    <!--<script type="text/javascript" src="{% static 'site/js/lib/coffee-script.js' %}"></script>-->
+    <!--<script type="text/javascript" src="{% static 'site/js/lib/numeric-1.2.6.js' %}"></script>-->
     <script type="text/javascript" src="{% static 'site/js/lib/jQuery2.1.1.js' %}"></script>
-    
     <script type="text/javascript" src="{% static 'site/js/lib/underscore.js' %}"></script>
     <script type="text/javascript" src="{% static 'site/js/lib/backbone.js' %}"></script>
     <script type="text/javascript" src="{% static 'site/js/app/util.js' %}"></script>
-    <script type="text/javascript" src="{% static 'site/js/main.js' %}"></script>
+    <!--<script type="text/javascript" src="{% static 'site/js/main.js' %}"></script>-->
+
+    <script data-main="/static/site/js/main" src="{% static 'site/js/require.js' %}">
+    </script>
+
+    
 
 
 
@@ -115,8 +115,13 @@
     {% endblock splash %}
     
     {% block container %}
-    
     {% endblock container %}
+
+    {% block controlPanel %}
+    {% endblock %}
+      
+    {% block backboneTemplates %}
+    {% endblock %}
 
     <!-- Site footer -->
     {% block footer %}

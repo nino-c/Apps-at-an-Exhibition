@@ -1,12 +1,61 @@
 /*
-
+	****************************************
 	* @author: Nino P. Cocchiarella
 	* (c) 2016
 	* 
 	* Das Plerpenspiel
 	* main javascript app
-
+	****************************************
 */
+
+require.config({
+	baseUrl: "/static/site/js/lib",
+	paths: {
+		"jquery": "jQuery2.1.1.js",
+		"app": "../app"
+	}
+});
+
+var App = {
+
+	depends: ['underscore', 'backbone'],
+	dependsLoaded = false;
+	documentReady = false;
+
+	configure: function() {
+		var self = this;
+		require(this.depends, function() {
+			self.dependsLoaded = true;
+			echo("deps loaded");
+			if (this.documentReady) {
+				this.start();
+			}
+		});
+	},
+
+	ready: function() {
+		this.documentReady = true;
+		echo("document ready");
+		if (this.dependsLoaded) {
+			this.start();
+		}
+	},
+
+	start: function() {
+		if (this.dependsLoaded && this.documentReady) {
+			echo("APP start ===========");
+		} else echo("BAD start()");
+	}
+
+}; 
+
+require(["jquery", "app/util"], function() {
+	$(document).ready(function() { 
+		App.ready();
+	});
+	App.configure();
+});
+
 
 
 // Models
@@ -54,7 +103,7 @@ $(document).ready(function() {
 		collection: collection
 	});
 	collection.fetch();
-	print(collection)
+	print(collection);
 
 });
 
