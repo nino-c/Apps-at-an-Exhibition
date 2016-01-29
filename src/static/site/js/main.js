@@ -12,32 +12,88 @@
 
 (function(){
 
+
+
 	window.App = {
 		Models: {},
 		Collections: {},
 		Views: {},
-		Router: {}
+		Router: {},
+
+		models: [],
+		collections: [],
+		views: {},
+
+		currentGameList: null,
+		currentGame: null,
+		currentGameInstance: null,
+
+		showJustOneView: function(view) {
+	        if(App.views.current != undefined){
+	            $(App.views.current.el).hide();
+	        }
+	        App.views.current = view;
+	        $(App.views.current.el).show();
+	    },
+
+	    executeGame: function(game) {
+	    	var canvas = $("#big-canvas");
+	    	var controlPanel = $("#floating-display-control");
+	    	if(App.views.current != undefined){
+	            $(App.views.current.el).hide();
+	        }
+	        controlPanel.css({'display':'block'});
+	        canvas.css({'display':'block'});
+	    }
+
 	};
 
 	
+	/*
+	*
+	*********   MODELS
+	*
+	*/
 
-	App.Game = Backbone.Model.extend({
+	App.Models.Game = Backbone.Model.extend({
+		
 		defaults: {
 			title: "New Space",
-			description: "",
-			scriptURL: "",
-		}
+			description: "A brand new, clean app-skeleton.",
+		},
+		
+		url: function() { return '/game/zero-player/' + this.id; },
 	});
 
+	App.Models.GameInstance = Backbone.Model.extend({});
 
-	App.GameCollection = Backbone.Collection.extend({
+
+	/*
+	*
+	*********   COLLECTIONS
+	*
+	*/
+
+	App.Collections.GameCollection = Backbone.Collection.extend({
 		url: "/game/zero-player",
-		model: App.Game
+		model: App.Models.Game
 	});
 
-	App.GameList = Backbone.View.extend({
-		el: "#list-apps-container",
-		temp: "#list-apps",
+	App.Collections.GameInstanceCollection = Backbone.Collection.extend({
+		url: "/game/instances",
+		model: App.Models.GameInstance
+	})
+
+
+	/*
+	*
+	*********   VIEWS
+	*
+	*/
+
+	App.Views.GameList = Backbone.View.extend({
+		el: "#list-games",
+		temp: "#list-games-template",
 
 		initialize: function() {
 			this.listenTo(this.collection, 'sync', this.render);
@@ -50,30 +106,71 @@
 				games: this.collection.toJSON()
 			}));
 			return this;
-		}
+		},
+
 	});
+
+	App.Views.GameDetail = Backbone.View.extend({
+		el: "#display-game",
+		temp: "#display-game-template",
+
+		initialize: function() {
+			this.listenTo(this.model, 'change', this.render)
+			this.template = _.template($(this.temp).html());
+			this.render();
+		},
+
+		render: function() {
+			this.$el.html(this.template(this.model.toJSON()));
+			return this;
+		},
+	});
+
+	
+	/*
+	*
+	*********   ROUTER
+	*
+	*/
+
 
 	App.Router = Backbone.Router.extend({
 		routes: {
-			'': 'index',
-			'show/:id': 'show'
+			'': 'home',
+			'game/:id': 'game',
+			'instance/:id': 'instance'
 		},
 
-		index: function(){
-			echo("ROUTE: index")
-			var games = new App.GameCollection();
-			var gamelist = new App.GameList({
+		home: function(){
+			var games = new App.Collections.GameCollection();
+			App.views.gameList = new App.Views.GameList({
 				collection: games
 			});
+			App.showJustOneView(App.views.gameList);
 			games.fetch();
 		},
 
-		show: function(id){
-			echo("ROUTE: show " + id.toString());
+		game: function(id){
+			var game = new App.Models.Game({id:id});
+			game.fetch().then(function() {
+				App.views.gameDetail = new App.Views.GameDetail({
+					model: game
+				});
+				App.showJustOneView(App.views.gameDetail);
+
+				
+			});
 		},
+
+		instance: function(id) {
+			var instance = _.filter(App.views.gameDetail.model.get('instances'), function(x) { 
+				return x.id == id; })[0] || null;
+			App.executeGame(instance);
+		}
+
 	});
 
-	new App.Router;
+	var router = new App.Router;
 	Backbone.history.start();
 	
 

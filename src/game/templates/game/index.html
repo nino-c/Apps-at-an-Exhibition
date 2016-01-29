@@ -7,28 +7,55 @@
 
 
 {% block backboneTemplates %}
-	<script type="text/template" id="list-apps">
+	<script type="text/template" id="list-games-template">
 	    <h1>Games</h1>
 	    <ul>
 		    <% _.each(games, function(game) { %>
-		    	<li><a href="<%-game.id %>"><%-game.title %></a></li>
+		    	<li>
+                    <a href="#game/<%-game.id %>" data-id="<%- game.id %>"><%-game.title %></a>
+                </li>
 		    <% }); %>
 	    </ul>
+    </script>
+
+	<script type="text/template" id="display-game-template">
+	    <div class="page-header">
+	    	<h1><%-title %></h1>
+	    </div>
+	    <div>by <strong><%-owner.name %></strong></div>
+	    <div class="caption">
+	    	<p><%- description %></p>
+	    </div>
+        <h3>Instances</h3>
+        <% if (instances.length > 0) { %>
+            <ul>
+            <% _.each(instances, function(instance) { %>
+                <li>
+                    <%-instance.instantiator.name %>&apos;s instance @ <%- instance.timestamp %><br />
+                    <strong>Seed: </strong><%- instance.seed %><br /><br />
+                    <a class="btn btn-primary" href="#instance/<%-instance.id %>" role="button">View &raquo;</a>
+                </li>
+            <% }); %>
+            </ul>
+        <% } else { %>
+            <em>No instances created.</em>
+        <% } %>
     </script>
 {% endblock backboneTemplates %}
 
 
 
 {% block container %}
-	<div class="container text-page">
-		<div id="list-apps-container"></div>
+	<div class="container text-page" id="page-content">
+		<div id="list-games"></div>
+		<div id="display-game"></div>
 	</div>    
 {% endblock container %}
 
 
 
 {% block controlPanel %}
-<div id="floating-display-control" class="nav-panel">
+<div id="floating-display-control" class="nav-panel" style="display: none;">
     <div class="panel-header">
     {{ game.title }}
     </div>

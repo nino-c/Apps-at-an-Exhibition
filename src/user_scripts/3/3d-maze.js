@@ -633,29 +633,29 @@
         var camera, scene, renderer;
         var mesh;
 
-        $(document).ready(function() {
+        // $(document).ready(function() {
 
-            var cellSize = 200;
+        var cellSize = 200;
 
-            renderer = new THREE.WebGLRenderer();
-            renderer.setSize( window.innerWidth, window.innerHeight );
-            document.body.appendChild( renderer.domElement );
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        document.body.appendChild( renderer.domElement );
 
-            camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 10000 );
-            scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 10000 );
+        scene = new THREE.Scene();
 
-            Maze = new Maze(2, 16, 10, cellSize);
-            Maze.render();
+        Maze = new Maze(2, 16, 10, cellSize);
+        Maze.render();
 
-            camera.position.x = Maze.cellSize * Maze.x * -0.5;
-            camera.position.y = 15;
-            camera.position.z = Maze.cellSize * Maze.y * -0.5 + Maze.cellSize/2;
-            
-            camera.lookAt(scene.position);
-            window.addEventListener( 'resize', onWindowResize, false );
-            animate();
+        camera.position.x = Maze.cellSize * Maze.x * -0.5;
+        camera.position.y = 15;
+        camera.position.z = Maze.cellSize * Maze.y * -0.5 + Maze.cellSize/2;
+        
+        camera.lookAt(scene.position);
+        window.addEventListener( 'resize', onWindowResize, false );
+        animate();
 
-        });
+        // });
 
         function onWindowResize() {
             camera.aspect = window.innerWidth / window.innerHeight;

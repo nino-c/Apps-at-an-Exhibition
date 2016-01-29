@@ -2,9 +2,10 @@ from __future__ import unicode_literals
 
 import os
 import os.path
+import json
 
 from django.db import models
-from jsonfield import JSONField
+#from jsonfield import JSONField
 from django_thumbs.db.models import ImageWithThumbsField
 from authtools.models import User
 
@@ -28,41 +29,37 @@ class ZeroPlayerGame(models.Model):
     scriptName = models.CharField(max_length=500, null=True, blank=False)
     scriptType = models.CharField(max_length=100, null=True, blank=False)
     source = models.TextField(blank=True)
+    seedStructure = models.TextField(blank=True)
 
     def __unicode__(self):
         return "\"%s\", by %s" % (self.title, self.owner.name)
 
-    def getScript(self):
-        scriptPath = os.path.join(settings.BASE_DIR, "user_scripts", str(self.owner.id), self.scriptName)
-        if os.path.exists(scriptPath):
-            f=open(scriptPath, 'r')
-            s=f.read()
-            f.close()
-            return s
-        else:
-            raise Exception("Script does not exist @ %s", (scriptPath,))
-
-    def instantiate(self, seed):
+    def instantiate(self, seed=None, user=None):
+        if seed is None:
+            seedDict = json.loads(self.seedStructure)
+            seed = {k:v['default'] for k,v in seedDict.iteritems()}
+        if user is None:
+            user = self.owner
         inst = GameInstance(
-            instantiator=request.user, 
-            seed=seed, 
-            source=self.getScript(),
-            game=self
+            game=self,
+            instantiator=user, 
+            seed=json.dumps(seed), 
+            source=self.source
             )
         inst.save()
         return inst
 
 
 class GameInstance(models.Model):
-    game = models.ForeignKey(ZeroPlayerGame)
+    game = models.ForeignKey(ZeroPlayerGame, related_name='instances')
     instantiator = models.ForeignKey(User)
     timestamp = models.DateTimeField(auto_now_add=True, editable=False)
-    seed = JSONField()
+    seed = models.TextField()
     source = models.TextField()
-    pagecache = models.TextField(null=True, editable=False)
+    pagecache = models.TextField(null=True, blank=True)
 
     def __unicode__(self):
-        return "%s's instance of \"%s\", by %s" % (self.instantiator.name, self.title, self.owner.name)
+        return "%s's instance of \"%s\", by %s" % (self.instantiator.name, self.game.title, self.game.owner.name)
 
 
 class GameInstanceSnapshot(models.Model):

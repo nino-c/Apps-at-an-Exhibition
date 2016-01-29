@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -8,16 +8,22 @@ from rest_framework.parsers import JSONParser
 
 from rest_framework import generics
 from game.models import ZeroPlayerGame, Category
-from game.serializers import ZeroPlayerGameSerializer
+from game.serializers import *
 
 
 
 def index(request):
-    return render(request, "game/index.html");
+    return render(request, "game/index.html")
 
-def display(request, id):
-    game = ZeroPlayerGame.objects.get(id=id)
-    return render(request, "game/display.html", {'game': game})
+def instantiateGame(request, pk):
+    try:
+        game = ZeroPlayerGame.objects.get(pk=pk)
+    except ZeroPlayerGame.DoesNotExist:
+        return HttpResponse(status=404)
+
+    instance = game.instantiate()
+    serializer = GameInstanceSerializer(instance)
+    return JsonResponse(serializer.data)
 
 
 ##############################
