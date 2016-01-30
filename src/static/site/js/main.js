@@ -15,6 +15,8 @@
 	var Canvas = null;
 	var canvas = null;
 	var controlPanel = null;
+	var currentGame = null;
+	var currentInstance = null;
 
 	window.App = {
 		Models: {},
@@ -43,12 +45,28 @@
 	    	canvas.css({"display":"none"});
 	    },
 
-	    executeGame: function(game) {
+	    instantiateGame: function(id) {
+	    	var url = "/game/zero-player/" + id + "/instantiate/";
+			$.ajax({
+				url: url,
+				method: "GET",
+				dataType: "json",
+				success: function(data) {
+					echo(data);
+					//game.fetch();
+				}
+			});
+	    },
+
+	    executeGame: function(game, instance) {
 
 	    	// hide any other views
 	    	if(App.views.current != undefined){
 	            $(App.views.current.el).hide();
 	        }
+
+	        currentGame = game;
+	        currentInstance = instance;
 
 	        // get game-level scope declared, show elements
 	    	canvas = $("#inline-canvas");
@@ -59,18 +77,29 @@
 	        Canvas.width = $(window).width();
 	        Canvas.height = $(window).height() - 52;
 
+	        var htext = "<strong>&quot;"+game.get('title')+"&quot;</strong>";
+	        htext += "<br />by " + game.get('owner').name;
+	        $("#control-panel-header").html(htext);
+
 	        // hide footer (future, make nice bottom-hugging footer)
 	        $("footer").css({"display":"none"});
 
-	        if (game.seed) {
+	        if (instance.seed) {
 
 	        	// execute seed code
-	        	var seedcode = "var seed = " + game.seed + ";"
+	        	var seedcode = "var seed = " + instance.seed + ";"
 	        	eval(seedcode);
-	        	echo(seedcode);
+	        	//echo(seed);
 
 	        	// import seed attributes into local namespace
 	        	if (seed != undefined) {
+
+	        		game.set('_seed', seed);
+
+	        		App.views.seedEditor = new App.Views.SeedEditor({
+						model: game
+					});
+
 	        		for (attr in seed) {
 	        			var line = "var " + attr + " = " + seed[attr].toString() + ";"
 	        			eval(line);
@@ -79,11 +108,25 @@
 	        	}
 
 	        	// execute game script
-	        	eval(game.source);
+	        	eval(game.get('source'));
 
 	        }
 
 
+	    },
+
+	    snapshot: function() {
+	    	var snapshot = Canvas.toDataURL("image/png");
+	    	echo(">>snapshot length="); echo(snapshot.length);
+	    	var url = "/game/snapshot/" + currentInstance.id;
+	    	echo(url);
+	    	$.ajax({
+	    		url: url,
+	    		method: "POST",
+	    		success: function(data) {
+	    			
+	    		}
+	    	});
 	    }
 
 	};
@@ -166,6 +209,22 @@
 		},
 	});
 
+	App.Views.SeedEditor = Backbone.View.extend({
+		el: "#seed-editor",
+		temp: "#seed-editor-template",
+
+		initialize: function() {
+			this.listenTo(this.model, 'change', this.render);
+			this.template = _.template($(this.temp).html());
+			this.render();
+		},
+
+		render: function() {
+			this.$el.html(this.template(this.model.toJSON()));
+			return this;
+		}
+	});
+
 	
 	/*
 	*
@@ -202,17 +261,8 @@
 
 				// if there are no instances, make one
 				if (game.get('instances').length == 0) {
-					var url = "/game/zero-player/" + game.get('id') + "/instantiate/";
-					print("no instances, making one"); print(url);
-					$.ajax({
-						url: url,
-						method: "GET",
-						dataType: "json",
-						success: function(data) {
-							print(data);
-							game.fetch();
-						}
-					});
+					echo("no instances, making one"); 
+					App.instantiateGame( game.get('id') );
 				}
 			});
 		},
@@ -225,8 +275,8 @@
 				echo(game.get('instances'));
 				var instance = _.filter(game.get('instances'), function(x) { 
 					return x.id == instanceid; })[0] || null;
-
-				if (instance != null) App.executeGame(instance);
+				echo(instance);
+				if (instance != null) App.executeGame(game, instance);
 			});
 			
 		}

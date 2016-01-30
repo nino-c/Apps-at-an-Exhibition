@@ -19,16 +19,17 @@
     </script>
 
 	<script type="text/template" id="display-game-template">
-	    <div class="page-header">
-	    	<h1><%-title %></h1>
-	    </div>
-        
+	    
+    	<h3><%-title %></h3>
+	    <hr />
+
 	    <div>by <strong><%-owner.name %></strong></div>
+        <div class="text-muted">created @ <%- created %></div>
 	    <div class="caption">
 	    	<p><%- description %></p>
 	    </div>
 
-        <button class="btn btn-success">
+        <button class="btn btn-success" onclick="App.instantiateGame(<%- id %>);">
             <span class="glyphicon glyphicon-plus-sign"></span>
             Create a new instance</button>
 
@@ -49,6 +50,19 @@
             </em>
         <% } %>
     </script>
+
+    <script type="text/template" id="seed-editor-template">
+        <form class="form-inline form-hotizontal">
+        <% for (var attr in _seed) { %>
+            <div class="form-group">
+            <label class="col-sm-2 control-label" for="seed_<%- attr %>"><%- attr %></label>
+            <input type="text" class="form-control" id="seed_<%- attr %>" 
+                placeholder="" style="width: 100px;"
+                value="<%- _seed[attr] %>">
+            </div>
+        <% } %>
+        </form>
+    </script>
 {% endblock backboneTemplates %}
 
 
@@ -64,20 +78,26 @@
 
 {% block controlPanel %}
 <div id="floating-display-control" class="nav-panel" style="display: none;">
-    <div class="panel-header">
-    {{ game.title }}
+    <div class="panel-header" id="control-panel-header">
+    
     </div>
     <div class="panel-body">
-        
+        <div id="seed-editor">
+
+        </div>
     </div>
     <div class="panel-footer">
         <div class="btn-group" role="group">
-          <button type="button" class="btn btn-default">
+
+          <button type="button" class="btn btn-primary" onclick="App.snapshot();">
+              <span class="glyphicon glyphicon-camera"></span>
+              Snapshot</button>
+          <button type="button" class="btn btn-warning" onclick="App.showSource();">
+              <span class="glyphicon glyphicon-eye-open"></span>
+              Source</button>
+            <button type="button" class="btn btn-success" onclick="showSource();">
               <span class="glyphicon glyphicon-plus-sign"></span>
-              &nbsp;&nbsp;Create New Game</button>
-          <button type="button" class="btn btn-default" onclick="showSource();">
-              <span class="glyphicon glyphicon-align-left"></span>
-              &nbsp;&nbsp;Alter Game</button>
+              Fork</button>
         </div>
     </div>
 </div>

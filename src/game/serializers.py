@@ -16,7 +16,7 @@ class GameInstanceSerializer(serializers.ModelSerializer):
     instantiator = UserSerializer_Inline()
     class Meta:
         model = GameInstance
-        depth = 1
+        #depth = 1
 
 class GameInstanceSerializer_Inline(serializers.ModelSerializer):
     instantiator = UserSerializer_Inline()

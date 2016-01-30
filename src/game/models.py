@@ -55,7 +55,7 @@ class GameInstance(models.Model):
     instantiator = models.ForeignKey(User)
     timestamp = models.DateTimeField(auto_now_add=True, editable=False)
     seed = models.TextField()
-    source = models.TextField()
+    #source = models.TextField()
     pagecache = models.TextField(null=True, blank=True)
 
     def __unicode__(self):

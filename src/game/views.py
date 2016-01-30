@@ -7,7 +7,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.parsers import JSONParser
 
 from rest_framework import generics
-from game.models import ZeroPlayerGame, Category
+from game.models import *
 from game.serializers import *
 
 
@@ -40,6 +40,14 @@ class GameList(generics.ListCreateAPIView):
 class GameDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ZeroPlayerGame.objects.all()
     serializer_class = ZeroPlayerGameSerializer
+
+class GameInstanceList(generics.ListCreateAPIView):
+    queryset = ZeroPlayerGame.objects.all()
+    serializer_class = GameInstanceSerializer
+
+class GameInstanceDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ZeroPlayerGame.objects.all()
+    serializer_class = GameInstanceSerializer
 
 
 # @api_view(['GET', 'POST'])
