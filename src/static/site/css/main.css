@@ -17,6 +17,8 @@ html, body{
     box-shadow: 0px 0px 2px #ddd;
 }
 
+
+
 #control-panel {
   
 }
@@ -26,7 +28,13 @@ html, body{
     overflow-y: auto;
 }
 
-
+.logical-symbol {
+  font-size: 30px;
+  color: #666;
+  opacity: 0.4;
+  font-weight: 200;
+  margin-right: 10px;
+}
 
 #inline-canvas {
   border: 0px;
@@ -126,12 +134,15 @@ body>.navbar-transparent {
 
 .navbar-brand {
     font-weight: bold;
+    vertical-align: middle;
 }
 
-.navbar-brand > img {
+.navbar-brand > span {
     float: left;
     margin-right: 10px;
 }
+
+
 
 .btn {
     background-image: none;
@@ -204,7 +215,7 @@ body>.navbar-transparent {
 }
 
 .text-page {
-    padding: 120px 0;
+    padding: 120px 5px 5px 5px;
 }
 
 #map-outer {
@@ -251,4 +262,29 @@ body>.navbar-transparent {
 
 .form-box form .form-control:focus {
   z-index: 2;
+}
+
+.fa-spin-custom, .glyphicon-spin {
+  -webkit-animation: spin 1000ms infinite linear;
+  animation: spin 1000ms infinite linear;
+}
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
 }
