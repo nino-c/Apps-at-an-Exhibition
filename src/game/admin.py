@@ -2,7 +2,7 @@ from django.contrib import admin
 from game.models import *
 
 
-map(admin.site.register, [ZeroPlayerGame, Category, GameInstance, GameInstanceSnapshot])
+map(admin.site.register, [ZeroPlayerGame, Category, GameInstanceSnapshot])
 
 # class GameParamsInline(admin.StackedInline):
 # 	model = GameParam
@@ -13,11 +13,11 @@ map(admin.site.register, [ZeroPlayerGame, Category, GameInstance, GameInstanceSn
 # 		GameParamsInline
 # 	]
 
-# class ImagesInline(admin.StackedInline):
-#     model = ImageModel
+class ImagesInline(admin.StackedInline):
+    model = GameInstanceSnapshot
 
-# @admin.register(ImageGallery)
-# class ImageGallery(admin.ModelAdmin):
-#     inlines = [
-#         ImagesInline,
-#     ]
+@admin.register(GameInstance)
+class GameInstance(admin.ModelAdmin):
+    inlines = [
+        ImagesInline,
+    ]

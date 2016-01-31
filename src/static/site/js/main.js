@@ -17,6 +17,7 @@
 	var controlPanel = null;
 	var currentGame = null;
 	var currentInstance = null;
+	var router = null;
 
 	window.App = {
 		Models: {},
@@ -100,8 +101,25 @@
 						model: game
 					});
 
+
+
 	        		for (attr in seed) {
-	        			var line = "var " + attr + " = " + seed[attr].toString() + ";"
+
+	        			var line;
+	        			if (isNaN(parseFloat(seed[attr].toString()))) {
+
+	        				// if color field, add colorpicker to form
+	        				// if (seed[attr].toString().indexOf("rgba(") === 0) {
+	        				// 	if ($("#color_"+attr.toString())) {
+	        				// 		$("#color_"+attr.toString()).colorpicker();
+	        				// 	}
+	        				// }
+
+	        				line = "var " + attr + " = \"" 
+	        					+ seed[attr].toString() + "\";"
+	        			} else {
+	        				line = "var " + attr + " = " + seed[attr].toString() + ";"
+	        			}
 	        			eval(line);
 	        			echo(line);
 	        		}
@@ -118,15 +136,21 @@
 	    snapshot: function() {
 	    	var snapshot = Canvas.toDataURL("image/png");
 	    	echo(">>snapshot length="); echo(snapshot.length);
-	    	var url = "/game/snapshot/" + currentInstance.id;
-	    	echo(url);
-	    	$.ajax({
-	    		url: url,
-	    		method: "POST",
-	    		success: function(data) {
-	    			
+	    	var url = "/game/zero-player/snapshot/";
+	    	echo(currentInstance.id);
+	    	$.post(url, {
+	    			instance: currentInstance.id.toString(),
+	    			time: App.getTimeElapsed(),
+	    			image: snapshot
+	    		},
+	    		function(data) {
+	    			echo(data);
 	    		}
-	    	});
+	    	);
+	    },
+
+	    redraw: function() {
+	    	
 	    }
 
 	};
@@ -222,6 +246,25 @@
 		render: function() {
 			this.$el.html(this.template(this.model.toJSON()));
 			return this;
+		},
+
+		events: {
+			'keypress input' : function(e) {
+				if (e.keyCode == 13) {
+					var attr = e.target.id.toString().replace("seed_", "");
+					var seed = currentGame.get('_seed');
+					//var seed = currentInstance.seed;
+					//echo(currentInstance.seed);
+
+					// update later to also handle color-strings!
+					seed[attr] = parseFloat(e.target.value);
+					// !!!!
+
+					currentGame.set('_seed', seed);
+					currentInstance.seed = JSON.stringify(seed);
+					App.executeGame(currentGame, currentInstance);
+				}
+			}
 		}
 	});
 
@@ -234,6 +277,7 @@
 
 
 	App.Router = Backbone.Router.extend({
+
 		routes: {
 			'': 'home',
 			'game/:id': 'game',
@@ -283,34 +327,40 @@
 
 	});
 
-	var router = new App.Router;
-	Backbone.history.start();
+	
 	
 
+	App.getTimeElapsed = function() {
+		return (((new Date()).getTime() - App.timeAtLoad) / 1000);
+	};
+
 	App.start = function() {
-		echo("App start()")
-	}
+		echo("App start()");
+		App.timeAtLoad = (new Date()).getTime();
+		router = new App.Router;
+		Backbone.history.start();
+	};
 
 })();
 
 
 
 
-require.config({
+/*require.config({
 	baseUrl: "/static/site/js/lib",
 	paths: {
 		"jquery": "jQuery2.1.1.js",
 		"app": "../app"
 	}
-});
+});*/
 
 // for now, html-include fundamental scripts = jquery+underscore+backbone in HTML, use this only for extra libs
-require(["three"], function() {
-	if (document.readyState == "complete") {
-		App.start();
-	} else {
+//require(["three"], function() {
+	// if (document.readyState == "complete") {
+	// 	App.start();
+	// } else {
 		$(document).ready(function() { 
 			App.start();
 		});
-	}
-});
+	//}
+//});

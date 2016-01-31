@@ -1,12 +1,20 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
+{% block extrahead %}
+    
+    
+    <script type="text/javascript" src="{% static 'site/js/main.js' %}"></script>
+    
+{% endblock extrahead %}
+
 {% block splash %}
   <canvas id="inline-canvas" style="display: none;"></canvas>
 {% endblock %}
 
 
 {% block backboneTemplates %}
+
 	<script type="text/template" id="list-games-template">
 	    <h1>Games</h1>
 	    <ul>
@@ -25,6 +33,8 @@
 
 	    <div>by <strong><%-owner.name %></strong></div>
         <div class="text-muted">created @ <%- created %></div>
+        <br />
+
 	    <div class="caption">
 	    	<p><%- description %></p>
 	    </div>
@@ -35,12 +45,29 @@
 
         <h3>Instances</h3>
         <% if (instances.length > 0) { %>
-            <ul>
+            <ul class="applist">
             <% _.each(instances, function(instance) { %>
                 <li>
                     <%-instance.instantiator.name %>&apos;s instance @ <%- instance.timestamp %><br />
-                    <strong>Seed: </strong><%- instance.seed %><br /><br />
-                    <a class="btn btn-primary" href="#instance/<%- id %>/<%-instance.id %>" role="button">View &raquo;</a>
+
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <strong>Seed: </strong><br />
+                            <% for (var attr in JSON.parse(instance.seed)) { %>
+                                <em><%- attr %>: </em> <span class="text-muted"><%- JSON.parse(instance.seed)[attr] %></span><br />
+                            <% } %>
+                        </div>
+                        <div class="col-sm-9">
+                            <strong>Snapshots: </strong><br />
+                            <div class="container-fluid">
+                            <% _.each(instance.images, function(image) { %>
+                                <img src="/media/<%- image.replace('.png', '.125x125.png') %>" class="thumbnail thumbnail-tiny pull-left" />
+                            <% }); %>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a class="btn btn-primary" href="#instance/<%- id %>/<%-instance.id %>" role="button">View &raquo;</a><br /><br />
                 </li>
             <% }); %>
             </ul>
@@ -51,18 +78,35 @@
         <% } %>
     </script>
 
+
     <script type="text/template" id="seed-editor-template">
         <form class="form-inline form-hotizontal">
+        <table class="table">
         <% for (var attr in _seed) { %>
-            <div class="form-group">
-            <label class="col-sm-2 control-label" for="seed_<%- attr %>"><%- attr %></label>
-            <input type="text" class="form-control" id="seed_<%- attr %>" 
-                placeholder="" style="width: 100px;"
-                value="<%- _seed[attr] %>">
-            </div>
+            <tr valign="middle">
+                <td align="right">
+                    <label class="control-label" for="seed_<%- attr %>"><%- attr %></label>
+                </td>
+                <td align="left">
+                    <% if (isNaN(parseFloat(_seed[attr].toString())) && _seed[attr].toString().indexOf("rgba(") === 0) { %>
+                        <div class="input-group colorpicker">
+                            <input type="text" class="form-control" id="seed_<%- attr %>" 
+                                value="<%- _seed[attr] %>" />
+                            
+                        </div>
+                    <% } else { %>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="seed_<%- attr %>" 
+                                placeholder="" value="<%- _seed[attr] %>" />
+                        </div>
+                    <% } %>
+                </td>
+            </tr>
         <% } %>
+        </table>
         </form>
     </script>
+
 {% endblock backboneTemplates %}
 
 
@@ -96,8 +140,8 @@
               <span class="glyphicon glyphicon-eye-open"></span>
               Source</button>
             <button type="button" class="btn btn-success" onclick="showSource();">
-              <span class="glyphicon glyphicon-plus-sign"></span>
-              Fork</button>
+              <span class="glyphicon glyphicon-align-left"></span>
+              Alter</button>
         </div>
     </div>
 </div>

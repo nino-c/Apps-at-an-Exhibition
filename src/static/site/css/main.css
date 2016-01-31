@@ -38,10 +38,14 @@ html, body{
   margin-right: 10px;
 }
 
+.thumbnail-tiny {
+  width: 80px;
+  height: 80px;
+  margin: 5px;
+}
+
 #inline-canvas {
   border: 0px;
-  width: 100%;
-  height: 100%;
   position: absolute;
   top: 52px;
   left: 0px;
@@ -56,6 +60,18 @@ html, body{
   display: block;
   width: 100%;
   z-index: 10;
+}
+
+.applist {
+  list-style: none;
+  padding: 0px;
+}
+
+.applist li {
+  border: 1px solid #eeeeee;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 #big-canvas {

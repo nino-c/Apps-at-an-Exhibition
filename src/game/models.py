@@ -61,12 +61,25 @@ class GameInstance(models.Model):
     def __unicode__(self):
         return "%s's instance of \"%s\", by %s" % (self.instantiator.name, self.game.title, self.game.owner.name)
 
+    def getImages(self):
+        if self.images.count() > 0:
+            return [im.image.name.replace("./","") for im in self.images.all()]
+        else:
+            return []
+
 
 class GameInstanceSnapshot(models.Model):
-    instance = models.ForeignKey(GameInstance)
+    instance = models.ForeignKey(GameInstance, related_name='images')
     image = ImageWithThumbsField(sizes=((125,125),(200,200)))
     time = models.FloatField(default=0, blank=False)
-    gallery = models.ForeignKey(GameInstance, null=True, related_name='images')
     timestamp = models.DateTimeField(auto_now_add=True, editable=False)
 
+    def getFilename(self):
+        return self.image.name or None
+
+class ImageTest(models.Model):
+    image = ImageWithThumbsField(sizes=((125,125),(200,200)))
+
+    def saveimage(self, path):
+        self.image.save(os.path.basename(path), File(path))
     

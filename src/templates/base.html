@@ -21,10 +21,10 @@
     <script type="text/javascript" src="{% static 'site/js/lib/underscore.js' %}"></script>
     <script type="text/javascript" src="{% static 'site/js/lib/backbone.js' %}"></script>
     <script type="text/javascript" src="{% static 'site/js/app/util.js' %}"></script>
-    <!--<script type="text/javascript" src="{% static 'site/js/main.js' %}"></script>-->
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap-colorpicker.js' %}"></script>
 
-    <script data-main="/static/site/js/main" src="{% static 'site/js/require.js' %}">
-    </script>
+    
 
     
 
@@ -32,6 +32,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'bootstrap/css/bootstrap-colorpicker.css' %}" rel="stylesheet" />
 
     <!-- Custom styles for this site -->
     {% block styles %}
@@ -40,6 +41,9 @@
 
     <!-- Custom tags for the head tag -->
     {% block extrahead %}{% endblock extrahead %}
+
+    <!--<script data-main="/static/site/js/main" src="{% static 'site/js/require.js' %}">
+    </script>-->
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
