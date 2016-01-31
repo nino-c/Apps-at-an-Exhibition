@@ -44,6 +44,7 @@
 	    hideCanvas: function() {
 	    	canvas = $("#inline-canvas");
 	    	canvas.css({"display":"none"});
+	    	$("#floating-display-control").css({"display":"none"});
 	    },
 
 	    instantiateGame: function(id) {
@@ -80,7 +81,7 @@
 
 	        var htext = "<strong>&quot;"+game.get('title')+"&quot;</strong>";
 	        htext += "<br />by " + game.get('owner').name;
-	        $("#control-panel-header").html(htext);
+	        $("#control-panel-header-text").html(htext);
 
 	        // hide footer (future, make nice bottom-hugging footer)
 	        $("footer").css({"display":"none"});
@@ -151,6 +152,20 @@
 
 	    redraw: function() {
 	    	
+	    },
+
+	    showSource: function() {
+	    	$("#blackout").css({display:"block"});
+	    	$("#source-editor").css({display:"block"});
+	    	$("#source-textarea").text(currentGame.get('source'));
+	    },
+
+	    saveSource: function() {
+	    	var code = $("#source-textarea").text();
+	    	$("#blackout").css({display:"none"});
+	    	$("#source-editor").css({display:"none"});
+	    	currentGame.set('source', code);
+	    	App.executeGame(currentGame, currentInstance);
 	    }
 
 	};

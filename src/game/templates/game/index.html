@@ -123,7 +123,7 @@
 {% block controlPanel %}
 <div id="floating-display-control" class="nav-panel" style="display: none;">
     <div class="panel-header" id="control-panel-header">
-    
+        <div id="control-panel-header-text"></div>
     </div>
     <div class="panel-body">
         <div id="seed-editor">
@@ -139,10 +139,29 @@
           <button type="button" class="btn btn-warning" onclick="App.showSource();">
               <span class="glyphicon glyphicon-eye-open"></span>
               Source</button>
-            <button type="button" class="btn btn-success" onclick="showSource();">
+            <button type="button" class="btn btn-success" onclick="App.editSource();">
               <span class="glyphicon glyphicon-align-left"></span>
               Alter</button>
         </div>
     </div>
 </div>
+
+
+
+<div id="blackout">&nbsp;</div>
+
+<div id="source-editor">
+    <div id="source-editor-header">
+        <strong>Edit code</strong>
+        <button type="button" class="btn btn-primary glyphicon glyphicon-checkmark pull-right" 
+            onclick="App.saveSource();" style="margin-top: -8px;">Done</button>
+    </div>
+
+    <div id="source-editor-container">
+        <textarea id="source-textarea"></textarea>  
+    </div> 
+</div>
+
 {% endblock %}
+
+
