@@ -116,8 +116,7 @@
 
 
     <script type="text/template" id="seed-editor-template">
-        <form class="form-inline form-hotizontal">
-        <table class="table">
+        <table>
         <% for (var attr in _seed) { %>
             <tr valign="middle">
                 <td align="right">
@@ -132,7 +131,7 @@
                         </div>
                     <% } else { %>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="seed_<%- attr %>" 
+                            <input type="text" id="seed_<%- attr %>" 
                                 placeholder="" value="<%- _seed[attr] %>" />
                         </div>
                     <% } %>
@@ -140,7 +139,6 @@
             </tr>
         <% } %>
         </table>
-        </form>
     </script>
 
 {% endblock backboneTemplates %}

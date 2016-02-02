@@ -17,6 +17,14 @@ html, body{
     box-shadow: 0px 0px 2px #ddd;
 }
 
+#seed-editor {
+  font-size: 11px;
+}
+
+#seed-editor input {
+  padding: 2px;
+}
+
 .panel-header {
   padding: 6px;
 }

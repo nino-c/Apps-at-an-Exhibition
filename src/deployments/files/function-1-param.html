@@ -2,10 +2,10 @@
 <html>
 <head>
 <!-- Load the Paper.js library -->
-<script type="text/javascript" src="/static/site/js/paper-full.js"></script>
-<script type="text/javascript" src="/static/site/js/underscore.js"></script>
-<script type="text/javascript" src="/static/site/js/jQuery2.1.1.js"></script>
-<script type="text/javascript" src="/static/site/js/numeric-1.2.6.js"></script>
+<script type="text/javascript" src="/static/site/js/lib/paper-full.js"></script>
+<script type="text/javascript" src="/static/site/js/lib/underscore.js"></script>
+<script type="text/javascript" src="/static/site/js/lib/jQuery2.1.1.js"></script>
+<script type="text/javascript" src="/static/site/js/lib/numeric-1.2.6.js"></script>
 
 
 <script type="text/javascript">
@@ -14,11 +14,28 @@
         console.log(x)
     }
 
+    // import Math module to global namespace
+    var random = Math.random;
+    var cos = Math.cos;
+    var sin = Math.sin;
+    var abs = Math.abs;
+
+
 </script>
 
 
 <!-- Define inlined PaperScript associate it with myCanvas -->
 <script type="text/paperscript" canvas="artboard">
+
+
+seed = {
+    "breathDelta": {"default":17, "min":1.1, "max":1000}
+};
+
+breathDelta = 13;
+xMin = -10;
+xMax = 10;
+
 
 /*
     *
@@ -27,19 +44,28 @@
     *
 */
 
+
+// define mathematical function
+Function = function(func, xrange, latex) {
+    if (xrange != null) {
+        this.xrange = xrange;    
+    } else this.xrange = [-10, 10];
+    this.func = func;
+    this.latex = latex;
+    this.min = undefined;
+    this.max = undefined;
+    this.layer = undefined;
+    this.graphs = [];
+}
+
+func = new Function(function(x) { return cos(x); }, [-10,10]);
+
 // setup Cartesian
 
 DARK_GREY = new Color(0.3, 0.3, 0.3, 0.8);
 LIGHT_GREY = new Color(0.9, 0.9, 0.9, 0.2);
 
 view.viewSize = new Size($(window).width(), $(window).height());
-
-// var origin = new Path.Circle({
-//     center: new Point(0,0),
-//     radius: 2,
-//     strokeColor: 'black'
-// });
-
 
 x_axis = new Path({ strokeColor: DARK_GREY, strokeWidth: 0.3, strokeScaling: false });
 x_axis.add(new Point(-view.size.width/2, 0));
@@ -65,38 +91,67 @@ _.each(_.range(-10,10), function(n) {
     y_lines.push( line );
 });
 
-INITCOLOR = _.map(_.range(3), Math.random)
+project.activeLayer.transform( new Matrix((view.size.width / 10),0,0,(view.size.height / -10), view.center.x, view.center.y) );
+
+////////////////////////
+
+INITCOLOR = _.map(_.range(3), random)
 
 graphs = [];
 N = 10;
+
+
+domain = numeric.linspace(func.xrange[0], func.xrange[1], 100);
+graphs = [];
+
+layer = new Layer({
+    backgroundColor: new Color(1,1,1,0)
+});
+
+func.layer = layer;
+
 _.map(_.range(N), function(n) {
 
     thickness = (n == 0 ? 3 : 1)
+    alpha = 0.5 - (n/(N*2))
     graph = new Path({
-        strokeColor: new Color(  INITCOLOR.concat([1-(n/N)])  ),
+        strokeColor: new Color(  INITCOLOR.concat([alpha]) ),
         strokeWidth: thickness
     });
 
-    domain = numeric.linspace(-10, 10, 100)
+    
     image = _.map(domain, function(x) {
         // the actual mathematical function
-        func = function(x) {
-            f = (
-                    (Math.cos(x)/x) + (1/100)*(Math.cos(10*x)*x)
-                )
-                * [1-(n/N)];
-            return f;
-        }
-        return func(x)
+        return func.func(x) * (1-(n/N))
     });
+
+    // make note of critical values
+    if (n==0) {
+        func.max = _.max(image);
+        func.min = _.min(image);
+    }
 
     _.each(_.zip(domain,image), function(x) { 
         graph.add(new Point(x)); 
     })
-    graph.smooth()
-    graphs.push(graph)
 
-});
+    graph.smooth();
+    func.graphs.push(graph);
+
+ });
+
+print(["MAX, MIN:", func.max, func.min]);
+
+// enforce Cartesian
+_w = Math.abs(func.xrange[1] - func.xrange[0]);
+_h = Math.abs(func.max - func.min);
+
+T = new Matrix(
+    (view.size.width / _w), 0,
+    0, (view.size.height / (-1.2*_h)), 
+    view.center.x, view.center.y);
+console.log(T);
+project.activeLayer.transform(T); 
 
 
 
@@ -107,17 +162,15 @@ function onResize(event) {
 
 }
 
-function onFrame(event) {
-    amplitude = (1/50)
-    rate = 8
-    scale = ((Math.sin(rate*event.time)*amplitude))+1
+view.onFrame = function(event) {
+    scale = 1 + (sin(event.time)/ breathDelta)
     _.each(graphs, function(g) {
-        g.scale(1, ((Math.sin(rate*event.time)/100))+1 );
+        g.scale(1, scale);
     });
 }
 
 // enforce Cartesian
-project.activeLayer.transform( new Matrix((view.size.width / 10),0,0,(view.size.height / -10), view.center.x, view.center.y) );
+//project.activeLayer.transform( new Matrix((view.size.width / dx/2),0,0,(view.size.height / -10), view.center.x, view.center.y) );
 
 </script>
 <style>

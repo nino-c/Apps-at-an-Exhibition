@@ -60,15 +60,15 @@
 			});
 	    },
 
-	    executeGame: function(game, instance) {
+	    executeGame: function() {
 
 	    	// hide any other views
 	    	if(App.views.current != undefined){
 	            $(App.views.current.el).hide();
 	        }
 
-	        currentGame = game;
-	        currentInstance = instance;
+	        game = currentGame;
+	        instance = currentInstance;
 
 	        // get game-level scope declared, show elements
 	    	canvas = $("#inline-canvas");
@@ -104,7 +104,7 @@
         		for (attr in seed) {
 
         			var line;
-        			if (isNaN(parseFloat(seed[attr].toString()))) {
+        			if (typeof seed[attr] == 'string') {
 
         				// if color field, add colorpicker to form
         				// if (seed[attr].toString().indexOf("rgba(") === 0) {
@@ -333,11 +333,16 @@
 					//echo(currentInstance.seed);
 
 					// update later to also handle color-strings!
-					seed[attr] = parseFloat(e.target.value);
+					if (typeof seed[attr] == "string") {
+						seed[attr] = e.target.value;
+					} else {
+						seed[attr] = parseFloat(e.target.value);
+					}
 					// !!!!
 
 					currentGame.set('_seed', seed);
 					currentInstance.seed = JSON.stringify(seed);
+
 					App.executeGame(currentGame, currentInstance);
 				}
 			},
@@ -396,13 +401,14 @@
 			/*var instance = _.filter(App.views.gameDetail.model.get('instances'), function(x) { 
 				return x.id == id; })[0] || null;*/
 			var game = new App.Models.Game({id:gameid});
-			
+			currentGame = game;
+
 			game.fetch().then(function() {
-				echo(game.get('instances'));
 				var instance = _.filter(game.get('instances'), function(x) { 
 					return x.id == instanceid; })[0] || null;
-				echo(instance);
-				if (instance != null) App.executeGame(game, instance);
+				currentInstance = instance;
+
+				if (instance != null) App.executeGame();
 			});
 			
 		}
