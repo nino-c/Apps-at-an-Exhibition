@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 import os
 import os.path
 import json
+import itertools
+import random
 
 from django.db import models
 #from jsonfield import JSONField
@@ -26,6 +28,7 @@ class ZeroPlayerGame(models.Model):
     description = models.TextField(blank=True)
     category = models.ForeignKey(Category)
     created = models.DateTimeField(auto_now=True)
+    #updated = models.DateTimeField(null=True, auto_now_add=True)
     scriptName = models.CharField(max_length=500, null=True, blank=False)
     scriptType = models.CharField(max_length=100, null=True, blank=False)
     source = models.TextField(blank=True)
@@ -34,20 +37,31 @@ class ZeroPlayerGame(models.Model):
     def __unicode__(self):
         return "\"%s\", by %s" % (self.title, self.owner.name)
 
-    def instantiate(self, seed=None, user=None):
+    def instantiate(self, request, seed=None):
         if seed is None:
             seedDict = json.loads(self.seedStructure)
             seed = {k:v['default'] for k,v in seedDict.iteritems()}
-        if user is None:
+        if request.user is None:
+            user = request.user
+        else:
             user = self.owner
         inst = GameInstance(
             game=self,
             instantiator=user, 
             seed=json.dumps(seed), 
-            source=self.source
             )
         inst.save()
         return inst
+
+    @property
+    def chooseImageSet(order=4):
+        images = map(lambda obj: obj.image.name.replace("./", ""), list(itertools.chain(
+                    *map(lambda l: l.all(), 
+                        [instance.images for instance in self.instances.all()]))
+                    )
+                )
+        random.shuffle(images)
+        return images[:order]
 
 
 class GameInstance(models.Model):

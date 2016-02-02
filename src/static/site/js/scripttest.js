@@ -1,33 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<!-- Load the Paper.js library -->
-<script type="text/javascript" src="/static/site/js/lib/paper-full.js"></script>
-<script type="text/javascript" src="/static/site/js/lib/underscore.js"></script>
-<script type="text/javascript" src="/static/site/js/lib/jQuery2.1.1.js"></script>
-<script type="text/javascript" src="/static/site/js/lib/numeric-1.2.6.js"></script>
-<script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
-
-<script type="text/javascript" async
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-
-<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="/static/site/js/katex/katex.min.css">
-
-<!-- <script type="text/paperscript" canvas="artboard" src="/static/site/paperscript/decartes.js"></script> -->
-<script type="text/paperscript" canvas="artboard">
-/*
-    *
-    *   @author: nino p cocchiarella
-    *   (c) 2016
-    *
-*/
-
-// setup Cartesian
-
-//layer1 = new Layer();
-
 DARK_GREY = new Color(0.3, 0.3, 0.3, 0.8);
 LIGHT_GREY = new Color(0.9, 0.9, 0.9, 0.2);
 
@@ -72,7 +42,7 @@ transformToCartesian(project.activeLayer);
 
 // define formal mathematical function
 Function = function(func, extrema) {
-    //print(func.length);
+    //echo(func.length);
     this.func = func;
     if (!extrema) { extrema = [-5,5]; }
 
@@ -110,7 +80,7 @@ Function.prototype = {
             view.center.x, view.center.y);
 
         this.computed = true;
-        print("computed")
+        echo("computed")
     },
 
     // "flattens" mapping
@@ -226,7 +196,7 @@ BivariatePolynomialFunction = function(degree, vars, coeffs, roots) {
                 + vars[1]+"^"+term[1].toString();
         });
         terms_sym = _.filter(terms_sym, function(x) { return x != ""; })
-        //print(terms_sym.join(" + "));
+        //echo(terms_sym.join(" + "));
 
         f = function(x,z) {
             terms = _.map(term_exps, function(term, i) {
@@ -268,7 +238,7 @@ GraphLayer = new Layer({
 //GraphLayer.globalMatrix = CartesianMatrix;
 //GraphLayer.transform(CartesianMatrix);
 
-print("global matrix"); print(global_matrix);
+echo("global matrix"); echo(global_matrix);
 
 function_shown = false;
 zindex=0
@@ -282,7 +252,7 @@ function onFrame(event) {
         });
 
         z = zspace[zindex];
-        //print(z)
+        //echo(z)
     
 
         F = function(x) { return Polynomial(x,z); }
@@ -327,10 +297,10 @@ function onFrame(event) {
             transformation: transformation,
             path: path1});
 
-        //print(path.position)
+        //echo(path.position)
         
         if (zindex == zspace.length-1) { 
-            //print(slices);
+            //echo(slices);
             //view.pause();
         }
         zindex++;
@@ -360,120 +330,3 @@ function onFrame(event) {
 function onResize(event) {
 
 }
-
-
-
-
-//debugger;
-
-
-</script>
-<script type="text/javascript">
-
-    function print(x) {
-        console.log(x);
-    }
-
-    function showSource() {
-        $("#source-code").height($(window).height() * (2/3));
-        _.each(
-            _.filter(document.getElementsByTagName('script'), function(scr) {
-                return scr.type == "text/paperscript";
-            }), 
-            function(script) {
-                document.getElementById("source-code").innerHTML = script.innerText;
-            });
-
-        $("#modal-source").modal({
-            show: true
-        });
-    }
-
-    $(document).ready(function() {
-        // var display = document.getElementById("function-katex");
-        // katex.render("f(x, t) = \\sum\\limits_{n=0}^{N} \\frac{1}{p_{n}}\\space x\\space cos(p_{n} x) \\space \\frac{1}{7}( \\sin(\\omega t)+1)", display);
-    });
-
-</script>
-<style>
-
-body {
-    margin: 0px;
-    padding: 0px;
-}
-
-canvas {
-    width: 100%;
-    height: 100%;
-}
-
-#function-display {
-    position: fixed;
-    top: 100px;
-    right: 50px;
-    font-size: 10px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border: 1px solid #cccccc;
-    border-radius: 8px;
-    padding: 15px;
-    max-width: 400px;
-    box-shadow: 0px 0px 2px #ddd;
-}
-
-.modal {
-    max-height: 90%;
-    overflow-y: auto;
-}
-
-
-
-pre {
-    background-color: #efefef;
-    font-size: 10px;
-}
-
-</style>
-
-
-</head>
-<body>
-    <canvas id="artboard" resize="true"></canvas>
-    <aside id="function-display" class="nav-panel">
-        <div id="function-katex"></div>
-        <br />
-        <div class="text-center">
-            <div class="btn-group" role="group">
-
-              <button type="button" class="btn btn-default">
-                  <span class="glyphicon glyphicon-pencil"></span>
-                  &nbsp;&nbsp;change polynomial</button>
-
-              <button type="button" class="btn btn-default" onclick="showSource();">
-                  <span class="glyphicon glyphicon-align-left"></span>
-                  &nbsp;&nbsp;source code</button>
-            </div>
-        </div>
-    </aside>
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="modal-source" role="dialog">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">source code <small>(paperscript)</small></h4>
-            </div>
-            <div class="modal-body">
-              <pre id="source-code"></pre>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-        </div>
-    </div>
-
-</body>
-</html>

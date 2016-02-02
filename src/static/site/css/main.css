@@ -44,6 +44,31 @@ html, body{
   margin: 5px;
 }
 
+.thumbnail-med {
+  width: 100px;
+  height: 100px;
+}
+
+.image-gallery-9 {
+  display: inline-block;
+  width: 325px;
+  float: right;
+}
+
+.image-gallery-4 {
+  display: inline-block;
+  width: 310px;
+  float: right;
+}
+
+.image-gallery-4 img {
+  margin:0px;
+}
+
+.image-gallery-9 img {
+  margin:0px;
+}
+
 #inline-canvas {
   border: 0px;
   position: absolute;
@@ -312,34 +337,40 @@ body>.navbar-transparent {
   display: none;
   position: fixed;
   top:0px;
-  right:0px;
-  width: 50%;
+  right:100px;
+  left:100px;
+  width: auto;
   z-index: 3000;
   background-color: rgba(255,255,255,0.8);
   box-shadow: 0px 0px 4px #666;
-  height: 100%;
+  height: 95%;
 }
 
-#source-editor > * > textarea {
-  position: relative;
-  width: 100%;
-  height: 100%;
+#source-editor section {
+  
 }
+
 
 #source-editor-header {
   background-color: #eee;
   padding: 15px;
   height: 50px;
   font-size: 16px;
+  z-index: 4000;
+}
+
+#source-editor button {
+  z-index: 10000;
 }
 
 #source-editor-container {
   padding: 15px;
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: auto;
   top: 0px;
   padding-top: 70px;
+  z-index: 2000;
 }
 
 
@@ -352,4 +383,13 @@ body>.navbar-transparent {
   height: 100%;
   z-index: 2000;
   background-color: rgba(0,0,0,0.6);
+}
+
+
+
+.CodeMirror {
+  
+  
+  font-size: 10px;
+
 }

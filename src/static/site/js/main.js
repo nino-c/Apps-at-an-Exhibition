@@ -30,7 +30,7 @@
 		views: {},
 
 		currentGameList: null,
-		currentGame: null,
+		currentGame: function() { return currentGame; },
 		currentGameInstance: null,
 
 		showJustOneView: function(view) {
@@ -89,45 +89,52 @@
 	        if (instance.seed) {
 
 	        	// execute seed code
-	        	var seedcode = "var seed = " + instance.seed + ";"
+	        	var seedcode = "var seed = " + instance.seed + ";";
+	        	var seedcodelines = [seedcode];
 	        	eval(seedcode);
 	        	//echo(seed);
 
-	        	// import seed attributes into local namespace
-	        	if (seed != undefined) {
+	        	// prepare seed editor
+	        	game.set('_seed', seed);
+				App.views.seedEditor = new App.Views.SeedEditor({
+					model: game
+				});
 
-	        		game.set('_seed', seed);
+        		// import seed attributes into local namespace
+        		for (attr in seed) {
 
-	        		App.views.seedEditor = new App.Views.SeedEditor({
-						model: game
-					});
+        			var line;
+        			if (isNaN(parseFloat(seed[attr].toString()))) {
 
+        				// if color field, add colorpicker to form
+        				// if (seed[attr].toString().indexOf("rgba(") === 0) {
+        				// 	if ($("#color_"+attr.toString())) {
+        				// 		$("#color_"+attr.toString()).colorpicker();
+        				// 	}
+        				// }
 
+        				line = "var " + attr + " = \"" 
+        					+ seed[attr].toString() + "\";"
+        			} else {
+        				line = "var " + attr + " = " + seed[attr].toString() + ";"
+        			}
+        			seedcodelines.push(line);
+        			//eval(line);
+        			//echo(line);
+        		}
+	        	
 
-	        		for (attr in seed) {
-
-	        			var line;
-	        			if (isNaN(parseFloat(seed[attr].toString()))) {
-
-	        				// if color field, add colorpicker to form
-	        				// if (seed[attr].toString().indexOf("rgba(") === 0) {
-	        				// 	if ($("#color_"+attr.toString())) {
-	        				// 		$("#color_"+attr.toString()).colorpicker();
-	        				// 	}
-	        				// }
-
-	        				line = "var " + attr + " = \"" 
-	        					+ seed[attr].toString() + "\";"
-	        			} else {
-	        				line = "var " + attr + " = " + seed[attr].toString() + ";"
-	        			}
-	        			eval(line);
-	        			echo(line);
-	        		}
+	        	// execute seed code and game script
+	        	if (game.get('scriptType') == "text/paperscript") {
+	        		paper.setup('inline-canvas');
+					with (paper) {
+						var source = seedcodelines.join("\n") + "\n" + game.get('source');
+						eval(source);
+					}
+	        	} else {
+	        		eval( seedcodelines.join("\n") );
+	        		eval(game.get('source'));
 	        	}
-
-	        	// execute game script
-	        	eval(game.get('source'));
 
 	        }
 
@@ -136,9 +143,7 @@
 
 	    snapshot: function() {
 	    	var snapshot = Canvas.toDataURL("image/png");
-	    	echo(">>snapshot length="); echo(snapshot.length);
 	    	var url = "/game/zero-player/snapshot/";
-	    	echo(currentInstance.id);
 	    	$.post(url, {
 	    			instance: currentInstance.id.toString(),
 	    			time: App.getTimeElapsed(),
@@ -154,18 +159,57 @@
 	    	
 	    },
 
-	    showSource: function() {
+	    editSource: function() {
 	    	$("#blackout").css({display:"block"});
 	    	$("#source-editor").css({display:"block"});
 	    	$("#source-textarea").text(currentGame.get('source'));
+	    	$("#seed-structure").text(currentGame.get('seedStructure'));
+
+	    	var editor1 = CodeMirror.fromTextArea(document.getElementById('source-textarea'), {
+	    		lineNumbers: true
+			});
+			editor1.setOption("theme", "monokai");
+
+			var editor2 = CodeMirror.fromTextArea(document.getElementById('seed-structure'), {
+				lineNumbers: true
+			});	
+			App.editors = [editor1, editor2];
+			editor2.setOption("theme", "monokai");
+
+			
+
 	    },
 
 	    saveSource: function() {
-	    	var code = $("#source-textarea").text();
+	    	var code = App.editors[0].getValue();
+	    	var seedStructure = App.editors[1].getValue();
+
 	    	$("#blackout").css({display:"none"});
 	    	$("#source-editor").css({display:"none"});
+
 	    	currentGame.set('source', code);
-	    	App.executeGame(currentGame, currentInstance);
+	    	currentGame.set('seedStructure', seedStructure);
+
+	    	// below is how I "should" do this -- through API
+	    	/////////////
+	    	// currentGame.save({patch:true}).then(function(data) {
+	    	// 	echo(data);
+	    	// });
+
+			// backbone save() being a bitch so below is quick hack
+			var updatedata = {
+	    		id: currentGame.get('id'),
+	    		source: code,
+	    		seedStructure: seedStructure
+	    	};
+	    	echo(updatedata)
+	    	$.post("/game/update/"+currentGame.get('id').toString()+"/", updatedata, function(data) {
+	    		echo(data);
+	    		App.executeGame(currentGame, currentInstance);
+	    	})
+
+
+	    	
 	    }
 
 	};
@@ -183,8 +227,25 @@
 			title: "New Space",
 			description: "A brand new, clean app-skeleton.",
 		},
+
+		initialize: function() {
+			this.set('images', []);
+			this.on("sync", this.getImageSet);
+		},
+
+		getImageSet: function() {
+			var images = [];
+			_.each(this.get('instances'), function(instance) { 
+				images = images.concat(instance.images); 
+			});
+			N = 1;
+			if (images.length >= 4) N=4;
+			if (images.length >= 9) N=9;
+			this.set('images', _.sample(_.flatten(images), N));
+			return this.images;
+		},
 		
-		url: function() { return '/game/zero-player/' + this.id; },
+		url: function() { return '/game/zero-player/' + this.id + "/"; },
 	});
 
 	App.Models.GameInstance = Backbone.Model.extend({});
@@ -279,6 +340,11 @@
 					currentInstance.seed = JSON.stringify(seed);
 					App.executeGame(currentGame, currentInstance);
 				}
+			},
+			'keydown input': function(e) {
+				//e.preventDefault();
+				e.stopPropagation();
+				echo(e);
 			}
 		}
 	});
@@ -330,6 +396,7 @@
 			/*var instance = _.filter(App.views.gameDetail.model.get('instances'), function(x) { 
 				return x.id == id; })[0] || null;*/
 			var game = new App.Models.Game({id:gameid});
+			
 			game.fetch().then(function() {
 				echo(game.get('instances'));
 				var instance = _.filter(game.get('instances'), function(x) { 
@@ -357,7 +424,6 @@
 	};
 
 })();
-
 
 
 

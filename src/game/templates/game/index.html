@@ -3,6 +3,13 @@
 
 {% block extrahead %}
     
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/javascript" src="/static/site/js/lib/paper-full.js"></script>
+    <script type="text/javascript" src="/static/site/js/lib/numeric-1.2.6.js"></script>
+
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     
     <script type="text/javascript" src="{% static 'site/js/main.js' %}"></script>
     
@@ -27,55 +34,84 @@
     </script>
 
 	<script type="text/template" id="display-game-template">
-	    
-    	<h3><%-title %></h3>
-	    <hr />
-
-	    <div>by <strong><%-owner.name %></strong></div>
-        <div class="text-muted">created @ <%- created %></div>
-        <br />
-
-	    <div class="caption">
-	    	<p><%- description %></p>
-	    </div>
-
-        <button class="btn btn-success" onclick="App.instantiateGame(<%- id %>);">
-            <span class="glyphicon glyphicon-plus-sign"></span>
-            Create a new instance</button>
-
-        <h3>Instances</h3>
-        <% if (instances.length > 0) { %>
-            <ul class="applist">
-            <% _.each(instances, function(instance) { %>
-                <li>
-                    <%-instance.instantiator.name %>&apos;s instance @ <%- instance.timestamp %><br />
-
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <strong>Seed: </strong><br />
-                            <% for (var attr in JSON.parse(instance.seed)) { %>
-                                <em><%- attr %>: </em> <span class="text-muted"><%- JSON.parse(instance.seed)[attr] %></span><br />
-                            <% } %>
-                        </div>
-                        <div class="col-sm-9">
-                            <strong>Snapshots: </strong><br />
-                            <div class="container-fluid">
-                            <% _.each(instance.images, function(image) { %>
-                                <img src="/media/<%- image.replace('.png', '.125x125.png') %>" class="thumbnail thumbnail-tiny pull-left" />
-                            <% }); %>
-                            </div>
-                        </div>
-                    </div>
-
-                    <a class="btn btn-primary" href="#instance/<%- id %>/<%-instance.id %>" role="button">View &raquo;</a><br /><br />
-                </li>
+	   
+    	
+         <% if (images.length == 9) { %>
+            <div class="image-gallery-9 pull-right">
+            <% _.each(images, function(image) { %>
+                
+                <img src="/media/<%- image.replace('.png', '.125x125.png') %>" class="thumbnail thumbnail-med pull-right" />
+               
             <% }); %>
-            </ul>
-        <% } else { %>
-            <em>Creating first instance... 
-            <span class="glyphicon glyphicon-refresh fa-spin-custom"></span>
-            </em>
+            </div>
+            <% } else if (images.length == 4) { %>
+            <div class="image-gallery-4 pull-right">
+            <% _.each(images, function(image) { %>
+                
+                <img src="/media/<%- image.replace('.png', '.125x125.png') %>" class="thumbnail  pull-right" />
+            <% }); %>
+            </div>
         <% } %>
+
+
+        <div class="row">
+            <div class="col-md-7">
+
+                <h3><%-title %></h3>
+                <div>by <strong><%-owner.name %></strong></div>
+                <div class="text-muted">created @ <%- created %></div>
+                <hr />
+
+                <div class="caption">
+                    <p><%- description %></p>
+                </div>
+
+                <button class="btn btn-success" onclick="App.instantiateGame(<%- id %>);">
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                    Create a new instance</button>
+
+                <h3>Instances</h3>
+                <% if (instances.length > 0) { %>
+                    <ul class="applist">
+                    <% _.each(instances, function(instance) { %>
+                        <li>
+                            <%-instance.instantiator.name %>&apos;s instance @ <%- instance.timestamp %><br />
+
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <strong>Seed: </strong><br />
+                                    <% for (var attr in JSON.parse(instance.seed)) { %>
+                                        <em><%- attr %>: </em> <span class="text-muted"><%- JSON.parse(instance.seed)[attr] %></span><br />
+                                    <% } %>
+                                </div>
+                                <div class="col-sm-9">
+                                    <strong>Snapshots: </strong><br />
+                                    <div class="container-fluid">
+                                    <% _.each(instance.images, function(image) { %>
+                                        <img src="/media/<%- image.replace('.png', '.125x125.png') %>" class="thumbnail thumbnail-tiny pull-left" />
+                                    <% }); %>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a class="btn btn-primary" href="#instance/<%- id %>/<%-instance.id %>" role="button">View &raquo;</a><br /><br />
+                        </li>
+                    <% }); %>
+                    </ul>
+                <% } else { %>
+                    <em>Creating first instance... 
+                    <span class="glyphicon glyphicon-refresh fa-spin-custom"></span>
+                    </em>
+                <% } %>
+
+            </div>
+            <div class="col-md-5">
+               
+            </div>
+        </div>
+
+        
+
     </script>
 
 
@@ -129,21 +165,36 @@
         <div id="seed-editor">
 
         </div>
-    </div>
-    <div class="panel-footer">
-        <div class="btn-group" role="group">
-
-          <button type="button" class="btn btn-primary" onclick="App.snapshot();">
-              <span class="glyphicon glyphicon-camera"></span>
-              Snapshot</button>
-          <button type="button" class="btn btn-warning" onclick="App.showSource();">
-              <span class="glyphicon glyphicon-eye-open"></span>
-              Source</button>
-            <button type="button" class="btn btn-success" onclick="App.editSource();">
+        <div class="text-right">
+           
+            <i class="glyphicon glyphicon-plus-sign"></i>
+            <a href="javascript:App.saveNewInstance();">Save as new instance</a>
+            <br />
+            <i class="glyphicon glyphicon-align-left"></i>
+            <a href="javascript:App.editSource()">Alter source-code</a>
+            <br /><hr />
+            <!-- <button type="button" class="btn btn-success" onclick="App.editSource();">
               <span class="glyphicon glyphicon-align-left"></span>
-              Alter</button>
+              Alter source-code</button> -->
+        </div>
+        <div class="container-fluid">
+            <button type="button" class="btn btn-primary" onclick="App.snapshot();">
+              <span class="glyphicon glyphicon-camera"></span>
+              Snapshot</button>&nbsp;
+            <button type="button" class="btn btn-warning" onclick="App.editSource();">
+              <span class="glyphicon glyphicon-eye-open"></span>
+              View source-code</button>
         </div>
     </div>
+
+    <!-- <div class="panel-footer">
+        <div class="btn-group" role="group"> -->
+
+            
+            
+<!-- 
+        </div>
+    </div> -->
 </div>
 
 
@@ -158,7 +209,25 @@
     </div>
 
     <div id="source-editor-container">
-        <textarea id="source-textarea"></textarea>  
+
+        <ul class="nav nav-tabs">
+          <li class="active" data-toggle="tab"><a href="#source">Source code</a></li>
+          <li data-toggle="tab"><a href="#seed">Seed structure</a></li>
+        </ul>
+
+        <section class="tab-content">
+            <article class="tab-pane active" id="source">
+                
+                    <textarea id="source-textarea"></textarea>  
+                
+            </article>
+            <article class="tab-pane" id="seed">
+               
+                   <textarea id="seed-structure"></textarea>  
+               
+            </article>
+        </section>
+        
     </div> 
 </div>
 

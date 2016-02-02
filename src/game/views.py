@@ -16,6 +16,7 @@ import json
 from django.core.files import File
 import hashlib
 import time
+import datetime
 
 
 def index(request):
@@ -27,9 +28,40 @@ def instantiateGame(request, pk):
     except ZeroPlayerGame.DoesNotExist:
         return HttpResponse(status=404)
 
-    instance = game.instantiate()
+    instance = game.instantiate(request)
     serializer = GameInstanceSerializer(instance)
     return JsonResponse(serializer.data)
+
+@csrf_exempt
+def updateGame(request, pk):
+    try:
+        game = ZeroPlayerGame.objects.get(pk=pk)
+    except ZeroPlayerGame.DoesNotExist:
+        return HttpResponse(status=404)
+    #print dir(game)
+    #print game.__dict__
+    print "---------------"
+
+    if request.method == 'POST':
+        #print request.POST['source'][:100]
+        print str(type(game))
+        print str(type(request.POST.get('source')))
+        game.source = request.POST.get('source')
+        print request.POST['source'][:10]
+        print '========================'
+        print game.source[:10]
+        game.seedStructure = request.POST['seedStructure']
+        game.save()
+
+        
+
+        game2 = ZeroPlayerGame.objects.get(pk=pk)
+        #print game2.__dict__
+        
+        gamedict = game.__dict__
+        serializer = ZeroPlayerGameSerializer(game)
+        return JsonResponse(serializer.data)
+
 
 
 ##############################

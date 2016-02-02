@@ -39,9 +39,18 @@ class GameInstanceSerializer_Inline(serializers.ModelSerializer):
 class ZeroPlayerGameSerializer(serializers.ModelSerializer):
     instances = GameInstanceSerializer_Inline(many=True)
     owner = UserSerializer_Inline()
+    
     class Meta:
         model = ZeroPlayerGame
         depth = 1
+        read_only_fields = ('instances', 'owner')
+
+    def update(self, instance, validated_data):
+        print validated_data
+        instance.source = validated_data.get('source', instance.source)
+        instance.seedStructure = validated_data.get('seedStructure', instance.seedStructure)
+        instance.save()
+        return instance
 
 class GameInstanceSerializer(serializers.ModelSerializer):
     instantiator = UserSerializer_Inline()
