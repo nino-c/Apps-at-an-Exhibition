@@ -6,7 +6,7 @@ html, body{
 }
 
 
-#floating-display-control {
+/*#floating-display-control {
     position: fixed;
     top: 100px;
     right: 50px;
@@ -15,7 +15,7 @@ html, body{
     border: 1px solid #cccccc;
     border-radius: 8px;
     box-shadow: 0px 0px 2px #ddd;
-}
+}*/
 
 #seed-editor {
   font-size: 11px;

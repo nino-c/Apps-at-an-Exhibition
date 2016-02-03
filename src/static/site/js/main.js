@@ -69,6 +69,7 @@
 
 	        game = currentGame;
 	        instance = currentInstance;
+	        //echo(game); echo(instance);
 
 	        // get game-level scope declared, show elements
 	    	canvas = $("#inline-canvas");
@@ -126,7 +127,7 @@
 
 	        	// execute seed code and game script
 	        	if (game.get('scriptType') == "text/paperscript") {
-	        		paper.setup('inline-canvas');
+	        		
 					with (paper) {
 						var source = seedcodelines.join("\n") + "\n" + game.get('source');
 						eval(source);
@@ -162,10 +163,17 @@
 	    editSource: function() {
 	    	$("#blackout").css({display:"block"});
 	    	$("#source-editor").css({display:"block"});
-	    	$("#source-textarea").text(currentGame.get('source'));
-	    	$("#seed-structure").text(currentGame.get('seedStructure'));
+	    	
+	    	text1 = $("#source-textarea");
+	    	text2 = $("#seed-structure");
 
-	    	var editor1 = CodeMirror.fromTextArea(document.getElementById('source-textarea'), {
+	    	text1.siblings().remove();
+			text2.siblings().remove();
+
+	    	text1.text(currentGame.get('source'));
+	    	text2.text(currentGame.get('seedStructure'));
+
+			var editor1 = CodeMirror.fromTextArea(document.getElementById('source-textarea'), {
 	    		lineNumbers: true
 			});
 			editor1.setOption("theme", "monokai");
@@ -202,10 +210,11 @@
 	    		source: code,
 	    		seedStructure: seedStructure
 	    	};
-	    	echo(updatedata)
+	    	//echo(updatedata)
 	    	$.post("/game/update/"+currentGame.get('id').toString()+"/", updatedata, function(data) {
+	    		echo("/game/update/.. response")
 	    		echo(data);
-	    		App.executeGame(currentGame, currentInstance);
+	    		App.executeGame();
 	    	})
 
 
@@ -334,8 +343,10 @@
 
 					// update later to also handle color-strings!
 					if (typeof seed[attr] == "string") {
+						echo("string")
 						seed[attr] = e.target.value;
 					} else {
+						echo("not string")
 						seed[attr] = parseFloat(e.target.value);
 					}
 					// !!!!
@@ -343,7 +354,7 @@
 					currentGame.set('_seed', seed);
 					currentInstance.seed = JSON.stringify(seed);
 
-					App.executeGame(currentGame, currentInstance);
+					App.executeGame();
 				}
 			},
 			'keydown input': function(e) {
@@ -426,6 +437,8 @@
 		echo("App start()");
 		App.timeAtLoad = (new Date()).getTime();
 		router = new App.Router;
+		$('.navbar').addClass('navbar-transparent');
+		paper.setup('inline-canvas');
 		Backbone.history.start();
 	};
 

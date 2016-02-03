@@ -12,7 +12,7 @@ from os.path import dirname, join, exists
 
 # Build paths inside the project like this: join(BASE_DIR, "directory")
 BASE_DIR = dirname(dirname(dirname(__file__)))
-STATICFILES_DIRS = [join(BASE_DIR, 'static')]
+#STATICFILES_DIRS = [join(BASE_DIR, 'static')]
 MEDIA_ROOT = join(BASE_DIR, 'media')
 MEDIA_URL = "/media/"
 
@@ -77,6 +77,7 @@ INSTALLED_APPS = (
     'profiles',
     'accounts',
     'rest_framework',
+    'static_precompiler',
 
     'portfolio',
     'deployments',
@@ -130,7 +131,34 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'static_precompiler.finders.StaticPrecompilerFinder',
+)
+
+# STATIC_PRECOMPILER_COMPILERS = (
+#     'static_precompiler.compilers.CoffeeScript',
+#     #'static_precompiler.compilers.Babel',
+#     #'static_precompiler.compilers.Handlebars',
+#     #'static_precompiler.compilers.SASS',
+#     #'static_precompiler.compilers.SCSS',
+#     'static_precompiler.compilers.LESS',
+#     #'static_precompiler.compilers.Stylus',
+# )
+
+STATIC_PRECOMPILER_COMPILERS = (
+    ('static_precompiler.compilers.CoffeeScript', {"executable": "/usr/bin/coffeescript"}),
+    ('static_precompiler.compilers.LESS', {"executable": "/usr/bin/lessc"}),
+)
+
 STATIC_URL = '/static/'
+
+STATIC_ROOT = join(BASE_DIR, 'static')
+
+STATIC_PRECOMPILER_ROOT = join(BASE_DIR, 'static')
+
+#LESS_ROOT = join(STATIC_URL, "site/less")
 
 ALLOWED_HOSTS = []
 

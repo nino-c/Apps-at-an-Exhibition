@@ -2,6 +2,7 @@
 <html lang="en">
     {% load staticfiles %}
     {% load thumbnail %}
+    {% load compile_static %}
     
   <head>
     <meta charset="utf-8">
@@ -40,6 +41,7 @@
     <!-- Custom styles for this site -->
     {% block styles %}
     <link href="{% static 'site/css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'site/less/main.less'|compile %}" rel="stylesheet" />
     {% endblock styles %}
 
     <!-- Custom tags for the head tag -->
