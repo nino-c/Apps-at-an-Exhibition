@@ -38,13 +38,13 @@ html, body{
     overflow-y: auto;
 }
 
-.logical-symbol {
+/*.logical-symbol {
   font-size: 30px;
   color: #666;
   opacity: 0.4;
   font-weight: 200;
   margin-right: 10px;
-}
+}*/
 
 .thumbnail-tiny {
   width: 80px;
@@ -77,14 +77,14 @@ html, body{
   margin:0px;
 }
 
-#inline-canvas {
+/*#inline-canvas {
   border: 0px;
   position: absolute;
   top: 52px;
   left: 0px;
-}
+}*/
 
-#shield {
+/*#shield {
   background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.66), rgba(255, 255, 255, 0));
   position: fixed;
   top: 0px;
@@ -93,7 +93,7 @@ html, body{
   display: block;
   width: 100%;
   z-index: 10;
-}
+}*/
 
 .applist {
   list-style: none;

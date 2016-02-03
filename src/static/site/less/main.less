@@ -1,14 +1,76 @@
-@nice-blue: #5B83AD;
-@almost-clear: rgba(255, 255, 255, 0.95);
+
+
+@base-color: #3C763D;
+@slime-green: #91FF66;
+@pale-green: #CFFF8E;
+@bright-blue: #337AB7;
+
+@almost-clear: rgba(253, 252, 247, 0.95);
+
+
+body {
+    background-color: #fff;
+    font-weight: 200;
+    font-family: monospace;
+    font-size: 12px;
+}
+
 
 #floating-display-control {
     position: fixed;
     top: 100px;
     right: -8px;
-    background-color: @nice-blue;
     background-color: @almost-clear;
     border: 1px solid #cccccc;
-    border-radius: 8px;
+    border-radius: 5px;
     box-shadow: 0px 0px 2px #dddddd;
 }
 
+#shield {
+  background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.66), rgba(255, 255, 255, 0));
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100px;
+  display: block;
+  width: 100%;
+  z-index: 10;
+}
+
+#inline-canvas {
+  border: 0px;
+  position: absolute;
+  top: 0px;
+  bottom: 50px;
+}
+
+#toolbar-bottom {
+    position: fixed;
+    bottom: 0px;
+    height: 50px;
+    width: 100%;
+    padding: 10px;
+    background-color: @almost-clear;
+    border-top: 1px solid #eee;
+    line-height: auto;
+    box-shadow: 0px 1px 0px #ddd;
+}
+
+// .navbar {
+//     .navbar-nav a {
+//         padding: 5px;
+//         font-size: 12px;
+//     }
+//     .navbar-brand {
+//         padding: 5px;
+//         font-size: 14px;
+//     }
+// }
+
+// .logical-symbol {
+//   font-size: 14px;
+//   color: darken(@base-color, 30%);
+//   opacity: 0.4;
+//   font-weight: 200;
+//   margin-right: 10px;
+// }

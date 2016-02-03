@@ -1,10 +1,42 @@
+body {
+  background-color: #fff;
+  font-weight: 200;
+  font-family: monospace;
+  font-size: 12px;
+}
 #floating-display-control {
   position: fixed;
   top: 100px;
   right: -8px;
-  background-color: #5b83ad;
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: rgba(253, 252, 247, 0.95);
   border: 1px solid #cccccc;
-  border-radius: 8px;
+  border-radius: 5px;
   box-shadow: 0px 0px 2px #dddddd;
+}
+#shield {
+  background: linear-gradient(#ffffff, rgba(255, 255, 255, 0.66), rgba(255, 255, 255, 0));
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100px;
+  display: block;
+  width: 100%;
+  z-index: 10;
+}
+#inline-canvas {
+  border: 0px;
+  position: absolute;
+  top: 0px;
+  bottom: 50px;
+}
+#toolbar-bottom {
+  position: fixed;
+  bottom: 0px;
+  height: 50px;
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(253, 252, 247, 0.95);
+  border-top: 1px solid #eee;
+  line-height: auto;
+  box-shadow: 0px 1px 0px #ddd;
 }

@@ -82,6 +82,7 @@ INSTALLED_APPS = (
     'portfolio',
     'deployments',
     'game',
+    'symbolic_math',
 )
 
 MIDDLEWARE_CLASSES = (

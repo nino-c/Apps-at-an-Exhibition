@@ -1,0 +1,53 @@
+from __future__ import division
+
+from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponseBadRequest
+
+from sympy import *
+from sympy.parsing.sympy_parser import parse_expr
+from sympy.parsing.sympy_parser import (parse_expr, standard_transformations, 
+    implicit_multiplication, implicit_multiplication_application, 
+    split_symbols, function_exponentiation, convert_xor,
+    auto_number, auto_symbol)
+from sympy.printing.latex import *
+
+from jscode import *
+
+class SymbolicExpression(object):
+    
+    def __init__(self, expressionString):
+        self.expressionString = expressionString
+        try:
+            transformations = standard_transformations + (implicit_multiplication,
+                implicit_multiplication_application, split_symbols, 
+                function_exponentiation, convert_xor)
+            self.expression = parse_expr(expressionString, evaluate=False, 
+            transformations=transformations)
+        except SyntaxError, e:
+            print e
+            raise Exception("Bad syntax")
+
+        self.javascript = jscode(self.expression)
+
+    def latex(self, request=None):
+        self.latex = latex(self.expression, mode='plain')
+        return JsonResponse({'string':self.expressionString, 
+            'javascript': self.javascript, 'latex':self.latex})
+
+
+def exec_function(request, funcname):
+    """
+    Accepts a function name as a GET parameter,
+    and an JSON object representing an expression 
+    as a POST parameter
+    """
+    if request.method == "POST":
+        expressionString = request.POST.get('expressionString')
+        expression = SymbolicExpression(expressionString)
+        if hasattr(expression, funcname):
+            method = getattr(expression, funcname)
+            if callable(method):
+                return method.__call__(request)
+    else:
+        return HttpResponseBadRequest()
+
