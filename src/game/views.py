@@ -110,7 +110,7 @@ def snapshotList(request, format=None):
         print instance
 
         # write to /tmp
-        file =  open(os.path.join("/tmp", imagename), 'w')
+        file = open(os.path.join("/tmp", imagename), 'w')
         file.write(imageBIN)
         file.close()
 

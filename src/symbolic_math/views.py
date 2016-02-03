@@ -2,6 +2,11 @@ from __future__ import division
 
 from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponseBadRequest
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 
 from sympy import *
 from sympy.parsing.sympy_parser import parse_expr
@@ -34,13 +39,16 @@ class SymbolicExpression(object):
         return JsonResponse({'string':self.expressionString, 
             'javascript': self.javascript, 'latex':self.latex})
 
-
+@csrf_exempt
+@permission_classes((AllowAny,))
 def exec_function(request, funcname):
     """
     Accepts a function name as a GET parameter,
     and an JSON object representing an expression 
     as a POST parameter
     """
+    print(funcname)
+    print '--------------'
     if request.method == "POST":
         expressionString = request.POST.get('expressionString')
         expression = SymbolicExpression(expressionString)
@@ -51,3 +59,5 @@ def exec_function(request, funcname):
     else:
         return HttpResponseBadRequest()
 
+def index(request):
+    return render(request, "symbolic_math/symmath.html")

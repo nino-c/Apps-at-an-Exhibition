@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+    
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+    
+    <script type="text/javascript">
+
+    $(document).ready(function() {
+        $("#funcstring").keypress(function(e) {
+            if (e.keyCode == '13') {
+                $.post("/symbolic_math/latex/", {
+                    expressionString: this.value
+                }, function(data) {
+                    echo(data);
+                    $("#string").text(data.string);
+                    $("#latex").text(data.latex);
+                    $("#javascript").text(data.javascript);
+                });
+            }
+        })
+    });
+
+    </script>
+
+{% endblock extrahead %}
+
+{% block container %}
+
+<div class="text-page">
+    <br /><br /><br /><br />
+    
+    <input type="text" id="funcstring" />
+
+    <hr />
+    <div id="string"></div>
+    <div id="latex"></div>
+    <div id="javascirpt"></div>
+</div>
+
+{% endblock container %}
