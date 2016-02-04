@@ -1,15 +1,15 @@
 <li {% if active_link == "games" %}class="active"{% endif %}>
-    <a href="{% url 'game:game-index' %}">Apps</a>
+    <a href="{% url 'game:game-index' %}">Apps at an Exhibition</a>
 </li>
 
-<li class="dropdown">
+<!-- <li class="dropdown">
     <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categories <span class="caret"></span></a>
     <ul class="dropdown-menu">
       {% for cat in categories %}
         <li><a href="{% url 'portfolio:list-category' cat.id %}">{{ cat.name }}</a></li>
       {% endfor %}
     </ul>
-</li>
+</li> -->
 
 <li {% if active_link == "about" %}class="active"{% endif %}>
     <a href="{% url 'about' %}">About</a>

@@ -4,7 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponseBadRequest
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.decorators import api_view, permission_classes
+
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
@@ -17,6 +17,8 @@ from sympy.parsing.sympy_parser import (parse_expr, standard_transformations,
 from sympy.printing.latex import *
 
 from jscode import *
+
+
 
 class SymbolicExpression(object):
     
@@ -40,7 +42,7 @@ class SymbolicExpression(object):
             'javascript': self.javascript, 'latex':self.latex})
 
 @csrf_exempt
-@permission_classes((AllowAny,))
+#permission_classes((AllowAny,))
 def exec_function(request, funcname):
     """
     Accepts a function name as a GET parameter,

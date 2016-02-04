@@ -12,18 +12,23 @@ body {
     background-color: #fff;
     font-weight: 200;
     font-family: monospace;
-    font-size: 12px;
+    //font-family: helvetica;
+    font-size: 11px;
 }
 
+
+.round-border {
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  box-shadow: 0px 0px 2px #dddddd;
+}
 
 #floating-display-control {
     position: fixed;
     top: 100px;
     right: -8px;
     background-color: @almost-clear;
-    border: 1px solid #cccccc;
-    border-radius: 5px;
-    box-shadow: 0px 0px 2px #dddddd;
+    .round-border;
 }
 
 #shield {
@@ -54,6 +59,12 @@ body {
     border-top: 1px solid #eee;
     line-height: auto;
     box-shadow: 0px 1px 0px #ddd;
+}
+
+.exhibit {
+  .round-border;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
 // .navbar {

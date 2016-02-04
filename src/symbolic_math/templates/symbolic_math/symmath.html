@@ -2,7 +2,13 @@
 
 {% block extrahead %}
     
-    <script type="text/javascript" async
+    
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+    });
+    </script>
+    <script type="text/javascript"
       src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
     </script>
 
@@ -17,9 +23,22 @@
                 }, function(data) {
                     echo(data);
                     $("#string").text(data.string);
-                    $("#latex").text(data.latex);
+                    $("#latex").text("$"+data.latex+"$");
                     $("#javascript").text(data.javascript);
+                    MathJax.Hub.Typeset();
                 });
+
+                /*$.ajax({
+                    url: url,
+                    method: "GET",
+                    dataType: "json",
+                    success: function(data) {
+                        echo(data);
+                        $("#string").text(data.string);
+                        $("#latex").text(data.latex);
+                        $("#javascript").text(data.javascript);
+                    }
+                });*/
             }
         })
     });
@@ -33,12 +52,14 @@
 <div class="text-page">
     <br /><br /><br /><br />
     
+    Enter mathematical expression:<br />
     <input type="text" id="funcstring" />
 
     <hr />
-    <div id="string"></div>
-    <div id="latex"></div>
-    <div id="javascirpt"></div>
+    <div>String: <span id="string"></span></div>
+    <div>Latex: <span id="latex"></span></div>
+    <div>Javascript: <span id="javascript"></span></div>
 </div>
+
 
 {% endblock container %}

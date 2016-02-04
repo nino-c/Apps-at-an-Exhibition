@@ -55,7 +55,7 @@
 				dataType: "json",
 				success: function(data) {
 					echo(data);
-					//game.fetch();
+					router.navigate("#instance/" + id + "/" + data.id);
 				}
 			});
 	    },
@@ -143,7 +143,11 @@
 	    },
 
 	    snapshot: function() {
-	    	var snapshot = Canvas.toDataURL("image/png");
+	    	if (window._renderer) {
+	    		var snapshot = window._renderer.domElement.toDataURL("image/png");	
+	    	} else {
+	    		var snapshot = Canvas.toDataURL("image/png");
+	    	}
 	    	var url = "/game/zero-player/snapshot/";
 	    	$.post(url, {
 	    			instance: currentInstance.id.toString(),
@@ -154,6 +158,7 @@
 	    			echo(data);
 	    		}
 	    	);
+	    	App.editors = [];
 	    },
 
 	    redraw: function() {
@@ -176,13 +181,13 @@
 			var editor1 = CodeMirror.fromTextArea(document.getElementById('source-textarea'), {
 	    		lineNumbers: true
 			});
-			editor1.setOption("theme", "monokai");
+			//editor1.setOption("theme", "monokai");
 
 			var editor2 = CodeMirror.fromTextArea(document.getElementById('seed-structure'), {
 				lineNumbers: true
 			});	
 			App.editors = [editor1, editor2];
-			editor2.setOption("theme", "monokai");
+			//editor2.setOption("theme", "monokai");
 
 			
 
@@ -440,6 +445,27 @@
 		$('.navbar').addClass('navbar-transparent');
 		paper.setup('inline-canvas');
 		Backbone.history.start();
+	};
+
+	App.sourceTab = function(tab) {
+		echo("st"+tab.toString())
+		if (tab == 2) {
+			$("#source").css({display:"none"});
+			$("#seed").css({display:"block"});
+			$("#source").removeClass("active");
+			$("#seed").addClass("active");
+			$("#editor-tab1").removeClass("active");
+			$("#editor-tab2").addClass("active");
+			App.editors[1].focus();
+		} else {
+			$("#source").css({display:"block"});
+			$("#seed").css({display:"none"});
+			$("#source").addClass("active");
+			$("#seed").removeClass("active");
+			$("#editor-tab1").addClass("active");
+			$("#editor-tab2").removeClass("active");
+			App.editors[0].focus();
+		}
 	};
 
 })();

@@ -25,7 +25,7 @@ from . import views
 # Additionally, we include login URLs for the browsable API.
 
 urlpatterns = [
-    url(r'^', views.index, name="symbolic-math-home"),
+    url(r'^$', views.index, name="symbolic-math-home"),
     url(r'^(?P<funcname>[a-zA-Z]+)/$', views.exec_function, name='exec-function'),
     #url(r'^display/(?P<id>[0-9]+)/$', views.display, name='game-display'),
   

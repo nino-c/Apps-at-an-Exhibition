@@ -21,6 +21,13 @@ class Category(models.Model):
     def __unicode__(self):
         return self.name
 
+class JSLibrary(models.Model):
+    name = models.CharField(max_length=100, blank=False, null=False)
+    scriptPath = models.CharField(max_length=200, blank=False, null=False)
+
+    def __unicode__(self):
+        return self.name
+
 
 class ZeroPlayerGame(models.Model):
     owner = models.ForeignKey(User)
@@ -33,6 +40,7 @@ class ZeroPlayerGame(models.Model):
     scriptType = models.CharField(max_length=100, null=True, blank=False)
     source = models.TextField(blank=True)
     seedStructure = models.TextField(blank=True)
+    extraIncludes = models.ManyToManyField('JSLibrary')
 
     def __unicode__(self):
         return "\"%s\", by %s" % (self.title, self.owner.name)
@@ -87,6 +95,9 @@ class GameInstanceSnapshot(models.Model):
     image = ImageWithThumbsField(sizes=((125,125),(200,200)))
     time = models.FloatField(default=0, blank=False)
     timestamp = models.DateTimeField(auto_now_add=True, editable=False)
+
+    def __unicode__(self):
+        return self.instance.game.title + ", " + str(self.timestamp)
 
     def getFilename(self):
         return self.image.name or None
