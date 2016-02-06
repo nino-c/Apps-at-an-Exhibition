@@ -1,0 +1,868 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Canvas",
+				"CanvasBox"
+			],
+			[
+				"Portfo",
+				"portfolio"
+			],
+			[
+				"Portf",
+				"PortfolioItem"
+			],
+			[
+				"Portfol",
+				"PortfolioCategory"
+			],
+			[
+				"__ge",
+				"__getitem__	magic"
+			],
+			[
+				"__",
+				"__dict__	magic"
+			],
+			[
+				"min",
+				"min-height"
+			],
+			[
+				"fractal",
+				"fractal_tree"
+			],
+			[
+				"start",
+				"start_alpha"
+			],
+			[
+				"sample",
+				"sample_theme"
+			],
+			[
+				"univer",
+				"university"
+			],
+			[
+				"univ",
+				"universities"
+			],
+			[
+				"def",
+				"default"
+			],
+			[
+				"uni",
+				"university"
+			],
+			[
+				"sport",
+				"sport_category_id"
+			],
+			[
+				"teams",
+				"teams_id"
+			],
+			[
+				"mode",
+				"models"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/exhibitions/models.py",
+			"settings":
+			{
+				"buffer_size": 3403,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/exhibitions/tests.py",
+			"settings":
+			{
+				"buffer_size": 60,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/game/models.py",
+			"settings":
+			{
+				"buffer_size": 3678,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Packages/Python/Python.sublime-build",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 243.0,
+		"last_filter": "mig",
+		"selected_items":
+		[
+			[
+				"mig",
+				"Django: Migrate Database"
+			],
+			[
+				"make",
+				"Django: Make Migration"
+			],
+			[
+				"djan",
+				"Django: New App"
+			],
+			[
+				"run",
+				"Django: Run Server"
+			],
+			[
+				"spaces",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"django",
+				"Django: Boilerplate"
+			],
+			[
+				"repl ip",
+				"SublimeREPL: Python - IPython"
+			],
+			[
+				"indentation",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"django block",
+				"Snippet: Django template block"
+			],
+			[
+				"remov",
+				"Package Control: Remove Package"
+			],
+			[
+				"repl",
+				"SublimeREPL: Python"
+			],
+			[
+				"replip",
+				"SublimeREPL: Python - IPython"
+			],
+			[
+				"replp",
+				"SublimeREPL: Python"
+			],
+			[
+				"prefer",
+				"Preferences: Settings - User"
+			],
+			[
+				"rep",
+				"SublimeREPL: Python"
+			],
+			[
+				"replpy",
+				"SublimeREPL: Python"
+			],
+			[
+				"pytho",
+				"SublimeREPL: Python - IPython"
+			],
+			[
+				"ipy",
+				"SublimeREPL: Python - IPython"
+			],
+			[
+				"python",
+				"SublimeREPL: Python"
+			],
+			[
+				"ipython",
+				"SublimeREPL: Python - IPython"
+			],
+			[
+				"repl i",
+				"SublimeREPL: Python - IPython"
+			],
+			[
+				"fold",
+				"Code Folding: Fold Tag Attributes"
+			],
+			[
+				"repl ",
+				"SublimeREPL: Shell"
+			],
+			[
+				"repl ipy",
+				"SublimeREPL: Python - IPython"
+			],
+			[
+				"repl py",
+				"SublimeREPL: Python"
+			],
+			[
+				"repl: ipy",
+				"SublimeREPL: Python - IPython"
+			],
+			[
+				"REPL",
+				"SublimeREPL: Python - IPython"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"preferences",
+				"Preferences: Package Control Settings – User"
+			],
+			[
+				"package control: ",
+				"Package Control: List Packages"
+			],
+			[
+				"pref",
+				"Open Current Notebook As Ipynb File"
+			],
+			[
+				"inst",
+				"Package Control: Advanced Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: List Packages"
+			],
+			[
+				"build",
+				"Build: New Build System"
+			],
+			[
+				"",
+				"Open IPython Notebook"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"repos",
+				"Package Control: Add Repository"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 168.0,
+		"history":
+		[
+			"import django.shortcuts",
+			"`ls`",
+			"%which python",
+			"import sympy.polys",
+			"sys.real_prefix",
+			"sys.prefix",
+			"dir(sys)",
+			"import sys",
+			"easy_install django==1.8",
+			"import django"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/ninopq/Projects/plsys/src",
+		"/home/ninopq/Projects/plsys/src/exhibitions",
+		"/home/ninopq/Projects/plsys/src/game"
+	],
+	"file_history":
+	[
+		"/home/ninopq/Projects/plsys/src/plsys/settings/base.py",
+		"/home/ninopq/Projects/plsys/src/game/models.py",
+		"/home/ninopq/Projects/plsys/plsys.sublime-project",
+		"/home/ninopq/Projects/plsys/src/game/migrations/0005_auto_20160127_0938.py",
+		"/home/ninopq/Projects/plsys/src/game/migrations/0004_auto_20160127_0729.py",
+		"/home/ninopq/Projects/plsys/src/game/migrations/0003_auto_20160126_2325.py",
+		"/home/ninopq/Projects/plsys/src/game/admin.py",
+		"/home/ninopq/Projects/plsys/src/game/serializers.py",
+		"/home/ninopq/Projects/plsys/src/game/templates/game/index.html",
+		"/home/ninopq/Projects/plsys/src/game/views.py",
+		"/home/ninopq/Projects/plsys/src/game/migrations/0019_auto_20160204_0727.py",
+		"/home/ninopq/Projects/plsys/src/game/migrations/0018_remove_zeroplayergame_updated.py",
+		"/home/ninopq/Projects/plsys/src/game/migrations/0017_zeroplayergame_updated.py",
+		"/home/ninopq/Projects/plsys/src/game/migrations/0013_auto_20160129_2108.py",
+		"/home/ninopq/Projects/plsys/src/game/migrations/0011_auto_20160129_2004.py",
+		"/home/ninopq/Projects/plsys/src/game/migrations/0010_remove_zeroplayergame_seedstruct.py",
+		"/home/ninopq/Projects/plsys/src/game/migrations/0009_auto_20160129_0358.py",
+		"/home/ninopq/Projects/plsys/src/game/migrations/0008_gameparam.py",
+		"/home/ninopq/Projects/plsys/src/game/migrations/0007_zeroplayergame_seedstruct.py",
+		"/home/ninopq/Projects/plsys/src/game/migrations/0006_auto_20160128_0029.py",
+		"/home/ninopq/Projects/plsys/src/profiles/models.py",
+		"/home/ninopq/Projects/plsys/src/plsys/settings/local.env",
+		"/home/ninopq/Projects/plsys/src/accounts/views.py",
+		"/home/ninopq/Projects/plsys/src/accounts/forms.py",
+		"/home/ninopq/Projects/plsys/src/accounts/models.py",
+		"/home/ninopq/Projects/plerp.org/src/static/site/js/main.js",
+		"/home/ninopq/Projects/plerp.org/src/templates/base.html",
+		"/home/ninopq/Projects/plerp.org/src/templates/home.html",
+		"/home/ninopq/Projects/plerp.org/src/static/site/css/main.css",
+		"/home/ninopq/Projects/plerp.org/src/templates/home2.html",
+		"/home/ninopq/Projects/plerp.org/src/mainsite/views.py",
+		"/home/ninopq/Projects/plerp.org/src/mainsite/urls.py",
+		"/home/ninopq/Projects/projects.sublime-project",
+		"/home/ninopq/Projects/plerp.org/src/portfolio/views.py",
+		"/home/ninopq/Projects/plerp.org/src/templates/dashboard.html",
+		"/home/ninopq/Projects/plerp.org/src/templates/dashboard_(original with tables etc).html",
+		"/home/ninopq/Projects/plerp.org/src/static/bootstrap/themes/bootply/js/scripts.js",
+		"/home/ninopq/Projects/plerp.org/src/static/bootstrap/js/bootstrap.js",
+		"/home/ninopq/Projects/plerp.org/src/static/bootstrap/js/bootstrap.min.js",
+		"/home/ninopq/Projects/plerp.org/src/templates/about.html",
+		"/home/ninopq/Projects/plerp.org/src/templates/portfolio/list_category.html",
+		"/home/ninopq/Projects/plerp.org/src/templates/portfolio/index.html",
+		"/home/ninopq/Projects/plerp.org/src/templates/dashboard",
+		"/home/ninopq/Projects/plerp.org/src/static/site/js/riemann_zeta.js",
+		"/home/ninopq/Projects/plerp.org/src/mainsite/settings/base.py",
+		"/home/ninopq/Projects/plerp.org/src/portfolio/urls.py",
+		"/home/ninopq/Projects/plerp.org/src/templates/_navbar.html",
+		"/home/ninopq/Projects/plerp.org/src/fractal_tree/views.py",
+		"/home/ninopq/Projects/plerp.org/src/static/site/coffeescript/fractal-trees/class.FractalTree.coffee",
+		"/home/ninopq/Projects/plerp.org/src/static/site/js/site.js",
+		"/home/ninopq/Projects/nino.cc/static/coffeescript/fractal-trees/class.FractalTree.coffee",
+		"/home/ninopq/Projects/plerp.org/src/portfolio/models.py",
+		"/home/ninopq/Projects/plerp.org/src/deployments/views.py",
+		"/home/ninopq/Projects/plerp.org/src/canvasapp/views.py",
+		"/home/ninopq/Projects/plerp.org/src/portfolio/admin.py",
+		"/home/ninopq/Projects/plerp.org/src/templates/fractal_tree/fractal-space.html",
+		"/home/ninopq/Work/eb_django_app/sportspocket/sports/models.py",
+		"/home/ninopq/Work/eb_django_app/sportspocket/sports/admin.py",
+		"/home/ninopq/Projects/plerp.org/src/fractal_tree/urls.py",
+		"/home/ninopq/Projects/plerp.org/src/canvasapps/urls.py",
+		"/home/ninopq/Work/eb_django_app/sportspocket/sports/urls.py",
+		"/home/ninopq/Projects/plerp.org/src/canvasapps/models.py",
+		"/home/ninopq/Projects/plerp.org/src/mainsite/settings/development.py",
+		"/home/ninopq/Projects/nino.cc/templates/base.html",
+		"/home/ninopq/Work/eb_django_app/sportspocket/sports/views.py",
+		"/home/ninopq/.config/sublime-text-3/Packages/EasyDiff/easy_diff.sublime-settings",
+		"/home/ninopq/Projects/plerp.org/docs/index.md",
+		"/home/ninopq/Projects/plerp.org/logs/django.log",
+		"/home/ninopq/Projects/plerp.org/logs/project.log",
+		"/home/ninopq/Projects/plerp.org/src/mainsite/settings/production.py",
+		"/home/ninopq/Projects/plerp.org/src/manage.py",
+		"/home/ninopq/Projects/plerp.org/src/plerpsite/settings/base.py",
+		"/home/ninopq/Projects/plerp.org/src/plerpsite/settings/production.py",
+		"/home/ninopq/Projects/plerp.org/src/plerpsite/wsgi.py",
+		"/home/ninopq/Projects/plerpsite/src/templates/base.html",
+		"/home/ninopq/Projects/plerpsite/src/plerpsite/urls.py",
+		"/home/ninopq/Projects/portfolio/fractal_trees/templates/fractal-space.html",
+		"/home/ninopq/Projects/plerpsite/README.md",
+		"/home/ninopq/Projects/plerpsite/src/templates/home.html",
+		"/home/ninopq/Projects/plerpsite/src/static/site/css/main.css",
+		"/home/ninopq/Projects/plerpsite/src/plerpsite/settings/base.py",
+		"/home/ninopq/Projects/plerpsite/src/accounts/models.py",
+		"/home/ninopq/Projects/plerpsite/src/templates/portfolio.html",
+		"/home/ninopq/Projects/plerpsite/src/deployments/views.py",
+		"/home/ninopq/Projects/plerpsite/src/deployments/urls.py",
+		"/home/ninopq/Projects/plerpsite/src/deployments/__init__.py",
+		"/home/ninopq/Projects/plerpsite/src/plerpsite/views.py",
+		"/home/ninopq/Projects/plerpsite/src/templates/_navbar.html",
+		"/home/ninopq/Projects/nino.cc/settings.py",
+		"/home/ninopq/Projects/plerpsite/src/templates/about.html",
+		"/home/ninopq/Projects/plerpsite/src/templates/_brandname.html",
+		"/home/ninopq/Projects/plerpsite/src/accounts/views.py",
+		"/home/ninopq/Projects/plerpsite/src/accounts/urls.py",
+		"/home/ninopq/Projects/portfolio/fractal_trees/templates/base.html",
+		"/home/ninopq/Projects/portfolio/portfolio/settings.py",
+		"/home/ninopq/Projects/portfolio/portfolio/urls.py",
+		"/home/ninopq/Projects/portfolio/static/fractal_trees.html",
+		"/home/ninopq/Projects/portfolio/fractal_trees/static/fractal-space.html",
+		"/home/ninopq/Work/eb_django_app/sportspocket/sports/apps.py",
+		"/home/ninopq/Work/eb_django_app/sportspocket/sports/templates/index.html",
+		"/home/ninopq/Work/eb_django_app/sportspocket/sports/templates/base.html",
+		"/home/ninopq/Source/forks/sympy/examples/intermediate/mplot2d.py",
+		"/home/ninopq/Projects/fugue-matrices/fugue_creator.py",
+		"/home/ninopq/Projects/portfolio/group_theory/subgroup_graph.py",
+		"/home/ninopq/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/ninopq/Source/forks/sympy/sympy/unify/core.py",
+		"/home/ninopq/Source/forks/sympy/examples/intermediate/sample.py",
+		"/home/ninopq/Source/forks/sympy/examples/intermediate/trees.py",
+		"/home/ninopq/.config/sublime-text-3/Packages/SublimeREPL/SublimeREPL.sublime-settings",
+		"/home/ninopq/Source/forks/sympy/sympy/polys/polytools.py",
+		"/home/ninopq/Source/forks/sympy/sympy/assumptions/assume.py",
+		"/home/ninopq/Source/forks/sympy/sympy/conftest.py",
+		"/home/ninopq/Source/forks/sympy/sympy/vector/tests/neentest.py",
+		"/home/ninopq/Source/forks/sympy/sympy/vector/tests/test_vector.py",
+		"/home/ninopq/Source/forks/sympy/sympy/vector/vector.py",
+		"/home/ninopq/Source/forks/sympy/sympy/galgebra/vector.py",
+		"/home/ninopq/Source/forks/sympy/sympy/vector/coordsysrect.py",
+		"/home/ninopq/Source/forks/sympy/sympy/core/basic.py",
+		"/home/ninopq/Source/forks/sympy/sympy/core/symbol.py",
+		"/home/ninopq/Source/forks/sympy/sympy/core/singleton.py",
+		"/home/ninopq/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings",
+		"/home/ninopq/Source/sympy/sympy/matrices/matrices.py",
+		"/home/ninopq/Source/sympy/examples/galgebra/simple_check.py",
+		"/home/ninopq/.config/sublime-text-3/Packages/User/SublimeREPL.sublime-settings",
+		"/home/ninopq/.config/sublime-text-3/Packages/IPython Notebook/Default.sublime-keymap",
+		"/home/ninopq/.config/sublime-text-3/Packages/IPython Notebook/SublimeIPythonNotebook.sublime-settings",
+		"/home/ninopq/.config/sublime-text-3/Packages/User/Package Control.sublime-settings",
+		"/home/ninopq/.config/sublime-text-3/Packages/IPython Notebook/README.md"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"/home/ninopq/Projects/plsys/src/game",
+			"/home/ninopq/Projects/plerp.org/src",
+			"/home/ninopq/Projects/plerp.org",
+			"/home/ninopq/Source/forks/sympy/sympy/vector"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"GameInstanceSnapshot",
+			"GameInstance",
+			"ZeroPlayerGame",
+			"Exhibition",
+			"ZeroPlayerGame",
+			"sidebar",
+			"new numeric.T",
+			"125",
+			"page-header",
+			"navbar-transparent",
+			"transpar",
+			"nav",
+			"redirec",
+			"time",
+			"date",
+			"datetime",
+			"canvas",
+			"150px",
+			"150",
+			"fractal_tree",
+			"neen-can",
+			"container",
+			"max",
+			"min",
+			"footer",
+			"container",
+			"fk",
+			"form",
+			"grow",
+			"console",
+			"start_al",
+			"start_al	",
+			"pi",
+			"coffeee-script",
+			"fractal_treedeployments",
+			"mains",
+			"plerpsite",
+			"banner",
+			"BaseVector",
+			"python",
+			"QQ",
+			"sg",
+			"os",
+			"\\\\[^\\-]*",
+			"\\n[\\ ]*",
+			"\\#[^\\n]*\\n",
+			"mysite",
+			"\\n\\\\",
+			"DJANGO_SETTINGS",
+			"pianist",
+			"bio",
+			"American",
+			"</h3>",
+			":\\n",
+			"[_]+",
+			"[_]*",
+			"\\n",
+			"~",
+			"[\\n]?",
+			"li",
+			"i",
+			"STATI",
+			"teams",
+			"cach",
+			"univ_id",
+			"TEMPLATE",
+			"obj",
+			"decode",
+			"optional"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"ZeroPlayerGame",
+			"Exhibition",
+			"200",
+			"mainsite",
+			" mainsite",
+			" ",
+			"",
+			"\\",
+			"</h3>\\n",
+			"</h3>",
+			"<hr />",
+			"\\n\\n",
+			"\\n",
+			"",
+			"events",
+			"blank"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/exhibitions/models.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3403,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2594,
+								2594
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 792.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/exhibitions/tests.py",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 60,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/game/models.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3678,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 25.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 197.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 100.0
+	},
+	"pinned_build_system": "Packages/User/Neen_IPython.sublime-build",
+	"project": "plsys.sublime-project",
+	"replace":
+	{
+		"height": 46.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"base",
+				"src/plsys/settings/base.py"
+			],
+			[
+				"loca",
+				"plsys/src/plsys/settings/local.env"
+			],
+			[
+				"loc",
+				"plsys/src/plsys/settings/local.env"
+			],
+			[
+				"main",
+				"Projects/plerp.org/src/static/site/css/main.css"
+			],
+			[
+				"main.",
+				"Projects/plerp.org/src/static/site/css/main.css"
+			],
+			[
+				"bas",
+				"Projects/plerp.org/src/templates/base.html"
+			],
+			[
+				"site.js",
+				"Projects/plerp.org/src/static/site/js/site.js"
+			],
+			[
+				"about",
+				"Projects/plerp.org/src/templates/about.html"
+			],
+			[
+				"static/coffee",
+				"Projects/plerp.org/src/static/site/coffeescript/fractal-trees/class.FractalTree.coffee"
+			],
+			[
+				"class.fra",
+				"Projects/nino.cc/static/coffeescript/fractal-trees/class.FractalTree.coffee"
+			],
+			[
+				"mainc",
+				"Projects/plerp.org/src/static/site/css/main.css"
+			],
+			[
+				"main.cs",
+				"Projects/plerp.org/src/static/site/css/main.css"
+			],
+			[
+				"portfolio/admin",
+				"Projects/plerp.org/src/portfolio/admin.py"
+			],
+			[
+				"main.css",
+				"Projects/plerp.org/src/static/site/css/main.css"
+			],
+			[
+				"url",
+				"Projects/plerp.org/src/mainsite/urls.py"
+			],
+			[
+				"base.py",
+				"Projects/plerp.org/src/mainsite/settings/base.py"
+			],
+			[
+				"devel",
+				"Projects/plerp.org/src/mainsite/settings/development.py"
+			],
+			[
+				"home",
+				"Projects/plerp.org/src/templates/home.html"
+			],
+			[
+				"base.ht",
+				"Projects/plerp.org/src/templates/base.html"
+			],
+			[
+				"about.",
+				"Projects/plerp.org/src/templates/about.html"
+			],
+			[
+				"base.h",
+				"Projects/nino.cc/templates/base.html"
+			],
+			[
+				"fluids",
+				"mingus/midi/fluidsynth.py"
+			],
+			[
+				"set",
+				"sportspocket/settings.py"
+			],
+			[
+				"teams",
+				"sports/templates/app/teams.html"
+			],
+			[
+				"mod",
+				"sports/models.py"
+			],
+			[
+				"urls",
+				"sports/urls.py"
+			],
+			[
+				"view",
+				"sports/views.py"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 54.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 392.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 260.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
