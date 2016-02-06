@@ -13,6 +13,10 @@ from authtools.models import User
 from django.conf import settings
 
 
+class TimestamperMixin(object):
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
 class Category(models.Model):
     name = models.CharField(max_length=1000)
     parent = models.ForeignKey('self', null=True, blank=True, related_name="children")
@@ -22,6 +26,9 @@ class Category(models.Model):
     def __unicode__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Categories"
+
 class JSLibrary(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False)
     scriptPath = models.CharField(max_length=200, blank=False, null=False)
@@ -29,15 +36,13 @@ class JSLibrary(models.Model):
     def __unicode__(self):
         return self.name
 
-class TimestamperMixin(object):
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
+    class Meta:
+        verbose_name_plural = "JS libraries"
 
 class App(TimestamperMixin, models.Model):
     parent = models.ForeignKey('self', null=True, blank=True, related_name="children")
     category = models.ForeignKey(Category)
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, related_name="apps")
     title = models.CharField(max_length=500)
     description = models.TextField(blank=True)
     scriptType = models.CharField(max_length=100, null=True, blank=False)

@@ -7,6 +7,7 @@ import accounts.urls
 import portfolio.urls
 import deployments.urls
 import game.urls
+import exhibitions.urls
 import symbolic_math.urls
 from . import views
 
@@ -14,6 +15,7 @@ urlpatterns = [
     url(r'^$', views.index, name='home'),
     url(r'^about/$', views.AboutPage.as_view(), name='about'),
     url(r'^users/', include(profiles.urls, namespace='profiles')),
+    url(r'^exhibitions/', include(exhibitions.urls, namespace='exhibitions')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^portfolio/', include(portfolio.urls, namespace='portfolio')),
     url(r'^deployments/', include(deployments.urls, namespace='deployments')),
