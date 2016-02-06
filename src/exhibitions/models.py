@@ -10,7 +10,9 @@ from django.db import models
 from django_thumbs.db.models import ImageWithThumbsField
 from authtools.models import User
 
-from django.conf import settings
+
+
+
 
 
 class TimestamperMixin(object):

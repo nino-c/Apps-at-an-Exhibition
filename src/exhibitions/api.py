@@ -1,50 +1,80 @@
 from rest_framework import generics, permissions
 
 
-from .serializers import serial_User, serial_App
+from .serializers import UserSerializer, AppSerializer, InstanceSerializer
 from .models import App, AppInstance, Snapshot
 #from .permissions import PostAuthorCanEditPermission
 
 from authtools.models import User
 
 
-class AppList(generics.ListAPIView):
+class UserList(generics.ListCreateAPIView):
+    model = User
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+
+
+class UserDetail(generics.RetrieveAPIView):
+    model = User
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+
+
+class InstanceList(generics.ListCreateAPIView):
+    model = AppInstance
+    serializer_class = InstanceSerializer
+    queryset = AppInstance.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+
+class InstanceDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = AppInstance
+    serializer_class = InstanceSerializer
+    queryset = AppInstance.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+
+
+class AppList(generics.ListCreateAPIView):
     model = App
-    serializer_class = serial_App
+    serializer_class = AppSerializer
     queryset = App.objects.all()
     permission_classes = [
         permissions.AllowAny
     ]
 
-
 class AppDetail(generics.RetrieveUpdateDestroyAPIView):
     model = App
-    serializer_class = serial_App
+    serializer_class = AppSerializer
+    queryset = App.objects.all()
     permission_classes = [
         permissions.AllowAny
     ]
 
-class AppInstanceList(generics.RetrieveUpdateDestroyAPIView):
-    #model = AppInstance
-    #serializer_class = 
-    pass
+class UserAppList(generics.ListAPIView):
+    model = App
+    serializer_class = AppSerializer
 
-
-class UserList(generics.ListAPIView):
-    model = User
-    serializer_class = serial_User
-    permission_classes = [
-        permissions.AllowAny
-    ]
+    def get_queryset(self):
+        queryset = super(UserAppList, self).get_queryset()
+        return queryset.filter(owner__exact=self.kwargs.get('owner'))
 
     # def get_queryset(self):
-    #     return Post.objects.all()
+    #     queryset = super(AppDetail, self).get_queryset()
+    #     return queryset #.filter(id__exact=self.kwargs.get('id'))
+
+# class AppInstanceList(generics.ListAPIView):
+#     #model = AppInstance
+#     #serializer_class = 
+#     pass
 
 
-class UserDetail(generics.RetrieveAPIView):
-    model = User
-    serializer_class = serial_User
-    #lookup_field = 'username'
+
 
 
 # class PostMixin(object):

@@ -24,10 +24,10 @@ class BaseProfile(models.Model):
     email_verified = models.BooleanField("Email verified", 
         default=False)
 
-    followers = models.ManyToManyField('self', 
-        related_name='followees', 
-        symmetrical=False,
-        blank=True, null=True)
+    # followers = models.ManyToManyField('self', 
+    #     related_name='followees', 
+    #     symmetrical=False,
+    #     blank=True, null=True)
 
     class Meta:
         abstract = True
