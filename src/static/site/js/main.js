@@ -97,7 +97,12 @@
 
 	        	// prepare seed editor
 	        	game.set('_seed', seed);
+	        	instance._seed = seed;
 				App.views.seedEditor = new App.Views.SeedEditor({
+					model: game
+				});
+
+				App.views.seedDisplay = new App.Views.SeedDisplay({
 					model: game
 				});
 
@@ -262,7 +267,18 @@
 		url: function() { return '/game/zero-player/' + this.id + "/"; },
 	});
 
-	App.Models.GameInstance = Backbone.Model.extend({});
+	App.Models.GameInstance = Backbone.Model.extend({
+
+		defaults: {
+			seed: {},
+			images: []
+		},
+
+		initialize: function() {
+
+		}
+
+	});
 
 
 	/*
@@ -313,6 +329,22 @@
 
 		initialize: function() {
 			this.listenTo(this.model, 'change', this.render)
+			this.template = _.template($(this.temp).html());
+			this.render();
+		},
+
+		render: function() {
+			this.$el.html(this.template(this.model.toJSON()));
+			return this;
+		},
+	});
+
+	App.Views.SeedDisplay = Backbone.View.extend({
+		el: "#seed-display",
+		temp: "#seed-display-template",
+
+		initialize: function() {
+			this.listenTo(this.model, 'change', this.render);
 			this.template = _.template($(this.temp).html());
 			this.render();
 		},
@@ -467,6 +499,8 @@
 			App.editors[0].focus();
 		}
 	};
+
+
 
 })();
 

@@ -22,7 +22,7 @@
 {% block backboneTemplates %}
 
 	<script type="text/template" id="list-games-template">
-	    <h1>Exhibitions</h1>
+	    <h1>ZeroPlayerGames</h1>
 
 
 	    <% _.each(games, function(game) { %>
@@ -133,6 +133,13 @@
     </script>
 
 
+    <script type="text/template" id="seed-display-template">
+        <% for (var attr in _seed) { %>
+            <%- attr %>: <%- _seed[attr] %>
+        <% } %>
+    </script>
+
+
     <script type="text/template" id="seed-editor-template">
         <table>
         <% for (var attr in _seed) { %>
@@ -176,9 +183,6 @@
 <div id="floating-display-control" class="nav-panel" style="display: none;">
 
         <div id="seed-display"></div>
-
-        <div id="seed-editor"></div>
-
         <!-- div class="text-right">
            
             <i class="glyphicon glyphicon-plus-sign"></i>
@@ -191,10 +195,10 @@
               <span class="glyphicon glyphicon-align-left"></span>
               Alter source-code</button>
         </div> -->
-        
-  
+     
 </div>
 
+<div id="seed-editor" style="display: none;"></div>
 
 
 <div id="blackout">&nbsp;</div>

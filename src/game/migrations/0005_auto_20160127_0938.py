@@ -14,16 +14,16 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RemoveField(
-            model_name='zeroplayergame',
+            model_name='ZeroPlayerGame',
             name='image',
         ),
         migrations.AddField(
-            model_name='zeroplayergame',
+            model_name='ZeroPlayerGame',
             name='defaultSeed',
             field=jsonfield.fields.JSONField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='zeroplayergame',
+            model_name='ZeroPlayerGame',
             name='source',
             field=models.TextField(blank=True),
         ),

@@ -82,6 +82,7 @@ INSTALLED_APPS = (
     'portfolio',
     'deployments',
     'game',
+    'exhibitions',
     'symbolic_math',
 )
 

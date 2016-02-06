@@ -47,17 +47,17 @@ class Migration(migrations.Migration):
             field=django_thumbs.db.models.ImageWithThumbsField(blank=True, null=True, upload_to=b''),
         ),
         migrations.AddField(
-            model_name='zeroplayergame',
+            model_name='ZeroPlayerGame',
             name='image',
             field=django_thumbs.db.models.ImageWithThumbsField(blank=True, null=True, upload_to=b''),
         ),
         migrations.AddField(
-            model_name='zeroplayergame',
+            model_name='ZeroPlayerGame',
             name='scriptName',
             field=models.CharField(max_length=500, null=True),
         ),
         migrations.AddField(
-            model_name='zeroplayergame',
+            model_name='ZeroPlayerGame',
             name='scriptType',
             field=models.CharField(max_length=100, null=True),
         ),
