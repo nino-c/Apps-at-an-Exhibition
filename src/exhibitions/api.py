@@ -2,7 +2,7 @@ from rest_framework import generics, permissions
 
 
 from .serializers import UserSerializer, AppSerializer, InstanceSerializer
-from .models import App, AppInstance, Snapshot
+from .models import App, AppInstance, Snapshot, Category, JSLibrary
 #from .permissions import PostAuthorCanEditPermission
 
 from authtools.models import User
@@ -23,7 +23,7 @@ class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
 
 
-class InstanceList(generics.ListCreateAPIView):
+class InstanceMixin(object):
     model = AppInstance
     serializer_class = InstanceSerializer
     queryset = AppInstance.objects.all()
@@ -31,13 +31,30 @@ class InstanceList(generics.ListCreateAPIView):
         permissions.AllowAny
     ]
 
-class InstanceDetail(generics.RetrieveUpdateDestroyAPIView):
-    model = AppInstance
-    serializer_class = InstanceSerializer
-    queryset = AppInstance.objects.all()
-    permission_classes = [
-        permissions.AllowAny
-    ]
+    def pre_save(self, obj):
+        """Force owner to current user"""
+        obj.instantiator = self.request.user
+        return super(InstanceMixin, self).pre_save(obj)
+
+class InstanceList(InstanceMixin, generics.ListCreateAPIView):
+    pass
+
+class InstanceDetail(InstanceMixin, generics.RetrieveUpdateDestroyAPIView):
+    pass
+
+
+# class AppMixin(object):
+#     model = App
+#     serializer_class = AppSerializer
+#     queryset = App.objects.all()
+#     permission_classes = [
+#         permissions.AllowAny
+#     ]
+#
+#     def pre_save(self, obj):
+#         """Force owner to current user"""
+#         obj.owner = self.request.user
+#         return super(AppMixin, self).pre_save(obj)
 
 
 class AppList(generics.ListCreateAPIView):
@@ -48,10 +65,14 @@ class AppList(generics.ListCreateAPIView):
         permissions.AllowAny
     ]
 
+    def pre_save(self, obj):
+        """Force owner to current user"""
+        obj.owner = self.request.user
+        return super(AppList, self).pre_save(obj)
+
 class AppDetail(generics.RetrieveUpdateDestroyAPIView):
     model = App
     serializer_class = AppSerializer
-    queryset = App.objects.all()
     permission_classes = [
         permissions.AllowAny
     ]
@@ -64,48 +85,6 @@ class UserAppList(generics.ListAPIView):
         queryset = super(UserAppList, self).get_queryset()
         return queryset.filter(owner__exact=self.kwargs.get('owner'))
 
-    # def get_queryset(self):
-    #     queryset = super(AppDetail, self).get_queryset()
-    #     return queryset #.filter(id__exact=self.kwargs.get('id'))
-
-# class AppInstanceList(generics.ListAPIView):
-#     #model = AppInstance
-#     #serializer_class = 
-#     pass
-
-
-
-
-
-# class PostMixin(object):
-#     model = Post
-#     serializer_class = PostSerializer
-#     permission_classes = [
-#         PostAuthorCanEditPermission
-#     ]
-
-#     def pre_save(self, obj):
-#         """Force author to the current user on save"""
-#         obj.author = self.request.user
-#         return super(PostMixin, self).pre_save(obj)
-
-
-# class PostList(PostMixin, generics.ListCreateAPIView):
-#     def get_queryset(self):
-#         return Post.objects.all()
-
-
-# class PostDetail(PostMixin, generics.RetrieveUpdateDestroyAPIView):
-#     pass
-
-
-# class UserPostList(generics.ListAPIView):
-#     model = Post
-#     serializer_class = PostSerializer
-
-#     def get_queryset(self):
-#         queryset = super(UserPostList, self).get_queryset()
-#         return queryset.filter(author__username=self.kwargs.get('username'))
 
 
 # class PhotoList(generics.ListCreateAPIView):

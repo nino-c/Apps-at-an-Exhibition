@@ -11,13 +11,12 @@ from django_thumbs.db.models import ImageWithThumbsField
 from authtools.models import User
 
 
-
-
-
-
-class TimestamperMixin(object):
+class TimestamperMixin(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
 
 class Category(models.Model):
     name = models.CharField(max_length=1000)
@@ -40,6 +39,7 @@ class JSLibrary(models.Model):
 
     class Meta:
         verbose_name_plural = "JS libraries"
+
 
 class App(TimestamperMixin, models.Model):
     parent = models.ForeignKey('self', null=True, blank=True, related_name="children")
@@ -65,15 +65,15 @@ class App(TimestamperMixin, models.Model):
             user = self.owner
         inst = AppInstance(
             app=self,
-            instantiator=user, 
-            seed=json.dumps(seed), 
+            instantiator=user,
+            seed=json.dumps(seed),
             )
         inst.save()
         return inst
 
     def chooseImageSet(order=4):
         images = map(lambda obj: obj.image.name.replace("./", ""), list(itertools.chain(
-                    *map(lambda l: l.all(), 
+                    *map(lambda l: l.all(),
                         [instance.images for instance in self.instances.all()]))
                     )
                 )

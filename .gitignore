@@ -12,6 +12,8 @@ pip-delete-this-directory.txt
 # Sphinx docs:
 build
 
+logs
+
 # SQLite3 database files:
 *.db
 *.sqlite3
@@ -31,6 +33,9 @@ local.env
 .project
 .pydevproject
 .settings
+
+# Sublime
+*.sublime*
 
 # Linux Editors
 *~

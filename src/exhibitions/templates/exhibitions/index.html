@@ -1,0 +1,33 @@
+{% extends "exhibitions/base.html" %}
+{% load i18n %}
+{% block extra_head %}
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <script src="{{ STATIC_URL }}site/js/ngApp/controllers/app-controller.js"></script>
+    <script src="{{ STATIC_URL }}site/js/ngApp/controllers/feed-controller.js"></script>
+    <script src="{{ STATIC_URL }}site/js/ngApp/controllers/exhibition-controller.js"></script>
+    <script src="{{ STATIC_URL }}site/js/ngApp/services/app-service.js"></script>
+    <script src="{{ STATIC_URL }}site/js/ngApp/services/exhibition-service.js"></script>
+    <!-- <script src="{{ STATIC_URL }}site/js/ngApp/services/tags-service.js"></script> -->
+    <script src="{{ STATIC_URL }}site/js/ngApp/directives/directives.js"></script>
+    <script src="{{ STATIC_URL }}site/js/ngApp/filters/filters.js"></script>
+{% endblock %}
+{% block content %}
+
+    <div class="padded-content">
+        <div id="main-content" class="container">
+            <div class="row">
+                <div class="span12">
+                    <div class="pending-bg" pending-bar>
+                        <div class="alert alert-warning">loading ...</div>
+                    </div>
+                </div>
+             </div>
+                <ng-view view-state></ng-view>
+        </div>
+    </div>
+
+{% endblock %}
+{% block extra_content %}
+<script type="text/javascript"></script>
+{% endblock %}

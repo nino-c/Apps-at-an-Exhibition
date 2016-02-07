@@ -18,3 +18,31 @@ In a broader sense, plerp.org aims to lay the foundation of "sysnesthesiology", 
 ![Alt text](src/static/site/img/screenshots/4.png "Interactive math, music, and art programming")
 
 ![Alt text](src/static/site/img/screenshots/5.png "show-source feature")
+
+
+## Dependencies
+
+To setup and run the sample code, you're going to need `npm` from NodeJS available to install the frontend code.
+
+## Setup
+
+You're encouraged to setup a `virtualenv` to work in prior to configuring the dependencies.
+
+1. Install Python Requirements
+
+        pip install -r requirements.txt
+        python setup.py develop
+
+2. Install Bower + Grunt
+
+		npm install -g grunt-cli bower
+
+3. Install Assets
+
+        npm install
+        bower install
+
+4. Compile Assets
+
+        grunt
+

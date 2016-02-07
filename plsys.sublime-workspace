@@ -4,6 +4,50 @@
 		"selected_items":
 		[
 			[
+				"seri",
+				"serializers"
+			],
+			[
+				"view",
+				"viewsets"
+			],
+			[
+				"App",
+				"AppSerializer"
+			],
+			[
+				"Hyp",
+				"HyperlinkedIdentityField"
+			],
+			[
+				"User",
+				"UserSerializer"
+			],
+			[
+				"perm",
+				"permission_classes"
+			],
+			[
+				"List",
+				"ListCreateAPIView"
+			],
+			[
+				"apps",
+				"app_urls"
+			],
+			[
+				"ser",
+				"serializers"
+			],
+			[
+				"A",
+				"AllowAny"
+			],
+			[
+				"serial",
+				"serial_User"
+			],
+			[
 				"Canvas",
 				"CanvasBox"
 			],
@@ -76,26 +120,45 @@
 	"buffers":
 	[
 		{
-			"file": "src/exhibitions/models.py",
+			"file": "src/exhibitions/views.py",
 			"settings":
 			{
-				"buffer_size": 3403,
+				"buffer_size": 108,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/exhibitions/tests.py",
+			"contents": "'use strict';\n\nvar Exhibition = angular.module(\"Exhibition\", [\"ui.bootstrap\", \"ngCookies\"], function ($interpolateProvider) {\n        $interpolateProvider.startSymbol(\"{[{\");\n        $interpolateProvider.endSymbol(\"}]}\");\n    }\n);\n\nExhibition.run(function ($http, $cookies) {\n    $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken'];\n})\n\nExhibition.config(function ($routeProvider) {\n    $routeProvider\n        .when(\"/\", {\n            templateUrl: \"/static/site/js/ngApp/views/feed.html\",\n            controller: \"FeedController\",\n            resolve: {\n                apps: function (ExhibitionService) {\n                    return ExhibitionService.list();\n                }\n            }\n        })\n        .when(\"/app/:id\", {\n            templateUrl: \"/static/site/js/ngApp/views/view.html\",\n            controller: \"ExhibitionController\",\n            resolve: {\n                app: function ($route, ExhibitionService) {\n                    var appId = $route.current.params.id\n                    return ExhibitionService.get(appId);\n                }\n            }\n        })\n        .otherwise({\n            redirectTo: '/'\n        })\n})\n\n",
+			"file": "src/static/site/js/ngApp/app.js",
+			"file_size": 1164,
+			"file_write_time": 130992843109251072,
 			"settings":
 			{
-				"buffer_size": 60,
+				"buffer_size": 1166,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/game/models.py",
+			"file": "src/static/site/js/ngApp/views/view.html",
 			"settings":
 			{
-				"buffer_size": 3678,
+				"buffer_size": 3977,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/static/site/js/ngApp/services/exhibition-service.js",
+			"settings":
+			{
+				"buffer_size": 1941,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/static/site/js/ngApp/controllers/feed-controller.js",
+			"settings":
+			{
+				"buffer_size": 1869,
 				"line_ending": "Unix"
 			}
 		}
@@ -123,10 +186,22 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 243.0,
-		"last_filter": "mig",
+		"height": 96.0,
+		"last_filter": "index",
 		"selected_items":
 		[
+			[
+				"index",
+				"AngularJS: Rebuild Search Index"
+			],
+			[
+				"an",
+				"AngularJS: Look Up Definition"
+			],
+			[
+				"run",
+				"Django: Run Server"
+			],
 			[
 				"mig",
 				"Django: Migrate Database"
@@ -136,12 +211,12 @@
 				"Django: Make Migration"
 			],
 			[
-				"djan",
-				"Django: New App"
+				"migr",
+				"Django: Migrate Database"
 			],
 			[
-				"run",
-				"Django: Run Server"
+				"djan",
+				"Django: New App"
 			],
 			[
 				"spaces",
@@ -288,7 +363,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 449.0
+		"width": 530.0
 	},
 	"console":
 	{
@@ -318,22 +393,110 @@
 	},
 	"expanded_folders":
 	[
+		"/home/ninopq/Projects/plsys",
 		"/home/ninopq/Projects/plsys/src",
 		"/home/ninopq/Projects/plsys/src/exhibitions",
-		"/home/ninopq/Projects/plsys/src/game"
+		"/home/ninopq/Projects/plsys/src/exhibitions/templates",
+		"/home/ninopq/Projects/plsys/src/exhibitions/templates/exhibitions",
+		"/home/ninopq/Projects/plsys/src/static",
+		"/home/ninopq/Projects/plsys/src/static/site",
+		"/home/ninopq/Projects/plsys/src/static/site/js",
+		"/home/ninopq/Projects/plsys/src/static/site/js/lib",
+		"/home/ninopq/Projects/plsys/src/static/site/js/lib/angular",
+		"/home/ninopq/Projects/plsys/src/static/site/js/ngApp",
+		"/home/ninopq/CodePlay/django-angular-blog",
+		"/home/ninopq/CodePlay/django-angular-blog/blog",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/blog",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/blog/static",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/blog/static/css",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/blog/static/js",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/blog/static/js/app",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/blog/static/js/libs",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/blog/templates",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/tags"
 	],
 	"file_history":
 	[
-		"/home/ninopq/Projects/plsys/src/plsys/settings/base.py",
+		"/home/ninopq/.config/sublime-text-3/Packages/AngularJS/AngularJS-sublime-package.sublime-settings",
+		"/home/ninopq/.config/sublime-text-3/Packages/AngularJS/AngularJS-completions.sublime-settings",
+		"/home/ninopq/.config/sublime-text-3/Packages/AngularJS/AngularJS-js-completions.sublime-settings",
+		"/home/ninopq/Projects/plsys/src/static/site/js/ngApp/views/feed.html",
+		"/home/ninopq/Projects/plsys/src/static/site/js/ngApp/controllers/exhibition-controller.js",
+		"/home/ninopq/Projects/plsys/src/exhibitions/templates/exhibitions/index.html",
+		"/home/ninopq/Projects/plsys/src/exhibitions/templates/exhibitions/general.html",
+		"/home/ninopq/Projects/plsys/src/static/site/js/ngApp/services/exhibitions-service.js",
+		"/home/ninopq/Projects/plsys/src/static/site/js/ngApp/controllers/exhibition-app-controller.js",
+		"/home/ninopq/Projects/plsys/src/static/site/js/ngApp/controllers/app-controller.js",
+		"/home/ninopq/Projects/plsys/src/static/site/js/ngApp/controllers/posts-controller.js",
+		"/home/ninopq/Projects/plsys/src/static/site/js/ngApp/services/apps.js",
+		"/home/ninopq/Projects/plsys/src/static/site/js/ngApp/services/app-service.js",
+		"/home/ninopq/Projects/plsys/src/static/site/js/ngApp/controllers/feed-controller.js",
+		"/home/ninopq/Projects/plsys/src/static/site/js/ngApp/directives/directives.js",
+		"/home/ninopq/Projects/plsys/src/static/site/js/ngApp/filters/filters.js",
+		"/home/ninopq/Projects/plsys/src/static/site/js/ngApp/services/posts-service.js",
+		"/home/ninopq/Projects/plsys/src/static/site/js/ngApp/services/tags-service.js",
+		"/home/ninopq/Projects/plsys/src/exhibitions/urls.py",
+		"/home/ninopq/Projects/plsys/src/static/site/js/ngApp/app.js",
+		"/home/ninopq/Projects/plsys/src/static/site/js/ngApp/views/view.html",
+		"/home/ninopq/Projects/plsys/src/exhibitions/templates/exhibitions/base.html",
+		"/home/ninopq/Projects/plsys/src/static/site/css/__frompackage_styles.css",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/blog/static/css/style.css",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/blog/views.py",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/blog/templates/tags/header.html",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/blog/templates/tags/footer.html",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/blog/static/js/app/app.js",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/blog/templates/index.html",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/blog/templates/general.html",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/blog/templates/base.html",
+		"/home/ninopq/Projects/plsys/src/exhibitions/serializers.py",
+		"/home/ninopq/Projects/plsys/src/game/urls.py",
+		"/home/ninopq/Projects/plsys/src/exhibitions/models.py",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/blog/settings.py",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/blog/local_settings.py",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/blog/admin.py",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/blog/prod_settings.py",
+		"/home/ninopq/CodePlay/django-angular-blog/blog/blog/dev_settings.py",
+		"/home/ninopq/Projects/plsys/src/plsys/urls.py",
+		"/home/ninopq/Projects/plsys/src/exhibitions/admin.py",
+		"/home/ninopq/Projects/plsys/src/exhibitions/migrations/0009_auto_20160206_0934.py",
+		"/home/ninopq/Projects/plsys/src/exhibitions/views.py",
+		"/home/ninopq/CodePlay/django-api-rest-and-angular/example/urls.py",
+		"/home/ninopq/Projects/plsys/src/exhibitions/api.py",
 		"/home/ninopq/Projects/plsys/src/game/models.py",
+		"/home/ninopq/Projects/plsys/src/game/templates/game/index.html",
+		"/home/ninopq/Projects/plsys/src/game/views.py",
+		"/home/ninopq/CodePlay/django-api-rest-and-angular/example/api/api.py",
+		"/home/ninopq/Projects/plsys/README.md",
+		"/home/ninopq/Projects/plsys/src/setup.py",
+		"/home/ninopq/CodePlay/django-api-rest-and-angular/setup.py",
+		"/home/ninopq/Projects/plsys/requirements/base.txt",
+		"/home/ninopq/CodePlay/plerp-django-angular/example/api/templates/playground.html",
+		"/home/ninopq/Projects/plsys/requirements/development.txt",
+		"/home/ninopq/CodePlay/django-api-rest-and-angular/requirements.txt",
+		"/home/ninopq/Projects/plsys/requirements/production.txt",
+		"/home/ninopq/CodePlay/plerp-django-angular/example/api/templates/index.html",
+		"/home/ninopq/Projects/plsys/bower.json",
+		"/home/ninopq/CodePlay/plerp-django-angular/Gruntfile.coffee",
+		"/home/ninopq/Projects/plsys/setup.py",
+		"/home/ninopq/Projects/plsys/src/plsys/setup.py",
+		"/home/ninopq/Projects/plsys/src/plsys/settings/base.py",
+		"/home/ninopq/CodePlay/plerp-django-angular/setup.py",
+		"/home/ninopq/Projects/plsys/src/accounts/models.py",
+		"/home/ninopq/Projects/plsys/requirements.txt",
+		"/home/ninopq/CodePlay/plerp-django-angular/requirements.txt",
+		"/home/ninopq/Projects/plsys/src/profiles/models.py",
+		"/home/ninopq/CodePlay/plerp-django-angular/example/api/serializers.py",
+		"/home/ninopq/Projects/plsys/src/symbolic_math/urls.py",
+		"/home/ninopq/CodePlay/plerp-django-angular/example/api/api.py",
+		"/home/ninopq/Projects/plsys/src/plsys/settings/development.py",
+		"/home/ninopq/Projects/plsys/src/deployments/files/bivariate-polynomial-landscape.html",
+		"/home/ninopq/Projects/plsys/src/game/admin.py",
+		"/home/ninopq/CodePlay/plerp-django-angular/example/api/models.py",
 		"/home/ninopq/Projects/plsys/plsys.sublime-project",
 		"/home/ninopq/Projects/plsys/src/game/migrations/0005_auto_20160127_0938.py",
 		"/home/ninopq/Projects/plsys/src/game/migrations/0004_auto_20160127_0729.py",
 		"/home/ninopq/Projects/plsys/src/game/migrations/0003_auto_20160126_2325.py",
-		"/home/ninopq/Projects/plsys/src/game/admin.py",
 		"/home/ninopq/Projects/plsys/src/game/serializers.py",
-		"/home/ninopq/Projects/plsys/src/game/templates/game/index.html",
-		"/home/ninopq/Projects/plsys/src/game/views.py",
 		"/home/ninopq/Projects/plsys/src/game/migrations/0019_auto_20160204_0727.py",
 		"/home/ninopq/Projects/plsys/src/game/migrations/0018_remove_zeroplayergame_updated.py",
 		"/home/ninopq/Projects/plsys/src/game/migrations/0017_zeroplayergame_updated.py",
@@ -344,11 +507,9 @@
 		"/home/ninopq/Projects/plsys/src/game/migrations/0008_gameparam.py",
 		"/home/ninopq/Projects/plsys/src/game/migrations/0007_zeroplayergame_seedstruct.py",
 		"/home/ninopq/Projects/plsys/src/game/migrations/0006_auto_20160128_0029.py",
-		"/home/ninopq/Projects/plsys/src/profiles/models.py",
 		"/home/ninopq/Projects/plsys/src/plsys/settings/local.env",
 		"/home/ninopq/Projects/plsys/src/accounts/views.py",
 		"/home/ninopq/Projects/plsys/src/accounts/forms.py",
-		"/home/ninopq/Projects/plsys/src/accounts/models.py",
 		"/home/ninopq/Projects/plerp.org/src/static/site/js/main.js",
 		"/home/ninopq/Projects/plerp.org/src/templates/base.html",
 		"/home/ninopq/Projects/plerp.org/src/templates/home.html",
@@ -383,75 +544,7 @@
 		"/home/ninopq/Work/eb_django_app/sportspocket/sports/models.py",
 		"/home/ninopq/Work/eb_django_app/sportspocket/sports/admin.py",
 		"/home/ninopq/Projects/plerp.org/src/fractal_tree/urls.py",
-		"/home/ninopq/Projects/plerp.org/src/canvasapps/urls.py",
-		"/home/ninopq/Work/eb_django_app/sportspocket/sports/urls.py",
-		"/home/ninopq/Projects/plerp.org/src/canvasapps/models.py",
-		"/home/ninopq/Projects/plerp.org/src/mainsite/settings/development.py",
-		"/home/ninopq/Projects/nino.cc/templates/base.html",
-		"/home/ninopq/Work/eb_django_app/sportspocket/sports/views.py",
-		"/home/ninopq/.config/sublime-text-3/Packages/EasyDiff/easy_diff.sublime-settings",
-		"/home/ninopq/Projects/plerp.org/docs/index.md",
-		"/home/ninopq/Projects/plerp.org/logs/django.log",
-		"/home/ninopq/Projects/plerp.org/logs/project.log",
-		"/home/ninopq/Projects/plerp.org/src/mainsite/settings/production.py",
-		"/home/ninopq/Projects/plerp.org/src/manage.py",
-		"/home/ninopq/Projects/plerp.org/src/plerpsite/settings/base.py",
-		"/home/ninopq/Projects/plerp.org/src/plerpsite/settings/production.py",
-		"/home/ninopq/Projects/plerp.org/src/plerpsite/wsgi.py",
-		"/home/ninopq/Projects/plerpsite/src/templates/base.html",
-		"/home/ninopq/Projects/plerpsite/src/plerpsite/urls.py",
-		"/home/ninopq/Projects/portfolio/fractal_trees/templates/fractal-space.html",
-		"/home/ninopq/Projects/plerpsite/README.md",
-		"/home/ninopq/Projects/plerpsite/src/templates/home.html",
-		"/home/ninopq/Projects/plerpsite/src/static/site/css/main.css",
-		"/home/ninopq/Projects/plerpsite/src/plerpsite/settings/base.py",
-		"/home/ninopq/Projects/plerpsite/src/accounts/models.py",
-		"/home/ninopq/Projects/plerpsite/src/templates/portfolio.html",
-		"/home/ninopq/Projects/plerpsite/src/deployments/views.py",
-		"/home/ninopq/Projects/plerpsite/src/deployments/urls.py",
-		"/home/ninopq/Projects/plerpsite/src/deployments/__init__.py",
-		"/home/ninopq/Projects/plerpsite/src/plerpsite/views.py",
-		"/home/ninopq/Projects/plerpsite/src/templates/_navbar.html",
-		"/home/ninopq/Projects/nino.cc/settings.py",
-		"/home/ninopq/Projects/plerpsite/src/templates/about.html",
-		"/home/ninopq/Projects/plerpsite/src/templates/_brandname.html",
-		"/home/ninopq/Projects/plerpsite/src/accounts/views.py",
-		"/home/ninopq/Projects/plerpsite/src/accounts/urls.py",
-		"/home/ninopq/Projects/portfolio/fractal_trees/templates/base.html",
-		"/home/ninopq/Projects/portfolio/portfolio/settings.py",
-		"/home/ninopq/Projects/portfolio/portfolio/urls.py",
-		"/home/ninopq/Projects/portfolio/static/fractal_trees.html",
-		"/home/ninopq/Projects/portfolio/fractal_trees/static/fractal-space.html",
-		"/home/ninopq/Work/eb_django_app/sportspocket/sports/apps.py",
-		"/home/ninopq/Work/eb_django_app/sportspocket/sports/templates/index.html",
-		"/home/ninopq/Work/eb_django_app/sportspocket/sports/templates/base.html",
-		"/home/ninopq/Source/forks/sympy/examples/intermediate/mplot2d.py",
-		"/home/ninopq/Projects/fugue-matrices/fugue_creator.py",
-		"/home/ninopq/Projects/portfolio/group_theory/subgroup_graph.py",
-		"/home/ninopq/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
-		"/home/ninopq/Source/forks/sympy/sympy/unify/core.py",
-		"/home/ninopq/Source/forks/sympy/examples/intermediate/sample.py",
-		"/home/ninopq/Source/forks/sympy/examples/intermediate/trees.py",
-		"/home/ninopq/.config/sublime-text-3/Packages/SublimeREPL/SublimeREPL.sublime-settings",
-		"/home/ninopq/Source/forks/sympy/sympy/polys/polytools.py",
-		"/home/ninopq/Source/forks/sympy/sympy/assumptions/assume.py",
-		"/home/ninopq/Source/forks/sympy/sympy/conftest.py",
-		"/home/ninopq/Source/forks/sympy/sympy/vector/tests/neentest.py",
-		"/home/ninopq/Source/forks/sympy/sympy/vector/tests/test_vector.py",
-		"/home/ninopq/Source/forks/sympy/sympy/vector/vector.py",
-		"/home/ninopq/Source/forks/sympy/sympy/galgebra/vector.py",
-		"/home/ninopq/Source/forks/sympy/sympy/vector/coordsysrect.py",
-		"/home/ninopq/Source/forks/sympy/sympy/core/basic.py",
-		"/home/ninopq/Source/forks/sympy/sympy/core/symbol.py",
-		"/home/ninopq/Source/forks/sympy/sympy/core/singleton.py",
-		"/home/ninopq/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings",
-		"/home/ninopq/Source/sympy/sympy/matrices/matrices.py",
-		"/home/ninopq/Source/sympy/examples/galgebra/simple_check.py",
-		"/home/ninopq/.config/sublime-text-3/Packages/User/SublimeREPL.sublime-settings",
-		"/home/ninopq/.config/sublime-text-3/Packages/IPython Notebook/Default.sublime-keymap",
-		"/home/ninopq/.config/sublime-text-3/Packages/IPython Notebook/SublimeIPythonNotebook.sublime-settings",
-		"/home/ninopq/.config/sublime-text-3/Packages/User/Package Control.sublime-settings",
-		"/home/ninopq/.config/sublime-text-3/Packages/IPython Notebook/README.md"
+		"/home/ninopq/Projects/plerp.org/src/canvasapps/urls.py"
 	],
 	"find":
 	{
@@ -462,6 +555,8 @@
 		"height": 93.0,
 		"where_history":
 		[
+			"/home/ninopq/Projects/plsys/src/static/site/js/ngApp",
+			"/home/ninopq/Projects/plsys/src",
 			"/home/ninopq/Projects/plsys/src/game",
 			"/home/ninopq/Projects/plerp.org/src",
 			"/home/ninopq/Projects/plerp.org",
@@ -470,9 +565,50 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"post",
+			"appProvider",
+			"post",
+			"Post",
+			"post",
+			"Post",
+			"post",
+			"post_id",
+			"Blog",
+			"static",
+			"libs",
+			"App",
+			"apps",
+			"Instance",
+			"instances",
+			"Instance",
+			"AppInstance",
+			"App",
+			"apps",
+			"game",
+			"example",
+			"User",
+			"settings",
+			"game",
+			"App",
+			"apps",
+			"serial_App",
+			"serial_User",
+			"views.",
+			"zero-player",
+			"zero",
+			"serial_User",
+			"profiles",
+			"users",
+			"post",
+			"Post",
+			"PostDetail",
+			"pk",
+			"username",
+			"ZeroPlayerGame",
+			"game",
 			"GameInstanceSnapshot",
 			"GameInstance",
 			"ZeroPlayerGame",
@@ -549,6 +685,7 @@
 		"regex": true,
 		"replace_history":
 		[
+			"Exhibition",
 			"ZeroPlayerGame",
 			"Exhibition",
 			"200",
@@ -575,52 +712,24 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/exhibitions/models.py",
+					"file": "src/exhibitions/views.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3403,
+						"buffer_size": 108,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2594,
-								2594
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 792.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "src/exhibitions/tests.py",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 60,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
+								108,
+								108
 							]
 						],
 						"settings":
@@ -631,29 +740,89 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "src/game/models.py",
+					"buffer": 1,
+					"file": "src/static/site/js/ngApp/app.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3678,
+						"buffer_size": 1166,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								37,
+								37
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/static/site/js/ngApp/views/view.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3977,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3977,
+								3977
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 900.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/static/site/js/ngApp/services/exhibition-service.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1941,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1088,
+								1088
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
@@ -663,13 +832,43 @@
 					},
 					"stack_index": 2,
 					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/static/site/js/ngApp/controllers/feed-controller.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1869,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								739,
+								739
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
 				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 25.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -714,7 +913,7 @@
 	"project": "plsys.sublime-project",
 	"replace":
 	{
-		"height": 46.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -723,6 +922,106 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"gener",
+				"plsys/src/exhibitions/templates/exhibitions/general.html"
+			],
+			[
+				"view",
+				"plsys/src/exhibitions/views.py"
+			],
+			[
+				"urls",
+				"plsys/src/plsys/urls.py"
+			],
+			[
+				"gameurl",
+				"plsys/src/game/urls.py"
+			],
+			[
+				"adm",
+				"plsys/src/exhibitions/admin.py"
+			],
+			[
+				"admin",
+				"plsys/src/exhibitions/admin.py"
+			],
+			[
+				"seri",
+				"plsys/src/exhibitions/serializers.py"
+			],
+			[
+				"serial",
+				"plsys/src/exhibitions/serializers.py"
+			],
+			[
+				"views",
+				"plsys/src/exhibitions/views.py"
+			],
+			[
+				"exhiburls",
+				"plsys/src/exhibitions/urls.py"
+			],
+			[
+				"exurls",
+				"django-api-rest-and-angular/example/urls.py"
+			],
+			[
+				"api",
+				"plsys/src/exhibitions/api.py"
+			],
+			[
+				"exhseri",
+				"plsys/src/exhibitions/serializers.py"
+			],
+			[
+				"exhimod",
+				"plsys/src/exhibitions/models.py"
+			],
+			[
+				"index.h",
+				"plsys/src/game/templates/game/index.html"
+			],
+			[
+				"setu",
+				"django-api-rest-and-angular/setup.py"
+			],
+			[
+				"accountsmod",
+				"plsys/src/accounts/models.py"
+			],
+			[
+				"url",
+				"plsys/src/plsys/urls.py"
+			],
+			[
+				"prof",
+				"plsys/src/profiles/models.py"
+			],
+			[
+				"base.py",
+				"plsys/src/plsys/settings/base.py"
+			],
+			[
+				"promod",
+				"plsys/src/profiles/models.py"
+			],
+			[
+				"devel",
+				"plsys/src/plsys/settings/development.py"
+			],
+			[
+				"profimod",
+				"plsys/src/profiles/models.py"
+			],
+			[
+				"biva",
+				"plsys/src/deployments/files/bivariate-polynomial-landscape.html"
+			],
+			[
+				"mode",
+				"plerp-django-angular/example/api/models.py"
+			],
 			[
 				"base",
 				"src/plsys/settings/base.py"
@@ -780,18 +1079,6 @@
 				"Projects/plerp.org/src/static/site/css/main.css"
 			],
 			[
-				"url",
-				"Projects/plerp.org/src/mainsite/urls.py"
-			],
-			[
-				"base.py",
-				"Projects/plerp.org/src/mainsite/settings/base.py"
-			],
-			[
-				"devel",
-				"Projects/plerp.org/src/mainsite/settings/development.py"
-			],
-			[
 				"home",
 				"Projects/plerp.org/src/templates/home.html"
 			],
@@ -822,14 +1109,6 @@
 			[
 				"mod",
 				"sports/models.py"
-			],
-			[
-				"urls",
-				"sports/urls.py"
-			],
-			[
-				"view",
-				"sports/views.py"
 			]
 		],
 		"width": 0.0
@@ -860,7 +1139,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 260.0,
+	"side_bar_width": 281.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
