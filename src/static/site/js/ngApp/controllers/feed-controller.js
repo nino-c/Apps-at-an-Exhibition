@@ -9,6 +9,14 @@ Exhibition.controller('FeedController', function ($scope, GlobalService, Exhibit
         backdropFade: true,
         dialogFade: true
     };
+
+    // options for forms
+    $scope.scriptTypes = [
+      {value:'text/javascript', label: 'javascript'},
+      {value:'text/coffeescript', label: 'coffeescript'},
+      {value:'text/paperscript', label: 'paperscript'}
+    ];
+
     //open modals
     $scope.open = function (action) {
         console.log("open", action)

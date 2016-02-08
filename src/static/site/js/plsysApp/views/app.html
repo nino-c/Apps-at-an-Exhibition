@@ -1,0 +1,77 @@
+<h3>{{app.title}}</h3>
+
+<div class="meta clips-note">
+  <p>{{app.description}}</p>
+</div>
+
+<p>
+  <small><em>{{app.scriptType}}</em></small><br>
+  <small><abbr time-ago title="{{app.created}}" class="date"></abbr></small>
+  <small><b>by</b> {{app.owner.name}}</small>
+</p>
+
+
+<a class="btn" ng-click="open('edit')"> Edit</a>
+<!-- <a ng-hide="globals.is_authenticated" class="btn" href="/api-auth/login/"> Edit</a> -->
+<a class="btn" href="#/"> Go back</a>
+
+
+<div modal="appModalEdit" close="close('create')">
+  <a ng-click="close('edit')" class="close" data-dismiss="modal">×</a>
+
+  <div class="modal-header">
+    <h4>Edit app</h4>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal">
+
+      <div class="control-group">
+        <label class="control-label" for="id_title">Title</label>
+        <div class="controls">
+          <input type="text" id="id_title" placeholder="Title" ng-model="app.title">
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="id_description">Description</label>
+        <div class="controls">
+          <textarea type="text" id="id_description"
+          ng-model="app.description"></textarea>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="id_scriptType">Script Type</label>
+        <div class="controls">
+          <select ng-model="app.scriptType" ng-options="st.value as st.label for st in scriptTypes">
+        </div>
+      </div>
+
+      <!-- <div class="control-group">
+        <label class="control-label" for="tags">Instances</label>
+
+        <div class="controls">
+          <div>
+            <span class="tag btn btn-info btn-small"
+            ng-repeat="tag in app.tags_details">
+            {[{tag.name}]}
+            <i class="icon-white icon-remove remove-tag"
+            ng-click="removeTag(tag)"></i>
+          </span>
+        </div>
+        <div id="list-members-add">
+          <input type="text" placeholder="Add tags"
+          class="ui-autocomplete-input"
+          ng-model="selectedTag" ng-change="selectTag()"
+          autocomplete="off"
+          typeahead="suggestion as suggestion.name for suggestion in getTag($viewValue)">
+        </div>
+      </div>
+    </div> -->
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" ng-click="update()">Update</button>
+  <button class="btn btn-danger" ng-click="close('edit')">Cancel</button>
+</div>
+</div>

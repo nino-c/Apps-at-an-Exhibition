@@ -19,6 +19,8 @@ logs
 *.sqlite3
 *.sqlite
 
+*.pyc
+
 # Logs:
 *.log
 
