@@ -1,37 +1,36 @@
 'use strict'
 
-// declare main module
-var Exhibition = angular.module('Exhibition', ['ui.bootstrap', 'ngResource', 'ngCookies', 'services'])
+angular
+  .module('Exhibition', [
+    'ui.bootstrap',
+    'ngResource',
+    'ngCookies',
+    'ngMaterial',
+    'services'
+  ])
 
 
-// declare constants
-var appPath = '/static/site/js/plsysApp/'
-
-Exhibition.run(function ($http, $cookies) {
-  $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken']
-})
-
-Exhibition.config(function ($routeProvider) {
-  $routeProvider
-    .when('/', {
-      templateUrl: appPath + 'views/main.html',
-      controller: 'ExhibitionController',
+angular
+  .module('Exhibition')
+  .run(function ($http, $cookies) {
+    $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken']
     })
-    .when('/apps/:id', {
-      templateUrl: appPath + 'views/app.html',
-      controller: 'AppController',
-    })
-    // .when('/apps/:id', {
-    //   templateUrl: appPath + 'views/app.html',
-    //   controller: 'AppController',
-    //   resolve: {
-    //     app: function ($route, AppService) {
-    //       var appId = $route.current.params.id
-    //       return AppService.get({id:appId})
-    //     }
-    //   }
-    // })
-    .otherwise({
-      redirectTo: '/',
-    })
-})
+  .config(function ($routeProvider) {
+    var appPath = '/static/site/js/plsysApp/'
+    $routeProvider
+      .when('/', {
+        templateUrl: appPath + 'views/main.html',
+        controller: 'ExhibitionController',
+      })
+      .when('/apps/:id', {
+        templateUrl: appPath + 'views/app.html',
+        controller: 'AppController',
+      })
+      .when('/instances/:id', {
+        templateUrl: appPath + 'views/instance.html',
+        controller: 'InstanceController',
+      })
+      .otherwise({
+        redirectTo: '/',
+      })
+  })

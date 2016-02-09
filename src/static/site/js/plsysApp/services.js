@@ -2,6 +2,9 @@
 // services
 
 angular.module('services', [])
+
+angular
+  .module('services')
   .factory('AppService', ['$resource',
     function ($resource) {
       return $resource('/exhibitions/api/apps/:id', {id:'@id'})

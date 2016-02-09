@@ -1,10 +1,5 @@
 <!doctype html>
-<!--[if lt IE 7]> <html ng-app="Tipstry" class="no-js lt-ie9 lt-ie8 lt-ie7" lang="{{ LANGUAGE_CODE }}"> <![endif]-->
-<!--[if IE 7]>    <html ng-app="Tipstry" class="no-js lt-ie9 lt-ie8" lang="{{ LANGUAGE_CODE }}"> <![endif]-->
-<!--[if IE 8]>    <html ng-app="Tipstry" class="no-js lt-ie9" lang="{{ LANGUAGE_CODE }}"> <![endif]-->
-<!--[if gt IE 8]><!-->
-    <html ng-app="Exhibition" class="no-js" lang="{{ LANGUAGE_CODE }}">
-<!--<![endif]-->
+<html ng-app="Exhibition" class="no-js">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -33,7 +28,9 @@
     </title>
 </head>
 
-<body data-spy="scroll" id="index" style="zoom: 1;" ng-controller="AppController" ng-init="initialize('{{ user.is_authenticated }}')">
+<body data-spy="scroll" id="index" style="zoom: 1;"
+  ng-controller="AppController"
+  ng-init="initialize('{{ user.is_authenticated }}')">
     <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
     {% block site_wrapper %}{% endblock %}

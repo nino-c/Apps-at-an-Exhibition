@@ -1,4 +1,6 @@
-Exhibition.directive('timeAgo', function ($timeout) {
+angular
+  .module('Exhibition')
+  .directive('timeAgo', function ($timeout) {
     return {
         restrict: 'A',
         scope: {
@@ -14,40 +16,36 @@ Exhibition.directive('timeAgo', function ($timeout) {
             scope.$watch(attrs.title, updateTime)
         }
     }
-})
-
-Exhibition.directive('pendingBar', ['$rootScope',
-    function ($rootScope) {
-        return {
-            link: function (scope, element, attrs) {
-                element.addClass('hide')
-                $rootScope.$on('$routeChangeStart', function () {
-                    element.removeClass('hide')
-                })
-                $rootScope.$on('$routeChangeSuccess', function () {
-                    element.addClass('hide')
-                })
-                $rootScope.$on('$routeChangeError', function () {
-                    element.removeClass('hide')
-                })
-            }
+  })
+  .directive('pendingBar', ['$rootScope', function ($rootScope) {
+    return {
+      link: function (scope, element, attrs) {
+          element.addClass('hide')
+          $rootScope.$on('$routeChangeStart', function () {
+              element.removeClass('hide')
+          })
+          $rootScope.$on('$routeChangeSuccess', function () {
+              element.addClass('hide')
+          })
+          $rootScope.$on('$routeChangeError', function () {
+              element.removeClass('hide')
+          })
         }
-    }])
-
-Exhibition.directive('viewState', ['$rootScope',
-    function ($rootScope) {
-        return {
-            link: function (scope, element, attrs) {
+      }
+  }])
+  .directive('viewState', ['$rootScope', function ($rootScope) {
+      return {
+        link: function (scope, element, attrs) {
+            element.addClass('hide')
+            $rootScope.$on('$routeChangeStart', function () {
                 element.addClass('hide')
-                $rootScope.$on('$routeChangeStart', function () {
-                    element.addClass('hide')
-                })
-                $rootScope.$on('$routeChangeSuccess', function () {
-                    element.removeClass('hide')
-                })
-                $rootScope.$on('$routeChangeError', function () {
-                    element.addClass('hide')
-                })
-            }
+            })
+            $rootScope.$on('$routeChangeSuccess', function () {
+                element.removeClass('hide')
+            })
+            $rootScope.$on('$routeChangeError', function () {
+                element.addClass('hide')
+            })
         }
-    }])
+      }
+  }])
