@@ -8,7 +8,8 @@
 
 angular
   .module('Exhibition')
-  .controller('ExhibitionController', ['$scope', 'AppService', function($scope, AppService) {
+  .controller('ExhibitionController', ['$scope', 'AppService',
+    function($scope, AppService) {
 
       $scope.apps = AppService.query()
 

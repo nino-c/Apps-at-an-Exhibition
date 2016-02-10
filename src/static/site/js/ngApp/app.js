@@ -16,8 +16,8 @@ Exhibition.config(function ($routeProvider) {
             templateUrl: '/static/site/js/ngApp/views/feed.html',
             controller: 'FeedController',
             resolve: {
-                apps: function (Apps) {
-                    return Apps.list()
+                apps: function (ExhibitionService) {
+                    return ExhibitionService.list()
                 }
             }
         })

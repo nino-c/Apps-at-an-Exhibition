@@ -4,8 +4,8 @@ angular
   .module('Exhibition', [
     'ui.bootstrap',
     'ngResource',
+    'ngRoute',
     'ngCookies',
-    'ngMaterial',
     'services'
   ])
 

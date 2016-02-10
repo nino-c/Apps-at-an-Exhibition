@@ -14,22 +14,33 @@
   <meta property="og:title" content="blog | ">
   <meta property="og:description" content="blog">
 
-  <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/libs/bootstrap.min.css">
+
+  <!-- jquery and such -->
   <script src="{{ STATIC_URL }}site/js/libs/moment.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="{{ STATIC_URL }}site/js/libs/jquery.1.9.1.min.js"><\/script>')</script>
+  <script src="{{ STATIC_URL }}site/js/lib/jQuery2.1.1.js"></script>
+
+  <!-- all bootstraping things -->
+  <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css">
   <script src="{{ STATIC_URL }}site/js/libs/bootstrap.min.js"></script>
-  <script src="{{ STATIC_URL }}site/js/libs/angular/angular.min.js"></script>
-  <script src="{{ STATIC_URL }}site/js/libs/angular/angular-resource.min.js"></script>
-  <!-- <script src="{{ STATIC_URL }}site/js/libs/angular/angular-animate.min.js"></script> -->
-  <script src="{{ STATIC_URL }}site/js/libs/angular/angular-cookies.min.js"></script>
+
+  <!-- angular things -->
+  <script src="{{ STATIC_URL }}bower/angular/angular.js"></script>
+  <!-- bower angular things -->
+  {% for lib in bower_includes %}
+    <script src="{{ STATIC_URL }}bower/angular-{{lib}}/angular-{{lib}}.min.js"></script>
+  {% endfor %}
+  <!-- things that require angular -->
   <script src="{{ STATIC_URL }}site/js/libs/ui-bootstrap-tpls-0.3.0.min.js"></script>
+
+  <!-- main angular app  -->
   <script src="{{ STATIC_URL }}site/js/plsysApp/app.js"></script>
-  <script src="{{ STATIC_URL }}site/js/plsysApp/directives.js"></script>
-  <script src="{{ STATIC_URL }}site/js/plsysApp/controllers.js"></script>
-  <script src="{{ STATIC_URL }}site/js/plsysApp/services.js"></script>
+  <!-- my angular app's things -->
+  {% for file in jsapp_includes %}
+    <script src="{{ STATIC_URL }}{{ file }}"></script>
+  {% endfor %}
 
   <title>Apps at an Exhibition</title>
+
 </head>
 
 <body data-spy="scroll" id="index" style="zoom: 1;" ng-controller="ExhibitionController"
