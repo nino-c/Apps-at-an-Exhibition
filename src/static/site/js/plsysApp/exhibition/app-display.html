@@ -1,0 +1,19 @@
+<div class="row" ng-controller="AppDisplay">
+  <div class="span9">
+    <h3>{{ app.title }}</h3>
+    <p>
+      {{ app.description }}
+    </p>
+    <!-- <p>
+    <ul class="inline">
+    <li ng-repeat="tag in app.tags_details">
+    <span class="label"><i class="icon-white icon-tag"></i> {{tag.name}}</span>
+  </li>
+</ul>
+</p> -->
+<p>
+<small><abbr time-ago title="{{app.created}}" class="date"></abbr></small>
+<small><b>by</b> {{app.owner.name}}</small>
+</p>
+</div>
+</div>

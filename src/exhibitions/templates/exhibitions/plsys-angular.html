@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="Exhibition" class="no-js">
+<html ng-app="app">
 {% load i18n %}
 
 <head>
@@ -32,24 +32,30 @@
   <!-- things that require angular -->
   <script src="{{ STATIC_URL }}site/js/libs/ui-bootstrap-tpls-0.3.0.min.js"></script>
 
-  <!-- main angular app  -->
-  <script src="{{ STATIC_URL }}site/js/plsysApp/app.js"></script>
+
   <!-- my angular app's things -->
   {% for file in jsapp_includes %}
     <script src="{{ STATIC_URL }}{{ file }}"></script>
   {% endfor %}
 
+  <!-- main angular app  -->
+  <script src="{{ STATIC_URL }}site/js/plsysApp/app.module.js"></script>
+  <script src="{{ STATIC_URL }}site/js/plsysApp/directives.js"></script>
+
   <title>Apps at an Exhibition</title>
 
 </head>
 
-<body data-spy="scroll" id="index" style="zoom: 1;" ng-controller="ExhibitionController"
-ng-init="initialize('{{ user.is_authenticated }}')">
+{% verbatim %}
+<body ng-controller="Main" data-spy="scroll" id="index" style="zoom: 1;">
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
-{% verbatim %}
+
+
 <div class="padded-content">
   <div id="main-content" class="container">
+
+
     <div class="row">
       <div class="span12">
         <div class="pending-bg" pending-bar>
@@ -57,7 +63,11 @@ ng-init="initialize('{{ user.is_authenticated }}')">
         </div>
       </div>
     </div>
+
+
     <ng-view view-state></ng-view>
+
+
   </div>
 </div>
 {% endverbatim %}

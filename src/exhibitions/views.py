@@ -4,20 +4,30 @@ from os.path import join
 from plsys.settings.development import STATIC_ROOT
 
 def home(request):
-  jsDirs = ['plsysApp'] #['libs', 'libs/angular', 'plsysApp']
-  jsapp_includes =  reduce(lambda x,y: x+y,
-                      [
-                        filter(lambda file: '.js' in file and file != 'app.js',
-                          map(lambda script: join("site/js", jdir, script),
-                            os.listdir(join(STATIC_ROOT, "site/js", jdir))
-                          )
-                        ) for jdir in jsDirs
-                      ]
-                    )
+  modules = ['plsysApp/core', 'plsysApp/exhibition']
+  module_files = [filter(lambda file: '.js' in file,
+      map(lambda script: join("site/js", module, script),
+        os.listdir(join(STATIC_ROOT, "site/js", module))
+      )
+    ) for module in modules]
 
-  #jsapp_includes = map(lambda file: join(STATIC_ROOT, "site/js", file), jsFiles)
+  # ordering for file loading
+  ordering = ['module', 'directives', 'services']
+  ordered_modules = []
+  for filegroup in module_files:
+    ordered_files = []
+    for name in ordering:
+      filename = filter(lambda f: name in f, filegroup)
+      if len(filename) == 0:
+        continue
+      filegroup.remove(filename[0])
+      ordered_files.append(filename[0])
+    ordered_files = ordered_files + filegroup
+    ordered_modules.append(ordered_files)
 
-  js_includes = ['controllers', 'directives', 'services', 'app']
+  # flatten
+  jsapp_includes =  reduce(lambda x,y: x+y, ordered_modules)
+
   bower_includes = ['route', 'loader', 'resource', 'animate', 'material', 'aria', 'messages', 'cookies']
 
   #return render(request, "exhibitions/index.html")
