@@ -7,6 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="keywords" content=""/>
   <meta name="description" content=""/>
+  <meta name="viewport" content="initial-scale=1" />
 
   <!-- opengraph tags -->
   <meta property="og:site_name" content="plerp.org">
@@ -14,63 +15,59 @@
   <meta property="og:title" content="blog | ">
   <meta property="og:description" content="blog">
 
-
-  <!-- jquery and such -->
-  <script src="{{ STATIC_URL }}site/js/libs/moment.min.js"></script>
-  <script src="{{ STATIC_URL }}site/js/lib/jQuery2.1.1.js"></script>
-
-  <!-- all bootstraping things -->
-  <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css">
-  <script src="{{ STATIC_URL }}site/js/libs/bootstrap.min.js"></script>
-
-  <!-- angular things -->
-  <script src="{{ STATIC_URL }}bower/angular/angular.js"></script>
-  <!-- bower angular things -->
-  {% for lib in bower_includes %}
-    <script src="{{ STATIC_URL }}bower/angular-{{lib}}/angular-{{lib}}.min.js"></script>
-  {% endfor %}
-  <!-- things that require angular -->
-  <script src="{{ STATIC_URL }}site/js/libs/ui-bootstrap-tpls-0.3.0.min.js"></script>
-
-
-  <!-- my angular app's things -->
-  {% for file in jsapp_includes %}
-    <script src="{{ STATIC_URL }}{{ file }}"></script>
-  {% endfor %}
-
-  <!-- main angular app  -->
-  <script src="{{ STATIC_URL }}site/js/plsysApp/app.module.js"></script>
-  <script src="{{ STATIC_URL }}site/js/plsysApp/directives.js"></script>
+  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
+  <link rel="stylesheet" href="{{ STATIC_URL }}bower/angular-material/angular-material.css"/>
+  <link rel="stylesheet" href="{{ STATIC_URL }}site/js/plsysApp/assets/app.css"/>
 
   <title>Apps at an Exhibition</title>
 
 </head>
 
-{% verbatim %}
-<body ng-controller="Main" data-spy="scroll" id="index" style="zoom: 1;">
+
+<body ng-controller="Main" data-spy="scroll" id="index"
+style="zoom: 1;" layout="row">
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
+  {% verbatim %}
+
+    <md-toolbar layout="row">
+      <md-button class="menu" hide-gt-sm ng-click="ul.toggleList()" aria-label="Show App List">
+        <md-icon md-svg-icon="menu" ></md-icon>
+      </md-button>
+      <h1>Apps at an Exhibition</h1>
+    </md-toolbar>
+
+    <ng-view view-state></ng-view>
 
 
-<div class="padded-content">
-  <div id="main-content" class="container">
 
-
-    <div class="row">
+    <!-- <div class="row">
       <div class="span12">
         <div class="pending-bg" pending-bar>
           <div class="alert alert-warning">loading ...</div>
         </div>
       </div>
-    </div>
+    </div> -->
+
+    {% endverbatim %}
+
+    <!-- angular things -->
+    <script src="{{ STATIC_URL }}bower/angular/angular.js"></script>
+    <!-- bower angular things -->
+    {% for lib in bower_includes %}
+      <script src="{{ STATIC_URL }}bower/angular-{{lib}}/angular-{{lib}}.min.js"></script>
+    {% endfor %}
+    <script src="{{ STATIC_URL }}bower/angular-bootstrap/ui-bootstrap.js"></script>
 
 
-    <ng-view view-state></ng-view>
+    <!-- my angular app's things -->
+    {% for file in jsapp_includes %}
+      <script src="{{ STATIC_URL }}{{ file }}"></script>
+    {% endfor %}
 
-
-  </div>
-</div>
-{% endverbatim %}
+    <!-- main angular app  -->
+    <script src="{{ STATIC_URL }}site/js/plsysApp/app.module.js"></script>
+    <script src="{{ STATIC_URL }}site/js/plsysApp/directives.js"></script>
 
 
 </body>
