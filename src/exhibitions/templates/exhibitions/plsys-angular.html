@@ -17,6 +17,8 @@
 
   <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
   <link rel="stylesheet" href="{{ STATIC_URL }}bower/angular-material/angular-material.css"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
   <link rel="stylesheet" href="{{ STATIC_URL }}site/js/plsysApp/assets/app.css"/>
 
   <title>Apps at an Exhibition</title>
@@ -25,16 +27,35 @@
 
 
 <body ng-controller="Main" data-spy="scroll" id="index"
-style="zoom: 1;" layout="row">
+style="zoom: 1;">
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
   {% verbatim %}
 
-    <md-toolbar layout="row">
+    <!-- <md-toolbar layout="row">
       <md-button class="menu" hide-gt-sm ng-click="ul.toggleList()" aria-label="Show App List">
         <md-icon md-svg-icon="menu" ></md-icon>
       </md-button>
       <h1>Apps at an Exhibition</h1>
+    </md-toolbar> -->
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+
+        <md-button class="md-icon-button" aria-label="Settings">
+          <md-icon md-font-set="material-icons">menu</md-icon>
+        </md-button>
+        <h2>
+          <span>Apps at an Exhibition</span>
+        </h2>
+        <span flex></span>
+        <!-- <md-button class="md-icon-button" aria-label="Favorite">
+          <md-icon md-font-set="material-icons">favorite</md-icon>
+        </md-button> -->
+        <md-button class="md-icon-button" aria-label="Favorite">
+          <md-icon md-font-set="material-icons">more_vert</md-icon>
+        </md-button>
+      </div>
     </md-toolbar>
 
     <ng-view view-state></ng-view>

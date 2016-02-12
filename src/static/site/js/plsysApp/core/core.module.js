@@ -13,6 +13,7 @@
 
   angular
     .module('app.core', [
+      'ngMaterial',
       'ngRoute',
       'app.exhibition'
     ])

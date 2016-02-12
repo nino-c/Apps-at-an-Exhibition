@@ -39,7 +39,22 @@
         ]
       }
     ])
+    .config(['$mdThemingProvider', '$mdIconProvider',
+      ($mdThemingProvider, $mdIconProvider) => {
 
+        $mdIconProvider
+          .defaultIconSet("/static/site/js/plsysApp/assets/svg/avatars.svg", 128)
+          .icon("menu", "/static/site/js/plsysApp/assets/svg/menu.svg", 24)
+          .icon("share", "/static/site/js/plsysApp/assets/svg/share.svg", 24)
+          .icon("google_plus", "/static/site/js/plsysApp/assets/svg/google_plus.svg", 512)
+          .icon("hangouts", "/static/site/js/plsysApp/assets/svg/hangouts.svg", 512)
+          .icon("twitter", "/static/site/js/plsysApp/assets/svg/twitter.svg", 512)
+          .icon("phone", "/static/site/js/plsysApp/assets/svg/phone.svg", 512);
+
+        $mdThemingProvider.theme('default')
+            .primaryPalette('brown')
+            .accentPalette('red');
+    }])
 
 })();
 

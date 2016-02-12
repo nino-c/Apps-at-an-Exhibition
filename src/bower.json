@@ -1,0 +1,39 @@
+{
+  "name": "src",
+  "homepage": "https://github.com/nino-c/plerpingsystem",
+  "authors": [
+    "nino-c <nino.cocchiarella@gmail.com>"
+  ],
+  "description": "polymer",
+  "main": "bower.json",
+  "moduleType": [
+    "amd",
+    "es6",
+    "globals"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-cookies": "^1.5.0",
+    "angular-material": "^1.0.5",
+    "angular-loader": "^1.5.0",
+    "angular-ui-codemirror": "^0.3.0",
+    "angular-route": "^1.5.0",
+    "angular-bootstrap": "^1.1.2",
+    "polymer": "Polymer/polymer#^1.2.0",
+    "paper-card": "PolymerElements/paper-card#^1.0.0",
+    "paper-item": "PolymerElements/paper-item#^1.0.0",
+    "paper-listbox": "polymerelements/paper-listbox#^1.0.0",
+    "paper-material": "PolymerElements/paper-material#^1.0.0",
+    "paper-ripple": "PolymerElements/paper-ripple#^1.0.0",
+    "paper-spinner": "PolymerElements/paper-spinner#^1.0.0",
+    "paper-styles": "PolymerElements/paper-styles#^1.0.0"
+  }
+}
