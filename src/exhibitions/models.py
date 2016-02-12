@@ -51,6 +51,7 @@ class App(TimestamperMixin, models.Model):
     source = models.TextField(blank=True)
     seedStructure = models.TextField(blank=True)
     extraIncludes = models.ManyToManyField('JSLibrary', blank=True, related_name="included_in")
+    #mainImage = ImageWithThumbsField(null=True, blank=True, sizes=((125,125),(200,200),(300,300)))
 
     def __unicode__(self):
         return "\"%s\", by %s" % (self.title, self.owner.name)
