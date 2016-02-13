@@ -1,8 +1,9 @@
 
 .thumbnail {
   width:150px;
-  border: 1px solid #333333;
+  border: 1px solid #cccccc;
   border-radius: 5px;
+  margin:auto;
 }
 
 
