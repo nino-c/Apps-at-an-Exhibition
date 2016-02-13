@@ -13,6 +13,7 @@
     angular
         .module('app.exhibition', [
           'app.core',
+          'app.components',
           'ui.bootstrap',
           'ngResource',
           'ngRoute'

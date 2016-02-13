@@ -13,7 +13,7 @@
     angular
       .module('app.core')
       .controller('Main', ['$scope', ($scope) => {
-        $scope.pootest = 77
+        $scope.appPath = '/static/site/js/plsysApp/'
       }])
       .config(['$controllerProvider', '$routeProvider',
         ($controllerProvider, $routeProvider) => {
@@ -27,10 +27,10 @@
               templateUrl: appPath + 'exhibition/app-display.html',
               //controller: 'AppController',
             })
-            // .when('/instances/:id', {
-            //   templateUrl: appPath + 'views/instance.html',
-            //   controller: 'InstanceController',
-            // })
+            .when('/instances/:id', {
+              templateUrl: appPath + 'exhibition/instance-display.html',
+              //controller: 'InstanceController',
+            })
             .otherwise({
               redirectTo: '/',
             })

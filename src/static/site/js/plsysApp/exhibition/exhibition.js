@@ -39,6 +39,19 @@
         ]
       }
     ])
+    .controller('InstanceDisplay', [
+      '$scope', '$route', 'InstanceService', ($scope, $route, InstanceService) => {
+
+        $scope.app = InstanceService.get({id:$route.current.params.id})
+
+        // options for forms
+        $scope.scriptTypes = [
+          {value:'text/javascript', label: 'javascript'},
+          {value:'text/coffeescript', label: 'coffeescript'},
+          {value:'text/paperscript', label: 'paperscript'}
+        ]
+      }
+    ])
     .config(['$mdThemingProvider', '$mdIconProvider',
       ($mdThemingProvider, $mdIconProvider) => {
 
