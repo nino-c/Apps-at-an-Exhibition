@@ -1,3 +1,11 @@
+
+.thumbnail {
+  width:150px;
+  border: 1px solid #333333;
+  border-radius: 5px;
+}
+
+
 @font-face {
   font-family: 'Noto Sans';
   font-weight: 400;
