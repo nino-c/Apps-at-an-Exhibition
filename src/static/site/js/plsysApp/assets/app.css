@@ -1,6 +1,7 @@
 html, body {
-  font-family: 'Roboto', sans-serif;
-  font-size:14px;
+  font-family: 'Roboto', 'Helvetica','Arial',sans-serif!important;
+  background-color: #fafafa;
+  font-size:12px;
   height:100%;
   margin: 0px;
   padding: 0px;
@@ -16,6 +17,9 @@ html, body {
   width: 36px;
 }
 
+.panel {
+  margin: 8px;
+}
 
 md-toolbar h3 {
   margin: auto;
@@ -35,6 +39,10 @@ md-list-item > button {
 
   md-sidenav  md-list {
     padding: 0px 0px 8px 0px;
+  }
+
+  md-content {
+    background: transparent;
   }
 
 

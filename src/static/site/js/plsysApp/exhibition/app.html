@@ -1,14 +1,56 @@
-<h3>{{app.title}}</h3>
 
-<div class="meta clips-note">
-  <p>{{app.description}}</p>
-</div>
+<md-content ng-controller="AppDisplay">
 
-<p>
-  <small><em>{{app.scriptType}}</em></small><br>
-  <small><abbr time-ago title="{{app.created}}" class="date"></abbr></small>
-  <small><b>by</b> {{app.owner.name}}</small>
-</p>
+  <md-subheader class="md-primary">Apps</md-subheader>
+
+
+  <md-card>
+    <md-card-header>
+      <md-card-avatar>
+        <img class="md-user-avatar" src="{{ app.owner.avatar }}"/>
+      </md-card-avatar>
+      <md-card-header-text>
+        <span class="md-title">{{ app.title }}</span>
+        <span class="md-subhead">by {{ app.owner.name }}</span>
+      </md-card-header-text>
+      <span flex></span>
+      <md-card-header-text>
+        <small><abbr time-ago title="app.created" class="date">{{app.created}}</abbr></small>
+      </md-card-header-text>
+    </md-card-header>
+    <img ng-src="{{app.mainImage}}" class="md-card-image" alt="img">
+    <md-card-title>
+      <md-card-title-text>
+        <md-card-title-text class="md-headline">
+          {{app.title}}
+        </md-card-title-text>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+
+      <p>Category: {{app.category.name}}</p>
+      <p>{{app.scriptType}}<br>
+        <small><abbr time-ago="{{app.created}}" title="{{app.created}}" class="date"></abbr></small>
+        <small><b>by</b> {{app.owner.name}}</small>
+      </p>
+      <p>Instances: {{app.instances.length}}</p>
+      <p>{{app.description}}</p>
+
+    </md-card-content>
+
+    <md-card-actions layout="row" layout-align="end center">
+      <md-button class="md-icon-button" aria-label="Favorite">
+        <md-icon md-font-set="material-icons">favorites</md-icon>
+      </md-button>
+      <md-button class="md-icon-button" aria-label="Settings">
+        <md-icon md-font-set="material-icons">menu</md-icon>
+      </md-button>
+      <md-button class="md-icon-button" aria-label="Share">
+        <md-icon md-font-set="material-icons">share_arrow</md-icon>
+      </md-button>
+    </md-card-actions>
+
+  </md-card>
 
 
 <a class="btn" ng-click="open('edit')"> Edit</a>
@@ -75,3 +117,5 @@
   <button class="btn btn-danger" ng-click="close('edit')">Cancel</button>
 </div>
 </div>
+
+</md-content>

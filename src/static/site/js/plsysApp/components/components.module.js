@@ -13,6 +13,7 @@
     angular
         .module('app.components', [
             'ngMaterial',
+            'ui.bootstrap',
             'app.core',
         ]);
 })();

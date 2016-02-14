@@ -25,9 +25,14 @@ class SnapshotSerializer(serializers.ModelSerializer):
         model = Snapshot
 
 class UserSerializer(serializers.ModelSerializer):
+    avatar = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = User
-        fields = ('id', 'name',)
+        read_only_fields = ('id', 'name', 'avatar')
+
+    def get_avatar(self, object):
+        return object.profile.picture.url
 
 class InstanceSerializer(serializers.ModelSerializer):
     instantiator = UserSerializer(required=False, read_only=True)
@@ -50,7 +55,7 @@ class AppSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = App
-        include = ('api_url')
+        include = ('api_url', 'created', 'updated')
         read_only_fields = ('id', 'created', 'updated', 'owner',
           'category', 'instances', 'api_url')
 

@@ -1,39 +1,41 @@
 <md-content ng-controller="Exhibition">
 
-
     <md-subheader class="md-primary">Apps</md-subheader>
 
     <md-list layout-padding>
-      <md-list-item ng-repeat="app in apps">
+      <md-list-item ng-repeat="app in apps | orderBy:'created':true">
 
-        <md-card>
+        <md-card ng-click="selectApp(app)">
           <img ng-src="{{app.mainImage}}" class="md-card-image" alt="img">
           <md-card-title>
-            <md-card-title-text>
-              <span class="md-headline">{{app.title}}</span>
+            <md-card-title-text class="md-headline">
+              {{app.title}}
             </md-card-title-text>
           </md-card-title>
           <md-card-content>
+
             <p>Category: {{app.category.name}}</p>
+            <abbr time-ago title="app.created" class="date"></abbr>
             <p>{{app.scriptType}}<br>
-              <small><abbr time-ago title="{{app.created}}" class="date"></abbr></small>
+              <small></small>
               <small><b>by</b> {{app.owner.name}}</small>
             </p>
             <p>Instances: {{app.instances.length}}</p>
             <p>{{app.description}}</p>
 
-
           </md-card-content>
+
+
 
           <md-card-actions layout="row" layout-align="end center">
             <md-button class="md-icon-button" aria-label="Favorite">
-              <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+              <md-icon md-font-set="material-icons">favorites</md-icon>
             </md-button>
             <md-button class="md-icon-button" aria-label="Settings">
-              <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+              <md-icon md-font-set="material-icons">menu</md-icon>
             </md-button>
             <md-button class="md-icon-button" aria-label="Share">
-              <md-icon md-svg-icon="img/icons/share-arrow.svg"></md-icon>
+              <md-icon md-font-set="material-icons">share_arrow</md-icon>
             </md-button>
           </md-card-actions>
 

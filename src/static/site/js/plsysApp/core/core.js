@@ -24,11 +24,11 @@
               templateUrl: appPath + 'exhibition/applist.html',
             })
             .when('/apps/:id', {
-              templateUrl: appPath + 'exhibition/app-display.html',
-              //controller: 'AppController',
+              templateUrl: appPath + 'exhibition/app.html',
+              //controller: 'AppDisplay',
             })
             .when('/instances/:id', {
-              templateUrl: appPath + 'exhibition/instance-display.html',
+              templateUrl: appPath + 'components/instance.html',
               //controller: 'InstanceController',
             })
             .otherwise({

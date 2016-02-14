@@ -14,6 +14,7 @@
   angular
     .module('app.core', [
       'ngMaterial',
+      'ui.bootstrap',
       'ngRoute',
       'app.exhibition'
     ])

@@ -12,6 +12,7 @@
      */
     angular
         .module('layout', [
-            
+          'ui.bootstrap',
+          'ngMaterial'
         ]);
 })();
