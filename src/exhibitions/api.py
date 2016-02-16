@@ -16,6 +16,13 @@ class UserList(generics.ListCreateAPIView):
         permissions.AllowAny
     ]
 
+class CategoryList(generics.ListCreateAPIView):
+    model = Category
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
 
 class UserDetail(generics.RetrieveAPIView):
     model = User

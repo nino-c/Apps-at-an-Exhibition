@@ -12,10 +12,12 @@
      */
     angular
         .module('app.exhibition', [
-          'app.core',
           'ui.bootstrap',
+          'ui.codemirror',
           'ngMaterial',
+          'ngMessages',
           'ngResource',
-          'ngRoute'
+          'ngRoute',
+          'ngAnimate'
         ]);
 })();

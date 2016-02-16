@@ -10,6 +10,10 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
+class CategoryViewSet(viewsets.ModelViewSet):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+
 class AppViewSet(viewsets.ModelViewSet):
     serializer_class = AppSerializer
     queryset = App.objects.all()
@@ -24,6 +28,7 @@ class SnapshotViewSet(viewsets.ModelViewSet):
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
+router.register(r'categories', CategoryViewSet)
 router.register(r'apps', AppViewSet)
 router.register(r'instances', InstanceViewSet)
 router.register(r'snapshots', SnapshotViewSet)
@@ -32,8 +37,8 @@ router.register(r'snapshots', SnapshotViewSet)
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    url(r'^api/', include(router.urls)),
     url(r'^$', views.home, name="exhibitions-home"),
+    url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
 ]

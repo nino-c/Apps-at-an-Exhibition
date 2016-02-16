@@ -21,7 +21,7 @@
           var appPath = '/static/site/js/plsysApp/'
           $routeProvider
             .when('/', {
-              templateUrl: appPath + 'exhibition/applist.html',
+              templateUrl: appPath + 'exhibition/app-list.html',
             })
             .when('/apps/:id', {
               templateUrl: appPath + 'exhibition/app.html',

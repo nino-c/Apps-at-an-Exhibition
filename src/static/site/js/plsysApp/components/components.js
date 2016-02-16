@@ -13,7 +13,7 @@
     angular
         .module('app.components')
         .controller('AppEditor', ['$scope', '$mdDialog', '$mdMedia', ($scope, $mdDialog, $mdMedia) => {
-          $scope.showAdvanced = function(ev) {
+          $scope.createApp = function(ev) {
             $mdDialog.show({
               controller: ($scope, $mdDialog) => {
                 $scope.hide = function() {
@@ -32,7 +32,10 @@
               clickOutsideToClose:true,
               fullscreen: true
             })
-          };
+
+
+
+          }
         }])
 
 

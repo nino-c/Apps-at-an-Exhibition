@@ -4,7 +4,7 @@ from os.path import join
 from plsys.settings.development import STATIC_ROOT
 
 def home(request):
-  modules = ['plsysApp/core', 'plsysApp/components', 'plsysApp/exhibition']
+  modules = ['plsysApp/core', 'plsysApp/exhibition']
   module_files = [filter(lambda file: '.js' in file,
       map(lambda script: join("site/js", module, script),
         os.listdir(join(STATIC_ROOT, "site/js", module))

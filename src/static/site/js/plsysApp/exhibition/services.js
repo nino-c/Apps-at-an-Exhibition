@@ -19,5 +19,8 @@
         .factory('InstanceService', ['$resource', ($resource) => {
           return $resource('/exhibitions/api/instances/:id', {id:'@id'})
         }])
+        .factory('CategoryService', ['$resource', ($resource) => {
+          return $resource('/exhibitions/api/categories', {id:'@id'})
+        }])
 
 })();

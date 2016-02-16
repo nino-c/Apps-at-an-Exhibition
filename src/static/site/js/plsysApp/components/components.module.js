@@ -12,8 +12,9 @@
      */
     angular
         .module('app.components', [
-            'ngMaterial',
+            'app.exhibition',
             'ui.bootstrap',
-            'app.core',
+            'ngMaterial',
+            'ngAnimate'
         ]);
 })();

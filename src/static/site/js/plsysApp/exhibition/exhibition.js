@@ -13,35 +13,81 @@
   */
   angular
     .module('app.exhibition')
-    .controller('Exhibition', [
-      '$scope', '$location', 'AppService', ($scope, $location, AppService) => {
+    .config(['$mdThemingProvider', ($mdThemingProvider) => {
+
+        $mdThemingProvider.theme('default')
+            .primaryPalette('light-green', {
+              'default': '200',
+              'hue-1': '100',
+              'hue-2': '500',
+              'hue-3': 'A200'
+            })
+            .accentPalette('lime', {
+              'default': '500'
+            })
+
+    }])
+    .controller('Exhibition', ['$rootScope', '$scope', '$location', '$mdDialog', 'AppService', 'CategoryService',
+        ($rootScope, $scope, $location, $mdDialog, AppService, CategoryService) => {
 
         $scope.apps = AppService.query()
 
         // options for forms
-        $scope.scriptTypes = [
-          {value:'text/javascript', label: 'javascript'},
-          {value:'text/coffeescript', label: 'coffeescript'},
-          {value:'text/paperscript', label: 'paperscript'}
+        $rootScope.scriptTypes = [
+          {name:'text/javascript', label: 'javascript'},
+          {name:'text/coffeescript', label: 'coffeescript'},
+          {name:'text/paperscript', label: 'paperscript'}
         ]
+
+        $scope.categories = CategoryService.query()
 
         $scope.selectApp = (chosenApp) => {
           $location.path('/apps/'+chosenApp.id)
         }
 
-      }
-    ])
-    .controller('AppDisplay', [
-      '$scope', '$route', 'AppService', ($scope, $route, AppService) => {
+        $scope.createApp = (event) => {
+
+          // create new app
+          $scope.app = {
+            title:'New App',
+            description:'',
+            scriptType: "text/javascript",
+            source:"",
+            seedStructure:'{"property": {"default":""}}',
+            extraIncludes: []
+          }
+
+          $mdDialog.show({
+              controller: ($rootScope, $scope) => {
+
+                $scope.scriptTypes = $rootScope.scriptTypes
+
+                $scope.editorOptions = {
+                  lineWrapping : true,
+                  lineNumbers: true,
+                  indentWithTabs: true,
+                  theme: "monokai",
+                  mode: 'javascript',
+                  matchBrackets: true
+                }
+
+                $scope.cmModel = "function startApp() {\n\n}"
+
+              },
+              parent: angular.element(document.body),
+              targetEvent: event,
+              templateUrl: '/static/site/js/plsysApp/components/app-editor-material.html',
+              clickOutsideToClose:true,
+              fullscreen: false
+          })
+        }
+    }])
+    .controller('AppDisplay', ['$scope', '$route', 'AppService', ($scope, $route, AppService) => {
 
         $scope.app = AppService.get({id:$route.current.params.id})
 
         // options for forms
-        $scope.scriptTypes = [
-          {value:'text/javascript', label: 'javascript'},
-          {value:'text/coffeescript', label: 'coffeescript'},
-          {value:'text/paperscript', label: 'paperscript'}
-        ]
+        $scope.scriptTypes = $rootScope.scriptTypes
       }
     ])
     .controller('InstanceDisplay', [
@@ -57,21 +103,7 @@
         ]
       }
     ])
-    .config(['$mdThemingProvider', ($mdThemingProvider) => {
 
-        $mdThemingProvider.theme('default')
-            .primaryPalette('light-green', {
-              'default': '200',
-              'hue-1': '100',
-              'hue-2': '500',
-              'hue-3': 'A200'
-            })
-            .accentPalette('lime', {
-              'default': '500'
-            })
-
-
-    }])
 
 })();
 

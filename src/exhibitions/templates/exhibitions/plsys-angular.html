@@ -25,6 +25,20 @@
       rel="stylesheet">
   <link rel="stylesheet" href="{{ STATIC_URL }}site/js/plsysApp/assets/app.css"/>
 
+  <script type="text/javascript" src="{{STATIC_URL}}site/js/libs/moment.min.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}site/js/lib/underscore.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bower_components/codemirror/lib/codemirror.css">
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bower_components/codemirror/theme/night.css">
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bower_components/codemirror/theme/monokai.css">
+
+
+  <script type="text/javascript" src="{{ STATIC_URL }}bower_components/codemirror/lib/codemirror.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}bower_components/codemirror/addon/edit/matchbrackets.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}bower_components/codemirror/mode/javascript/javascript.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}bower_components/codemirror/mode/coffeescript/coffeescript.js"></script>
+
+
 
   <title>Apps at an Exhibition</title>
 
@@ -77,15 +91,16 @@ style="zoom: 1;">
 
     {% endverbatim %}
 
-    <script type="text/javascript" src="{{ STATIC_URL }}site/js/lib/moment.min.js"></script>
 
-    <!-- angular things -->
-    <script src="{{ STATIC_URL }}bower/angular/angular.js"></script>
-    <!-- bower angular things -->
+    <script type="text/javascript" src="{{ STATIC_URL }}bower/angular/angular.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}bower_components/angular-ui-codemirror/ui-codemirror.js"></script>
+
     {% for lib in bower_includes %}
       <script src="{{ STATIC_URL }}bower/angular-{{lib}}/angular-{{lib}}.min.js"></script>
     {% endfor %}
     <script src="{{ STATIC_URL }}bower/angular-bootstrap/ui-bootstrap.js"></script>
+    <!-- <script src="{{ STATIC_URL }}bower/angular-moment/moment.min.js"></script> -->
+
 
 
     <!-- my angular app's things -->

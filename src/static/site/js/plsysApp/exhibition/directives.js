@@ -2,15 +2,16 @@
 
 angular
   .module('app.exhibition')
-  .directive('timeAgo', function ($timeout) {
+  .directive('timeAgo', ['$timeout', ($timeout) => {
       return {
-        restrict: 'A',
+        restrict: 'AEC',
         scope: {
             title: '@'
         },
         link: function (scope, elem, attrs) {
-            var updateTime = function () {
+            var updateTime = () => {
               if (attrs.title) {
+                console.log(attrs.title)
                 elem.text(moment(attrs.title).fromNow())
                 $timeout(updateTime, 15000)
             }
@@ -18,7 +19,7 @@ angular
             scope.$watch(attrs.title, updateTime)
         }
     }
-  })
+  }])
   // .directive('pendingBar', ['$rootScope', function ($rootScope) {
   //   return {
   //     link: function (scope, element, attrs) {

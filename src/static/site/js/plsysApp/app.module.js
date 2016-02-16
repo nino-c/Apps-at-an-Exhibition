@@ -13,4 +13,5 @@
       $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken']
     }])
 
+
 })();

@@ -1,0 +1,69 @@
+
+<md-dialog flex="80">
+
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>App Editor</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="cancel()">
+        <md-icon md-font-set="material-icons">close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content layout-padding>
+
+    <form name="appForm">
+
+      <md-content layout="col">
+        <md-content flex="initial">
+
+          <md-input-container class="md-block">
+            <label>Title</label><input ng-model="app.title" value="{{ app.title }}">
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Description</label>
+            <textarea ng-model="app.description" rows="5" md-select-on-focus>{{ app.description }}</textarea>
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Category</label>
+            <md-select ng-model="categories">
+              <md-option ng-repeat="cat in categories" value="{{ cat.id }}">{{cat.name}}</md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Script Language</label>
+            <md-select ng-model="app.scriptType">
+              <md-option ng-repeat="st in scriptTypes" value="{{ st.value }}">{{st.label}}</md-option>
+            </md-select>
+          </md-input-container>
+
+
+        </md-content>
+
+        <md-content flex="grow">
+
+            <label class="md-input">Source Code</label>
+
+          <textarea ui-codemirror="editorOptions" ng-model="cmModel"></textarea>
+
+            <!-- <ui-codemirror  ui-codemirror-opts="editorOptions"></ui-codemirror> -->
+
+
+          <md-input-container class="md-block">
+            <label>Seed Structure</label>
+            <textarea ng-model="app.seedStructure" rows="5" md-select-on-focus>
+              {{ app.seedStructure }}
+            </textarea>
+          </md-input-container>
+        </md-content>
+
+      </md-content>
+    </form>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <md-button class="md-primary md-raised" md-ripple-size="full" ng-click="$mdDialog.hide()">Cancel</md-button>
+    <md-button class="md-success md-raised" md-ripple-size="full" ng-click="save()">Save</md-button>
+  </md-dialog-actions>
+
+</md-dialog>
