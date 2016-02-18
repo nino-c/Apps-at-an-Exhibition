@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
                 ('value', models.TextField()),
-                ('game', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='params', to='game.ZeroPlayerGame')),
+                ('game', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='params', to='game.App')),
             ],
         ),
     ]

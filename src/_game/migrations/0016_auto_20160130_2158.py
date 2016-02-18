@@ -20,6 +20,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='gameinstancesnapshot',
             name='instance',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='images', to='game.GameInstance'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='images', to='game.AppInstance'),
         ),
     ]

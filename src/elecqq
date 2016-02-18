@@ -1,0 +1,56 @@
+                            List of relations
+ Schema |                    Name                    |   Type   | Owner  
+--------+--------------------------------------------+----------+--------
+ public | auth_group                                 | table    | ninopq
+ public | auth_group_id_seq                          | sequence | ninopq
+ public | auth_group_permissions                     | table    | ninopq
+ public | auth_group_permissions_id_seq              | sequence | ninopq
+ public | auth_permission                            | table    | ninopq
+ public | auth_permission_id_seq                     | sequence | ninopq
+ public | authtools_user                             | table    | ninopq
+ public | authtools_user_groups                      | table    | ninopq
+ public | authtools_user_groups_id_seq               | sequence | ninopq
+ public | authtools_user_id_seq                      | sequence | ninopq
+ public | authtools_user_user_permissions            | table    | ninopq
+ public | authtools_user_user_permissions_id_seq     | sequence | ninopq
+ public | django_admin_log                           | table    | ninopq
+ public | django_admin_log_id_seq                    | sequence | ninopq
+ public | django_content_type                        | table    | ninopq
+ public | django_content_type_id_seq                 | sequence | ninopq
+ public | django_migrations                          | table    | ninopq
+ public | django_migrations_id_seq                   | sequence | ninopq
+ public | django_session                             | table    | ninopq
+ public | easy_thumbnails_source                     | table    | ninopq
+ public | easy_thumbnails_source_id_seq              | sequence | ninopq
+ public | easy_thumbnails_thumbnail                  | table    | ninopq
+ public | easy_thumbnails_thumbnail_id_seq           | sequence | ninopq
+ public | easy_thumbnails_thumbnaildimensions        | table    | ninopq
+ public | easy_thumbnails_thumbnaildimensions_id_seq | sequence | ninopq
+ public | game_category                              | table    | ninopq
+ public | game_category_id_seq                       | sequence | ninopq
+ public | game_gameinstance                          | table    | ninopq
+ public | game_gameinstance_id_seq                   | sequence | ninopq
+ public | game_gameinstancesnapshot                  | table    | ninopq
+ public | game_gameinstancesnapshot_id_seq           | sequence | ninopq
+ public | game_jslibrary                             | table    | ninopq
+ public | game_jslibrary_id_seq                      | sequence | ninopq
+ public | game_plerpingapp_id_seq                    | sequence | ninopq
+ public | game_zeroplayergame                        | table    | ninopq
+ public | game_zeroplayergame_extraIncludes          | table    | ninopq
+ public | game_zeroplayergame_extraIncludes_id_seq   | sequence | ninopq
+ public | portfolio_imagegallery                     | table    | ninopq
+ public | portfolio_imagegallery_id_seq              | sequence | ninopq
+ public | portfolio_imagemodel                       | table    | ninopq
+ public | portfolio_imagemodel_id_seq                | sequence | ninopq
+ public | portfolio_portfoliocategory                | table    | ninopq
+ public | portfolio_portfoliocategory_id_seq         | sequence | ninopq
+ public | portfolio_portfolioitem                    | table    | ninopq
+ public | portfolio_portfolioitem_id_seq             | sequence | ninopq
+ public | portfolio_proprietaryportfolioitem         | table    | ninopq
+ public | profiles_profile                           | table    | ninopq
+ public | profiles_profile_followers                 | table    | ninopq
+ public | profiles_profile_followers_id_seq          | sequence | ninopq
+ public | static_precompiler_dependency              | table    | ninopq
+ public | static_precompiler_dependency_id_seq       | sequence | ninopq
+(51 rows)
+

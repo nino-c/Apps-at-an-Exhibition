@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RenameModel(
             old_name='PlerpingApp',
-            new_name='ZeroPlayerGame',
+            new_name='App',
         ),
     ]

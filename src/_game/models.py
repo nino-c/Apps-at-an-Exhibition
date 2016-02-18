@@ -40,7 +40,7 @@ class JSLibrary(models.Model):
         verbose_name_plural = "JS libraries"
 
 
-class ZeroPlayerGame(TimestamperMixin, models.Model):
+class App(TimestamperMixin, models.Model):
     parent = models.ForeignKey('self', null=True, blank=True, related_name="children")
     category = models.ForeignKey(Category)
     owner = models.ForeignKey(User)
@@ -68,7 +68,7 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
             user = request.user
         else:
             user = self.owner
-        inst = GameInstance(
+        inst = AppInstance(
             game=self,
             instantiator=user,
             seed=json.dumps(seed),
@@ -87,8 +87,8 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
         return images[:order]
 
 
-class GameInstance(TimestamperMixin, models.Model):
-    game = models.ForeignKey(ZeroPlayerGame, related_name='instances')
+class AppInstance(TimestamperMixin, models.Model):
+    game = models.ForeignKey(App, related_name='instances')
     instantiator = models.ForeignKey(User)
     seed = models.TextField()
     #source = models.TextField()
@@ -104,8 +104,8 @@ class GameInstance(TimestamperMixin, models.Model):
             return []
 
 
-class GameInstanceSnapshot(TimestamperMixin, models.Model):
-    instance = models.ForeignKey(GameInstance, related_name='images')
+class Snapshot(TimestamperMixin, models.Model):
+    instance = models.ForeignKey(AppInstance, related_name='images')
     image = ImageWithThumbsField(sizes=((125,125),(200,200)))
     time = models.FloatField(default=0, blank=False)
 

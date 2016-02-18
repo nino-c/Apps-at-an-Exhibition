@@ -73,3 +73,5 @@ LOGGING = {
 }
 
 logging.config.dictConfig(LOGGING)
+
+SECRET_KEY = 'hbcywd^a^6av63i9$@8wqkk31&bj&h=4!0$52!_g%kj*k+l$5x'

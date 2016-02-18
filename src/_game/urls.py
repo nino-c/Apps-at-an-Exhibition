@@ -32,8 +32,8 @@ urlpatterns = [
     url(r'^zero-player/$', views.GameList.as_view()),
     url(r'^zero-player/(?P<pk>[0-9]+)/$', views.GameDetail.as_view()),
     url(r'^zero-player/(?P<pk>[0-9]+)/instantiate/$', views.instantiateGame),
-    url(r'^zero-player/instance/$', views.GameInstanceList.as_view()),
-    url(r'^zero-player/instance/(?P<pk>[0-9]+)/$', views.GameInstanceDetail.as_view()),
+    url(r'^zero-player/instance/$', views.AppInstanceList.as_view()),
+    url(r'^zero-player/instance/(?P<pk>[0-9]+)/$', views.AppInstanceDetail.as_view()),
     url(r'^zero-player/snapshot/$', views.snapshotList, name="snapshot-list"),
     url(r'^zero-player/snapshot/(?P<pk>[0-9]+)/$', views.snapshotDetail),
     

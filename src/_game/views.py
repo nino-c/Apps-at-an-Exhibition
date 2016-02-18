@@ -24,19 +24,19 @@ def index(request):
 
 def instantiateGame(request, pk):
     try:
-        game = ZeroPlayerGame.objects.get(pk=pk)
-    except ZeroPlayerGame.DoesNotExist:
+        game = App.objects.get(pk=pk)
+    except App.DoesNotExist:
         return HttpResponse(status=404)
 
     instance = game.instantiate(request)
-    serializer = GameInstanceSerializer(instance)
+    serializer = AppInstanceSerializer(instance)
     return JsonResponse(serializer.data)
 
 @csrf_exempt
 def updateGame(request, pk):
     try:
-        game = ZeroPlayerGame.objects.get(pk=pk)
-    except ZeroPlayerGame.DoesNotExist:
+        game = App.objects.get(pk=pk)
+    except App.DoesNotExist:
         return HttpResponse(status=404)
     #print dir(game)
     #print game.__dict__
@@ -55,11 +55,11 @@ def updateGame(request, pk):
 
         
 
-        game2 = ZeroPlayerGame.objects.get(pk=pk)
+        game2 = App.objects.get(pk=pk)
         #print game2.__dict__
         
         gamedict = game.__dict__
-        serializer = ZeroPlayerGameSerializer(game)
+        serializer = AppSerializer(game)
         return JsonResponse(serializer.data)
 
 
@@ -72,27 +72,27 @@ def updateGame(request, pk):
 
 
 class GameList(generics.ListCreateAPIView):
-    queryset = ZeroPlayerGame.objects.all()
-    serializer_class = ZeroPlayerGameSerializer
+    queryset = App.objects.all()
+    serializer_class = AppSerializer
 
 class GameDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ZeroPlayerGame.objects.all()
-    serializer_class = ZeroPlayerGameSerializer
+    queryset = App.objects.all()
+    serializer_class = AppSerializer
 
-class GameInstanceList(generics.ListCreateAPIView):
-    queryset = GameInstance.objects.all()
-    serializer_class = GameInstanceSerializer
+class AppInstanceList(generics.ListCreateAPIView):
+    queryset = AppInstance.objects.all()
+    serializer_class = AppInstanceSerializer
 
-class GameInstanceDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = GameInstance.objects.all()
-    serializer_class = GameInstanceSerializer
+class AppInstanceDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = AppInstance.objects.all()
+    serializer_class = AppInstanceSerializer
 
 # class SnapshotList(generics.ListCreateAPIView):
-#     queryset = GameInstanceSnapshot.objects.all()
+#     queryset = Snapshot.objects.all()
 #     serializer_class = SnapshotSerializer
 
 # class SnapshotDetail(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = GameInstanceSnapshot.objects.all()
+#     queryset = Snapshot.objects.all()
 #     serializer_class = SnapshotSerializer
 
 # @api_view(['GET', 'POST'])
@@ -106,7 +106,7 @@ def snapshotList(request, format=None):
 
         # get instance
         instanceid = int(request.POST['instance'])
-        instance = GameInstance.objects.get(pk=instanceid)
+        instance = AppInstance.objects.get(pk=instanceid)
         print instance
 
         # write to /tmp
@@ -116,7 +116,7 @@ def snapshotList(request, format=None):
 
         # save new snapshot object
         file =  open(os.path.join("/tmp", imagename), 'r')
-        snap = GameInstanceSnapshot()
+        snap = Snapshot()
         snap.instance = instance
         snap.time = float(request.POST['time'])
         snap.image.save(imagename, File(file))
@@ -127,10 +127,10 @@ def snapshotList(request, format=None):
 
         return JsonResponse({'a':'ok'})
 
-# instance = models.ForeignKey(GameInstance)
+# instance = models.ForeignKey(AppInstance)
 #     image = ImageWithThumbsField(sizes=((125,125),(200,200)))
 #     time = models.FloatField(default=0, blank=False)
-#     gallery = models.ForeignKey(GameInstance, null=True, related_name='images')
+#     gallery = models.ForeignKey(AppInstance, null=True, related_name='images')
 #     timestamp = models.DateTimeField(auto_now_ad
 
 def snapshotDetail(request, format=None):
@@ -144,13 +144,13 @@ def snapshotDetail(request, format=None):
 #     List all apps, or create a new app.
 #     """
 #     if request.method == 'GET':
-#         games = ZeroPlayerGame.objects.all()
-#         serializer = ZeroPlayerGameSerializer(games, many=True)
+#         games = App.objects.all()
+#         serializer = AppSerializer(games, many=True)
 #         return Response(serializer.data)
 
 #     elif request.method == 'POST':
 #         data = JSONParser().parse(request)
-#         serializer = ZeroPlayerGameSerializer(data=data)
+#         serializer = AppSerializer(data=data)
 #         if serializer.is_valid():
 #             serializer.save()
 #             return Response(serializer.data, status=201)
@@ -164,17 +164,17 @@ def snapshotDetail(request, format=None):
 #     Retrieve, update or delete a code game.
 #     """
 #     try:
-#         game = ZeroPlayerGame.objects.get(pk=pk)
-#     except ZeroPlayerGame.DoesNotExist:
+#         game = App.objects.get(pk=pk)
+#     except App.DoesNotExist:
 #         return HttpResponse(status=404)
 
 #     if request.method == 'GET':
-#         serializer = ZeroPlayerGameSerializer(game)
+#         serializer = AppSerializer(game)
 #         return Response(serializer.data)
 
 #     elif request.method == 'PUT':
 #         data = JSONParser().parse(request)
-#         serializer = ZeroPlayerGameSerializer(game, data=data)
+#         serializer = AppSerializer(game, data=data)
 #         if serializer.is_valid():
 #             serializer.save()
 #             return Response(serializer.data)

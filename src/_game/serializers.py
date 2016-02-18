@@ -21,27 +21,27 @@ class UserSerializer_Inline(serializers.ModelSerializer):
         model = User
         fields = ('id', 'name')
 
-class GameInstanceSnapshotSerializer_Inline(serializers.ModelSerializer):
+class SnapshotSerializer_Inline(serializers.ModelSerializer):
     class Meta:
-        model = GameInstanceSnapshot
+        model = Snapshot
 
-class GameInstanceSerializer_Inline(serializers.ModelSerializer):
+class AppInstanceSerializer_Inline(serializers.ModelSerializer):
     instantiator = UserSerializer_Inline()
     images = ImagesField(read_only=True)
     class Meta:
-        model = GameInstance
+        model = AppInstance
         exclude = ('game',)
         depth = 1
 
 # custom serializers
 # ===========================================
 
-class ZeroPlayerGameSerializer(serializers.ModelSerializer):
-    instances = GameInstanceSerializer_Inline(many=True)
+class AppSerializer(serializers.ModelSerializer):
+    instances = AppInstanceSerializer_Inline(many=True)
     owner = UserSerializer_Inline()
     
     class Meta:
-        model = ZeroPlayerGame
+        model = App
         depth = 1
         read_only_fields = ('instances', 'owner')
 
@@ -52,8 +52,8 @@ class ZeroPlayerGameSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-class GameInstanceSerializer(serializers.ModelSerializer):
+class AppInstanceSerializer(serializers.ModelSerializer):
     instantiator = UserSerializer_Inline()
     class Meta:
-        model = GameInstance
+        model = AppInstance
         #depth = 1

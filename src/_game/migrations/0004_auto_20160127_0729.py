@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='GameInstance',
+            name='AppInstance',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('timestamp', models.DateTimeField(auto_now=True)),
@@ -27,13 +27,13 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='GameInstanceSnapshot',
+            name='Snapshot',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('image', django_thumbs.db.models.ImageWithThumbsField(upload_to=b'')),
                 ('time', models.FloatField(default=0)),
-                ('gallery', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='images', to='game.GameInstance')),
-                ('instance', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='game.GameInstance')),
+                ('gallery', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='images', to='game.AppInstance')),
+                ('instance', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='game.AppInstance')),
             ],
         ),
         migrations.AddField(
@@ -47,24 +47,24 @@ class Migration(migrations.Migration):
             field=django_thumbs.db.models.ImageWithThumbsField(blank=True, null=True, upload_to=b''),
         ),
         migrations.AddField(
-            model_name='ZeroPlayerGame',
+            model_name='App',
             name='image',
             field=django_thumbs.db.models.ImageWithThumbsField(blank=True, null=True, upload_to=b''),
         ),
         migrations.AddField(
-            model_name='ZeroPlayerGame',
+            model_name='App',
             name='scriptName',
             field=models.CharField(max_length=500, null=True),
         ),
         migrations.AddField(
-            model_name='ZeroPlayerGame',
+            model_name='App',
             name='scriptType',
             field=models.CharField(max_length=100, null=True),
         ),
         migrations.AddField(
             model_name='gameinstance',
             name='game',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='game.ZeroPlayerGame'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='game.App'),
         ),
         migrations.AddField(
             model_name='gameinstance',
