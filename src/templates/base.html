@@ -3,7 +3,7 @@
     {% load staticfiles %}
     {% load thumbnail %}
     {% load compile_static %}
-    
+
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,9 +25,9 @@
     <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
     <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap-colorpicker.js' %}"></script>
     <script type="text/javascript" src="{% static 'site/js/lib/codemirror.js' %}"></script>
-    
 
-    
+
+
 
 
 
@@ -59,47 +59,37 @@
 
   <body>
 
-    <div id="shield">&nbsp;</div>
+    {# <div id="shield">&nbsp;</div> #}
 
     {% block navbar %}
-    <div class="navbar navbar-default navbar-fixed-top navbar-transparent" role="navigation">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
 
-          <a class="navbar-brand" href="{% url 'home' %}">
-            <span class="logical-symbol">∀</span>
-            {% block navbar-brand %}
+        <md-button class="md-icon-button" aria-label="Settings">
+          <md-icon md-font-set="material-icons">menu</md-icon>
+        </md-button>
 
-              <!-- <img src="{% static 'site/img/logo2.png' %}" alt="logo"> -->
-              {% include "_brandname.html" %}
-            {% endblock %}
-          </a>
-        </div>
+        <h1>∀aa∃</h1>
+
+        <h2>
+          <span>Apps at an Exhibition</span>
+        </h2>
+
         {% block navbar-menu %}
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            {% block navbar-left %}
-              {% include "_navbar.html" with active_link="home" %}
-            {% endblock %}
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            {% block navbar-right %}
+        <div flex>
+
+
               {% if user.is_authenticated %}
                 {% if user.is_staff %}
                 <li><a href="{% url 'admin:index' %}">Admin</a></li>
                 {% endif %}
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle profile-menu" data-toggle="dropdown">
-                			<img src="{% thumbnail user.profile.picture|default:'default_profile.png' 30x30 crop %}" alt="" />
-                			{{ user.get_full_name|truncatechars:20 }}
-                			<span class="caret"></span>
-                	 </a>
-		    
+                <a href="#" class="dropdown-toggle profile-menu" data-toggle="dropdown">
+            			<img src="{% thumbnail user.profile.picture|default:'default_profile.png' 30x30 crop %}" alt="" />
+            			{{ user.get_full_name|truncatechars:20 }}
+            			<span class="caret"></span>
+                </a>
+
                   <ul class="dropdown-menu" role="menu">
                     <li><a href="{% url 'profiles:show_self' %}">Profile</a></li>
                     <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
@@ -110,12 +100,11 @@
                 <a class="btn btn-default" href="{% url 'accounts:login' %}" role="button">Log in</a>
                 <a class="btn btn-primary" href="{% url 'accounts:signup' %}" role="button">Sign up</a>
               {% endif %}
-            {% endblock %}
-          </ul>
-          </ul>
+
+
         </div><!--/.nav-collapse -->
         {% endblock %}
-    </div>
+    </md-toolbar>
     {% endblock navbar %}
 
 
@@ -133,13 +122,13 @@
 
     {% block splash %}
     {% endblock splash %}
-    
+
     {% block container %}
     {% endblock container %}
 
     {% block controlPanel %}
     {% endblock %}
-      
+
     {% block backboneTemplates %}
     {% endblock %}
 
@@ -168,7 +157,7 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    
+
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
     {% block scripts %}
@@ -176,5 +165,3 @@
 
   </body>
 </html>
-
-

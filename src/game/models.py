@@ -46,8 +46,6 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
     owner = models.ForeignKey(User)
     title = models.CharField(max_length=500)
     description = models.TextField(blank=True)
-
-    #scriptName = models.CharField(max_length=500, null=True, blank=False)
     scriptType = models.CharField(max_length=100, null=True, blank=False)
     source = models.TextField(blank=True)
     seedStructure = models.TextField(blank=True)
@@ -110,7 +108,7 @@ class GameInstanceSnapshot(TimestamperMixin, models.Model):
     time = models.FloatField(default=0, blank=False)
 
     def __unicode__(self):
-        return self.instance.game.title + ", " + str(self.timestamp)
+        return self.instance.game.title + ", " + str(self.created)
 
     def getFilename(self):
         return self.image.name or None

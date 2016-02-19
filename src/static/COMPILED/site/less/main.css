@@ -52,3 +52,12 @@ body {
   padding: 10px;
   margin-bottom: 10px;
 }
+.navbar .navbar-nav a {
+  padding: 5px;
+  font-size: 12px;
+}
+.navbar .navbar-brand {
+  padding: 12px;
+  color: #337ab7;
+  font-size: 45px;
+}

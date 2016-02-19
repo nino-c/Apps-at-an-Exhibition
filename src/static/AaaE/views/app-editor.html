@@ -1,0 +1,56 @@
+<md-dialog aria-label="App Editor" ng-cloak  flex="80">
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>App Editor</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-font-set="material-icons">close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+
+        <form>
+
+          <div class="control-group">
+            <label class="control-label" for="id_title">Title</label>
+            <div class="controls">
+              <input type="text" id="id_title" placeholder="Title" ng-model="app.title">
+            </div>
+          </div>
+
+          <div class="control-group">
+            <md-input-container>
+              <label>Script Language</label>
+              <md-select ng-model="app.scriptType">
+                <md-option ng-repeat="st in scriptTypes" value="{{ st.value }}">{{st.label}}</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Description</label>
+            <div class="controls">
+              <textarea type="text" id="id_description"
+              ng-model="app.description"></textarea>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Script</label>
+            <textarea ui-codemirror="cmOptions"
+            ng-model="cmModel"></textarea>
+          </div>
+
+        </form>
+
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions>
+      <md-button class="md-primary md-raised" md-ripple-size="full" ng-click="$mdDialog.hide()">Cancel</md-button>
+      <md-button class="md-success md-raised" md-ripple-size="full" ng-click="save()">Save</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

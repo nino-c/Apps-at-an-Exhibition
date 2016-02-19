@@ -19,7 +19,7 @@ import time
 import datetime
 
 
-def index(request):
+def home(request):
     return render(request, "game/index.html")
 
 def instantiateGame(request, pk):
@@ -53,11 +53,11 @@ def updateGame(request, pk):
         game.seedStructure = request.POST['seedStructure']
         game.save()
 
-        
+
 
         game2 = ZeroPlayerGame.objects.get(pk=pk)
         #print game2.__dict__
-        
+
         gamedict = game.__dict__
         serializer = ZeroPlayerGameSerializer(game)
         return JsonResponse(serializer.data)
@@ -71,21 +71,21 @@ def updateGame(request, pk):
 ##############################
 
 
-class GameList(generics.ListCreateAPIView):
-    queryset = ZeroPlayerGame.objects.all()
-    serializer_class = ZeroPlayerGameSerializer
-
-class GameDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ZeroPlayerGame.objects.all()
-    serializer_class = ZeroPlayerGameSerializer
-
-class GameInstanceList(generics.ListCreateAPIView):
-    queryset = GameInstance.objects.all()
-    serializer_class = GameInstanceSerializer
-
-class GameInstanceDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = GameInstance.objects.all()
-    serializer_class = GameInstanceSerializer
+# class GameList(generics.ListCreateAPIView):
+#     queryset = ZeroPlayerGame.objects.all()
+#     serializer_class = ZeroPlayerGameSerializer
+#
+# class GameDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = ZeroPlayerGame.objects.all()
+#     serializer_class = ZeroPlayerGameSerializer
+#
+# class GameInstanceList(generics.ListCreateAPIView):
+#     queryset = GameInstance.objects.all()
+#     serializer_class = GameInstanceSerializer
+#
+# class GameInstanceDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = GameInstance.objects.all()
+#     serializer_class = GameInstanceSerializer
 
 # class SnapshotList(generics.ListCreateAPIView):
 #     queryset = GameInstanceSnapshot.objects.all()

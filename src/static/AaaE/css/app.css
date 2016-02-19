@@ -1,0 +1,12 @@
+html, body {
+  font-family: 'Roboto', 'Helvetica','Arial',sans-serif!important;
+  background-color: #fafafa;
+  font-size:12px;
+  height:100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+md-content {
+  background: transparent;
+}

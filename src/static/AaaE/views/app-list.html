@@ -1,0 +1,116 @@
+<md-content ng-controller="ExhibitionController">
+
+    <md-subheader class="md-primary">Apps</md-subheader>
+
+    <md-content layout-padding layout-wrap>
+        <md-button class="md-raised md-primary" ng-click="createApp($event)">
+          <md-icon md-font-set="material-icons">add_circle_icons</md-icon>
+          Create a new App
+        </md-button>
+    </md-content>
+
+
+    <div layout layout-wrap flex layout-align="center center">
+
+      <div flex="100" ng-repeat="app in apps | orderBy:'created':true">
+
+          <md-card ng-click="selectApp(app)">
+            <md-card-header>
+              <md-card-avatar>
+                <img class="md-user-avatar" ng-src="{{ app.owner.avatar }}"/>
+              </md-card-avatar>
+              <md-card-header-text flex="grow">
+                <span class="md-title">{{ app.title }}</span>
+                <span class="md-subhead">by {{ app.owner.name }}</span>
+              </md-card-header-text>
+
+              <md-card-header-text flex="nogrow">
+                <small><abbr time-ago title="app.created" class="date"></abbr></small>
+              </md-card-header-text>
+            </md-card-header>
+            <img ng-src="{{app.mainImage}}" class="md-card-image" alt="img">
+            <md-card-title>
+              <md-card-title-text class="md-headline">
+                {{app.title}}
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+
+              <p>
+                Created <abbr time-ago title="app.created" class="date"></abbr>
+                in category <a href="#">{{app.category.name}}</a>
+                by {{app.owner.name}}
+              </p>
+
+              <p>
+                <strong>Mime/type</strong>: {{app.scriptType}}<br />
+                <strong>Instances</strong>: {{app.instances.length}}
+              </p>
+
+
+              <p><em>{{app.description}}</em></p>
+
+            </md-card-content>
+
+            <md-card-actions layout-padding layout="row" layout-align="end center">
+
+              <md-button class="md-raised md-accent"
+                ng-click="instantiate($event, app)">
+                <md-tooltip md-direction="bottom">
+                  Instantiate the same program with a different "seed"
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">
+                  add_circle_icons</md-icon>Create a new instance
+              </md-button>
+
+              <md-button class="md-raised md-primary">
+                <md-icon md-font-set="material-icons">visibility</md-icon>
+                  View Source
+              </md-button>
+
+              <md-button ng-disabled="true" class="md-raised ng-disabled">
+                <md-tooltip md-direction="bottom">
+                  Must be logged in first...
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">settings</md-icon>
+                Alter and Fork
+              </md-button>
+
+              <!-- <md-button class="md-fab md-accent">
+                <md-tooltip md-direction="bottom">
+                  Create a new instance
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">
+                  add_circle_icons</md-icon>
+              </md-button>
+
+                <md-button class="md-fab md-primary">
+                  <md-icon md-font-set="material-icons">visibility</md-icon>
+                  <md-tooltip md-direction="bottom">
+                    View Source
+                  </md-tooltip>
+                </md-button>
+
+                <md-button ng-disabled="true" class="md-fab ng-disabled">
+                  <md-tooltip md-direction="bottom">
+                    Alter and Fork
+                  </md-tooltip>
+                  <md-icon md-font-set="material-icons">settings</md-icon>
+                </md-button> -->
+
+            </md-card-actions>
+
+          </md-card>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- <md-button class="share" md-no-ink ng-click="ul.makeContact(ul.selected)" aria-label="Share with {{ ul.selected.name }}">
+    <md-icon md-svg-icon="share"></md-icon>
+  </md-button> -->
+
+
+</md-content>
