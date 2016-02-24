@@ -7,7 +7,7 @@
   <md-card>
     <md-card-header>
       <md-card-avatar>
-        <img class="md-user-avatar" src="{{ app.owner.avatar }}"/>
+        <img class="md-user-avatar" src="{{ app.owner.avatar }}" />
       </md-card-avatar>
       <md-card-header-text flex="grow">
         <span class="md-title">{{ app.title }}</span>
@@ -19,7 +19,7 @@
     </md-card-header>
     <img ng-src="{{app.mainImage}}" class="md-card-image" alt="img">
     <md-card-title>
-      <md-card-title-text class="md-headline">
+      <md-card-title-text class="md-primary">
         {{app.title}}
       </md-card-title-text>
       <md-card-title-text>
@@ -42,15 +42,11 @@
 
       <!-- <h3>Instances</h3> -->
 
-      <md-list layout-align="left start">
-        <md-subheader class="md-no-sticky">Instances</md-subheader>
-        <md-list-item class="md-3-line" ng-repeat="inst in app.instances">
-          <!-- Created by {{ inst.instantiator.name }} @ {{ inst.created }}<br /> -->
 
-
-
-          <md-card>
-            <md-card-header>
+        <!-- <md-subheader class="md-no-sticky">Instances</md-subheader> -->
+        <div ng-repeat="inst in app.instances">
+          <md-card ng-click="selectInstance(inst)">
+            <md-card-header class="md-primary">
               <md-card-avatar>
                 <img class="md-user-avatar" ng-src="{{ inst.instantiator.avatar }}"/>
               </md-card-avatar>
@@ -64,36 +60,19 @@
             </md-card-header>
 
             <md-card-content>
-              <md-subheader class="md-no-sticky">Seed</md-subheader>
-              <pre>{{ inst.seed.toString() }}</pre>
-              <md-subheader class="md-no-sticky">Snapshots</md-subheader>
-              <md-content layout-wrap>
-                <img class="snapshot" ng-src="{{ im.image }}" ng-repeat="im in inst.images" />
+              <!-- <md-subheader class="md-no-sticky">Seed</md-subheader> -->
+              <div ng-repeat="(k,v) in JSON.parse(inst.seed)">
+                  <strong>{{ k }}: </strong> {{ v }}<br />
+              </div>
+              <!-- <md-subheader class="md-no-sticky">Snapshots</md-subheader> -->
+              <md-content layout-wrap layout-margin>
+                <img class="thumbnail-tiny pull-left"
+                    ng-src="/media/{{ im | thumbnail:125 }}"
+                    ng-repeat="im in inst.snapshots" flex />
               </md-content>
             </md-card-content>
           </md-card>
 
-
-        </md-list-item>
-      </md-list>
-
-      <md-list ng-repeat="inst in app.instances">
-        {{ inst.instantiator.name }}
-          <!-- {
-         "id": 7,
-         "instantiator": {
-             "id": 1,
-             "avatar": "/media/profile_pics/2016-02-14/97.jpg",
-             "name": "nino-pq"
-         },
-         "images": [],
-         "created": "2016-02-07T11:04:39.132387+00:00",
-         "updated": "2016-02-07T11:04:45.339559+00:00",
-         "seed": "{}",
-         "pagecache": "",
-         "app": 7
-     } -->
-      </div>
 
     </md-card-content>
 
@@ -129,64 +108,6 @@
 <a class="btn" href="#/"> Go back</a>
 
 
-<div modal="appModalEdit" close="close('create')">
-  <a ng-click="close('edit')" class="close" data-dismiss="modal">×</a>
 
-  <div class="modal-header">
-    <h4>Edit app</h4>
-  </div>
-  <div class="modal-body">
-    <form class="form-horizontal">
-
-      <div class="control-group">
-        <label class="control-label" for="id_title">Title</label>
-        <div class="controls">
-          <input type="text" id="id_title" placeholder="Title" ng-model="app.title">
-        </div>
-      </div>
-
-      <div class="control-group">
-        <label class="control-label" for="id_description">Description</label>
-        <div class="controls">
-          <textarea type="text" id="id_description"
-          ng-model="app.description"></textarea>
-        </div>
-      </div>
-
-      <div class="control-group">
-        <label class="control-label" for="id_scriptType">Script Type</label>
-        <div class="controls">
-          <select ng-model="app.scriptType" ng-options="st.value as st.label for st in scriptTypes">
-        </div>
-      </div>
-
-      <!-- <div class="control-group">
-        <label class="control-label" for="tags">Instances</label>
-
-        <div class="controls">
-          <div>
-            <span class="tag btn btn-info btn-small"
-            ng-repeat="tag in app.tags_details">
-            {[{tag.name}]}
-            <i class="icon-white icon-remove remove-tag"
-            ng-click="removeTag(tag)"></i>
-          </span>
-        </div>
-        <div id="list-members-add">
-          <input type="text" placeholder="Add tags"
-          class="ui-autocomplete-input"
-          ng-model="selectedTag" ng-change="selectTag()"
-          autocomplete="off"
-          typeahead="suggestion as suggestion.name for suggestion in getTag($viewValue)">
-        </div>
-      </div>
-    </div> -->
-  </form>
-</div>
-<div class="modal-footer">
-  <button class="btn btn-success" ng-click="update()">Update</button>
-  <button class="btn btn-danger" ng-click="close('edit')">Cancel</button>
-</div>
-</div>
 
 </md-content>

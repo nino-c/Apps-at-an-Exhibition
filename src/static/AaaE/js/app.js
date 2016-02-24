@@ -38,7 +38,7 @@ angular.module('Exhibition', [
         .when('/apps/:id', {
           templateUrl: 'views/instances.html',
         })
-        .when('/instance/:id', {
+        .when('/instance/:app_id/:instance_id', {
           templateUrl: 'views/instance.html',
         })
         .otherwise({
@@ -49,8 +49,5 @@ angular.module('Exhibition', [
 
   })
   .run(function($http, $cookies) {
-    // $rootScope.$on('$routeChangeError', function(event, current, previous, rejection) {
-    //   console.log(event, current, previous, rejection)
-    // })
     $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken']
   })

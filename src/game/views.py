@@ -70,6 +70,33 @@ def updateGame(request, pk):
 #                            #
 ##############################
 
+def test(request):
+  games = ZeroPlayerGame.objects.all()
+  counts = []
+  for game in games:
+    firstInstance = game.instances.all()[0]
+    #print firstInstance
+    firstImage = firstInstance.images.all()[0]
+    print firstImage
+    counts.append(firstImage)
+    #counts.append(game.instances.count())
+    continue
+    if game.instances.count() > 0:
+      for ins in game.instances.all():
+
+        #counts.append(ins.images.count())
+
+        if ins.images.count() > 0:
+          print '---------------'
+          print ins.images.all()
+          print ins.images.all()[0]
+          im = ins.images.all()[0]
+          counts.append( im.pk )
+          game.mainImage = im
+          print game.mainImage
+          #game.save(force_update=True)
+          continue
+  return HttpResponse(str(counts))
 
 # class GameList(generics.ListCreateAPIView):
 #     queryset = ZeroPlayerGame.objects.all()

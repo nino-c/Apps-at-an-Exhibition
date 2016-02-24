@@ -2,7 +2,7 @@
 	*************************************
 	* @author: Nino P. Cocchiarella
 	* (c) 2016
-	* 
+	*
 	* Das Plerpenspiel
 	* main javascript app
 	*
@@ -48,7 +48,7 @@
 	    },
 
 	    instantiateGame: function(id) {
-	    	var url = "/game/zero-player/" + id + "/instantiate/";
+	    	var url = "/game/api/apps/" + id + "/instantiate/";
 			$.ajax({
 				url: url,
 				method: "GET",
@@ -119,7 +119,7 @@
         				// 	}
         				// }
 
-        				line = "var " + attr + " = \"" 
+        				line = "var " + attr + " = \""
         					+ seed[attr].toString() + "\";"
         			} else {
         				line = "var " + attr + " = " + seed[attr].toString() + ";"
@@ -128,11 +128,11 @@
         			//eval(line);
         			//echo(line);
         		}
-	        	
+
 
 	        	// execute seed code and game script
 	        	if (game.get('scriptType') == "text/paperscript") {
-	        		
+
 					with (paper) {
 						var source = seedcodelines.join("\n") + "\n" + game.get('source');
 						eval(source);
@@ -149,11 +149,11 @@
 
 	    snapshot: function() {
 	    	if (window._renderer) {
-	    		var snapshot = window._renderer.domElement.toDataURL("image/png");	
+	    		var snapshot = window._renderer.domElement.toDataURL("image/png");
 	    	} else {
 	    		var snapshot = Canvas.toDataURL("image/png");
 	    	}
-	    	var url = "/game/zero-player/snapshot/";
+	    	var url = "/game/api/apps/snapshot/";
 	    	$.post(url, {
 	    			instance: currentInstance.id.toString(),
 	    			time: App.getTimeElapsed(),
@@ -167,13 +167,13 @@
 	    },
 
 	    redraw: function() {
-	    	
+
 	    },
 
 	    editSource: function() {
 	    	$("#blackout").css({display:"block"});
 	    	$("#source-editor").css({display:"block"});
-	    	
+
 	    	text1 = $("#source-textarea");
 	    	text2 = $("#seed-structure");
 
@@ -190,11 +190,11 @@
 
 			var editor2 = CodeMirror.fromTextArea(document.getElementById('seed-structure'), {
 				lineNumbers: true
-			});	
+			});
 			App.editors = [editor1, editor2];
 			//editor2.setOption("theme", "monokai");
 
-			
+
 
 	    },
 
@@ -228,12 +228,12 @@
 	    	})
 
 
-	    	
+
 	    }
 
 	};
 
-	
+
 	/*
 	*
 	*********   MODELS
@@ -241,7 +241,7 @@
 	*/
 
 	App.Models.Game = Backbone.Model.extend({
-		
+
 		defaults: {
 			title: "New Space",
 			description: "A brand new, clean app-skeleton.",
@@ -254,8 +254,8 @@
 
 		getImageSet: function() {
 			var images = [];
-			_.each(this.get('instances'), function(instance) { 
-				images = images.concat(instance.images); 
+			_.each(this.get('instances'), function(instance) {
+				images = images.concat(instance.images);
 			});
 			N = 1;
 			if (images.length >= 4) N=4;
@@ -263,8 +263,8 @@
 			this.set('images', _.sample(_.flatten(images), N));
 			return this.images;
 		},
-		
-		url: function() { return '/game/zero-player/' + this.id + "/"; },
+
+		url: function() { return '/game/api/apps/' + this.id + "/"; },
 	});
 
 	App.Models.GameInstance = Backbone.Model.extend({
@@ -288,7 +288,7 @@
 	*/
 
 	App.Collections.GameCollection = Backbone.Collection.extend({
-		url: "/game/zero-player",
+		url: "/game/api/apps",
 		model: App.Models.Game
 	});
 
@@ -402,7 +402,7 @@
 		}
 	});
 
-	
+
 	/*
 	*
 	*********   ROUTER
@@ -439,32 +439,32 @@
 
 				// if there are no instances, make one
 				if (game.get('instances').length == 0) {
-					echo("no instances, making one"); 
+					echo("no instances, making one");
 					App.instantiateGame( game.get('id') );
 				}
 			});
 		},
 
 		instance: function(gameid, instanceid) {
-			/*var instance = _.filter(App.views.gameDetail.model.get('instances'), function(x) { 
+			/*var instance = _.filter(App.views.gameDetail.model.get('instances'), function(x) {
 				return x.id == id; })[0] || null;*/
 			var game = new App.Models.Game({id:gameid});
 			currentGame = game;
 
 			game.fetch().then(function() {
-				var instance = _.filter(game.get('instances'), function(x) { 
+				var instance = _.filter(game.get('instances'), function(x) {
 					return x.id == instanceid; })[0] || null;
 				currentInstance = instance;
 
 				if (instance != null) App.executeGame();
 			});
-			
+
 		}
 
 	});
 
-	
-	
+
+
 
 	App.getTimeElapsed = function() {
 		return (((new Date()).getTime() - App.timeAtLoad) / 1000);
@@ -519,7 +519,7 @@
 	// if (document.readyState == "complete") {
 	// 	App.start();
 	// } else {
-		$(document).ready(function() { 
+		$(document).ready(function() {
 			App.start();
 		});
 	//}

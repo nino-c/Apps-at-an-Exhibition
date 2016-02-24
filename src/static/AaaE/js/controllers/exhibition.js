@@ -20,6 +20,7 @@
         ]
 
         $scope.selectApp = (chosenApp) => {
+          $scope.selectedApp = chosenApp
           $location.path('/apps/'+chosenApp.id)
         }
 

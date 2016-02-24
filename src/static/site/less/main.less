@@ -8,13 +8,69 @@
 @almost-clear: rgba(253, 252, 247, 0.95);
 
 
-body {
-    background-color: #fff;
-    font-weight: 200;
-    font-family: monospace;
-    //font-family: helvetica;
-    font-size: 11px;
+html, body {
+  /*font-family: 'Roboto', 'Helvetica','Arial',sans-serif!important;*/
+  font-weight: 200;
+  font-family: monospace;
+  font-size:11px;
+  height:100%;
+  margin: 0px;
+  padding: 0px;
+  background-color: transparent;
 }
+
+.main {
+  z-index: 2;
+}
+
+#big-canvas { 
+  z-index: -1000;
+  display: block;
+  height: 0px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  // background-color: #cc0000;
+}
+
+md-content {
+  background: transparent;
+}
+
+
+md-card {
+  background-color: rgba(255,255,255,0.85)
+}
+
+.snapshot {
+    width: 80px;
+    height: 80px;
+    margin: 5px;
+    border: 1px solid #fefefe;
+}
+
+.nthumbnail {
+    display: block;
+    padding: 4px;
+    margin-bottom: 20px;
+    line-height: 1.42857143;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    -webkit-transition: border .2s ease-in-out;
+    -o-transition: border .2s ease-in-out;
+    transition: border .2s ease-in-out;
+}
+
+.thumbnail-tiny {
+    .nthumbnail;
+    width: 80px;
+    height: 80px;
+}
+
 
 
 .round-border {

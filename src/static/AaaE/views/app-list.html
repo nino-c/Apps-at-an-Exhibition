@@ -12,7 +12,7 @@
 
     <div layout layout-wrap flex layout-align="center center">
 
-      <div flex="100" ng-repeat="app in apps | orderBy:'created':true">
+      <div flex="50" ng-repeat="app in apps | orderBy:'created':true">
 
           <md-card ng-click="selectApp(app)">
             <md-card-header>
@@ -54,13 +54,21 @@
 
             <md-card-actions layout-padding layout="row" layout-align="end center">
 
-              <md-button class="md-raised md-accent"
+              <!-- <md-button class="md-raised md-accent"
                 ng-click="instantiate($event, app)">
                 <md-tooltip md-direction="bottom">
                   Instantiate the same program with a different "seed"
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">
                   add_circle_icons</md-icon>Create a new instance
+              </md-button> -->
+
+              <md-button class="md-raised md-accent"
+                ng-click="instantiate($event, app)">
+                <md-tooltip md-direction="bottom">
+                  Instantiate the same program with a different "seed"
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">play_circle_outline</md-icon>&nbsp;See
               </md-button>
 
               <md-button class="md-raised md-primary">

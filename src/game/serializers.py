@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from authtools.models import User
 from .models import *
 
 
@@ -20,6 +20,13 @@ class ParseDateField(serializers.Field):
     def to_representation(self, obj):
         return parseDate(obj)
 
+class CategoryField(serializers.Field):
+    def to_representation(self, obj):
+      return obj.__unicode__()
+    def to_internal_value(self, data):
+      return Category.objects.get(pk=int(data))
+
+
 # custom serializers
 # ===========================================
 
@@ -27,6 +34,11 @@ class ParseDateField(serializers.Field):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
+        fields = '__all__'
+
+class JSLibrarySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JSLibrary
         fields = '__all__'
 
 class SnapshotSerializer(serializers.ModelSerializer):
@@ -48,40 +60,52 @@ class UserSerializer(serializers.ModelSerializer):
     def get_avatar(self, object):
         return object.profile.picture.url
 
+
+class AppSerializer_Inline(serializers.ModelSerializer):
+
+    class Meta:
+        model = ZeroPlayerGame
+        exclude = ('instances',)
+        include = ('__all__')
+
+
 class InstanceSerializer(serializers.ModelSerializer):
     instantiator = UserSerializer(required=False, read_only=True)
     #images = SnapshotSerializer(read_only=True, many=True)
     snapshots = serializers.SerializerMethodField(read_only=True)
-    created = ParseDateField()
-    updated = ParseDateField()
+    sourcecode = serializers.SerializerMethodField(read_only=True)
+    #app = AppSerializer_Inline()
+    #created = ParseDateField()
+    #updated = ParseDateField()
 
     def get_validation_exclusions(self):
         exclusions = super(InstanceSerializer, self).get_validation_exclusions()
         return exclusions + ['instantiator']
 
+    def get_sourcecode(self, object):
+        return object.game.source
+
     def get_snapshots(self, object):
-      return object.getImages()
+        return object.getImages()
+
 
     class Meta:
         model = GameInstance
-        include = ('images', 'created', 'updated', 'snapshots')
+        include = ('snapshots', 'created', 'updated', 'snapshots', 'app')
         read_only_fields = ('images', 'created', 'updated', 'snapshots')
 
 
 class AppSerializer(serializers.ModelSerializer):
     instances = InstanceSerializer(many=True, read_only=True)
     owner = UserSerializer(required=False, read_only=True)
-    category = CategorySerializer(read_only=True)
-    api_url = serializers.SerializerMethodField(read_only=True)
-    created = ParseDateField()
-    updated = ParseDateField()
-    #mainImage = serializers.SerializerMethodField(read_only=True)
+    category = CategoryField()
+    extraIncludes = JSLibrarySerializer(read_only=True, many=True)
 
     class Meta:
         model = ZeroPlayerGame
-        include = ('api_url', 'created', 'updated')
+        include = '__all__'
         read_only_fields = ('id', 'created', 'updated', 'owner',
-          'category', 'instances', 'api_url')
+          'instances')
 
     def get_validation_exclusions(self):
         exclusions = super(InstanceSerializer, self).get_validation_exclusions()
@@ -91,8 +115,11 @@ class AppSerializer(serializers.ModelSerializer):
         return "#/app/%s" % obj.id
 
     def update(self, instance, validated_data):
-        print validated_data
         instance.source = validated_data.get('source', instance.source)
         instance.seedStructure = validated_data.get('seedStructure', instance.seedStructure)
         instance.save()
-        return instance
+
+    def create(self, validated_data):
+        validated_data['owner'] = self.context['request'].user
+        app = ZeroPlayerGame.objects.create(**validated_data)
+        return app

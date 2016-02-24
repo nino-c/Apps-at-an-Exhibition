@@ -49,8 +49,8 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
     scriptType = models.CharField(max_length=100, null=True, blank=False)
     source = models.TextField(blank=True)
     seedStructure = models.TextField(blank=True)
-    extraIncludes = models.ManyToManyField('JSLibrary')
-    mainImage = ImageWithThumbsField(null=True, blank=True, sizes=((125,125),(200,200),(300,300)))
+    extraIncludes = models.ManyToManyField('JSLibrary', null=True, blank=True)
+    mainImage = models.CharField(null=True, blank=True, max_length=255)
 
     def __unicode__(self):
         return "\"%s\", by %s" % (self.title, self.owner.name)
@@ -83,6 +83,7 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
                 )
         random.shuffle(images)
         return images[:order]
+
 
 
 class GameInstance(TimestamperMixin, models.Model):

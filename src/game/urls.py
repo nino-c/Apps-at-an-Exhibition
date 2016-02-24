@@ -7,6 +7,8 @@ from .models import *
 from .serializers import *
 from . import views
 
+from authtools.models import User
+
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
@@ -27,6 +29,13 @@ class SnapshotViewSet(viewsets.ModelViewSet):
     serializer_class = SnapshotSerializer
     queryset = GameInstanceSnapshot.objects.all()
 
+class AppView(viewsets.ModelViewSet):
+    queryset = ZeroPlayerGame.objects.all()
+    serializer_class = AppSerializer
+
+class InstanceAppViewSet(viewsets.ModelViewSet):
+    qeueryset = ZeroPlayerGame.objects.all()
+
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'categories', CategoryViewSet)
@@ -38,8 +47,9 @@ router.register(r'snapshots', SnapshotViewSet)
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    url(r'^$', views.home, name="exhibitions-home"),
+    url(r'^$', views.home, name="game-index"),
     url(r'^api/', include(router.urls)),
+    url(r'^test/', views.test, name="game-test"),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 
