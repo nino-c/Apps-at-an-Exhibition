@@ -1,0 +1,91 @@
+
+<md-content ng-controller="InstancesController">
+
+  <md-subheader class="md-primary">Apps</md-subheader>
+
+  <% if (images.length == 9) { %>
+            <div class="image-gallery-9 pull-right">
+            <% _.each(images, function(image) { %>
+
+                <img src="/media/<%- image.replace('.png', '.125x125.png') %>" class="thumbnail thumbnail-med pull-right" />
+
+            <% }); %>
+            </div>
+            <% } else if (images.length == 4) { %>
+            <div class="image-gallery-4 pull-right">
+            <% _.each(images, function(image) { %>
+
+                <img src="/media/<%- image.replace('.png', '.125x125.png') %>" class="thumbnail  pull-right" />
+            <% }); %>
+            </div>
+        <% } %>
+
+
+        <div class="row">
+            <div class="col-md-7">
+
+                <h3><%-title %></h3>
+                <div>by <strong><%-owner.name %></strong></div>
+                <div class="text-muted">created @ <%- created %></div>
+                <hr />
+
+                <div class="caption">
+                    <p><%- description %></p>
+                </div>
+
+                <button class="btn btn-success" onclick="App.instantiateGame(<%- id %>);">
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                    Create a new instance</button>
+
+                <h3>Instances</h3>
+                <% if (instances.length > 0) { %>
+                    <ul class="applist">
+                    <% _.each(instances, function(instance) { %>
+                        <li>
+                            <%-instance.instantiator.name %>&apos;s instance @ <%- instance.timestamp %><br />
+
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <strong>Seed: </strong><br />
+                                    <% for (var attr in JSON.parse(instance.seed)) { %>
+                                        <em><%- attr %>: </em> <span class="text-muted"><%- JSON.parse(instance.seed)[attr] %></span><br />
+                                    <% } %>
+                                </div>
+                                <div class="col-sm-9">
+                                    <strong>Snapshots: </strong><br />
+                                    <div class="container-fluid">
+                                    <% _.each(instance.images, function(image) { %>
+                                        <img src="/media/<%- image.replace('.png', '.125x125.png') %>" class="thumbnail thumbnail-tiny pull-left" />
+                                    <% }); %>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a class="btn btn-primary" href="#instance/<%- id %>/<%-instance.id %>" role="button">View &raquo;</a><br /><br />
+                        </li>
+                    <% }); %>
+                    </ul>
+                <% } else { %>
+                    <em>Creating first instance...
+                    <span class="glyphicon glyphicon-refresh fa-spin-custom"></span>
+                    </em>
+                <% } %>
+
+            </div>
+            <div class="col-md-5">
+
+            </div>
+        </div>
+  
+
+
+   
+
+</md-card>
+
+
+
+<!-- <a ng-hide="globals.is_authenticated" class="btn" href="/api-auth/login/"> Edit</a> -->
+
+
+

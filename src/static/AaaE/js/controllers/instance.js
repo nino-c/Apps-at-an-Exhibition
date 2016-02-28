@@ -6,7 +6,7 @@ angular
     ($rootScope, $window, $document, $scope, $location, $route, $resource, AppService, InstanceService) => {
 
 
-        $scope.app = AppService.get({id:$route.current.params.instance_id})
+        $scope.app = AppService.get({id:$route.current.params.app_id})
         $scope.instance = InstanceService.get({id:$route.current.params.instance_id})
 
         $scope.instance.$promise.then(function() {
@@ -62,11 +62,14 @@ angular
 
                 }
 
-                var source = seedcodelines.join("\n") + "\n";
+                var source = seedcodelines.join("\n") + "\n"
+                    + $scope.instance.sourcecode
+                    + "\n start();"
+
                 console.log($scope.app)
 
                 // execute seed code and game script
-                if ($scope.app.scriptType == "text/paperscript") {
+                if ($scope.instance.game.scriptType == "text/paperscript") {
 
 
                     eval( seedcodelines.join("\n") );
@@ -75,6 +78,7 @@ angular
 
 
                 } else {
+
                     console.log(seedcodelines.join("\n"));
                     eval( seedcodelines.join("\n") );
                     var game = new Function('Canvas', 'canvas', source)

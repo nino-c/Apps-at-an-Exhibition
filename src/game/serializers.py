@@ -65,7 +65,7 @@ class AppSerializer_Inline(serializers.ModelSerializer):
 
     class Meta:
         model = ZeroPlayerGame
-        exclude = ('instances',)
+        #exclude = ('instances',)
         include = ('__all__')
 
 
@@ -74,7 +74,8 @@ class InstanceSerializer(serializers.ModelSerializer):
     #images = SnapshotSerializer(read_only=True, many=True)
     snapshots = serializers.SerializerMethodField(read_only=True)
     sourcecode = serializers.SerializerMethodField(read_only=True)
-    #app = AppSerializer_Inline()
+
+    game = AppSerializer_Inline()
     #created = ParseDateField()
     #updated = ParseDateField()
 
@@ -91,7 +92,7 @@ class InstanceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GameInstance
-        include = ('snapshots', 'created', 'updated', 'snapshots', 'app')
+        include = ('snapshots', 'game')
         read_only_fields = ('images', 'created', 'updated', 'snapshots')
 
 
@@ -100,19 +101,37 @@ class AppSerializer(serializers.ModelSerializer):
     owner = UserSerializer(required=False, read_only=True)
     category = CategoryField()
     extraIncludes = JSLibrarySerializer(read_only=True, many=True)
+    display_image = serializers.SerializerMethodField(read_only=True)
+    snapshots = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = ZeroPlayerGame
+        depth = 2
         include = '__all__'
         read_only_fields = ('id', 'created', 'updated', 'owner',
-          'instances')
+          'instances', 'display_image')
 
     def get_validation_exclusions(self):
         exclusions = super(InstanceSerializer, self).get_validation_exclusions()
         return exclusions + ['owner']
 
+    def get_snapshots(self, obj):
+        snaps = []
+        for inst in obj.instances.all():
+            for im in inst.images.all():
+                snaps.append(im.image.name.replace("./", ""))
+        return snaps
+
     def get_api_url(self, obj):
         return "#/app/%s" % obj.id
+
+    def get_display_image(self, obj):
+        if obj.instances.count() > 0:
+            for instance in obj.instances.all():
+                if instance.images.count() > 0:
+                    im = instance.images.all()[0]
+                    return str(im.image.name).replace("./", "")
+        return ""
 
     def update(self, instance, validated_data):
         instance.source = validated_data.get('source', instance.source)

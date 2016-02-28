@@ -1,4 +1,4 @@
-<md-dialog aria-label="App Editor" ng-cloak  flex="80">
+<md-dialog aria-label="App Editor" ng-controller="AppEditorController" ng-cloak  flex="80">
 
     <md-toolbar>
       <div class="md-toolbar-tools">
@@ -9,7 +9,9 @@
         </md-button>
       </div>
     </md-toolbar>
+
     <md-dialog-content>
+        
       <div class="md-dialog-content">
 
         <form>
@@ -17,7 +19,7 @@
           <div class="control-group">
             <label class="control-label" for="id_title">Title</label>
             <div class="controls">
-              <input type="text" id="id_title" placeholder="Title" ng-model="app.title">
+              <input type="text" id="id_title" placeholder="Title" ng-model="app.title" />
             </div>
           </div>
 

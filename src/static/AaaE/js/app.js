@@ -35,11 +35,14 @@ angular.module('Exhibition', [
         .when('/', {
           templateUrl: 'views/app-list.html',
         })
-        .when('/apps/:id', {
-          templateUrl: 'views/instances.html',
+        .when('/apps/:id/', {
+          templateUrl: 'views/app-details.html',
         })
-        .when('/instance/:app_id/:instance_id', {
-          templateUrl: 'views/instance.html',
+        .when('/apps/:id/edit/', {
+          templateUrl: 'views/app-editor.html'
+        })
+        .when('/instance/:app_id/:instance_id/', {
+          templateUrl: 'views/app-display.html',
         })
         .otherwise({
           redirectTo: '/',
