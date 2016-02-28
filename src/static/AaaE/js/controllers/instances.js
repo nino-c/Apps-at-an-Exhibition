@@ -8,6 +8,7 @@ angular
     ($scope, $location, $route, AppService, InstanceService) => {
 
     $scope.app = AppService.get({id:$route.current.params.id})
+    //$scope.instances = InstanceService.get({id:$route.current.params.id})
 
     $scope.selectInstance = (chosenInstance) => {
         $scope.selectedInstance = chosenInstance 

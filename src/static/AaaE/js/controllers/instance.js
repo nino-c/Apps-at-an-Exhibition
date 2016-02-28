@@ -89,6 +89,11 @@ angular
             }
         })
 
+    // $scope.$on( "$routeChangeStart", function($event, next, current) {
+    //   console.log("routechange", $event)
+      
+    // })
+
 
   }
 ])

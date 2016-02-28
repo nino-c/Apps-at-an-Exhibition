@@ -50,7 +50,23 @@ angular.module('Exhibition', [
 
         $resourceProvider.defaults.stripTrailingSlashes = false;
 
+
+
+
   })
-  .run(function($http, $cookies) {
+  .run(function($rootScope, $location, $http, $cookies) {
     $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken']
+    $rootScope.$on( "$routeChangeStart", function($event, next, current) {
+          console.log("routechange", $location.path())
+          if ($location.path().indexOf('/instance/') == -1) {
+            // clear canvas
+         
+            //$("#big-canvas").css({display:"block"})
+            $rootScope.showCanvas = false;
+            
+          } else {
+            //$("#big-canvas").css({display:"none"}) 
+            $rootScope.showCanvas = true;
+          }
+        })
   })

@@ -1,12 +1,12 @@
 
   angular
     .module('Exhibition')
-    .controller('ExhibitionController', ['$scope', '$location', '$mdDialog',
+    .controller('ExhibitionController', ['$rootScope', '$scope', '$location', '$mdDialog',
       'AppService',
       'CategoryService',
       'InstanceService',
       //'AppEditor',
-      ($scope, $location, $mdDialog,
+      ($rootScope, $scope, $location, $mdDialog,
         AppService, CategoryService, InstanceService) => {
 
         $scope.apps = AppService.query()
@@ -76,6 +76,8 @@
             instance.$save();
 
         };
+
+        
 
 
     }])

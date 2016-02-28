@@ -17,7 +17,7 @@
                 role="button">View</a>
         </div>
         <div class="col-xs-8">
-            <img src="/media/{{ snap | thumbnail:125 }}" class="thumbnail thumbnail-tiny pull-left"
+            <img ng-src="/media/{{ snap | thumbnail:125 }}" class="thumbnail thumbnail-tiny pull-left"
               ng-repeat="snap in app.snapshots" />
         </div>
     </div>

@@ -1,8 +1,8 @@
-<md-content ng-controller="InstanceController">
+<md-content ng-controller="InstancesController">
 
 
     <div class="image-gallery-9 pull-right">
-        <img src="/media/{{ snapshot | thumbnail:200 }}" 
+        <img ng-src="/media/{{ snapshot | thumbnail:200 }}" 
             class="thumbnail thumbnail-med pull-right"
             ng-repeat="snapshot in instance.snapshots" />
     </div>
@@ -48,7 +48,7 @@
                                 <strong>Snapshots: </strong><br />
                                 <div class="container-fluid">
                                 
-                                    <img src="/media/{{ snap | thumbnail:125 }}" 
+                                    <img ng-src="/media/{{ snap | thumbnail:125 }}" 
                                         class="thumbnail thumbnail-tiny pull-left"
                                         ng-repeat="snap in instance.snapshots" />
                                 
@@ -56,9 +56,9 @@
                             </div>
                         </div>
 
-                        <a class="btn btn-primary" href="#instance/{{ app.id }}/{{ instance.id }}" role="button">View &raquo;</a><br /><br />
+                        <a class="btn btn-primary" href="#instance/{{ app.id }}/{{ instance.id }}/" role="button">View &raquo;</a><br /><br />
                     </li>
-                <% }); %>
+               
                 </ul>
             
                 <em>Creating first instance...
