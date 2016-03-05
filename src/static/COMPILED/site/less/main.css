@@ -1,7 +1,6 @@
 html,
 body {
   /*font-family: 'Roboto', 'Helvetica','Arial',sans-serif!important;*/
-
   font-weight: 200;
   font-family: monospace;
   font-size: 11px;
@@ -24,8 +23,17 @@ body {
   height: 100%;
   background: transparent;
 }
+#brand {
+  font-size: 32px;
+  color: #CFFF8E;
+  font-weight: bold;
+  margin-right: 12px;
+}
 md-content {
   background: transparent;
+}
+md-toolbar {
+  height: 50px;
 }
 md-card {
   background-color: rgba(255, 255, 255, 0.85);
@@ -97,18 +105,22 @@ md-card {
   bottom: 0px;
   height: 50px;
   width: 100%;
-  padding: 10px;
+  padding: 3px 5px 5px 5px;
   background-color: rgba(253, 252, 247, 0.95);
   border-top: 1px solid #eee;
   line-height: auto;
   box-shadow: 0px 1px 0px #ddd;
+  text-align: left;
 }
 .exhibit {
   border: 1px solid #cccccc;
   border-radius: 5px;
   box-shadow: 0px 0px 2px #dddddd;
   padding: 10px;
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 .navbar .navbar-nav a {
   padding: 5px;
@@ -116,6 +128,24 @@ md-card {
 }
 .navbar .navbar-brand {
   padding: 12px;
-  color: #337ab7;
+  color: #337AB7;
   font-size: 45px;
+}
+md-select-menu {
+  background-color: #ffffff;
+}
+.fa-spin-custom,
+.glyphicon-spin {
+  -webkit-animation: spin 1000ms infinite linear;
+  animation: spin 1000ms infinite linear;
+}
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
 }

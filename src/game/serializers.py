@@ -22,9 +22,11 @@ class ParseDateField(serializers.Field):
 
 class CategoryField(serializers.Field):
     def to_representation(self, obj):
-      return obj.__unicode__()
+        return obj.__unicode__()
     def to_internal_value(self, data):
-      return Category.objects.get(pk=int(data))
+        cat = Category.objects.get(name__exact=data)
+        print cat
+        return cat
 
 
 # custom serializers
@@ -133,10 +135,14 @@ class AppSerializer(serializers.ModelSerializer):
                     return str(im.image.name).replace("./", "")
         return ""
 
-    def update(self, instance, validated_data):
-        instance.source = validated_data.get('source', instance.source)
-        instance.seedStructure = validated_data.get('seedStructure', instance.seedStructure)
-        instance.save()
+    def update(self, app, validated_data):
+        print dir(validated_data)
+        print '++++++++'
+        for k,v in validated_data.iteritems():
+            app.__setattr__(k, v)
+        #app.seedStructure = validated_data.get('seedStructure', app.seedStructure)
+        app.save()
+        return app
 
     def create(self, validated_data):
         validated_data['owner'] = self.context['request'].user

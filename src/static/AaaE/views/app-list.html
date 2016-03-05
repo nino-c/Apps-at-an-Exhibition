@@ -1,6 +1,12 @@
 <md-content ng-controller="ExhibitionController" layout-padding>
 
-    <md-subheader class="md-primary">Apps</md-subheader>
+    <md-subheader class="md-primary">
+        Apps
+        <button class="btn btn-success pull-right">
+            <span class="glyphicon glyphicon-plus-sign"></span>
+            Create a new app
+        </button>
+    </md-subheader>
 
     <div class="row exhibit" 
       ng-repeat="app in apps | orderBy:'created':true" 
@@ -13,7 +19,8 @@
                 {{ app.instances.length }} instances<br />
                 {{ app.instances.length }} snapshots
             </div>
-            <a class="btn btn-primary" href="#apps/{{ app.id }}" data-id="{{ app.id }}"
+            <br />
+            <a class="btn btn-primary" href="#/apps/{{ app.id }}" data-id="{{ app.id }}"
                 role="button">View</a>
         </div>
         <div class="col-xs-8">

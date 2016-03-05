@@ -14,49 +14,56 @@
             <div class="col-md-7">
 
                 <h3>{{ app.title }}</h3>
-                <!-- need to extend deeper in serialization  -->
+                
                 <div>by <strong>{{ app.owner.name }}</strong></div>
                 <div class="text-muted">created @ {{ app.created }}</div>
                 <hr />
+
+                <a class="btn btn-primary" href="#/apps/{{ app.id }}/edit/" 
+                    role="button">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                    Edit</a><br /><br />
 
                 <div class="caption">
                     <p>{{ app.description }}</p>
                 </div>
 
+                
+
+                <h3>Instances</h3>
+
                 <button class="btn btn-success">
                     <span class="glyphicon glyphicon-plus-sign"></span>
                     Create a new instance
-                </button>
-
-                <h3>Instances</h3>
+                </button><br /><br />
            
-                <ul class="applist" ng-repeat="instance in app.instances">
+                <ul class="applist">
                 
-                    <li>
-                        {{ instance.instantiator.name }}&apos;s instance @ {{ instance.timestamp }}<br />
+                    <li ng-repeat="instance in app.instances">
+                        {{ instance.instantiator.name }}&apos;s instance @ {{ instance.created }}<br />
 
                         <div class="row">
                             <div class="col-sm-3">
                                 <strong>Seed: </strong><br />
                                 
-                        <div ng-repeat="(key, val) in JSON.parse(instance.seed)">
-                        <em>{{ key }}: </em> <span class="text-muted">{{ val }}</span><br />
-                        </div>
+                                <div ng-repeat="(key, value) in instance._seed">
+                                    <em>{{ key }}: </em> <span class="text-muted">{{ value }}</span><br />
+                                </div>
                              
                             </div>
                             <div class="col-sm-9">
                                 <strong>Snapshots: </strong><br />
                                 <div class="container-fluid">
-                                
+                                    
                                     <img ng-src="/media/{{ snap | thumbnail:125 }}" 
                                         class="thumbnail thumbnail-tiny pull-left"
                                         ng-repeat="snap in instance.snapshots" />
                                 
                                 </div>
                             </div>
-                        </div>
+                            </div>
 
-                        <a class="btn btn-primary" href="#instance/{{ app.id }}/{{ instance.id }}/" role="button">View &raquo;</a><br /><br />
+                        <a class="btn btn-primary" href="#/instance/{{ app.id }}/{{ instance.id }}/" role="button">View &raquo;</a><br /><br />
                     </li>
                
                 </ul>

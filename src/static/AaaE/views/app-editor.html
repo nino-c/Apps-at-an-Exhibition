@@ -1,58 +1,79 @@
-<md-dialog aria-label="App Editor" ng-controller="AppEditorController" ng-cloak  flex="80">
+<md-content ng-controller="AppEditorController" ng-cloak>
 
-    <md-toolbar>
-      <div class="md-toolbar-tools">
-        <h2>App Editor</h2>
-        <span flex></span>
-        <md-button class="md-icon-button" ng-click="cancel()">
-          <md-icon md-font-set="material-icons">close</md-icon>
-        </md-button>
-      </div>
-    </md-toolbar>
+    <form id="app-form">
 
-    <md-dialog-content>
-        
-      <div class="md-dialog-content">
+      <md-content class="container-fluid" layout="row" layout-padding>
+        <div flex="30" layout="column" layout-align="top down">
 
-        <form>
-
-          <div class="control-group">
-            <label class="control-label" for="id_title">Title</label>
-            <div class="controls">
-              <input type="text" id="id_title" placeholder="Title" ng-model="app.title" />
-            </div>
-          </div>
-
-          <div class="control-group">
+        <!-- <div class="input-group"> -->
+          <md-input-container>
+            <label for="id_title">Title</label>
+            <input type="text" id="id_title" placeholder="Title" ng-model="app.title" />
+          </md-input-container>
+        <!-- </div>
+        <div class="row"> -->
+          <md-input-container>
+              <label>Category</label>
+              <md-select ng-model="app.category" ng-model-options="{trackBy: '$value.id'}">
+                <md-option ng-repeat="category in categories" ng-value="{{ category.id }}">{{category.name}}</md-option>
+              </md-select>
+            </md-input-container><br />
+       <!--  </div>
+        <div class="row"> -->
             <md-input-container>
               <label>Script Language</label>
-              <md-select ng-model="app.scriptType">
-                <md-option ng-repeat="st in scriptTypes" value="{{ st.value }}">{{st.label}}</md-option>
+              <md-select ng-model="app.scriptType" 
+                ng-model-options="{trackBy: '$value.value'}">
+                <md-option ng-repeat="st in scriptTypes" ng-value="{{ st.value }}">{{st.label}}</md-option>
               </md-select>
-            </md-input-container>
-          </div>
-
-          <div class="control-group">
+            </md-input-container><br />
+       <!--  </div>
+        <div class="row"> -->
+          <md-input-container>
             <label class="control-label">Description</label>
-            <div class="controls">
+          
               <textarea type="text" id="id_description"
-              ng-model="app.description"></textarea>
-            </div>
-          </div>
+                ng-model="app.description"></textarea>
+           
+          </md-input-container>
+        <!-- </div> -->
 
+        </div>
+        <div flex="grow" layout="column">
           <div class="control-group">
             <label class="control-label">Script</label>
             <textarea ui-codemirror="cmOptions"
-            ng-model="cmModel"></textarea>
+            ng-model="app.source"></textarea>
           </div>
 
-        </form>
+          <div class="control-group">
+            <label class="control-label">Seed Structure</label>
+            <textarea ui-codemirror="cm2Options"
+            ng-model="app.seedStructure"></textarea>
+          </div>
+        </div>
+      </md-content>
 
-      </div>
-    </md-dialog-content>
-    <md-dialog-actions>
-      <md-button class="md-primary md-raised" md-ripple-size="full" ng-click="$mdDialog.hide()">Cancel</md-button>
-      <md-button class="md-success md-raised" md-ripple-size="full" ng-click="save()">Save</md-button>
-    </md-dialog-actions>
-  </form>
-</md-dialog>
+     
+   
+        
+     
+        
+    
+  
+      </md-content>
+
+    </form>
+
+    
+   
+
+
+<div id="toolbar-bottom">
+  <md-button class="md-primary md-raised" md-ripple-size="full" ng-click="back()">Cancel</md-button>
+
+  <md-button class="md-success md-raised" md-ripple-size="full" 
+  ng-click="saveapp(event)">Save</md-button>
+</div>
+
+</md-content>

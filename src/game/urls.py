@@ -3,6 +3,10 @@ from django.conf.urls import include, url
 from authtools.models import User
 from rest_framework import routers, serializers, viewsets
 from rest_framework.urlpatterns import format_suffix_patterns
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+from django.views.decorators.csrf import csrf_exempt
 from .models import *
 from .serializers import *
 from . import views
@@ -13,11 +17,17 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
+@permission_classes((IsAuthenticated, ))
 class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
 
+
+#@csrf_exempt
+#@permission_classes((IsAuthenticated, ))
 class AppViewSet(viewsets.ModelViewSet):
+    authentication_classes = (SessionAuthentication,)
+    permission_classes = [IsAuthenticated,]
     serializer_class = AppSerializer
     queryset = ZeroPlayerGame.objects.all()
 
@@ -29,7 +39,10 @@ class SnapshotViewSet(viewsets.ModelViewSet):
     serializer_class = SnapshotSerializer
     queryset = GameInstanceSnapshot.objects.all()
 
+#@permission_classes((IsAuthenticated, ))
 class AppView(viewsets.ModelViewSet):
+    authentication_classes = (SessionAuthentication,)
+    permission_classes = (IsAuthenticated,)
     queryset = ZeroPlayerGame.objects.all()
     serializer_class = AppSerializer
 

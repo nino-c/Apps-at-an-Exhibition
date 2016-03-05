@@ -55,9 +55,19 @@ angular.module('Exhibition', [
 
   })
   .run(function($rootScope, $location, $http, $cookies) {
+
     $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken']
+    $http.defaults.xsrfCookieName = 'csrftoken';
+    $http.defaults.xsrfHeaderName = 'X-CSRFToken';
+    //$httpProvider.defaults.xsrfCookieName = 'csrftoken';
+    //$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+
+    var history = [];
     $rootScope.$on( "$routeChangeStart", function($event, next, current) {
+          
           console.log("routechange", $location.path())
+          history.push($location.$$path);
+
           if ($location.path().indexOf('/instance/') == -1) {
             // clear canvas
          
@@ -69,4 +79,22 @@ angular.module('Exhibition', [
             $rootScope.showCanvas = true;
           }
         })
+
+
+
+    $rootScope.$on('$routeChangeSuccess', function() {
+        history.push($location.$$path);
+    });
+
+    $rootScope.back = function () {
+        var prevUrl = history.length > 1 ? history.splice(-2)[0] : "/";
+        $location.path(prevUrl);
+    };
+
+    // options for forms
+    $rootScope.scriptTypes = [
+        {name:'text/javascript', label: 'javascript'},
+        {name:'text/coffeescript', label: 'coffeescript'},
+        {name:'text/paperscript', label: 'paperscript'}
+      ]
   })

@@ -36,10 +36,20 @@ html, body {
   // background-color: #cc0000;
 }
 
+#brand {
+  font-size: 32px;
+  color:@pale-green;
+  font-weight: bold;
+  margin-right: 12px;
+}
+
 md-content {
   background: transparent;
 }
 
+md-toolbar {
+  height: 50px;
+}
 
 md-card {
   background-color: rgba(255,255,255,0.85)
@@ -110,17 +120,21 @@ md-card {
     bottom: 0px;
     height: 50px;
     width: 100%;
-    padding: 10px;
+    padding: 3px 5px 5px 5px;
     background-color: @almost-clear;
     border-top: 1px solid #eee;
     line-height: auto;
     box-shadow: 0px 1px 0px #ddd;
+    text-align: left;
 }
 
 .exhibit {
   .round-border;
   padding: 10px;
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .navbar {
@@ -135,6 +149,10 @@ md-card {
     }
 }
 
+md-select-menu {
+  background-color: #ffffff;
+}
+
 // .logical-symbol {
 //   font-size: 14px;
 //   color: darken(@base-color, 30%);
@@ -142,3 +160,18 @@ md-card {
 //   font-weight: 200;
 //   margin-right: 10px;
 // }
+
+.fa-spin-custom, .glyphicon-spin {
+  -webkit-animation: spin 1000ms infinite linear;
+  animation: spin 1000ms infinite linear;
+}
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}

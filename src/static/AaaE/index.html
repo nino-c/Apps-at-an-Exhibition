@@ -32,6 +32,7 @@
   <script type="text/javascript" src="/static/site/js/lib/moment.min.js"></script>
   <script type="text/javascript" src="/static/site/js/lib/underscore.js"></script>
   <script type="text/javascript" src="/static/site/js/lib/paper-full.js"></script>
+  <script type="text/javascript" src="/static/site/js/lib/three.js"></script>
 
   <link rel="stylesheet" type="text/css" href="lib/codemirror/lib/codemirror.css" />
   <link rel="stylesheet" type="text/css" href="lib/codemirror/theme/night.css" />
@@ -58,9 +59,10 @@
       <md-button class="md-icon-button" aria-label="Settings">
         <md-icon md-font-set="material-icons">menu</md-icon>
       </md-button>
-      <h2>
-        <span>Apps at an Exhibition</span>
-      </h2>
+      <h2 id="brand">∀aa∃</h2>
+      <h3><span>Apps at an Exhibition</span></h3>
+        
+      
       <span flex></span>
       <!-- <md-button class="md-icon-button" aria-label="Favorite">
         <md-icon md-font-set="material-icons">favorite</md-icon>
@@ -103,6 +105,7 @@
     <!-- main angular app  -->
     <script src="js/app.js"></script>
     <script src="js/controllers/exhibition.js"></script>
+    <script src="js/controllers/app-editor.js"></script>
     <script src="js/controllers/instances.js"></script>
     <script src="js/controllers/instance.js"></script>
     <script src="js/services/services.js"></script>

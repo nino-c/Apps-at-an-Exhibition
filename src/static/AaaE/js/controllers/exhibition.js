@@ -4,10 +4,10 @@
     .controller('ExhibitionController', ['$rootScope', '$scope', '$location', '$mdDialog',
       'AppService',
       'CategoryService',
-      'InstanceService',
+      //'InstanceService',
       //'AppEditor',
       ($rootScope, $scope, $location, $mdDialog,
-        AppService, CategoryService, InstanceService) => {
+        AppService, CategoryService) => {
 
         $scope.apps = AppService.query()
         $scope.categories = CategoryService.query()

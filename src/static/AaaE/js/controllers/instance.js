@@ -14,6 +14,9 @@ angular
 
             if ($scope.instance.seed) {
 
+                $scope.instance._seed = JSON.parse($scope.instance.seed)
+                console.log("_seed", $scope.instance._seed)
+
                 // prepare code to eval
 
                 // first evaluate the seed to extract the variables inside the dict
@@ -64,7 +67,7 @@ angular
 
                 var source = seedcodelines.join("\n") + "\n"
                     + $scope.instance.sourcecode
-                    + "\n start();"
+                    + "\n try { start(); } catch(e) {}"
 
                 console.log($scope.app)
 
