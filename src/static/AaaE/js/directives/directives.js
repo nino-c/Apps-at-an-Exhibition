@@ -1,7 +1,7 @@
 angular.module('Exhibition')
     .directive('seedDisplay', function() {
         return {
-            restrict: 'AE',
+            restrict: 'E',
             templateUrl: 'views/seedDisplay.html'
         }
     })

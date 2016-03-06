@@ -90,6 +90,25 @@ angular
                 }
 
             }
+
+            $scope.snapshot = function() {
+                if (window._renderer) {
+                    var snapshot = window._renderer.domElement.toDataURL("image/png");  
+                } else {
+                    var snapshot = Canvas.toDataURL("image/png");
+                }
+                var url = "/game/snapshot/";
+                $.post(url, {
+                        instance: $scope.instance.id,
+                        //time: App.getTimeElapsed(),
+                        image: snapshot
+                    },
+                    function(data) {
+                        console.log(data);
+                    }
+                );
+                //App.editors = [];
+            }
         })
 
     // $scope.$on( "$routeChangeStart", function($event, next, current) {

@@ -33,19 +33,25 @@ angular.module('Exhibition', [
 
       $routeProvider
         .when('/', {
-          templateUrl: 'views/app-list.html',
+          templateUrl: 'views/app-list.html'
+        })
+        .when('/apps/new/', {
+          templateUrl: 'views/app-editor.html'
         })
         .when('/apps/:id/', {
-          templateUrl: 'views/app-details.html',
+          templateUrl: 'views/app-details.html'
         })
         .when('/apps/:id/edit/', {
           templateUrl: 'views/app-editor.html'
         })
+        .when('/instance/new/', {
+          templateUrl: 'views/app-display.html'
+        })
         .when('/instance/:app_id/:instance_id/', {
-          templateUrl: 'views/app-display.html',
+          templateUrl: 'views/app-display.html'
         })
         .otherwise({
-          redirectTo: '/',
+          redirectTo: '/'
         })
 
         $resourceProvider.defaults.stripTrailingSlashes = false;
@@ -59,8 +65,6 @@ angular.module('Exhibition', [
     $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken']
     $http.defaults.xsrfCookieName = 'csrftoken';
     $http.defaults.xsrfHeaderName = 'X-CSRFToken';
-    //$httpProvider.defaults.xsrfCookieName = 'csrftoken';
-    //$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 
     var history = [];
     $rootScope.$on( "$routeChangeStart", function($event, next, current) {
@@ -80,8 +84,6 @@ angular.module('Exhibition', [
           }
         })
 
-
-
     $rootScope.$on('$routeChangeSuccess', function() {
         history.push($location.$$path);
     });
@@ -92,9 +94,14 @@ angular.module('Exhibition', [
     };
 
     // options for forms
+    // $rootScope.scriptTypes = [
+    //     {name:'text/javascript', label: 'javascript'},
+    //     {name:'text/coffeescript', label: 'coffeescript'},
+    //     {name:'text/paperscript', label: 'paperscript'}
+    //   ]
     $rootScope.scriptTypes = [
-        {name:'text/javascript', label: 'javascript'},
-        {name:'text/coffeescript', label: 'coffeescript'},
-        {name:'text/paperscript', label: 'paperscript'}
+        'text/javascript', 
+        'text/coffeescript', 
+        'text/paperscript'
       ]
   })

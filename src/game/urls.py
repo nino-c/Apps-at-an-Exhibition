@@ -64,6 +64,7 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^test/', views.test, name="game-test"),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^snapshot/$', views.snapshotList, name="snapshot-list"),
 ]
 
 # Wire up our API using automatic URL routing.

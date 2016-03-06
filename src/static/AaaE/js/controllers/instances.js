@@ -15,10 +15,12 @@ angular
           console.log(app.instances[i].seed)
           app.instances[i]._seed = JSON.parse(app.instances[i].seed);
         }
+
       })
       
       $scope.app = app;
-      
+      console.log($scope.app)
+
       $scope.selectInstance = (chosenInstance) => {
         $scope.selectedInstance = chosenInstance 
         $location.path('/instance/'+$scope.app.id+'/'+chosenInstance.id+'/')

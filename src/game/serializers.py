@@ -24,7 +24,10 @@ class CategoryField(serializers.Field):
     def to_representation(self, obj):
         return obj.__unicode__()
     def to_internal_value(self, data):
-        cat = Category.objects.get(name__exact=data)
+        if type(data) == type(1):
+            cat = Category.objects.get(pk=data)
+        else:
+            cat = Category.objects.get(name__exact=data)
         print cat
         return cat
 

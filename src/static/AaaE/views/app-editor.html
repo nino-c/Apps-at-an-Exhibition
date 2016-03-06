@@ -14,17 +14,18 @@
         <div class="row"> -->
           <md-input-container>
               <label>Category</label>
-              <md-select ng-model="app.category" ng-model-options="{trackBy: '$value.id'}">
-                <md-option ng-repeat="category in categories" ng-value="{{ category.id }}">{{category.name}}</md-option>
+              <md-select ng-model="app.category">
+                <md-option ng-repeat="category in categories" 
+                  ng-value="category.name"
+                  ng-selected="(category.name == app.category) ? true:false">{{category.name}}</md-option>
               </md-select>
             </md-input-container><br />
        <!--  </div>
         <div class="row"> -->
             <md-input-container>
               <label>Script Language</label>
-              <md-select ng-model="app.scriptType" 
-                ng-model-options="{trackBy: '$value.value'}">
-                <md-option ng-repeat="st in scriptTypes" ng-value="{{ st.value }}">{{st.label}}</md-option>
+              <md-select ng-model="app.scriptType">
+                <md-option ng-repeat="st in scriptTypes" ng-value="st">{{st}}</md-option>
               </md-select>
             </md-input-container><br />
        <!--  </div>

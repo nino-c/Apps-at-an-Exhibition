@@ -9,7 +9,15 @@ angular
             $scope.categories = CategoryService.query()
             $scope.scriptTypes = $rootScope.scriptTypes
 
-            $scope.app = AppService.get({id:$route.current.params.id})
+            if ($location.path().indexOf('/apps/new/') > -1) {
+                $scope.app = new AppService({
+                    title: "New App",
+                    source: "function start() {\n\n}",
+                    seedStructure: "{\"param1\":{\"default\":\"\"}}"
+                });
+            } else {
+                $scope.app = AppService.get({id:$route.current.params.id})
+            }
 
             $scope.cmOptions = {
               lineWrapping: true,
@@ -23,10 +31,22 @@ angular
             $scope.cm2Options = angular.copy($scope.cmOptions);
 
             $scope.saveapp = function(event) {
-                $scope.app.$update().then(
-                    (app, putResponse) => {
-                        $mdToast.showSimple("App saved.")
-                    })
+                if ($location.path().indexOf('/apps/new/') > -1) {
+                    console.log($scope.app)
+                    $scope.app.$save().then(
+                        function(app, responseHeaders) {
+                            console.log(app);
+                            console.log(responseHeaders);
+                            $mdToast.showSimple("New app created.")
+                        }
+                    )
+                } else {
+                    console.log($scope.app)
+                    $scope.app.$update().then(
+                        (app, putResponse) => {
+                            $mdToast.showSimple("App saved.")
+                        })
+                }
             }
 
         }])
