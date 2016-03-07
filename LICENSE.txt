@@ -5,3 +5,5 @@ This is open-source software, and as such, permission is hereby granted, free of
 to any person to clone, fork, study, or contribute to, on the one condition that the author's 
 (Nino P. Cocchiarella) full name and copyright notice (above) remain visible in any other 
 implementation of this software, and that it may NOT be sold for profit by anyone.
+
+The author (Nino P. Cocchiarella) also requests that any interest in using this project, (ideas, criticusm, etc.) be openly discussed with the author.
