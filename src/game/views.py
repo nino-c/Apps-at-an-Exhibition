@@ -145,7 +145,7 @@ def snapshotList(request, format=None):
         file =  open(os.path.join("/tmp", imagename), 'r')
         snap = GameInstanceSnapshot()
         snap.instance = instance
-        # snap.time = float(request.POST['time'])
+        snap.time = float(request.POST['time'])
         snap.image.save(imagename, File(file))
         snap.save()
         file.close()

@@ -107,7 +107,5 @@ angular.module('Exhibition', [
       ]
 
     paper.setup('big-canvas');
-    var canvas = $("#big-canvas");
-    var Canvas = document.getElementById("big-canvas");
 
   })

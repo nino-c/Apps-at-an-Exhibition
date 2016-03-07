@@ -11,10 +11,11 @@
         <button ng-click="updateInstance()">Reload</button>
     </div>
 
-    <div id="toolbar-bottom" layout-padding>
+    <div id="toolbar-bottom" layout-padding layout-align="start center">
           
         <div id="footer-title" class="pull-left">{{ instance.game.title }}</div>
-    
+        <!-- <em>{{ timeElapsed | round }}</em> -->
+
         <div class="container-fluid pull-right">
             <button type="button" class="btn btn-primary" ng-click="snapshot()">
               <span class="glyphicon glyphicon-camera"></span>

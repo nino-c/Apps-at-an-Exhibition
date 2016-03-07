@@ -1,13 +1,18 @@
 angular
   .module('Exhibition')
-  .controller('InstanceController', ['$rootScope', '$window', '$document', '$scope', '$location', '$route', '$resource',
+  .controller('InstanceController', ['$rootScope', '$window', '$document', '$scope', 
+    '$interval', '$location', '$route', '$resource', '$mdToast',
     'AppService',
     'InstanceService',
-    ($rootScope, $window, $document, $scope, $location, $route, $resource, AppService, InstanceService) => {
+    ($rootScope, $window, $document, $scope, $interval, $location, $route, $resource, $mdToast,
+        AppService, InstanceService) => {
 
 
         $scope.app = AppService.get({id:$route.current.params.app_id})
         $scope.instance = InstanceService.get({id:$route.current.params.instance_id})
+
+        var timer;
+        $scope.timeElapsed = 0;
 
         $scope.instance.$promise.then(function() {
 
@@ -69,19 +74,24 @@ angular
                     + $scope.instance.sourcecode
                     + "\n try { start(); } catch(e) {}"
 
+                function updateElapsedTime() {
+                    $scope.timeElapsed = ((new Date()).getTime() - $scope.appstart.getTime()) / 1000;
+                }
+
                 console.log($scope.app)
+                
+                $scope.appstart = new Date();
+                timer = $interval(updateElapsedTime, 1000);
 
                 // execute seed code and game script
                 if ($scope.instance.game.scriptType == "text/paperscript") {
 
-                    //with (paper) {
-
-                        eval( seedcodelines.join("\n") );
-                        var game = new Function('Canvas', 'canvas', 'paper', 'with (paper) { ' + source + '}')
-                        game(Canvas, canvas, paper)
-                    //}
                     
-
+                    eval( seedcodelines.join("\n") );
+                    var game = new Function('Canvas', 'canvas', 'paper', 
+                        'with (paper) { ' + source + '}')
+                    game(Canvas, canvas, paper)
+                    
 
                 } else {
 
@@ -99,6 +109,10 @@ angular
         })
 
     $scope.snapshot = function() {
+
+        var canvas = $("#big-canvas");
+        var Canvas = document.getElementById("big-canvas");
+
         if (window._renderer) {
             var snapshot = window._renderer.domElement.toDataURL("image/png");  
         } else {
@@ -107,15 +121,33 @@ angular
         var url = "/game/snapshot/";
         $.post(url, {
                 instance: $scope.instance.id,
-                //time: App.getTimeElapsed(),
+                time: $scope.timeElapsed,
                 image: snapshot
             },
             function(data) {
+                $mdToast.showSimple("Snapshot saved.")
                 console.log(data);
             }
         );
         //App.editors = [];
     }
+
+    $scope.$on("$destroy", function() {
+        console.log('destroy instance -- clear canvas')
+        try {
+            var _canvas = document.getElementById('big-canvas');
+            if (_canvas) {
+                var context = _canvas.getContext('2d')
+                if (context) {
+                    //context.fillStyle = '#ffffff';
+                    context.clearRect(0,0,_canvas.width, _canvas.height);
+                    console.log('clear canvas')
+                }    
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    })
 
     $scope.updateInstance = function() {
         $scope.$digest();

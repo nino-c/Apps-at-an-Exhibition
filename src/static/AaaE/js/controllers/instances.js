@@ -3,9 +3,10 @@ angular
   .controller('InstancesController', ['$scope', 
     '$location', 
     '$route', 
+    '$window',
     'AppService',  
     'InstanceService',
-    ($scope, $location, $route, AppService, InstanceService) => {
+    ($scope, $location, $route, $window, AppService, InstanceService) => {
 
       //var apps = AppService.get({id:$route.current.params.id});
       // well, don't' like them loops, but oh well
@@ -19,12 +20,13 @@ angular
       })
       
       $scope.app = app;
-      console.log($scope.app)
+      //console.log($scope.app)
 
-      $scope.selectInstance = (chosenInstance) => {
-        $scope.selectedInstance = chosenInstance 
-        $location.path('/instance/'+$scope.app.id+'/'+chosenInstance.id+'/')
-      }
+      // $scope.selectInstance = (chosenInstance) => {
+      //   $scope.selectedInstance = chosenInstance 
+      //   //$location.path('/instance/'+$scope.app.id+'/'+chosenInstance.id+'/')
+      //   $window.location = 'index.html#/instance/'+$scope.app.id+'/'+chosenInstance.id+'/';
+      // }
 
   }
 ])
