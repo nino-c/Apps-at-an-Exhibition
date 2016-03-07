@@ -32,6 +32,8 @@ class AppViewSet(viewsets.ModelViewSet):
     queryset = ZeroPlayerGame.objects.all()
 
 class InstanceViewSet(viewsets.ModelViewSet):
+    authentication_classes = (SessionAuthentication,)
+    permission_classes = [IsAuthenticated,]
     serializer_class = InstanceSerializer
     queryset = GameInstance.objects.all()
 
@@ -65,6 +67,7 @@ urlpatterns = [
     url(r'^test/', views.test, name="game-test"),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^snapshot/$', views.snapshotList, name="snapshot-list"),
+    url(r'^app-instantiate/(?P<pk>[0-9]+)/$', views.instantiateGame),
 ]
 
 # Wire up our API using automatic URL routing.

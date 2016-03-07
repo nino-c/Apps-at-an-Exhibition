@@ -9,8 +9,16 @@
           })
         }])
         .factory('InstanceService', ['$resource', ($resource) => {
-          return $resource('/game/api/instances/:id/', {id:'@id'})
+          return $resource('/game/api/instances/:id/', {id:'@id'}, { 
+              update: {
+                  method: 'PUT'
+              }
+          })
         }])
         .factory('CategoryService', ['$resource', ($resource) => {
-          return $resource('/game/api/categories/:id/', {id:'@id'})
+          return $resource('/game/api/categories/:id/', {id:'@id'}, { 
+              update: {
+                  method: 'PUT'
+              }
+          })
         }])

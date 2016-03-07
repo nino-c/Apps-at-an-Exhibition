@@ -4,7 +4,8 @@ angular
     '$interval', '$location', '$route', '$resource', '$mdToast',
     'AppService',
     'InstanceService',
-    ($rootScope, $window, $document, $scope, $interval, $location, $route, $resource, $mdToast,
+    ($rootScope, $window, $document, $scope, $interval, $location, $route, 
+        $resource, $mdToast,
         AppService, InstanceService) => {
 
         $scope.loading = true;
@@ -20,8 +21,20 @@ angular
 
             if ($scope.instance.seed) {
 
-                $scope.instance._seed = JSON.parse($scope.instance.seed)
-                console.log("_seed", $scope.instance._seed)
+                $scope._seed = JSON.parse($scope.instance.seed)
+                console.log("_seed", $scope._seed)
+
+                // $scope.$watch('_seed', function() {
+                //     console.log($scope._seed)
+                // })
+
+                var seedComponents = [];
+                for (var key in $scope._seed) {
+                    seedComponents.push({property: key, value: $scope._seed[key]})
+                }
+                $scope.seedComponents = seedComponents;
+
+                
 
                 // prepare code to eval
 
@@ -153,9 +166,11 @@ angular
     })
 
     $scope.updateInstance = function() {
-        $scope.$digest();
-        console.log($scope.instance._seed)
-    }
+        $scope.seedComponents.forEach(function(comp) {
+            $scope._seed[comp.property] = comp.value;
+        })
+        console.log($scope._seed)
+   }
 
     // $scope.$on( "$routeChangeStart", function($event, next, current) {
     //   console.log("routechange", $event)

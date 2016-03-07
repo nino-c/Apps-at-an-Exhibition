@@ -1,9 +1,18 @@
 angular.module('Exhibition')
-    .directive('seedDisplay', function() {
-        return {
-            restrict: 'E',
-            templateUrl: 'views/seedDisplay.html'
-        }
+    // .directive('seedDisplay', function() {
+    //     return {
+    //         restrict: 'E',
+    //         templateUrl: 'views/seedDisplay.html'
+    //     }
+    // })
+    .component('seedDisplay', {
+        bindings: {
+            __seed: '='
+        },
+        controller: function() {
+            
+        },
+        templateUrl: 'views/seedDisplay.html'
     })
     // .directive('gameTimer', function() {
     //     return function(scope, element, attrs) {

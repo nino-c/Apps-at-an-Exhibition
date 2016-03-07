@@ -44,9 +44,9 @@ angular.module('Exhibition', [
         .when('/apps/:id/edit/', {
           templateUrl: 'views/app-editor.html'
         })
-        .when('/instance/new/', {
-          templateUrl: 'views/app-display.html'
-        })
+        // .when('/instance/new/', {
+        //   templateUrl: 'views/app-display.html'
+        // })
         .when('/instance/:app_id/:instance_id/', {
           templateUrl: 'views/app-display.html'
         })
@@ -73,13 +73,8 @@ angular.module('Exhibition', [
       history.push($location.$$path);
 
       if ($location.path().indexOf('/instance/') == -1) {
-        // clear canvas
-     
-        //$("#big-canvas").css({display:"block"})
         $rootScope.showCanvas = false;
-        
       } else {
-        //$("#big-canvas").css({display:"none"}) 
         $rootScope.showCanvas = true;
       }
       
@@ -94,12 +89,6 @@ angular.module('Exhibition', [
         $location.path(prevUrl);
     };
 
-    // options for forms
-    // $rootScope.scriptTypes = [
-    //     {name:'text/javascript', label: 'javascript'},
-    //     {name:'text/coffeescript', label: 'coffeescript'},
-    //     {name:'text/paperscript', label: 'paperscript'}
-    //   ]
     $rootScope.scriptTypes = [
         'text/javascript', 
         'text/coffeescript', 

@@ -50,33 +50,7 @@
 
         ///////////////////
 
-        $scope.instantiate = (event, _app) => {
-            // console.log("create instance", $score.app);
-            // InstanceService.save($scope.app).then(function (data) {
-            //     $scope.app = data;
-            //     $scope.apps.push(data);
-            //     $scope.appModalCreate = false;
-            // }, function(status){
-            //     console.log(status);
-            // });
-
-            event.preventDefault();
-            event.stopPropagation();
-
-            var seedStructure = JSON.parse( _app.seedStructure )
-            var seed = _.mapObject(seedStructure, (v,k) => {
-              return v.default;
-            })
-
-            var instance = new InstanceService({})
-            instance.app = _app
-            instance.instantiator = _app.owner
-            instance.seed = seed
-
-            instance.$save();
-
-        };
-
+        
         
 
 

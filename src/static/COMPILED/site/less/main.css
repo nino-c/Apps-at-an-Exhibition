@@ -17,11 +17,12 @@ body {
   display: block;
   height: 0px;
   position: fixed;
-  top: 0px;
+  top: 50px;
   left: 0px;
   width: 100%;
   height: 100%;
   background: transparent;
+  padding: 0px;
 }
 #brand {
   font-size: 32px;
@@ -34,6 +35,13 @@ md-content {
 }
 md-toolbar {
   height: 50px;
+  min-height: 50px;
+  max-height: 50px;
+}
+.md-toolbar-tools {
+  height: 50px;
+  max-height: 50px;
+  padding: 4px;
 }
 md-card {
   background-color: rgba(255, 255, 255, 0.85);
@@ -43,6 +51,10 @@ md-card {
   height: 80px;
   margin: 5px;
   border: 1px solid #fefefe;
+}
+#footer-title {
+  font-size: 18px;
+  font-weight: bold;
 }
 .nthumbnail {
   display: block;
@@ -84,6 +96,18 @@ md-card {
   border-radius: 5px;
   box-shadow: 0px 0px 2px #dddddd;
 }
+#seedDisplay {
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  box-shadow: 0px 0px 2px #dddddd;
+  padding: 10px;
+  z-index: 1000;
+  background-color: rgba(253, 252, 247, 0.95);
+  position: fixed;
+  right: 20px;
+  top: 120px;
+  display: inline-block;
+}
 #shield {
   background: linear-gradient(#ffffff, rgba(255, 255, 255, 0.66), rgba(255, 255, 255, 0));
   position: fixed;
@@ -103,9 +127,10 @@ md-card {
 #toolbar-bottom {
   position: fixed;
   bottom: 0px;
+  left: 0px;
   height: 50px;
   width: 100%;
-  padding: 3px 5px 5px 5px;
+  padding: 5px;
   background-color: rgba(253, 252, 247, 0.95);
   border-top: 1px solid #eee;
   line-height: auto;
@@ -134,6 +159,86 @@ md-card {
 md-select-menu {
   background-color: #ffffff;
 }
+.loading-bg {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 2000;
+  background-color: rgba(50, 50, 50, 0.4);
+}
+.loading-text {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  width: 100%;
+  font-size: 26px;
+  color: #333333;
+  text-align: center;
+}
+.loader {
+  position: absolute;
+  margin: 0px auto;
+  width: 100px;
+  height: 100px;
+  left: 50%;
+  top: 50%;
+}
+.circular {
+  animation: rotate 2s linear infinite;
+  height: 100%;
+  transform-origin: center center;
+  width: 100px;
+  height: 100px;
+  position: relative;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.path {
+  stroke-dasharray: 1,200;
+  stroke-dashoffset: 0;
+  animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+  stroke-linecap: round;
+}
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1,200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89,200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dasharray: 89,200;
+    stroke-dashoffset: -124px;
+  }
+}
+@keyframes color {
+  100%,
+  0% {
+    stroke: #91FF66;
+  }
+  40% {
+    stroke: #CFFF8E;
+  }
+  66% {
+    stroke: #337AB7;
+  }
+  80%,
+  90% {
+    stroke: rgba(253, 252, 247, 0.95);
+  }
+}
 .fa-spin-custom,
 .glyphicon-spin {
   -webkit-animation: spin 1000ms infinite linear;
@@ -148,4 +253,7 @@ md-select-menu {
     -webkit-transform: rotate(359deg);
     transform: rotate(359deg);
   }
+}
+canvas {
+  padding: 0px;
 }

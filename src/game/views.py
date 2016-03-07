@@ -29,7 +29,7 @@ def instantiateGame(request, pk):
         return HttpResponse(status=404)
 
     instance = game.instantiate(request)
-    serializer = GameInstanceSerializer(instance)
+    serializer = InstanceSerializer(instance)
     return JsonResponse(serializer.data)
 
 @csrf_exempt
@@ -125,6 +125,8 @@ def test(request):
 # @api_view(['GET', 'POST'])
 # @permission_classes((AllowAny,))
 @csrf_exempt
+# -- TO FIX
+# security hole (validate where image comes from and deal with csrf) 
 def snapshotList(request, format=None):
     if request.method == 'POST':
         # get raw base64-encoded image

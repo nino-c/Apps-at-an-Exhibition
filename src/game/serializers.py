@@ -28,9 +28,13 @@ class CategoryField(serializers.Field):
             cat = Category.objects.get(pk=data)
         else:
             cat = Category.objects.get(name__exact=data)
-        print cat
         return cat
 
+# class AppInlineField(serializers.Field):
+#     def to_representation(self, obj):
+#         return obj
+#     def to_internal_value():
+#         pass
 
 # custom serializers
 # ===========================================
@@ -93,6 +97,13 @@ class InstanceSerializer(serializers.ModelSerializer):
 
     def get_snapshots(self, object):
         return object.getImages()
+
+    def create(self, validated_data):
+        validated_data['instantiator'] = self.context['request'].user
+        validated_data['game'] = ZeroPlayerGame.objects.get(pk=validated_data['game_id'])
+        del validated_data['game_id']
+        instance = GameInstance(**validated_data)
+        return instance
 
 
     class Meta:
