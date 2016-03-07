@@ -6,23 +6,25 @@
             <label>{{key}}</label>
             <input type="text" ng-model="val" />
         </div>
+
+        <br />
+        <button ng-click="updateInstance()">Reload</button>
     </div>
 
     <div id="toolbar-bottom" layout-padding>
-      
-            
-            <div id="control-panel-header-text" class="pull-left">{{ instance.game.title }}</div>
-            
-            <div class="container-fluid pull-right">
-                <button type="button" class="btn btn-primary" ng-click="snapshot()">
-                  <span class="glyphicon glyphicon-camera"></span>
-                  Snapshot</button>&nbsp;
-                <button type="button" class="btn btn-warning" ng-click="editSource()">
-                  <span class="glyphicon glyphicon-eye-open"></span>
-                  View source-code</button>
-            </div>
-           
+          
+        <div id="footer-title" class="pull-left">{{ instance.game.title }}</div>
+    
+        <div class="container-fluid pull-right">
+            <button type="button" class="btn btn-primary" ng-click="snapshot()">
+              <span class="glyphicon glyphicon-camera"></span>
+              Snapshot</button>&nbsp;
+            <button type="button" class="btn btn-warning" ng-click="editSource()">
+              <span class="glyphicon glyphicon-eye-open"></span>
+              View source-code</button>
         </div>
+           
     </div>
+   
 
 </md-content>

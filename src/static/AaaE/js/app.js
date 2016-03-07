@@ -69,20 +69,21 @@ angular.module('Exhibition', [
     var history = [];
     $rootScope.$on( "$routeChangeStart", function($event, next, current) {
           
-          console.log("routechange", $location.path())
-          history.push($location.$$path);
+      console.log("routechange", $location.path())
+      history.push($location.$$path);
 
-          if ($location.path().indexOf('/instance/') == -1) {
-            // clear canvas
-         
-            //$("#big-canvas").css({display:"block"})
-            $rootScope.showCanvas = false;
-            
-          } else {
-            //$("#big-canvas").css({display:"none"}) 
-            $rootScope.showCanvas = true;
-          }
-        })
+      if ($location.path().indexOf('/instance/') == -1) {
+        // clear canvas
+     
+        //$("#big-canvas").css({display:"block"})
+        $rootScope.showCanvas = false;
+        
+      } else {
+        //$("#big-canvas").css({display:"none"}) 
+        $rootScope.showCanvas = true;
+      }
+      
+    })
 
     $rootScope.$on('$routeChangeSuccess', function() {
         history.push($location.$$path);
@@ -104,4 +105,9 @@ angular.module('Exhibition', [
         'text/coffeescript', 
         'text/paperscript'
       ]
+
+    paper.setup('big-canvas');
+    var canvas = $("#big-canvas");
+    var Canvas = document.getElementById("big-canvas");
+
   })

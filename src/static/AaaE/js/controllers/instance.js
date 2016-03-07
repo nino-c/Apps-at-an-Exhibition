@@ -37,7 +37,7 @@ angular
                 // canvas declarations
                 seedcodelines.push( 'canvas.css({\'display\':\'block\'});' )
                 seedcodelines.push( 'Canvas.width = $(window).width();' )
-                seedcodelines.push( 'Canvas.height = $(window).height();' )
+                seedcodelines.push( 'Canvas.height = $(window).height()-50;' )
                 seedcodelines.push( 'console.log(Canvas);' )
                 seedcodelines.push( 'console.log(canvas);' )
 
@@ -74,10 +74,13 @@ angular
                 // execute seed code and game script
                 if ($scope.instance.game.scriptType == "text/paperscript") {
 
+                    //with (paper) {
 
-                    eval( seedcodelines.join("\n") );
-                    var game = new Function('Canvas', 'canvas', 'paper', 'with (paper) { ' + source + '}')
-                    game(Canvas, canvas, paper)
+                        eval( seedcodelines.join("\n") );
+                        var game = new Function('Canvas', 'canvas', 'paper', 'with (paper) { ' + source + '}')
+                        game(Canvas, canvas, paper)
+                    //}
+                    
 
 
                 } else {
@@ -91,25 +94,33 @@ angular
 
             }
 
-            $scope.snapshot = function() {
-                if (window._renderer) {
-                    var snapshot = window._renderer.domElement.toDataURL("image/png");  
-                } else {
-                    var snapshot = Canvas.toDataURL("image/png");
-                }
-                var url = "/game/snapshot/";
-                $.post(url, {
-                        instance: $scope.instance.id,
-                        //time: App.getTimeElapsed(),
-                        image: snapshot
-                    },
-                    function(data) {
-                        console.log(data);
-                    }
-                );
-                //App.editors = [];
-            }
+
+
         })
+
+    $scope.snapshot = function() {
+        if (window._renderer) {
+            var snapshot = window._renderer.domElement.toDataURL("image/png");  
+        } else {
+            var snapshot = Canvas.toDataURL("image/png");
+        }
+        var url = "/game/snapshot/";
+        $.post(url, {
+                instance: $scope.instance.id,
+                //time: App.getTimeElapsed(),
+                image: snapshot
+            },
+            function(data) {
+                console.log(data);
+            }
+        );
+        //App.editors = [];
+    }
+
+    $scope.updateInstance = function() {
+        $scope.$digest();
+        console.log($scope.instance._seed)
+    }
 
     // $scope.$on( "$routeChangeStart", function($event, next, current) {
     //   console.log("routechange", $event)

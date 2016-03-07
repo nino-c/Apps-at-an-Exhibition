@@ -28,11 +28,12 @@ html, body {
   display: block;
   height: 0px;
   position: fixed;
-  top: 0px;
+  top: 50px;
   left: 0px;
   width: 100%;
   height: 100%;
   background: transparent;
+  padding: 0px;
   // background-color: #cc0000;
 }
 
@@ -51,6 +52,14 @@ md-content {
 
 md-toolbar {
   height: 50px;
+  min-height: 50px;
+  max-height: 50px;
+}
+
+.md-toolbar-tools {
+  height: 50px;
+  max-height: 50px;
+  padding: 4px;
 }
 
 md-card {
@@ -62,6 +71,11 @@ md-card {
     height: 80px;
     margin: 5px;
     border: 1px solid #fefefe;
+}
+
+#footer-title {
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .nthumbnail {
@@ -131,9 +145,10 @@ md-card {
 #toolbar-bottom {
     position: fixed;
     bottom: 0px;
+    left: 0px;
     height: 50px;
     width: 100%;
-    padding: 3px 5px 5px 5px;
+    padding: 5px;
     background-color: @almost-clear;
     border-top: 1px solid #eee;
     line-height: auto;
@@ -187,4 +202,8 @@ md-select-menu {
     -webkit-transform: rotate(359deg);
     transform: rotate(359deg);
   }
+}
+
+canvas {
+  padding: 0px;
 }
