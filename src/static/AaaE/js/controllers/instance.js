@@ -7,6 +7,7 @@ angular
     ($rootScope, $window, $document, $scope, $interval, $location, $route, $resource, $mdToast,
         AppService, InstanceService) => {
 
+        $scope.loading = true;
 
         $scope.app = AppService.get({id:$route.current.params.app_id})
         $scope.instance = InstanceService.get({id:$route.current.params.instance_id})
@@ -88,6 +89,7 @@ angular
 
                     
                     eval( seedcodelines.join("\n") );
+                    $scope.loading = false;
                     var game = new Function('Canvas', 'canvas', 'paper', 
                         'with (paper) { ' + source + '}')
                     game(Canvas, canvas, paper)
@@ -97,6 +99,7 @@ angular
 
                     console.log(seedcodelines.join("\n"));
                     eval( seedcodelines.join("\n") );
+                    $scope.loading = false;
                     var game = new Function('Canvas', 'canvas', source)
                     game(Canvas, canvas)
 
