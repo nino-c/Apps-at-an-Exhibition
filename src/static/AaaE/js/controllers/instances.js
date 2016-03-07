@@ -22,11 +22,11 @@ angular
       $scope.app = app;
       //console.log($scope.app)
 
-      // $scope.selectInstance = (chosenInstance) => {
-      //   $scope.selectedInstance = chosenInstance 
-      //   //$location.path('/instance/'+$scope.app.id+'/'+chosenInstance.id+'/')
-      //   $window.location = 'index.html#/instance/'+$scope.app.id+'/'+chosenInstance.id+'/';
-      // }
+      $scope.selectInstance = (chosenInstance) => {
+        $scope.selectedInstance = chosenInstance 
+        $location.path('/instance/'+$scope.app.id+'/'+chosenInstance.id+'/')
+        //$window.location = 'index.html#/instance/'+$scope.app.id+'/'+chosenInstance.id+'/';
+      }
 
   }
 ])

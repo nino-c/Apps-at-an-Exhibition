@@ -39,37 +39,41 @@
                     Create a new instance
                 </button><br /><br />
            
-                <ul class="applist">
                 
-                    <li ng-repeat="instance in app.instances">
-                        {{ instance.instantiator.name }}&apos;s instance @ {{ instance.created }}<br />
+            
+                <div class="exhibit" 
+                    ng-repeat="instance in app.instances | orderBy:'created':true" 
+                    ng-click="selectInstance(instance)">
 
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <strong>Seed: </strong><br />
-                                
-                                <div ng-repeat="(key, value) in instance._seed">
-                                    <em>{{ key }}: </em> <span class="text-muted">{{ value }}</span><br />
-                                </div>
-                             
-                            </div>
-                            <div class="col-sm-9">
-                                <strong>Snapshots: </strong><br />
-                                <div class="container-fluid">
-                                    
-                                    <img ng-src="/media/{{ snap | thumbnail:125 }}" 
-                                        class="thumbnail thumbnail-tiny pull-left"
-                                        ng-repeat="snap in instance.snapshots" />
-                                
-                                </div>
-                            </div>
-                            </div>
+                    {{ instance.instantiator.name }}&apos;s instance @ {{ instance.created }}
+                    <br /><br />
 
-                        <a class="btn btn-primary" href="#/instance/{{ app.id }}/{{ instance.id }}/" 
-                            role="button">View &raquo;</a><br /><br />
-                    </li>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <strong>Seed: </strong><hr />
+                            
+                            <div ng-repeat="(key, value) in instance._seed">
+                                <em>{{ key }}: </em> <span class="text-muted">{{ value }}</span><br />
+                            </div>
+                         
+                        </div>
+                        <div class="col-sm-9">
+                            <strong>Snapshots: </strong><hr />
+                            <div class="container-fluid">
+                                
+                                <img ng-src="/media/{{ snap | thumbnail:125 }}" 
+                                    class="thumbnail thumbnail-tiny pull-left"
+                                    ng-repeat="snap in instance.snapshots" />
+                            
+                            </div>
+                        </div>
+                        </div>
+
+                    <a class="btn btn-primary" href="#/instance/{{ app.id }}/{{ instance.id }}/" 
+                        role="button">View &raquo;</a><br /><br />
+                </div>
                
-                </ul>
+               
             
                 <em>Creating first instance...
                 <span class="glyphicon glyphicon-refresh fa-spin-custom"></span>
