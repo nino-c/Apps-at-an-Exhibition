@@ -17,24 +17,20 @@ angular
         $scope.timeElapsed = 0;
 
         $scope.instance.$promise.then(function() {
+            $scope.execute();
+        })
 
-
+        $scope.execute = function() {
             if ($scope.instance.seed) {
 
                 $scope._seed = JSON.parse($scope.instance.seed)
                 console.log("_seed", $scope._seed)
-
-                // $scope.$watch('_seed', function() {
-                //     console.log($scope._seed)
-                // })
 
                 var seedComponents = [];
                 for (var key in $scope._seed) {
                     seedComponents.push({property: key, value: $scope._seed[key]})
                 }
                 $scope.seedComponents = seedComponents;
-
-                
 
                 // prepare code to eval
 
@@ -59,8 +55,6 @@ angular
                 seedcodelines.push( 'Canvas.height = $(window).height()-50;' )
                 seedcodelines.push( 'console.log(Canvas);' )
                 seedcodelines.push( 'console.log(canvas);' )
-
-
 
                 // import seed attributes into local namespace
                 for (attr in seed) {
@@ -97,32 +91,49 @@ angular
                 $scope.appstart = new Date();
                 timer = $interval(updateElapsedTime, 1000);
 
-                // execute seed code and game script
-                if ($scope.instance.game.scriptType == "text/paperscript") {
+                //$scope.clearEvalScope();
 
-                    
-                    eval( seedcodelines.join("\n") );
-                    $scope.loading = false;
-                    var game = new Function('Canvas', 'canvas', 'paper', 
-                        'with (paper) { ' + source + '}')
-                    game(Canvas, canvas, paper)
-                    
+                $scope.clearCanvas();
 
-                } else {
+                (function() {
 
-                    console.log(seedcodelines.join("\n"));
-                    eval( seedcodelines.join("\n") );
-                    $scope.loading = false;
-                    var game = new Function('Canvas', 'canvas', source)
-                    game(Canvas, canvas)
+                    // execute seed code and game script
+                    if ($scope.instance.game.scriptType == "text/paperscript") {
+                        
+                        eval( seedcodelines.join("\n") );
+                        $scope.loading = false;
+                        var gameFunction = new Function('Canvas', 'canvas', 'paper', 
+                            'with (paper) { ' + source + '}' + 
+                            "\ntry { onDestroy(); } catch(e) {}")
+                        gameFunction(Canvas, canvas, paper)
+                        
 
-                }
+                    } else {
 
-            }
+                        console.log(seedcodelines.join("\n"));
+                        eval( seedcodelines.join("\n") + 
+                            "\ntry { onDestroy(); } catch(e) {}" );
+                        $scope.loading = false;
+                        var gameFunction = new Function('Canvas', 'canvas', source)
+                        gameFunction(Canvas, canvas)
 
+                    }
 
+                    delete gameFunction;
 
-        })
+                })();
+
+        }
+    }
+
+    $scope.clearEvalScope = function() {
+        // try to delete all vars in scope of previously eval()-ed app 
+        if ($scope.gameFunction) {
+            $scope.gameFunction = null;
+            delete $scope.gameFunction;
+            console.log('deleting gameFunction')
+        }
+    }
 
     $scope.snapshot = function() {
 
@@ -148,14 +159,14 @@ angular
         //App.editors = [];
     }
 
-    $scope.$on("$destroy", function() {
-        console.log('destroy instance -- clear canvas')
+    $scope.clearCanvas = function() {
         try {
             var _canvas = document.getElementById('big-canvas');
             if (_canvas) {
                 var context = _canvas.getContext('2d')
                 if (context) {
-                    //context.fillStyle = '#ffffff';
+                    context.fillStyle = '#ffffff';
+                    context.fillRect(0,0,_canvas.width, _canvas.height);
                     context.clearRect(0,0,_canvas.width, _canvas.height);
                     console.log('clear canvas')
                 }    
@@ -163,6 +174,11 @@ angular
         } catch (e) {
             console.log(e);
         }
+    }
+
+    $scope.$on("$destroy", function() {
+        console.log('destroy instance -- clear canvas')
+        $scope.clearCanvas();
     })
 
     $scope.updateInstance = function() {
@@ -170,7 +186,10 @@ angular
             $scope._seed[comp.property] = comp.value;
         })
         console.log($scope._seed)
-   }
+        $scope.instance.seed = JSON.stringify($scope._seed)
+        $scope.clearCanvas();
+        $scope.execute();
+    }
 
     // $scope.$on( "$routeChangeStart", function($event, next, current) {
     //   console.log("routechange", $event)

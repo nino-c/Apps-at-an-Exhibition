@@ -31,26 +31,6 @@ angular
         //$window.location = 'index.html#/instance/'+$scope.app.id+'/'+chosenInstance.id+'/';
       }
 
-      // $scope.instantiate = function() {
-      //   var seed = {}; 
-      //   var struct = JSON.parse($scope.app.seedStructure)
-      //   var seed = _.mapObject(struct, (v,k) => {
-      //     return v.default;
-      //   })
-      //   var newInstance = new InstanceService({
-      //     game_id: $scope.app.id,
-      //     seed: JSON.stringify(seed)
-      //   })
-      //   console.log(newInstance)
-      //   newInstance.$save().then(
-      //       function(instance, responseHeaders) {
-      //           console.log(instance);
-      //           console.log(responseHeaders);
-      //           $mdToast.showSimple("New instance created.")
-      //       }
-      //   )
-      // }
-
       $scope.instantiate = function() {
         $http({
           method: 'GET',
