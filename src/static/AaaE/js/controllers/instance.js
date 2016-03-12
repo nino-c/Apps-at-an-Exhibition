@@ -1,11 +1,11 @@
 angular
   .module('Exhibition')
   .controller('InstanceController', ['$rootScope', '$window', '$document', '$scope', 
-    '$interval', '$location', '$route', '$resource', '$mdToast',
+    '$interval', '$location', '$route', '$resource', '$mdToast', '$timeout',
     'AppService',
     'InstanceService',
     ($rootScope, $window, $document, $scope, $interval, $location, $route, 
-        $resource, $mdToast,
+        $resource, $mdToast, $timeout,
         AppService, InstanceService) => {
 
         $scope.loading = true;
@@ -95,33 +95,36 @@ angular
 
                 $scope.clearCanvas();
 
-                (function() {
+                //(function() {
 
                     // execute seed code and game script
                     if ($scope.instance.game.scriptType == "text/paperscript") {
                         
                         eval( seedcodelines.join("\n") );
                         $scope.loading = false;
-                        var gameFunction = new Function('Canvas', 'canvas', 'paper', 
-                            'with (paper) { ' + source + '}' + 
-                            "\ntry { onDestroy(); } catch(e) {}")
-                        gameFunction(Canvas, canvas, paper)
+                        $scope.gameFunction = new Function('Canvas', 'canvas', 
+                            'paper', 
+                            'with (paper) { ' + source 
+                                + "\ntry { onDestroy(); } catch(e) {}" 
+                                + '}')
+                        $scope.gameFunction(Canvas, canvas, paper)
                         
 
                     } else {
 
                         console.log(seedcodelines.join("\n"));
-                        eval( seedcodelines.join("\n") + 
-                            "\ntry { onDestroy(); } catch(e) {}" );
+                        eval( seedcodelines.join("\n") 
+                            + "\ntry { onDestroy(); } catch(e) {}" 
+                        );
                         $scope.loading = false;
-                        var gameFunction = new Function('Canvas', 'canvas', source)
-                        gameFunction(Canvas, canvas)
+                        $scope.gameFunction = new Function('Canvas', 'canvas', source)
+                        $scope.gameFunction(Canvas, canvas)
 
                     }
 
-                    delete gameFunction;
+                    //delete gameFunction;
 
-                })();
+                //})();
 
         }
     }
@@ -129,7 +132,7 @@ angular
     $scope.clearEvalScope = function() {
         // try to delete all vars in scope of previously eval()-ed app 
         if ($scope.gameFunction) {
-            $scope.gameFunction = null;
+            //$scope.gameFunction = null;
             delete $scope.gameFunction;
             console.log('deleting gameFunction')
         }
@@ -176,19 +179,31 @@ angular
         }
     }
 
-    $scope.$on("$destroy", function() {
-        console.log('destroy instance -- clear canvas')
+    $scope.refreshCanvas = function() {
+        console.log('refresh state-scope -- clear canvas')
         $scope.clearCanvas();
-    })
+        try { 
+            paper.project.layers.forEach(function(lay) {
+                lay.remove();
+            }); 
+        } catch (e) {}
+    }
+
+    // $scope.$on("$destroy", function() {
+    //     $scope._destroy();
+    // })
 
     $scope.updateInstance = function() {
         $scope.seedComponents.forEach(function(comp) {
             $scope._seed[comp.property] = comp.value;
         })
-        console.log($scope._seed)
+        //$state.reload();
         $scope.instance.seed = JSON.stringify($scope._seed)
-        $scope.clearCanvas();
-        $scope.execute();
+        //$state.reload();
+        $scope.refreshCanvas();
+        $scope.clearEvalScope();
+        //$scope.execute();
+        $timeout($scope.execute, 500)
     }
 
     // $scope.$on( "$routeChangeStart", function($event, next, current) {

@@ -24,6 +24,11 @@
           $location.path('/apps/'+chosenApp.id)
         }
 
+        $scope.goHome = function() {
+          console.log('home')
+          $location.path('/')
+        }
+
         $scope.createApp = (event) => {
 
           // create new app

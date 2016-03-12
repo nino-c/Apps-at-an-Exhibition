@@ -13,18 +13,19 @@ angular
 
       //var apps = AppService.get({id:$route.current.params.id});
       // well, don't' like them loops, but oh well
-      var app = AppService.get({id:$route.current.params.id}); //apps;
-      app.$promise.then(function(a) {
-        for (var i=0; i<app.instances.length; i++) {
-          console.log(app.instances[i].seed)
-          app.instances[i]._seed = JSON.parse(app.instances[i].seed);
+      $scope.app = AppService.get({id:$route.current.params.id}); 
+      $scope.app.$promise.then(function(a) {
+        
+        for (var i=0; i<$scope.app.instances.length; i++) {
+          $scope.app.instances[i]._seed = 
+            JSON.parse($scope.app.instances[i].seed);
+
+          $scope.app.instances[i].seedlist = _.pairs($scope.app.instances[i]._seed); 
+          console.log($scope.app.instances[i].seedlist)
         }
 
       })
-      
-      $scope.app = app;
-      //console.log($scope.app)
-
+ 
       $scope.selectInstance = (chosenInstance) => {
         $scope.selectedInstance = chosenInstance 
         $location.path('/instance/'+$scope.app.id+'/'+chosenInstance.id+'/')
@@ -42,6 +43,18 @@ angular
         }, function errorCallback(response) {
           console.log('error', response)
         });
+      }
+
+      $scope.delete = function() {
+        if (confirm("Are you sure you want to delete this app?")) {
+          $scope.app.$remove().then(function successCallback(response) {
+            console.log(response)
+            //$location.path('/instance/'+$scope.app.id+'/'+response.data.id+'/')
+            $mdToast.showSimple("App deleted successfully");
+          }, function errorCallback(response) {
+            console.log('error', response)
+          });
+        }
       }
 
    

@@ -1,8 +1,8 @@
 angular
     .module('Exhibition')
     .controller('AppEditorController', ['$rootScope', '$scope', '$location',
-        '$route', '$mdToast', 'AppService', 'CategoryService',
-        function($rootScope, $scope, $location, $route, $mdToast,
+        '$route', '$mdToast', '$interval', 'AppService', 'CategoryService',
+        function($rootScope, $scope, $location, $route, $mdToast, $interval,
             AppService, 
             CategoryService) {
             
@@ -26,9 +26,20 @@ angular
               theme: "monokai",
               mode: 'javascript',
               matchBrackets: true
+
             }
 
             $scope.cm2Options = angular.copy($scope.cmOptions);
+
+            // var editor1 = $("#source_textarea");
+            // var editor2 = $("#seed_textarea");
+            // var interval = $interval(function() {
+            //     editor1.refresh();
+            //     editor2.refresh();
+            //     console.log('ref')
+            // }, 500)    
+            
+            
 
             $scope.saveapp = function(event) {
                 if ($location.path().indexOf('/apps/new/') > -1) {

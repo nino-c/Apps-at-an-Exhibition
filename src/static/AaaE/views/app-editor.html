@@ -43,14 +43,17 @@
         <div flex="grow" layout="column">
           <div class="control-group">
             <label class="control-label">Script</label>
-            <textarea ui-codemirror="cmOptions"
-            ng-model="app.source"></textarea>
+            <textarea ui-codemirror="cmOptions" id="source_textarea"
+              ng-model="app.source" 
+              ></textarea>
           </div>
 
           <div class="control-group">
             <label class="control-label">Seed Structure</label>
             <textarea ui-codemirror="cm2Options"
-            ng-model="app.seedStructure"></textarea>
+              id="seed_textarea"
+              ng-model="app.seedStructure"
+              ></textarea>
           </div>
         </div>
       </md-content>
