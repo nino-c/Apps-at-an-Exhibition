@@ -1,4 +1,4 @@
-<md-content ng-controller="AppEditorController" ng-cloak>
+<md-content ng-controller="AppEditorController" ng-cloak ng-init="initializeEditor()">
 
     <form id="app-form">
 
@@ -43,17 +43,16 @@
         <div flex="grow" layout="column">
           <div class="control-group">
             <label class="control-label">Script</label>
-            <textarea ui-codemirror="cmOptions" id="source_textarea"
-              ng-model="app.source" 
-              ></textarea>
+            <ui-codemirror ui-codemirror-opts="cmOptions" id="source_textarea"
+              ng-model="app.source" ui-refresh="editor1"></ui-codemirror>
           </div>
 
           <div class="control-group">
             <label class="control-label">Seed Structure</label>
-            <textarea ui-codemirror="cm2Options"
+            <ui-codemirror ui-codemirror-opts="cm2Options"
               id="seed_textarea"
-              ng-model="app.seedStructure"
-              ></textarea>
+              ng-model="app.seedStructure" ui-refresh="editor2"
+              ></ui-codemirror>
           </div>
         </div>
       </md-content>

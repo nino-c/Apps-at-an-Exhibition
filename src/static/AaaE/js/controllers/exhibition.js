@@ -1,7 +1,8 @@
 
   angular
     .module('Exhibition')
-    .controller('ExhibitionController', ['$rootScope', '$scope', '$location', '$mdDialog',
+    .controller('ExhibitionController', ['$rootScope', '$scope', '$location', 
+      '$mdDialog',
       'AppService',
       'CategoryService',
       //'InstanceService',

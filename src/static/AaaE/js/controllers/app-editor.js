@@ -1,8 +1,8 @@
 angular
     .module('Exhibition')
     .controller('AppEditorController', ['$rootScope', '$scope', '$location',
-        '$route', '$mdToast', '$interval', 'AppService', 'CategoryService',
-        function($rootScope, $scope, $location, $route, $mdToast, $interval,
+        '$route', '$mdToast', '$interval', '$timeout', 'AppService', 'CategoryService',
+        function($rootScope, $scope, $location, $route, $mdToast, $interval, $timeout,
             AppService, 
             CategoryService) {
             
@@ -15,8 +15,18 @@ angular
                     source: "function start() {\n\n}",
                     seedStructure: "{\"param1\":{\"default\":\"\"}}"
                 });
+                $timeout(function() {
+                    $scope.editor1 = true;
+                    $scope.editor2 = true;
+                }, 500)
+                
             } else {
                 $scope.app = AppService.get({id:$route.current.params.id})
+                $scope.app.$promise.then(function() {
+                    console.log('loaded app')
+                    $scope.editor1 = true;
+                    $scope.editor2 = true;
+                })
             }
 
             $scope.cmOptions = {
@@ -25,20 +35,24 @@ angular
               indentWithTabs: true,
               theme: "monokai",
               mode: 'javascript',
-              matchBrackets: true
-
+              matchBrackets: true,
             }
 
-            $scope.cm2Options = angular.copy($scope.cmOptions);
+            $scope.cm2Options = {
+              lineWrapping: true,
+              lineNumbers: true,
+              indentWithTabs: true,
+              theme: "monokai",
+              mode: 'javascript',
+              matchBrackets: true,
+            }
 
-            // var editor1 = $("#source_textarea");
-            // var editor2 = $("#seed_textarea");
-            // var interval = $interval(function() {
-            //     editor1.refresh();
-            //     editor2.refresh();
-            //     console.log('ref')
-            // }, 500)    
-            
+            $scope.initializeEditor = function() {
+                // console.log('initEdit')
+                // $scope.editor1 = true;
+                // $scope.editor2 = true;
+            }
+
             
 
             $scope.saveapp = function(event) {
@@ -46,9 +60,8 @@ angular
                     console.log($scope.app)
                     $scope.app.$save().then(
                         function(app, responseHeaders) {
-                            console.log(app);
-                            console.log(responseHeaders);
-                            $mdToast.showSimple("New app created.")
+                            $mdToast.showSimple("New app created.");
+                            $location.path('/apps/'+app.id)
                         }
                     )
                 } else {
@@ -56,6 +69,7 @@ angular
                     $scope.app.$update().then(
                         (app, putResponse) => {
                             $mdToast.showSimple("App saved.")
+                            $location.path('/apps/'+app.id)
                         })
                 }
             }
