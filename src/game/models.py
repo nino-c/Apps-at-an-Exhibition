@@ -60,6 +60,7 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
         does not need to be server-side anymore
         """
         if seed is None:
+            print "------------", self.seedStructure
             seedDict = json.loads(self.seedStructure)
             seed = {k:v['default'] for k,v in seedDict.iteritems()}
         if request.user is None:
@@ -71,6 +72,7 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
             instantiator=user,
             seed=json.dumps(seed),
             )
+        print inst
         inst.save()
         return inst
 

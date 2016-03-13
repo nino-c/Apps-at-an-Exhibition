@@ -5,13 +5,10 @@
       <md-content class="container-fluid" layout="row" layout-padding>
         <div flex="30" layout="column" layout-align="top down">
 
-        <!-- <div class="input-group"> -->
           <md-input-container>
             <label for="id_title">Title</label>
             <input type="text" id="id_title" placeholder="Title" ng-model="app.title" />
           </md-input-container>
-        <!-- </div>
-        <div class="row"> -->
           <md-input-container>
               <label>Category</label>
               <md-select ng-model="app.category">
@@ -20,16 +17,12 @@
                   ng-selected="(category.name == app.category) ? true:false">{{category.name}}</md-option>
               </md-select>
             </md-input-container><br />
-       <!--  </div>
-        <div class="row"> -->
             <md-input-container>
               <label>Script Language</label>
               <md-select ng-model="app.scriptType">
                 <md-option ng-repeat="st in scriptTypes" ng-value="st">{{st}}</md-option>
               </md-select>
             </md-input-container><br />
-       <!--  </div>
-        <div class="row"> -->
           <md-input-container>
             <label class="control-label">Description</label>
           
@@ -37,7 +30,6 @@
                 ng-model="app.description"></textarea>
            
           </md-input-container>
-        <!-- </div> -->
 
         </div>
         <div flex="grow" layout="column">
@@ -57,14 +49,6 @@
         </div>
       </md-content>
 
-     
-   
-        
-     
-        
-    
-  
-      </md-content>
 
     </form>
 

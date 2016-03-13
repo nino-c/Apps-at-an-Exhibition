@@ -28,9 +28,13 @@ def instantiateGame(request, pk):
     except ZeroPlayerGame.DoesNotExist:
         return HttpResponse(status=404)
 
-    instance = game.instantiate(request)
-    serializer = InstanceSerializer(instance)
-    return JsonResponse(serializer.data)
+    if request.method == 'GET':
+        instance = game.instantiate(request)
+        serializer = InstanceSerializer(instance)
+        return JsonResponse(serializer.data)
+    elif request.method == 'POST':
+        print "---------", request.POST.get('height')
+        return JsonResponse(request.POST)
 
 @csrf_exempt
 def updateGame(request, pk):

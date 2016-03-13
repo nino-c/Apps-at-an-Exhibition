@@ -1,11 +1,12 @@
 angular
   .module('Exhibition')
   .controller('InstanceController', ['$rootScope', '$window', '$document', '$scope', 
-    '$interval', '$location', '$route', '$resource', '$mdToast', '$timeout',
+    '$interval', '$location', '$route', '$resource', '$mdToast', 
+    '$timeout', '$http',
     'AppService',
     'InstanceService',
     ($rootScope, $window, $document, $scope, $interval, $location, $route, 
-        $resource, $mdToast, $timeout,
+        $resource, $mdToast, $timeout, $http,
         AppService, InstanceService) => {
 
         $scope.loading = true;
@@ -160,6 +161,23 @@ angular
             }
         );
         //App.editors = [];
+    }
+
+    $scope.saveAsNewInstance = function() {
+        $http({
+          method: 'POST',
+          data: JSON.parse($scope.instance.seed),
+          url: '/game/app-instantiate/' + $scope.app.id + '/',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(function successCallback(response) {
+          console.log(response)
+          //$location.path('/instance/'+$scope.app.id+'/'+response.data.id+'/')
+          //$mdToast.showSimple("New instance created");
+        }, function errorCallback(response) {
+          console.log('error', response)
+        });
     }
 
     $scope.clearCanvas = function() {
