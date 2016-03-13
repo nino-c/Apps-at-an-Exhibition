@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.http.request import HttpRequest
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
@@ -33,8 +34,11 @@ def instantiateGame(request, pk):
         serializer = InstanceSerializer(instance)
         return JsonResponse(serializer.data)
     elif request.method == 'POST':
-        print "---------", request.POST.get('height')
-        return JsonResponse(request.POST)
+        seed = json.loads(request.body)
+        instance = game.instantiate(request, seed)
+        serializer = InstanceSerializer(instance)
+        return JsonResponse(serializer.data)
+
 
 @csrf_exempt
 def updateGame(request, pk):

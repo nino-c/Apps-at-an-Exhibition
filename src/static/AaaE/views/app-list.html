@@ -1,12 +1,11 @@
 <md-content ng-controller="ExhibitionController" layout-padding>
+    <h3 class="md-primary">Apps
+    <a href="#/apps/new/" class="btn btn-success pull-right">
+        <span class="glyphicon glyphicon-plus-sign"></span>
+        Create a new app
+    </a></h3>
 
-    <md-subheader class="md-primary">
-        Apps
-        <a href="#/apps/new/" class="btn btn-success pull-right">
-            <span class="glyphicon glyphicon-plus-sign"></span>
-            Create a new app
-        </a>
-    </md-subheader>
+    
 
     <div class="row exhibit" 
       ng-repeat="app in apps | orderBy:'created':true" 

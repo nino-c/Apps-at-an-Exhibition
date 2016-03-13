@@ -73,7 +73,15 @@
                     </div>
 
                 <a class="btn btn-primary" href="#/instance/{{ app.id }}/{{ instance.id }}/" 
-                    role="button">View &raquo;</a><br /><br />
+                    role="button">View &raquo;</a>
+                <a class="btn btn-danger pull-right" 
+                    ng-click="deleteInstance($event, instance)"
+                    data-id="{{instance.id}}"
+                    role="button">
+                <span class="glyphicon glyphicon-remove"></span>
+                    Delete</a>
+
+                <br /><br />
             </div>
            
            

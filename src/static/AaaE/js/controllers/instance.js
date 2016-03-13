@@ -164,14 +164,17 @@ angular
     }
 
     $scope.saveAsNewInstance = function() {
-        $http({
+        var req = {
           method: 'POST',
-          data: JSON.parse($scope.instance.seed),
+          data: $scope._seed,
           url: '/game/app-instantiate/' + $scope.app.id + '/',
           headers: {
             'Content-Type': 'application/json'
           }
-        }).then(function successCallback(response) {
+        }
+        console.log($scope._seed)
+        console.log(req)
+        $http(req).then(function successCallback(response) {
           console.log(response)
           //$location.path('/instance/'+$scope.app.id+'/'+response.data.id+'/')
           //$mdToast.showSimple("New instance created");

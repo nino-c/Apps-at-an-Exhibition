@@ -57,6 +57,29 @@ angular
         }
       }
 
+      $scope.deleteInstance = function($event, instance) {
+        $event.stopPropagation();
+        $event.preventDefault();
+        if (confirm("Are you sure you want to delete this instance?")) {
+          //console.log($event, instance)
+          InstanceService.remove({id:instance.id}, function(response) {
+            console.log('deleted', response)
+            $scope.app.instances = _.reject(
+              $scope.app.instances, function(inst) {
+                return inst.id == instance.id;
+              })
+          })
+
+          // instance.$remove().then(function successCallback(response) {
+          //   console.log(response)
+          //   //$location.path('/instance/'+$scope.app.id+'/'+response.data.id+'/')
+          //   $mdToast.showSimple("Instance deleted successfully");
+          // }, function errorCallback(response) {
+          //   console.log('error', response)
+          // });
+        }
+      }
+
    
 
 
