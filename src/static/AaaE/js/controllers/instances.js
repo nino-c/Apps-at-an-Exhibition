@@ -25,7 +25,8 @@ angular
         }
 
       })
- 
+
+
       $scope.selectInstance = (chosenInstance) => {
         $scope.selectedInstance = chosenInstance 
         $location.path('/instance/'+$scope.app.id+'/'+chosenInstance.id+'/')

@@ -17,14 +17,15 @@
     
         <div layout="column" ng-repeat="seedling in seedComponents">
             <label>{{ seedling.property }}</label>
-            <input type="text" ng-model="seedling.value" />
+            <input type="text" ng-model="seedling.value"
+                ng-change="seedChange($event)" />
         </div>
    
         <br />
         <button ng-click="updateInstance()" 
-            class="btn btn-primary">Reload</button>
+            class="btn btn-primary" ng-disabled="!seedTouched">Reload</button>
         <button ng-click="saveAsNewInstance()" 
-            class="btn btn-warning">Save as new instance</button>
+            class="btn btn-warning" ng-disabled="!readyToSave">Save as new instance</button>
     </div>
 <!--  -->
     <!-- bottombar -->

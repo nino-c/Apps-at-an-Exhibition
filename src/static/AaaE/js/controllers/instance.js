@@ -9,17 +9,24 @@ angular
         $resource, $mdToast, $timeout, $http,
         AppService, InstanceService) => {
 
+        var timer;
+
         $scope.loading = true;
+        $scope.timeElapsed = 0;
+        $scope.seedTouched = false;
+        $scope.readyToSave = false;
 
         $scope.app = AppService.get({id:$route.current.params.app_id})
         $scope.instance = InstanceService.get({id:$route.current.params.instance_id})
 
-        var timer;
-        $scope.timeElapsed = 0;
-
         $scope.instance.$promise.then(function() {
             $scope.execute();
         })
+
+        $scope.seedChange = function($event) {
+            $scope.seedTouched = true;
+            $scope.readyToSave = true;
+        }
 
         $scope.execute = function() {
             if ($scope.instance.seed) {
@@ -87,45 +94,52 @@ angular
                     $scope.timeElapsed = ((new Date()).getTime() - $scope.appstart.getTime()) / 1000;
                 }
 
-                console.log($scope.app)
-                
                 $scope.appstart = new Date();
                 timer = $interval(updateElapsedTime, 1000);
 
-                //$scope.clearEvalScope();
-
                 $scope.clearCanvas();
 
-                //(function() {
+               
+                // execute seed code and game script
+                if ($scope.instance.game.scriptType == "text/paperscript") {
 
-                    // execute seed code and game script
-                    if ($scope.instance.game.scriptType == "text/paperscript") {
-                        
-                        eval( seedcodelines.join("\n") );
-                        $scope.loading = false;
-                        $scope.gameFunction = new Function('Canvas', 'canvas', 
-                            'paper', 
-                            'with (paper) { ' + source 
-                                + "\ntry { onDestroy(); } catch(e) {}" 
-                                + '}')
-                        $scope.gameFunction(Canvas, canvas, paper)
-                        
-
-                    } else {
-
-                        console.log(seedcodelines.join("\n"));
-                        eval( seedcodelines.join("\n") 
-                            + "\ntry { onDestroy(); } catch(e) {}" 
-                        );
-                        $scope.loading = false;
-                        $scope.gameFunction = new Function('Canvas', 'canvas', source)
-                        $scope.gameFunction(Canvas, canvas)
-
+                    with (paper) {
+                        if (project) {
+                            project.layers.forEach(function(lay) {
+                                _.each(lay.children, function(l) {
+                                    l.remove();
+                                });
+                                lay.remove();
+                            });
+                        }
                     }
+                    
+                    
+                    eval( seedcodelines.join("\n") );
+                    $scope.loading = false;
+                    $scope.gameFunction = new Function('Canvas', 'canvas', 
+                        'paper', 
+                        'with (paper) { ' + source 
+                            //+ "\ntry { onDestroy(); } catch(e) {}" 
+                            + '}')
+                    $scope.gameFunction(Canvas, canvas, paper)
+                    
 
-                    //delete gameFunction;
+                } else {
 
-                //})();
+                    console.log(seedcodelines.join("\n"));
+                    eval( seedcodelines.join("\n") 
+                        //+ "\ntry { onDestroy(); } catch(e) {}" 
+                    );
+                    $scope.loading = false;
+                    $scope.gameFunction = new Function('Canvas', 'canvas', source)
+                    $scope.gameFunction(Canvas, canvas)
+
+                }
+
+                  
+
+               
 
         }
     }
@@ -172,12 +186,11 @@ angular
             'Content-Type': 'application/json'
           }
         }
-        console.log($scope._seed)
-        console.log(req)
         $http(req).then(function successCallback(response) {
           console.log(response)
           //$location.path('/instance/'+$scope.app.id+'/'+response.data.id+'/')
-          //$mdToast.showSimple("New instance created");
+          $mdToast.showSimple("Saved as new instance.");
+          $scope.readyToSave = false;
         }, function errorCallback(response) {
           console.log('error', response)
         });
@@ -223,8 +236,10 @@ angular
         //$state.reload();
         $scope.refreshCanvas();
         $scope.clearEvalScope();
+        $scope.seedTouched = false;
         //$scope.execute();
         $timeout($scope.execute, 500)
+        $timeout($scope.snapshot, 2000)
     }
 
     // $scope.$on( "$routeChangeStart", function($event, next, current) {

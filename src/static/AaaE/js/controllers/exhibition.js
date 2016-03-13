@@ -30,29 +30,29 @@
           $location.path('/')
         }
 
-        $scope.createApp = (event) => {
+        // $scope.createApp = (event) => {
 
-          // create new app
-          var newApp = {
-            title:'New App',
-            description:'',
-            scriptType: "text/javascript",
-            source:"function startApp() {\n\n}",
-            seedStructure:'{"property": {"default":""}}',
-            extraIncludes: []
-          }
+        //   // create new app
+        //   var newApp = {
+        //     title:'New App',
+        //     description:'',
+        //     scriptType: "text/javascript",
+        //     source:"function startApp() {\n\n}",
+        //     seedStructure:'{"property": {"default":""}}',
+        //     extraIncludes: []
+        //   }
 
-          //$location.path('/apps/new')
+        //   //$location.path('/apps/new')
 
-          $mdDialog.show({
-              controller: 'AppEditor',
-              parent: angular.element(document.body),
-              targetEvent: event,
-              templateUrl: '/static/site/js/plsysApp/components/app-editor.html',
-              clickOutsideToClose:true,
-              fullscreen: false
-          })
-        }
+        //   $mdDialog.show({
+        //       controller: 'AppEditor',
+        //       parent: angular.element(document.body),
+        //       targetEvent: event,
+        //       templateUrl: '/static/site/js/plsysApp/components/app-editor.html',
+        //       clickOutsideToClose:true,
+        //       fullscreen: false
+        //   })
+        // }
 
         ///////////////////
 
