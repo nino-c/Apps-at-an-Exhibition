@@ -39,6 +39,7 @@ angular
                     seedComponents.push({property: key, value: $scope._seed[key]})
                 }
                 $scope.seedComponents = seedComponents;
+                console.log('seedComponents', seedComponents)
 
                 // prepare code to eval
 
@@ -97,40 +98,26 @@ angular
                 $scope.appstart = new Date();
                 timer = $interval(updateElapsedTime, 1000);
 
-                $scope.clearCanvas();
-
-               
                 // execute seed code and game script
                 if ($scope.instance.game.scriptType == "text/paperscript") {
 
-                    with (paper) {
-                        if (project) {
-                            project.layers.forEach(function(lay) {
-                                _.each(lay.children, function(l) {
-                                    l.remove();
-                                });
-                                lay.remove();
-                            });
-                        }
-                    }
-                    
+                    $scope.clearPaperCanvas();
                     
                     eval( seedcodelines.join("\n") );
                     $scope.loading = false;
                     $scope.gameFunction = new Function('Canvas', 'canvas', 
                         'paper', 
                         'with (paper) { ' + source 
-                            //+ "\ntry { onDestroy(); } catch(e) {}" 
                             + '}')
                     $scope.gameFunction(Canvas, canvas, paper)
                     
 
                 } else {
 
+                    $scope.clearCanvas();
+
                     console.log(seedcodelines.join("\n"));
-                    eval( seedcodelines.join("\n") 
-                        //+ "\ntry { onDestroy(); } catch(e) {}" 
-                    );
+                    eval( seedcodelines.join("\n") );
                     $scope.loading = false;
                     $scope.gameFunction = new Function('Canvas', 'canvas', source)
                     $scope.gameFunction(Canvas, canvas)
@@ -144,14 +131,7 @@ angular
         }
     }
 
-    $scope.clearEvalScope = function() {
-        // try to delete all vars in scope of previously eval()-ed app 
-        if ($scope.gameFunction) {
-            //$scope.gameFunction = null;
-            delete $scope.gameFunction;
-            console.log('deleting gameFunction')
-        }
-    }
+    
 
     $scope.snapshot = function() {
 
@@ -213,33 +193,47 @@ angular
         }
     }
 
-    $scope.refreshCanvas = function() {
-        console.log('refresh state-scope -- clear canvas')
-        $scope.clearCanvas();
-        try { 
-            paper.project.layers.forEach(function(lay) {
-                lay.remove();
-            }); 
-        } catch (e) {}
+    $scope.clearPaperCanvas = function() {
+        try {
+            with (paper) {
+                if (project) {
+                    project.layers.forEach(function(lay) {
+                        lay.removeChildren();
+                        lay.remove();
+                    });
+                    project.clear();
+                }
+            }
+        } catch (e) { } 
     }
+
+    $scope.clearEvalScope = function() {
+        // try to delete all vars in scope of previously eval()-ed app 
+        if ($scope.gameFunction) {
+            delete $scope.gameFunction;
+            console.log('deleting gameFunction')
+        }
+    }
+
 
     // $scope.$on("$destroy", function() {
     //     $scope._destroy();
     // })
 
     $scope.updateInstance = function() {
+
         $scope.seedComponents.forEach(function(comp) {
             $scope._seed[comp.property] = comp.value;
         })
-        //$state.reload();
         $scope.instance.seed = JSON.stringify($scope._seed)
-        //$state.reload();
-        $scope.refreshCanvas();
+        
+        $scope.clearCanvas();
+        $scope.clearPaperCanvas();
         $scope.clearEvalScope();
+
         $scope.seedTouched = false;
-        //$scope.execute();
         $timeout($scope.execute, 500)
-        $timeout($scope.snapshot, 2000)
+        //$timeout($scope.snapshot, 2000)
     }
 
     // $scope.$on( "$routeChangeStart", function($event, next, current) {

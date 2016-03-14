@@ -1,26 +1,31 @@
 angular
     .module('Exhibition')
-    .controller('AppEditorController', ['$rootScope', '$scope', '$location',
-        '$route', '$mdToast', '$interval', '$timeout', 'AppService', 'CategoryService',
-        function($rootScope, $scope, $location, $route, $mdToast, $interval, $timeout,
-            AppService, 
-            CategoryService) {
+    .controller('AppEditorController', ['$rootScope', '$scope', 
+        '$location', '$route', '$mdToast', '$interval', 
+        '$timeout', 
+        'AppService', 'CategoryService',
+        function($rootScope, $scope, $location, $route, 
+            $mdToast, $interval, $timeout,
+            AppService, CategoryService) {
             
             $scope.categories = CategoryService.query()
             $scope.scriptTypes = $rootScope.scriptTypes
 
             if ($location.path().indexOf('/apps/new/') > -1) {
+
                 $scope.app = new AppService({
                     title: "New App",
                     source: "function start() {\n\n}",
                     seedStructure: "{\"param1\":{\"default\":\"\"}}"
                 });
+
                 $timeout(function() {
                     $scope.editor1 = true;
                     $scope.editor2 = true;
                 }, 500)
                 
             } else {
+
                 $scope.app = AppService.get({id:$route.current.params.id})
                 $scope.app.$promise.then(function() {
                     console.log('loaded app')
@@ -33,6 +38,7 @@ angular
               lineWrapping: true,
               lineNumbers: true,
               indentWithTabs: true,
+              viewportMargin: Infinity,
               theme: "monokai",
               mode: 'javascript',
               matchBrackets: true,
@@ -42,20 +48,23 @@ angular
               lineWrapping: true,
               lineNumbers: true,
               indentWithTabs: true,
+              viewportMargin: Infinity,
               theme: "monokai",
               mode: 'javascript',
               matchBrackets: true,
             }
 
-            $scope.initializeEditor = function() {
-                // console.log('initEdit')
-                // $scope.editor1 = true;
-                // $scope.editor2 = true;
-            }
-
-            
 
             $scope.saveapp = function(event) {
+
+                // check syntax of seedStructure
+                try {
+                    var seedcheck = JSON.parse($scope.app.seedStructure);
+                    console.log('seedcheck', seedcheck)
+                } catch (e) {
+                    console.log('syntax error', e);
+                }
+
                 if ($location.path().indexOf('/apps/new/') > -1) {
                     console.log($scope.app)
                     $scope.app.$save().then(

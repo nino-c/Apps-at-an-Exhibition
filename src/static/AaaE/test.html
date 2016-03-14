@@ -1,0 +1,79 @@
+<html ng-app="testapp">
+    <head>
+
+    
+
+    </head>
+    <body ng-controller="TestformController">
+
+        <form name="testform" novalidate class="css-form">
+            <textarea ng-model="tester.source" name="source"
+                ng-model-options="{updateOn: 'default blur'}"
+                validate-json></textarea>
+            <span ng-show="testform.source.$error.validateJson">Invalid JSON</span>
+        </form>
+
+        {{ tester.source }}
+
+
+        <script type="text/javascript" src="lib/angular/angular.js"></script>
+        <script type="text/javascript" src="lib/angular-ui-codemirror/ui-codemirror.js"></script>
+        <script src="lib/angular-material/angular-material.min.js"></script>
+        <script src="lib/angular-bootstrap/ui-bootstrap.js"></script>
+        <script src="lib/angular-route/angular-route.js"></script>
+        <script src="lib/angular-resource/angular-resource.js"></script>
+        <script src="lib/angular-cookies/angular-cookies.js"></script>
+        <script src="lib/angular-animate/angular-animate.js"></script>
+        <script src="lib/angular-aria/angular-aria.js"></script>
+        <script src="lib/angular-messages/angular-messages.js"></script>
+
+        <script type="text/javascript">
+
+        angular.module('testapp', [])
+            .controller('TestformController', ['$scope', function($scope) {
+                $scope.tester = {
+                    source: '{}'
+                }
+            }])
+            .directive('validateJson', function() {
+                return {
+                    require: 'ngModel',
+                    link: function(scope, elem, attrs, ctrl) {
+                        ctrl.$validators.validateJson = 
+                            function(modelValue, viewValue) {
+
+                                try {
+                                    var obj = JSON.parse(viewValue)
+                                } catch (e) {
+                                    return false;
+                                }
+                                return true;
+                            }
+                    }
+                }
+            })
+            .directive('includesPlerp', function() {
+                return {
+                    require: 'ngModel',
+                    link: function(scope, elem, attrs, ctrl) {
+                        ctrl.$validators.includesPlerp = 
+                            function(modelValue, viewValue) {
+
+                                // the following is to ensure that
+                                // empty models are valid
+                                if (ctrl.$isEmpty(modelValue)) {
+                                    return true;
+                                }
+
+                                return (viewValue.indexOf('plerp') > -1);
+
+                            }
+                    }
+                }
+            })
+
+        </script>
+
+
+    </body>
+</html>

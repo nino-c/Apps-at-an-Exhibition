@@ -1,6 +1,6 @@
 <md-content ng-controller="AppEditorController" ng-cloak ng-init="initializeEditor()">
 
-    <form id="app-form">
+    <form name="appform">
 
       <md-content class="container-fluid" layout="row" layout-padding>
         <div flex="30" layout="column" layout-align="top down">
@@ -35,16 +35,32 @@
         <div flex="grow" layout="column">
           <div class="control-group">
             <label class="control-label">Script</label>
-            <ui-codemirror ui-codemirror-opts="cmOptions" id="source_textarea"
-              ng-model="app.source" ui-refresh="editor1"></ui-codemirror>
+            <ui-codemirror ui-codemirror-opts="cmOptions"
+              ng-model="app.source" name="source" ui-refresh="editor1"></ui-codemirror>
+            
           </div>
 
           <div class="control-group">
             <label class="control-label">Seed Structure</label>
+            
+            <br />
+            <span ng-show="appform.seedStructure.$error.validateJson"
+              class="form-error">Invalid JSON</span>
+
             <ui-codemirror ui-codemirror-opts="cm2Options"
-              id="seed_textarea"
+              name="seedStructure" 
+              ng-model-options="{updateOn: 'default blur'}"
+              validate-json
               ng-model="app.seedStructure" ui-refresh="editor2"
               ></ui-codemirror>
+              
+              <!-- <div ng-messages="appform.seedStructure.$error" 
+                role="alert">
+                <div ng-message="validateJson">
+                  Invalid JSON syntax</div>
+              </div> -->
+
+             </div>
           </div>
         </div>
       </md-content>

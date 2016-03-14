@@ -5,6 +5,23 @@ angular.module('Exhibition')
     //         templateUrl: 'views/seedDisplay.html'
     //     }
     // })
+    .directive('validateJson', function() {
+        return {
+            require: 'ngModel',
+            link: function(scope, elem, attrs, ctrl) {
+                ctrl.$validators.validateJson = 
+                    function(modelValue, viewValue) {
+
+                        try {
+                            var obj = JSON.parse(viewValue)
+                        } catch (e) {
+                            return false;
+                        }
+                        return true;
+                    }
+            }
+        }
+    })
     .component('seedDisplay', {
         bindings: {
             __seed: '='
