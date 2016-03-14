@@ -13,13 +13,35 @@
 
     <!-- seed display -->
     <div id="seedDisplay" layout="row">
-
     
-        <div layout="column" ng-repeat="seedling in seedComponents">
-            <label>{{ seedling.property }}</label>
-            <input type="text" ng-model="seedling.value"
-                ng-change="seedChange($event)" />
+        <div layout="column" ng-repeat="seed in seedList">
+            <seedField 
+                type="seed[1].type" 
+                value="seed[1].value" 
+                label="seed[0]"></seedField>
+            <label>{{ seed[0] }}</label>
+            
+            <input ng-if="seed[1].type == 'math'" type="text" 
+                ng-change="seedChange($event)"
+                ng-model="seed[1].value.string" /> 
+
+            <input ng-if="seed[1].type == 'text'" type="text" 
+                ng-change="seedChange($event)"
+                ng-model="seed[1].value" /> 
+
+            <input ng-if="seed[1].type == 'number'" type="text" 
+                ng-change="seedChange($event)"
+                ng-model="seed[1].value" /> 
+
+            <input ng-if="seed[1].type == 'color'" type="text" 
+                ng-change="seedChange($event)"
+                ng-model="seed[1].value" /> 
         </div>
+
+            
+            <!-- <seedEditor ng-model="seedList" 
+                ng-change="seedChange($event)"></seedEditor> -->
+        
    
         <br />
         <button ng-click="updateInstance()" 

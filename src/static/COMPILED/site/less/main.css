@@ -29,6 +29,7 @@ body {
   color: #CFFF8E;
   font-weight: bold;
   margin-right: 12px;
+  cursor: pointer;
 }
 md-content {
   background: transparent;
@@ -38,10 +39,15 @@ md-toolbar {
   min-height: 50px;
   max-height: 50px;
 }
+.form-error {
+  color: #cc0000;
+  font-weight: bold;
+}
 .md-toolbar-tools {
   height: 50px;
   max-height: 50px;
   padding: 4px;
+  z-index: 3000;
 }
 md-card {
   background-color: rgba(255, 255, 255, 0.85);
@@ -146,6 +152,7 @@ md-card {
   margin-right: auto;
   margin-bottom: 10px;
   margin-top: 10px;
+  background-color: rgba(253, 252, 247, 0.95);
 }
 .navbar .navbar-nav a {
   padding: 5px;
