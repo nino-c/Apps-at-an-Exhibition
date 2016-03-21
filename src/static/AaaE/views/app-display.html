@@ -15,17 +15,17 @@
     <div id="seedDisplay" layout="row">
     
         <div layout="column" ng-repeat="seed in seedList">
-            <seedField 
+            <!-- <seedField 
                 type="seed[1].type" 
                 value="seed[1].value" 
                 label="seed[0]"></seedField>
-            <label>{{ seed[0] }}</label>
+            <label>{{ seed[0] }}</label> -->
             
             <input ng-if="seed[1].type == 'math'" type="text" 
                 ng-change="seedChange($event)"
                 ng-model="seed[1].value.string" /> 
 
-            <input ng-if="seed[1].type == 'text'" type="text" 
+            <input ng-if="seed[1].type == 'string'" type="text" 
                 ng-change="seedChange($event)"
                 ng-model="seed[1].value" /> 
 

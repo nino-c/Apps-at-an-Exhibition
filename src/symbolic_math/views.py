@@ -36,10 +36,14 @@ class SymbolicExpression(object):
 
         self.javascript = jscode(self.expression)
 
-    def latex(self, request=None):
+    def latex(self, request=None, raw=False):
         self.latex = latex(self.expression, mode='plain')
-        return JsonResponse({'string':self.expressionString, 
-            'javascript': self.javascript, 'latex':self.latex})
+        obj = {'string':self.expressionString, 
+            'javascript': self.javascript, 'latex':self.latex}
+        if (raw):
+            return obj
+        else:
+            return JsonResponse(obj)
 
 @csrf_exempt
 #permission_classes((AllowAny,))

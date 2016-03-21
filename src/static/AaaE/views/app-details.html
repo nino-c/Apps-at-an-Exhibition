@@ -55,8 +55,11 @@
                         <strong>Seed: </strong>
                         
                         <div ng-repeat="seedling in instance.seedlist">
-                            <em>{{ seedling[0] }}: </em> 
-                            <span class="text-muted">{{ seedling[1] }}</span><br />
+                            <div>
+                                <em>{{ seedling[0] }}: </em> 
+                                <span ng-if="seedling[1].type != 'math'" class="text-muted">{{ seedling[1].value }}</span>
+                                <span ng-if="seedling[1].type == 'math'" class="text-muted">${{ seedling[1].latex }}$</span>
+                            </div>
                         </div>
                      
                     </div><br />

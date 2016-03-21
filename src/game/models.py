@@ -7,11 +7,12 @@ import itertools
 import random
 
 from django.db import models
+from django.conf import settings
 #from jsonfield import JSONField
 from django_thumbs.db.models import ImageWithThumbsField
 from authtools.models import User
 
-from django.conf import settings
+from symbolic_math.views import *
 
 class TimestamperMixin(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -59,20 +60,54 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
         """
         does not need to be server-side anymore
         """
-        if seed is None:
-            print "------------", self.seedStructure
-            seedDict = json.loads(self.seedStructure)
-            seed = {k:v['default'] for k,v in seedDict.iteritems()}
+        print '-----------------'
+        
+        seedDict = json.loads(self.seedStructure)  
+        
+        # tidy seedStruct first 
+        for k,v in seedDict.iteritems():     
+            
+            if 'default' not in v:
+                seedDict['default'] = ''
+            if 'type' not in v:
+                seedDict[k]['type'] = 'string'
+
+        print seedDict
+
+        # define seed from default
+        seed = { k: {
+                        'type':v['type'],
+                        'value':v['default']
+                    } for k,v in seedDict.iteritems() }
+        print seed
+
+        for k,v in seed.iteritems():     
+
+            if v['type'] == 'math':
+                print 'mathtype'
+                expr = SymbolicExpression(v['value'])
+                print expr
+                sym = expr.latex(raw=True)
+                print sym
+                v.update(sym)
+                print '----------', v
+
+        print seed
+    
+
+        print '------------new seed', 
+        print seed
+            
         if request.user is None:
             user = request.user
         else:
             user = self.owner
-        inst = GameInstance(
-            game=self,
-            instantiator=user,
-            seed=json.dumps(seed),
+            inst = GameInstance(
+                game=self,
+                instantiator=user,
+                seed=json.dumps(seed),
             )
-        print inst
+
         inst.save()
         return inst
 
