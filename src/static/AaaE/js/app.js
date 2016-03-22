@@ -82,6 +82,7 @@ angular.module('Exhibition', [
 
     $rootScope.$on('$routeChangeSuccess', function() {
         history.push($location.$$path);
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     });
 
     $rootScope.back = function () {

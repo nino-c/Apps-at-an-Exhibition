@@ -1,6 +1,7 @@
 html,
 body {
   /*font-family: 'Roboto', 'Helvetica','Arial',sans-serif!important;*/
+
   font-weight: 200;
   font-family: monospace;
   font-size: 11px;
@@ -26,7 +27,7 @@ body {
 }
 #brand {
   font-size: 32px;
-  color: #CFFF8E;
+  color: #cfff8e;
   font-weight: bold;
   margin-right: 12px;
   cursor: pointer;
@@ -51,6 +52,9 @@ md-toolbar {
 }
 md-card {
   background-color: rgba(255, 255, 255, 0.85);
+}
+md-input-container {
+  margin-bottom: 0px;
 }
 .snapshot {
   width: 80px;
@@ -160,7 +164,7 @@ md-card {
 }
 .navbar .navbar-brand {
   padding: 12px;
-  color: #337AB7;
+  color: #337ab7;
   font-size: 45px;
 }
 md-select-menu {
@@ -233,13 +237,13 @@ md-select-menu {
 @keyframes color {
   100%,
   0% {
-    stroke: #91FF66;
+    stroke: #91ff66;
   }
   40% {
-    stroke: #CFFF8E;
+    stroke: #cfff8e;
   }
   66% {
-    stroke: #337AB7;
+    stroke: #337ab7;
   }
   80%,
   90% {

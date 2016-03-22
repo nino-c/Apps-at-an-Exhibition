@@ -57,6 +57,7 @@ def exec_function(request, funcname):
     print '--------------'
     if request.method == "POST":
         expressionString = request.POST.get('expressionString')
+        print request.POST, expressionString
         expression = SymbolicExpression(expressionString)
         if hasattr(expression, funcname):
             method = getattr(expression, funcname)

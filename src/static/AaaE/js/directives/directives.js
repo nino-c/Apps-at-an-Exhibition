@@ -22,6 +22,22 @@ angular.module('Exhibition')
             }
         }
     })
+    .directive('colorbox', ['$scope', function($scope) {
+        return {
+            require: '?ngModel',
+            scope: {
+                hex: '='
+            },
+            template:function(elem, attr) {
+                
+                '<div style="background-color: {{ hex }}; width: 15px; height: '
+                +'15px; border: 2px solid #dddddd;"></div>'
+            },
+            link: function($scope, elem, attrs, ngModel) {
+                console.log('link', elem, attrs)
+            }
+        }
+    }])
     .directive('seedField', function($compile) {
         return {
             restrict: 'E',

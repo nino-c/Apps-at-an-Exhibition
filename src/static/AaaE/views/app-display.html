@@ -15,16 +15,17 @@
     <div id="seedDisplay" layout="row">
     
         <div layout="column" ng-repeat="seed in seedList">
-            <!-- <seedField 
-                type="seed[1].type" 
-                value="seed[1].value" 
-                label="seed[0]"></seedField>
-            <label>{{ seed[0] }}</label> -->
             
-            <input ng-if="seed[1].type == 'math'" type="text" 
-                ng-change="seedChange($event)"
-                ng-model="seed[1].value.string" /> 
+            <md-input-container ng-if="seed[1].type == 'math'">
+                <label>{{ seed[0] }}</label>
+                <input type="text" 
+                    ng-blur="seedChangeAsynch($event, seed[0])"
+                    ng-change="seedChange($event)" 
+                    ng-model="seed[1].string" />
+                ${{ seed[1].latex }}$
+            </md-input-container>
 
+            
             <input ng-if="seed[1].type == 'string'" type="text" 
                 ng-change="seedChange($event)"
                 ng-model="seed[1].value" /> 
@@ -36,6 +37,7 @@
             <input ng-if="seed[1].type == 'color'" type="text" 
                 ng-change="seedChange($event)"
                 ng-model="seed[1].value" /> 
+
         </div>
 
             

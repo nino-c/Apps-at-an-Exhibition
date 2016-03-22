@@ -56,9 +56,17 @@
                         
                         <div ng-repeat="seedling in instance.seedlist">
                             <div>
-                                <em>{{ seedling[0] }}: </em> 
-                                <span ng-if="seedling[1].type != 'math'" class="text-muted">{{ seedling[1].value }}</span>
-                                <span ng-if="seedling[1].type == 'math'" class="text-muted">${{ seedling[1].latex }}$</span>
+                                <em>{{ seedling[0] }}:</em> 
+                                
+                                    <span ng-if="!seedling[1].type || seedling[1].type == 'string' || seedling[1].type == 'number'" 
+                                        class="text-muted">{{ seedling[1].value }}</span>
+                                    
+                                   
+                                    <div ng-if="seedling[1].type == 'color'" style="display: inline-block; background-color: {{ seedling[1].value }}; width: 15px; height: 15px; border: 1px solid #eeeeee;"></div>
+                                    
+                                    
+                                    <span ng-if="seedling[1].type == 'math'" class="text-muted">${{ seedling[1].latex }}$</span>
+                                
                             </div>
                         </div>
                      
