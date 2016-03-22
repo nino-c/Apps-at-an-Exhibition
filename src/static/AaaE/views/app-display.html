@@ -13,7 +13,7 @@
 
     <!-- seed display -->
     <div id="seedDisplay" layout="row">
-    
+        
         <div layout="column" ng-repeat="seed in seedList">
             
             <md-input-container ng-if="seed[1].type == 'math'">
@@ -22,7 +22,11 @@
                     ng-blur="seedChangeAsynch($event, seed[0])"
                     ng-change="seedChange($event)" 
                     ng-model="seed[1].string" />
-                ${{ seed[1].latex }}$
+                <div ng-if="seed[1].parsing">
+                    <spinner />
+                    <span class="text-muted"> parsing...</span>
+                </div>
+                <div ng-if="!seed[1].parsing">${{ seed[1].latex }}$</div>
             </md-input-container>
 
             

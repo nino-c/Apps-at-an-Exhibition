@@ -30,31 +30,60 @@ angular
         }
 
         $scope.seedChangeAsynch = function($event, seedkey) {
-            console.log('seedkey', seedkey);
+            
+            $scope._seed[seedkey].parsing = true;
+
             var val = $event.currentTarget.value;
             $.post("/symbolic_math/latex/", {
                 expressionString: val
             }, function(data) {
-                console.log(data);
+                
                 $scope._seed[seedkey].string = val;
                 $scope._seed[seedkey].javascript = data.javascript;
                 $scope._seed[seedkey].latex = data.latex;
+                
 
-                $scope.seedList = _.pairs($scope._seed);
+                $scope.parseSeedList();
+                $scope.$apply();
+                //MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+
                 $timeout(function() {
-                    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-                }, 1000);
+                    $scope._seed[seedkey].parsing = false;
+                    $timeout(function() {
+                        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                    }, 500)
+                }, 500)
+                
             });
            
             
         }
 
+        $scope.parseSeedList = function() {
+            $scope._seed = _.mapObject(
+                $scope._seed, function(s) {
+                    if (s.parsing === undefined) {
+                        s.parsing = false;
+                    }
+                    return s;
+                });
+
+            $scope.seedList = _.pairs($scope._seed);
+        }
+
         $scope.execute = function() {
             if ($scope.instance.seed) {
 
+                $scope.__seed = JSON.parse($scope.instance.seed);
+                $scope.parseSeedList();
+
                 // prepare code to eval
                 // line-by-line for the system-generated part
-                $scope._seed = JSON.parse($scope.instance.seed)
+                $scope._seed = _.mapObject($scope.__seed, function(s) {
+                        s.parsing = false;
+                        return s;
+                    });
+                
                 var seedcodelines = [];
 
                 // canvas declarations
@@ -96,7 +125,7 @@ angular
 
                 }
 
-                $scope.seedList = _.pairs($scope._seed)
+                $scope.parseSeedList();
 
                 var source = seedcodelines.join("\n") + "\n"
                     + $scope.instance.sourcecode

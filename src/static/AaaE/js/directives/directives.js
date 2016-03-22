@@ -22,6 +22,11 @@ angular.module('Exhibition')
             }
         }
     })
+    .directive('spinner', function() {
+        return {
+            template: '<span class="glyphicon glyphicon-refresh fa-spin-custom"></span>'
+        }
+    })
     .directive('colorbox', ['$scope', function($scope) {
         return {
             require: '?ngModel',
