@@ -6,7 +6,8 @@ angular.module('Exhibition', [
   'ngMessages',
   'ngResource',
   'ngAnimate',
-  'ngCookies'
+  'ngCookies',
+  'colorpicker.module'
   ])
   .value('ui.config', {
     codemirror: {

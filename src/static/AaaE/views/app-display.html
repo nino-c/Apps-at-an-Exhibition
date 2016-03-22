@@ -29,18 +29,33 @@
                 <div ng-if="!seed[1].parsing">${{ seed[1].latex }}$</div>
             </md-input-container>
 
+            <md-input-container 
+                ng-if="seed[1].type == 'string' || seed[1].type == 'number'">
+                <label>{{ seed[0] }}</label>
+                <input type="text" 
+                    ng-change="seedChange($event)" 
+                    ng-model="seed[1].value" />
+            </md-input-container>
+
+            <md-input-container 
+                ng-if="seed[1].type == 'color'">
+                <label>{{ seed[0] }}</label>
+                <input type="text" colorpicker 
+                    ng-change="seedChange($event)" 
+                    ng-model="seed[1].value" />
+            </md-input-container>
             
-            <input ng-if="seed[1].type == 'string'" type="text" 
+            <!-- <input ng-if="seed[1].type == 'string'" type="text" 
                 ng-change="seedChange($event)"
-                ng-model="seed[1].value" /> 
+                ng-model="seed[1].value" />  -->
 
-            <input ng-if="seed[1].type == 'number'" type="text" 
+            <!-- <input ng-if="seed[1].type == 'number'" type="text" 
                 ng-change="seedChange($event)"
-                ng-model="seed[1].value" /> 
+                ng-model="seed[1].value" />  -->
 
-            <input ng-if="seed[1].type == 'color'" type="text" 
+            <!-- <input ng-if="seed[1].type == 'color'" type="text" 
                 ng-change="seedChange($event)"
-                ng-model="seed[1].value" /> 
+                ng-model="seed[1].value" />  -->
 
         </div>
 
