@@ -28,6 +28,8 @@ angular
             $scope.readyToSave = true;
         }
 
+
+
         $scope.seedChangeAsynch = function($event, seedkey) {
             
             $scope._seed[seedkey].parsing = true;
@@ -41,10 +43,8 @@ angular
                 $scope._seed[seedkey].javascript = data.javascript;
                 $scope._seed[seedkey].latex = data.latex;
                 
-
                 $scope.parseSeedList();
                 $scope.$apply();
-                //MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
 
                 $timeout(function() {
                     $scope._seed[seedkey].parsing = false;
@@ -216,7 +216,7 @@ angular
                 if (response.data.id) {
                     $scope.instance = InstanceService.get({id:response.data.id})
                     $scope.instance.$promise.then(function() {
-                        
+
                         $scope.clearCanvas();
                         $scope.clearPaperCanvas();
                         $scope.clearEvalScope();

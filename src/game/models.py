@@ -138,3 +138,12 @@ class GameInstanceSnapshot(TimestamperMixin, models.Model):
 
     def getFilename(self):
         return self.image.name or None
+
+
+class SavedFunction(TimestamperMixin, models.Model):
+    owner = models.ForeignKey(User, related_name='savedFunctions')
+    title = models.CharField(max_length=255, null=True, blank=True)
+    source = models.TextField(null=False, blank=False)
+
+    def __unicode__(self):
+        return self.title + ": " + self.source[:50] + "..."

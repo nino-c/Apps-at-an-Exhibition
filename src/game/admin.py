@@ -2,7 +2,7 @@ from django.contrib import admin
 from game.models import *
 
 
-map(admin.site.register, [JSLibrary, ZeroPlayerGame, Category, GameInstanceSnapshot])
+map(admin.site.register, [JSLibrary, ZeroPlayerGame, Category, GameInstanceSnapshot, SavedFunction])
 
 # class GameParamsInline(admin.StackedInline):
 # 	model = GameParam
