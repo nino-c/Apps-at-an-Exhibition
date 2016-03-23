@@ -46,22 +46,11 @@ def updateGame(request, pk):
         game = ZeroPlayerGame.objects.get(pk=pk)
     except ZeroPlayerGame.DoesNotExist:
         return HttpResponse(status=404)
-    #print dir(game)
-    #print game.__dict__
-    print "---------------"
 
     if request.method == 'POST':
-        #print request.POST['source'][:100]
-        print str(type(game))
-        print str(type(request.POST.get('source')))
         game.source = request.POST.get('source')
-        print request.POST['source'][:10]
-        print '========================'
-        print game.source[:10]
         game.seedStructure = request.POST['seedStructure']
         game.save()
-
-
 
         game2 = ZeroPlayerGame.objects.get(pk=pk)
         #print game2.__dict__

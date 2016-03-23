@@ -8,7 +8,7 @@
     </div>
     
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-12">
 
             <h3>{{ app.title }}</h3>
             
@@ -50,8 +50,8 @@
                 {{ instance.instantiator.name }}&apos;s instance @ {{ instance.created }}
                 <br /><br />
 
-                <div class="row">
-                    <div class="col-sm-3">
+                <div class="layout container-fluid">
+                    <div flex="30">
                         <strong>Seed: </strong>
                         
                         <div ng-repeat="seedling in instance.seedlist">
@@ -71,7 +71,7 @@
                         </div>
                      
                     </div><br />
-                    <div class="col-sm-9">
+                    <div flex="70">
                         <strong>Snapshots: </strong><hr />
                         <div class="container-fluid">
                             
@@ -104,9 +104,7 @@
           
 
         </div>
-        <div class="col-md-5">
-
-        </div>
+        
     </div>
 
 </md-content>

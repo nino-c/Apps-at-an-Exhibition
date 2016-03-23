@@ -21,12 +21,12 @@
                 <input type="text" 
                     ng-blur="seedChangeAsynch($event, seed[0])"
                     ng-change="seedChange($event)" 
-                    ng-model="seed[1].string" />
+                    ng-model="seed[1].value" />
                 <div ng-if="seed[1].parsing">
                     <spinner />
                     <span class="text-muted"> parsing...</span>
                 </div>
-                <div ng-if="!seed[1].parsing">${{ seed[1].latex }}$</div>
+                <div ng-if="!seed[1].parsing" class="text-muted">${{ seed[1].latex }}$</div>
             </md-input-container>
 
             <md-input-container 
@@ -45,23 +45,9 @@
                     ng-model="seed[1].value" />
             </md-input-container>
             
-            <!-- <input ng-if="seed[1].type == 'string'" type="text" 
-                ng-change="seedChange($event)"
-                ng-model="seed[1].value" />  -->
-
-            <!-- <input ng-if="seed[1].type == 'number'" type="text" 
-                ng-change="seedChange($event)"
-                ng-model="seed[1].value" />  -->
-
-            <!-- <input ng-if="seed[1].type == 'color'" type="text" 
-                ng-change="seedChange($event)"
-                ng-model="seed[1].value" />  -->
-
+           
         </div>
 
-            
-            <!-- <seedEditor ng-model="seedList" 
-                ng-change="seedChange($event)"></seedEditor> -->
         
    
         <br />
@@ -75,7 +61,7 @@
     <div id="toolbar-bottom" layout-padding layout-align="start center">
           
         <div id="footer-title" class="pull-left">{{ instance.game.title }}</div>
-        <!-- <em>{{ timeElapsed | round }}</em> -->
+        <em>{{ timeElapsed | round }}</em>
 
         <div class="container-fluid pull-right">
             <button type="button" class="btn btn-primary" ng-click="snapshot()">

@@ -72,32 +72,20 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
             if 'type' not in v:
                 seedDict[k]['type'] = 'string'
 
-        print seedDict
-
         # define seed from default
-        seed = { k: {
+        if seed is None:
+            seed = { k: {
                         'type':v['type'],
                         'value':v['default']
                     } for k,v in seedDict.iteritems() }
-        print seed
-
+        
         for k,v in seed.iteritems():     
 
             if v['type'] == 'math':
-                print 'mathtype'
                 expr = SymbolicExpression(v['value'])
-                print expr
                 sym = expr.latex(raw=True)
-                print sym
                 v.update(sym)
-                print '----------', v
 
-        print seed
-    
-
-        print '------------new seed', 
-        print seed
-            
         if request.user is None:
             user = request.user
         else:

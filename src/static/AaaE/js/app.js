@@ -61,7 +61,7 @@ angular.module('Exhibition', [
 
 
   })
-  .run(function($rootScope, $location, $http, $cookies) {
+  .run(function($rootScope, $location, $http, $cookies, $timeout) {
 
     $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken']
     $http.defaults.xsrfCookieName = 'csrftoken';
@@ -83,7 +83,9 @@ angular.module('Exhibition', [
 
     $rootScope.$on('$routeChangeSuccess', function() {
         history.push($location.$$path);
-        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+        $timeout(function() {
+          MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+        }, 500);
     });
 
     $rootScope.back = function () {

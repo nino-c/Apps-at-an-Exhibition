@@ -20,7 +20,6 @@ angular
         $scope.instance = InstanceService.get({id:$route.current.params.instance_id})
 
         $scope.instance.$promise.then(function() {
-            $scope.seedStructure = $scope.instance.game.seedStructure
             $scope.execute();
         })
 
@@ -59,31 +58,35 @@ angular
             
         }
 
-        $scope.parseSeedList = function() {
+        $scope.parseSeedList = function(setToFalse) {
+            if (setToFalse === undefined) setToFalse = false;
             $scope._seed = _.mapObject(
                 $scope._seed, function(s) {
-                    if (s.parsing === undefined) {
-                        s.parsing = false;
-                    }
+                    if (s.parsing === undefined) s.parsing = false;
+                    if (setToFalse) s.parsing = false;
                     return s;
                 });
 
             $scope.seedList = _.pairs($scope._seed);
+            console.log('seedList', $scope.seedList);
+            
+            $timeout(function() {
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+            }, 500)
         }
 
         $scope.execute = function() {
             if ($scope.instance.seed) {
 
                 $scope.__seed = JSON.parse($scope.instance.seed);
-                $scope.parseSeedList();
-
-                // prepare code to eval
-                // line-by-line for the system-generated part
-                $scope._seed = _.mapObject($scope.__seed, function(s) {
+                $scope._seed = _.mapObject(
+                    $scope.__seed, function(s) {
                         s.parsing = false;
                         return s;
                     });
-                
+
+                // prepare code to eval
+                // line-by-line for the system-generated part
                 var seedcodelines = [];
 
                 // canvas declarations
@@ -105,6 +108,7 @@ angular
                 for (attr in $scope._seed) {
                     
                     var line = '';
+
                     switch ($scope._seed[attr].type) {
                         case 'string':
                         case 'color':
@@ -195,21 +199,43 @@ angular
         }
 
         $scope.saveAsNewInstance = function() {
+
+            $scope.updateSeed();
+            
             var req = {
-              method: 'POST',
-              data: $scope._seed,
-              url: '/game/app-instantiate/' + $scope.app.id + '/',
-              headers: {
-                'Content-Type': 'application/json'
-              }
+                method: 'POST',
+                data: $scope._seed,
+                url: '/game/app-instantiate/' + $scope.instance.game.id + '/',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             }
+
             $http(req).then(function successCallback(response) {
-              console.log(response)
-              //$location.path('/instance/'+$scope.app.id+'/'+response.data.id+'/')
-              $mdToast.showSimple("Saved as new instance.");
-              $scope.readyToSave = false;
+                
+                if (response.data.id) {
+                    $scope.instance = InstanceService.get({id:response.data.id})
+                    $scope.instance.$promise.then(function() {
+                        
+                        $scope.clearCanvas();
+                        $scope.clearPaperCanvas();
+                        $scope.clearEvalScope();
+
+                        $mdToast.showSimple("Saved as new instance.");
+                        
+                        $scope.loading = true;
+                        $scope.timeElapsed = 0;
+                        $scope.seedTouched = false;
+                        $scope.readyToSave = false;
+
+                        $scope.execute();
+                    })
+
+                   
+                }
+                
             }, function errorCallback(response) {
-              console.log('error', response)
+                console.log('error', response)
             });
         }
 
@@ -246,9 +272,15 @@ angular
 
         $scope.clearEvalScope = function() {
             // try to delete all vars in scope of previously eval()-ed app 
+            try {
+                window.appdestroy();
+            } catch (e) { 
+                console.log('no appdestroy()', e); 
+            }
             if ($scope.gameFunction) {
                 delete $scope.gameFunction;
                 console.log('deleting gameFunction')
+                
             }
         }
 
@@ -258,11 +290,16 @@ angular
         //     $scope._destroy();
         // })
 
-        $scope.updateInstance = function() {
 
-            $scope.seedComponents.forEach(function(comp) {
-                $scope._seed[comp.property] = comp.value;
+        $scope.updateSeed = function() {
+            _.each($scope.seedList, function(seed) {
+                $scope._seed[seed[0]] = seed[1];
             })
+            console.log('seed after update', $scope._seed)
+        }
+
+        $scope.updateInstance = function() {
+            $scope.updateSeed();
             $scope.instance.seed = JSON.stringify($scope._seed)
             
             $scope.clearCanvas();
