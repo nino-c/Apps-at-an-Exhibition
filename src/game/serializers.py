@@ -4,8 +4,6 @@ from .models import *
 
 
 def parseDate(d):
-    #return {k:d.__getattribute__(k) for k in
-    #['year', 'month', 'day', 'hour', 'minute', 'second']}
     return d.isoformat()
 
 
@@ -45,6 +43,11 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = '__all__'
 
+class CodeModuleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CodeModule
+        fields = '__all__'
+
 class JSLibrarySerializer(serializers.ModelSerializer):
     class Meta:
         model = JSLibrary
@@ -63,7 +66,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        exclude = ('password', 'last_login', 'is_superuser', 'email', 'is_staff', 'is_active', 'date_joined', 'groups', 'user_permissions',)
+        exclude = ('password', 'last_login', 'is_superuser', 'email', 'is_staff', 'is_active', 
+            'date_joined', 'groups', 'user_permissions',)
         read_only_fields = ('id', 'name', 'avatar')
 
     def get_avatar(self, object):
@@ -71,22 +75,17 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class AppSerializer_Inline(serializers.ModelSerializer):
+    required_modules = CodeModuleSerializer(many=True)
 
     class Meta:
         model = ZeroPlayerGame
-        #exclude = ('instances',)
         include = ('__all__')
 
 
-class InstanceSerializer(serializers.ModelSerializer):
+class InstanceMixin(serializers.ModelSerializer):
     instantiator = UserSerializer(required=False, read_only=True)
-    #images = SnapshotSerializer(read_only=True, many=True)
     snapshots = serializers.SerializerMethodField(read_only=True)
     sourcecode = serializers.SerializerMethodField(read_only=True)
-
-    game = AppSerializer_Inline()
-    #created = ParseDateField()
-    #updated = ParseDateField()
 
     def get_validation_exclusions(self):
         exclusions = super(InstanceSerializer, self).get_validation_exclusions()
@@ -105,6 +104,17 @@ class InstanceSerializer(serializers.ModelSerializer):
         instance = GameInstance(**validated_data)
         return instance
 
+    
+
+class InstanceSerializer(InstanceMixin, serializers.ModelSerializer):
+    game = AppSerializer_Inline()
+
+    class Meta:
+        model = GameInstance
+        include = ('snapshots', 'game', 'required_modules')
+        read_only_fields = ('images', 'created', 'updated', 'snapshots')
+
+class InstanceSerializer_Inline(InstanceMixin, serializers.ModelSerializer):
 
     class Meta:
         model = GameInstance
@@ -113,7 +123,7 @@ class InstanceSerializer(serializers.ModelSerializer):
 
 
 class AppSerializer(serializers.ModelSerializer):
-    instances = InstanceSerializer(many=True, read_only=True)
+    instances = InstanceSerializer_Inline(many=True, read_only=True)
     owner = UserSerializer(required=False, read_only=True)
     category = CategoryField()
     extraIncludes = JSLibrarySerializer(read_only=True, many=True)

@@ -42,6 +42,12 @@ class SnapshotViewSet(viewsets.ModelViewSet):
     queryset = GameInstanceSnapshot.objects.all()
 
 #@permission_classes((IsAuthenticated, ))
+class CodeModuleViewSet(viewsets.ModelViewSet):
+    authentication_classes = (SessionAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    queryset = CodeModule.objects.all()
+    serializer_class = CodeModuleSerializer
+
 class AppView(viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -57,6 +63,7 @@ router.register(r'categories', CategoryViewSet)
 router.register(r'apps', AppViewSet)
 router.register(r'instances', InstanceViewSet)
 router.register(r'snapshots', SnapshotViewSet)
+router.register(r'code_modules', CodeModuleViewSet)
 
 
 # Wire up our API using automatic URL routing.

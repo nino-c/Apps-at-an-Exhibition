@@ -21,7 +21,6 @@ angular
             JSON.parse($scope.app.instances[i].seed);
 
           $scope.app.instances[i].seedlist = _.pairs($scope.app.instances[i]._seed); 
-          console.log($scope.app.instances[i].seedlist)
         }
 
       })

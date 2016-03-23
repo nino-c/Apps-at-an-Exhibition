@@ -15,6 +15,13 @@
               }
           })
         }])
+        .factory('CodeModuleService', ['$resource', ($resource) => {
+          return $resource('/game/api/code_modules/:id/', {id:'@id'}, { 
+              update: {
+                  method: 'PUT'
+              }
+          })
+        }])
         .factory('CategoryService', ['$resource', ($resource) => {
           return $resource('/game/api/categories/:id/', {id:'@id'}, { 
               update: {
