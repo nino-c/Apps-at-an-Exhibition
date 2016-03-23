@@ -14,6 +14,12 @@ from authtools.models import User
 
 from symbolic_math.views import *
 
+DIALECTS = (
+    ('javascript', 'text/javascript'),
+    ('coffeescript', 'text/coffeescript'),
+    ('paperscript', 'text/paperscript'),
+)
+
 class TimestamperMixin(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -40,6 +46,33 @@ class JSLibrary(models.Model):
     class Meta:
         verbose_name_plural = "JS libraries"
 
+class SavedFunction(TimestamperMixin, models.Model):
+    """
+    snippet-like, meant for short user functions
+    """
+    owner = models.ForeignKey(User, related_name='savedFunctions')
+    title = models.CharField(max_length=255, null=True, blank=True)
+    language = models.CharField(max_length=20, 
+        choices=DIALECTS, default="javascript")
+    source = models.TextField(null=False, blank=False)
+
+    def __unicode__(self):
+        return self.title + ": " + self.source[:50] + "..."
+
+class CodeModule(TimestamperMixin, models.Model):
+    """
+    for larger system-provided blocks that 
+    hould be available to every user
+    """
+    title = models.CharField(max_length=255, null=True, blank=True)
+    language = models.CharField(max_length=20, 
+        choices=DIALECTS, default="javascript")
+    source = models.TextField(null=False, blank=False)
+    
+
+    def __unicode__(self):
+        return self.title + ": " + self.source[:50] + "..."    
+
 
 class ZeroPlayerGame(TimestamperMixin, models.Model):
     parent = models.ForeignKey('self', null=True, blank=True, related_name="children")
@@ -52,6 +85,7 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
     seedStructure = models.TextField(blank=True)
     extraIncludes = models.ManyToManyField('JSLibrary', null=True, blank=True)
     mainImage = models.CharField(null=True, blank=True, max_length=255)
+    required_modules = models.ManyToManyField(CodeModule, null=True)
 
     def __unicode__(self):
         return "\"%s\", by %s" % (self.title, self.owner.name)
@@ -140,10 +174,3 @@ class GameInstanceSnapshot(TimestamperMixin, models.Model):
         return self.image.name or None
 
 
-class SavedFunction(TimestamperMixin, models.Model):
-    owner = models.ForeignKey(User, related_name='savedFunctions')
-    title = models.CharField(max_length=255, null=True, blank=True)
-    source = models.TextField(null=False, blank=False)
-
-    def __unicode__(self):
-        return self.title + ": " + self.source[:50] + "..."
