@@ -131,11 +131,21 @@ angular
 
                 $scope.parseSeedList();
 
+                // get required-module code (if any)
+                var required_codeblocks = '';
+                if ($scope.instance.game.required_modules.length > 0) {
+                    required_codeblocks = _.map(
+                        $scope.instance.game.required_modules, function(mod) {
+                            return mod.source;
+                        }).join("\n\n");
+                }
+
+                console.log('req required_codeblocks', required_codeblocks);
+
                 var source = seedcodelines.join("\n") + "\n"
+                    + required_codeblocks + "\n" 
                     + $scope.instance.sourcecode
                     + "\n try { start(); } catch(e) {}"
-
-                console.log('ready to run', seedcodelines.join("\n"));
 
                 function updateElapsedTime() {
                     $scope.timeElapsed = ((new Date()).getTime() - $scope.appstart.getTime()) / 1000;
