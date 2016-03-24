@@ -3,13 +3,22 @@ angular
     .controller('AppEditorController', ['$rootScope', '$scope', 
         '$location', '$route', '$mdToast', '$interval', 
         '$timeout', 
-        'AppService', 'CategoryService',
+        'AppService', 
+        'CategoryService',
+        'CodeModuleService',
         function($rootScope, $scope, $location, $route, 
             $mdToast, $interval, $timeout,
-            AppService, CategoryService) {
+            AppService, CategoryService, CodeModuleService) {
             
             $scope.categories = CategoryService.query()
+            $scope.codeModules = CodeModuleService.query()
             $scope.scriptTypes = $rootScope.scriptTypes
+
+            $scope.codeModules.$promise.then(function(response) {
+                _.each($scope.codeModules, function(mod) {
+                    mod.selected = false;
+                })
+            });
 
             if ($location.path().indexOf('/apps/new/') > -1) {
 
@@ -31,28 +40,30 @@ angular
                     console.log('loaded app')
                     $scope.editor1 = true;
                     $scope.editor2 = true;
+
+                    $scope.cmOptions = {
+                      lineWrapping: true,
+                      lineNumbers: true,
+                      indentWithTabs: true,
+                      viewportMargin: Infinity,
+                      theme: "monokai",
+                      mode: $scope.app.scriptType.split('text/').join(''),
+                      matchBrackets: true,
+                    }
+
+                    $scope.cm2Options = {
+                      lineWrapping: true,
+                      lineNumbers: true,
+                      indentWithTabs: true,
+                      viewportMargin: Infinity,
+                      theme: "monokai",
+                      mode: 'javascript',
+                      matchBrackets: true,
+                    }
                 })
             }
 
-            $scope.cmOptions = {
-              lineWrapping: true,
-              lineNumbers: true,
-              indentWithTabs: true,
-              viewportMargin: Infinity,
-              theme: "monokai",
-              mode: 'javascript',
-              matchBrackets: true,
-            }
-
-            $scope.cm2Options = {
-              lineWrapping: true,
-              lineNumbers: true,
-              indentWithTabs: true,
-              viewportMargin: Infinity,
-              theme: "monokai",
-              mode: 'javascript',
-              matchBrackets: true,
-            }
+            
 
 
             $scope.saveapp = function(event) {

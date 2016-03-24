@@ -33,6 +33,7 @@ def instantiateGame(request, pk):
         instance = game.instantiate(request)
         serializer = InstanceSerializer(instance)
         return JsonResponse(serializer.data)
+
     elif request.method == 'POST':
         seed = json.loads(request.body)
         instance = game.instantiate(request, seed)

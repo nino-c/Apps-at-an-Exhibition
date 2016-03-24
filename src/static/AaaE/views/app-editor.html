@@ -30,6 +30,15 @@
                 ng-model="app.description"></textarea>
            
           </md-input-container>
+          <md-input-container>
+            <label class="control-label">Code Modules</label>
+                <br /><br /><br />
+             
+                <md-checkbox ng-repeat="mod in codeModules" 
+                  ng-model="mod.selected" flex>{{ mod.title }}</md-checkbox>
+             
+           
+          </md-input-container>
 
         </div>
         <div flex="grow" layout="column">

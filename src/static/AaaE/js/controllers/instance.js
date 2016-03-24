@@ -16,7 +16,6 @@ angular
         $scope.seedTouched = false;
         $scope.readyToSave = false;
 
-        //$scope.app = AppService.get({id:$route.current.params.app_id})
         $scope.instance = InstanceService.get({id:$route.current.params.instance_id})
 
         $scope.instance.$promise.then(function() {
@@ -27,8 +26,6 @@ angular
             $scope.seedTouched = true;
             $scope.readyToSave = true;
         }
-
-
 
         $scope.seedChangeAsynch = function($event, seedkey) {
             
@@ -116,8 +113,12 @@ angular
                                 + $scope._seed[attr].value.toString() + "\";"
                             break;
                         case 'math':
-                             line = "var " + attr + " = "
+                            line = "var " + attr + " = "
                                 + JSON.stringify($scope._seed[attr]) + ";"
+                            break;
+                        case 'javascript':
+                            line = "var " + attr + " = "
+                                + $scope._seed[attr].value + ";"
                             break;
                         case 'number':
                             line = "var " + attr + " = "
@@ -127,6 +128,17 @@ angular
 
                     seedcodelines.push(line);
 
+                }
+
+                // remove `var` seedcodelines if coffeescript
+                var coffee = false;
+                if ($scope.instance.game.scriptType.indexOf('coffeescript') > -1) {
+                    coffee = true;
+                }
+                if (coffee) {
+                    seedcodelines = _.map(seedcodelines, function(line) {
+                        return line.split('var ').join('');
+                    });
                 }
 
                 $scope.parseSeedList();
@@ -144,8 +156,13 @@ angular
 
                 var source = seedcodelines.join("\n") + "\n"
                     + required_codeblocks + "\n" 
-                    + $scope.instance.sourcecode
-                    + "\n try { start(); } catch(e) {}"
+                    + $scope.instance.sourcecode;
+
+                if (coffee) {
+                    source = CoffeeScript.compile($scope.instance.sourcecode);
+                }
+
+                source = source + "\n try { start(); } catch(e) {}"
 
                 function updateElapsedTime() {
                     $scope.timeElapsed = ((new Date()).getTime() - $scope.appstart.getTime()) / 1000;
