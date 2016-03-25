@@ -85,7 +85,7 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
     seedStructure = models.TextField(blank=True)
     extraIncludes = models.ManyToManyField('JSLibrary', null=True, blank=True)
     mainImage = models.CharField(null=True, blank=True, max_length=255)
-    required_modules = models.ManyToManyField(CodeModule, null=True)
+    required_modules = models.ManyToManyField(CodeModule, null=True, blank=True)
 
     def __unicode__(self):
         return "\"%s\", by %s" % (self.title, self.owner.name)
