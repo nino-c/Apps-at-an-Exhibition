@@ -137,7 +137,7 @@ angular
                 }
                 if (coffee) {
                     seedcodelines = _.map(seedcodelines, function(line) {
-                        return line.split('var ').join('');
+                        return line.split('var ').join('').split(';').join('');
                     });
                 }
 
@@ -159,10 +159,14 @@ angular
                     + $scope.instance.sourcecode;
 
                 if (coffee) {
+                    $scope.instance.sourcecode 
+                        += "\ntry\n\twindow.start()\ncatch error\n\tconsole.log #{error}"
                     source = CoffeeScript.compile($scope.instance.sourcecode);
+                } else {
+                    source += "\n try { window.start(); } catch(e) {}"
                 }
 
-                source = source + "\n try { start(); } catch(e) {}"
+                
 
                 function updateElapsedTime() {
                     $scope.timeElapsed = ((new Date()).getTime() - $scope.appstart.getTime()) / 1000;
