@@ -270,9 +270,7 @@ angular
             });
         }
 
-        $scope.clearCanvas = function() {
-            
-            
+        $scope.clearCanvas = function() { 
             try {
                 var _canvas = document.getElementById('big-canvas');
                 if (_canvas) {
@@ -317,11 +315,26 @@ angular
             }
         }
 
-
+        $scope._destroy = function() {
+            console.log('scope destroy instance.js')
+            $scope.clearCanvas();
+            $scope.clearPaperCanvas();
+            $scope.clearEvalScope();
+        }
 
         // $scope.$on("$destroy", function() {
+        //     console.log('destroy1');
         //     $scope._destroy();
-        // })
+        //});
+
+        // $scope.$destroy = function() {
+        //     console.log('destroy2');
+        //     if ($scope.gameFunction) {
+        //         delete $scope.gameFunction;
+        //         console.log('deleting gameFunction')
+                
+        //     }
+        // }
 
 
         $scope.updateSeed = function() {

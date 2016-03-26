@@ -10,6 +10,7 @@ angular
             $mdToast, $interval, $timeout,
             AppService, CategoryService, CodeModuleService) {
             
+            $scope.isLoading = true;
             $scope.categories = CategoryService.query()
             $scope.codeModules = CodeModuleService.query()
             $scope.scriptTypes = $rootScope.scriptTypes
@@ -28,6 +29,8 @@ angular
                     seedStructure: "{\"param1\":{\"default\":\"\"}}"
                 });
 
+                $scope.isLoading = false;
+
                 $timeout(function() {
                     $scope.editor1 = true;
                     $scope.editor2 = true;
@@ -40,6 +43,8 @@ angular
                     console.log('loaded app')
                     $scope.editor1 = true;
                     $scope.editor2 = true;
+
+                    $scope.isLoading = false;
 
                     var lang = $scope.app.scriptType.split('text/').join('');
                     if (lang == 'paperscript') { lang = 'javascript'; }

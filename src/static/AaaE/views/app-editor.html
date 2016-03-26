@@ -42,35 +42,40 @@
 
         </div>
         <div flex="grow" layout="column">
-          <div class="control-group">
-            <label class="control-label">Script</label>
-            <ui-codemirror ui-codemirror-opts="cmOptions"
-              ng-model="app.source" name="source" ui-refresh="editor1"></ui-codemirror>
-            
+
+          <div ng-if="isLoading">
+            <spinner />
           </div>
 
-          <div class="control-group">
-            <label class="control-label">Seed Structure</label>
-            
-            <br />
-            <span ng-show="appform.seedStructure.$error.validateJson"
-              class="form-error">Invalid JSON</span>
-
-            <ui-codemirror ui-codemirror-opts="cm2Options"
-              name="seedStructure" 
-              ng-model-options="{updateOn: 'default blur'}"
-              validate-json
-              ng-model="app.seedStructure" ui-refresh="editor2"
-              ></ui-codemirror>
+          <div ng-if="!isLoading">
+            <div class="control-group">
+              <label class="control-label">Script</label>
+              <ui-codemirror ui-codemirror-opts="cmOptions"
+                ng-model="app.source" name="source" ui-refresh="editor1"></ui-codemirror>
               
-              <!-- <div ng-messages="appform.seedStructure.$error" 
-                role="alert">
-                <div ng-message="validateJson">
-                  Invalid JSON syntax</div>
-              </div> -->
+            </div>
 
-             </div>
+            <div class="control-group">
+              <label class="control-label">Seed Structure</label>
+              
+              <br />
+              <span ng-show="appform.seedStructure.$error.validateJson"
+                class="form-error">Invalid JSON</span>
+
+              <ui-codemirror ui-codemirror-opts="cm2Options"
+                name="seedStructure" 
+                ng-model-options="{updateOn: 'default blur'}"
+                validate-json
+                ng-model="app.seedStructure" ui-refresh="editor2"
+                ></ui-codemirror>
+          
+            </div>
           </div>
+
+          
+
+          
+          
         </div>
       </md-content>
 
