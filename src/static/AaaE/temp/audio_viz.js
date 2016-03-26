@@ -1,62 +1,96 @@
+// included by system, present only for testing
+var Canvas = document.getElementById('big-canvas');
+
+
+
+
+///////////////////////////////////////////////////////////
+
+var N = 32; // should at least divide 1024
 var analyser;
 var viz;
-var N;
 
-function init_audioviz() {
+
+// create circle elements
+view.width = Canvas.width;
+view.height = Canvas.height;
+
+var r = _.min([view.width, view.height]) / 2; console.log('r', r)
+var elem = [];
+
+_.each(_.range(N), function(n) {
+	
+	var rfac = ((N-n)/N); 
+	
+	var col = new Color();
+	col.hue = (360)*(n/N);
+	col.saturation = 0.5;
+	col.brightness = 1;
+	
+	var el = new Path.Circle({
+		radius: r*rfac,
+		center: view.center,
+		fillColor: col,
+		blendMode: 'multiply',
+		opacity: 0.5 + ((n/N)/2)
+	});
+	
+	elem.push(el)	
+})
+
+
+function onFrame() {
+	
+	analyser.getByteFrequencyData(fdata);
+
+	_.each(elem, function(el, i){
+		
+		var sum = 0;
+		_.each(_.range( ((bincount/N)*i), ((bincount/N)*(i+1)) ), 
+			function(i) { sum += fdata[i]; });
+		
+		var fac = ((sum/(bincount/N))/255);
+
+		el.fillColor.saturation = fac;
+		el.fillColor.hue += 3*fac;
+
+
+	});
+
+}
+
+//renderFrame(); 
+
+
+
+
+var audio;
+var bincount;
+var fdata;
+
+window.start = function() {
+	
+	audio = new Audio();
+	audio.src = '/static/audio/floyd.mp3';
+	audio.play();
 
 	var ctx = new AudioContext();
 	var audioSrc = ctx.createMediaElementSource(audio);
 	analyser = ctx.createAnalyser();
 	audioSrc.connect(analyser);
 	analyser.connect(ctx.destination);
-	
-	viz = $("#audioviz");
-	var bincount = analyser.frequencyBinCount;
-	var fdata = new Uint8Array(bincount);
-	N = 32; // should at least divide 1024
-	
-	var elements = _.map(_.range(N), function(n) {
-		return $('<div class="n_viz_bar" id="vizbar'+n+'"></div>');
-	});
-	_.each(elements, function(el){viz.append(el);})
-	
-	
 
-	function renderFrame() {
-		requestAnimationFrame(renderFrame);
-		analyser.getByteFrequencyData(fdata);
-
-		_.each(elements, function(el, i){
-			
-			var sum = 0;
-			_.each(_.range( ((bincount/N)*i), ((bincount/N)*(i+1)) ), 
-				function(r) { sum += fdata[r]; });
-			
-			el.css({'margin-top':(120-( 120 * ((sum/(bincount/N))/255) ))+'px'});
-
-		});
-
-	}
-
-	renderFrame(); 
-
-
+	bincount = analyser.frequencyBinCount;
+	fdata = new Uint8Array(bincount);
 }
 
-var audio;
 
+
+
+
+
+// included by system, present only for testing
 $(document).ready(function() {
-	var viz = document.createElement('div');
-	viz.id = 'audioviz';
-	viz.class = 'n_viz';
-	document.body.appendChild(viz);
-
-	audio = new Audio();
-	audio.src = '/static/audio/floyd.mp3';
-	init_audioviz();
-	audio.play();
+	start();
 })
-
-
-
 

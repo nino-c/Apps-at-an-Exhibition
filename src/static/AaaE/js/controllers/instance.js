@@ -271,6 +271,8 @@ angular
         }
 
         $scope.clearCanvas = function() {
+            
+            
             try {
                 var _canvas = document.getElementById('big-canvas');
                 if (_canvas) {

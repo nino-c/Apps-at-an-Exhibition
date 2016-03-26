@@ -41,13 +41,16 @@ angular
                     $scope.editor1 = true;
                     $scope.editor2 = true;
 
+                    var lang = $scope.app.scriptType.split('text/').join('');
+                    if (lang == 'paperscript') { lang = 'javascript'; }
+
                     $scope.cmOptions = {
                       lineWrapping: true,
                       lineNumbers: true,
                       indentWithTabs: true,
                       viewportMargin: Infinity,
                       theme: "monokai",
-                      mode: $scope.app.scriptType.split('text/').join(''),
+                      mode: lang,
                       matchBrackets: true,
                     }
 
