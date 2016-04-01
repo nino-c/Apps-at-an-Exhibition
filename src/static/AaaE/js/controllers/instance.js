@@ -27,7 +27,7 @@ angular
             $scope.readyToSave = true;
         }
 
-        $scope.seedChangeAsynch = function($event, seedkey) {
+        $scope.seedChangeAsync = function($event, seedkey) {
             
             $scope._seed[seedkey].parsing = true;
 

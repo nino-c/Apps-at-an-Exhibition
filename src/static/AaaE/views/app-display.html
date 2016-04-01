@@ -19,7 +19,7 @@
             <md-input-container ng-if="seed[1].type == 'math'">
                 <label>{{ seed[0] }}</label>
                 <input type="text" 
-                    ng-blur="seedChangeAsynch($event, seed[0])"
+                    ng-blur="seedChangeAsync($event, seed[0])"
                     ng-change="seedChange($event)" 
                     ng-model="seed[1].value" />
                 <div ng-if="seed[1].parsing">
