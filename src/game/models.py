@@ -76,7 +76,7 @@ class CodeModule(TimestamperMixin, models.Model):
 
 class ZeroPlayerGame(TimestamperMixin, models.Model):
     parent = models.ForeignKey('self', null=True, blank=True, related_name="children")
-    category = models.ForeignKey(Category)
+    category = models.ForeignKey(Category, related_name="apps")
     owner = models.ForeignKey(User)
     title = models.CharField(max_length=500)
     description = models.TextField(blank=True)

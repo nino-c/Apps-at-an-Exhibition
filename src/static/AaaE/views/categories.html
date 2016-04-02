@@ -1,0 +1,27 @@
+<div ng-controller="CategoriesController" layout="row" layout-wrap>
+
+	<div flex="50" ng-repeat="category in categories">
+		<md-card ng-click="selectCategory(category)">
+			<md-card-title>
+				<md-card-title-text>
+					<h3>{{ category.name }}</h3>
+				</md-card-title-text>
+			</md-card-title>
+			<md-card-content>
+				
+				<md-grid-list md-cols="5" md-row-height="1:1" md-gutter="1px">
+					<md-grid-tile ng-repeat="im in category.images">
+						<img ng-src="/media/{{ im | thumbnail:125 }}" 
+							class="thumbnail thumbnail-tiny" />
+					</md-grid-tile>
+				</md-grid-list>
+
+				<!-- <img ng-src="/media/{{ im | thumbnail:125 }}" 
+					class="thumbnail thumbnail-tiny pull-left" 
+					ng-repeat="im in category.images" /> -->
+
+			</md-card-content>
+		</md-card>
+	</div>
+
+</div>

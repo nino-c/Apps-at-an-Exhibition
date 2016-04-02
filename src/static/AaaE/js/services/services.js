@@ -29,3 +29,6 @@
               }
           })
         }])
+        .factory('CategoryWithApps', ['$resource', ($resource) => {
+          return $resource('/game/api/categories-with-apps/:id/', {id:'@id'});
+        }])

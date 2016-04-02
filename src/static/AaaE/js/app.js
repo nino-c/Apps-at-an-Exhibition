@@ -21,20 +21,27 @@ angular.module('Exhibition', [
   }).config(
     ($mdThemingProvider, $routeProvider, $resourceProvider) => {
 
+      // $mdThemingProvider.theme('default')
+      //     .primaryPalette('light-green', {
+      //       'default': '200',
+      //       'hue-1': '100',
+      //       'hue-2': '500',
+      //       'hue-3': 'A200'
+      //     })
+      //     .accentPalette('lime', {
+      //       'default': '500'
+      //     })
+
       $mdThemingProvider.theme('default')
-          .primaryPalette('light-green', {
-            'default': '200',
-            'hue-1': '100',
-            'hue-2': '500',
-            'hue-3': 'A200'
-          })
-          .accentPalette('lime', {
-            'default': '500'
-          })
+        .primaryPalette('blue-grey')
+        .accentPalette('orange')
 
       $routeProvider
         .when('/', {
-          templateUrl: 'views/app-list.html'
+          templateUrl: 'views/categories.html'
+        })
+        .when('/category/:id/', {
+          templateUrl: 'views/category-list.html'
         })
         .when('/apps/new/', {
           templateUrl: 'views/app-editor.html'
@@ -67,6 +74,9 @@ angular.module('Exhibition', [
     $http.defaults.xsrfCookieName = 'csrftoken';
     $http.defaults.xsrfHeaderName = 'X-CSRFToken';
 
+    $rootScope.showBGCanvas = true;
+    $rootScope.showAppCanvas = false;
+
     var history = [];
     $rootScope.$on( "$routeChangeStart", function($event, next, current) {
           
@@ -74,10 +84,13 @@ angular.module('Exhibition', [
       history.push($location.$$path);
 
       if ($location.path().indexOf('/instance/') == -1) {
-        $rootScope.showCanvas = false;
+        $rootScope.showAppCanvas = false;
+        $rootScope.showBGCanvas = true;
       } else {
-        $rootScope.showCanvas = true;
+        $rootScope.showAppCanvas = true;
+        $rootScope.showBGCanvas = false;
       }
+
       
     })
 

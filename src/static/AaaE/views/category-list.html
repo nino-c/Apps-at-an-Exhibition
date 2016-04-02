@@ -1,0 +1,69 @@
+<md-content ng-controller="AppListController" layout-padding>
+    
+    <!-- <h3 class="md-primary">{{ category.name }}
+        <a href="#/apps/new/" class="btn btn-primary pull-right">
+            <span class="glyphicon glyphicon-plus-sign"></span>
+            Create a new app
+        </a>
+    </h3> -->
+
+    <h3>{{ category.name }}</h3>
+
+    
+    <md-card ng-repeat="app in apps | orderBy:'created':true" 
+        ng-click="selectApp(app)">
+        
+        <md-card-title>
+            <md-card-title-text>
+                <h4>{{ app.title }}</h4>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+            <div layout="row" layout-wrap>
+                <div flex="30" class="text-muted">
+                    <strong>Author: </strong>{{ app.owner.name }}<br />
+                    <em>created {{ app.created }}</em><br /><br />
+                    {{ app.instances.length }} instances<br />
+                    {{ app.instances.length }} snapshots
+                </div>
+                <div flex="70">
+                    <img ng-src="/media/{{ snap | thumbnail:125 }}" 
+                        class="thumbnail thumbnail-tiny pull-left"
+                        ng-repeat="snap in app.snapshots" />
+                </div>
+            </div>
+        </md-card-content>
+        
+        <md-card-actions>
+            <a class="btn btn-primary" href="#/apps/{{ app.id }}" 
+                data-id="{{ app.id }}"
+                role="button">View</a>
+        </md-card-actions>
+
+    </md-card>
+
+
+
+    <!-- <div class="row exhibit" 
+      ng-repeat="app in apps | orderBy:'created':true" 
+      ng-click="selectApp(app)">
+        <h3>{{ app.title }}</h3>
+        <div class="col-xs-4">
+            <div class="text-muted">
+                <strong>Author: </strong>{{ app.owner.name }}<br />
+                <em>created {{ app.created }}</em><br />
+                {{ app.instances.length }} instances<br />
+                {{ app.instances.length }} snapshots
+            </div>
+            <br />
+            <a class="btn btn-primary" href="#/apps/{{ app.id }}" data-id="{{ app.id }}"
+                role="button">View</a>
+        </div>
+        <div class="col-xs-8">
+            <img ng-src="/media/{{ snap | thumbnail:125 }}" class="thumbnail thumbnail-tiny pull-left"
+              ng-repeat="snap in app.snapshots" />
+        </div>
+    </div>
+ -->
+
+</md-content>

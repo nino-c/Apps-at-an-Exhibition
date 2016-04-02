@@ -23,8 +23,11 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
 
 
-#@csrf_exempt
-#@permission_classes((IsAuthenticated, ))
+@permission_classes((IsAuthenticated, ))
+class CategoryAppsViewSet(viewsets.ModelViewSet):
+    serializer_class = CategoryAppsSerializer
+    queryset = Category.objects.all()
+
 class AppViewSet(viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication,)
     permission_classes = [IsAuthenticated,]
@@ -60,6 +63,7 @@ class InstanceAppViewSet(viewsets.ModelViewSet):
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'categories', CategoryViewSet)
+router.register(r'categories-with-apps', CategoryAppsViewSet)
 router.register(r'apps', AppViewSet)
 router.register(r'instances', InstanceViewSet)
 router.register(r'snapshots', SnapshotViewSet)

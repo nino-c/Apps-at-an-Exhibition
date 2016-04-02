@@ -81,6 +81,21 @@ class AppSerializer_Inline(serializers.ModelSerializer):
         model = ZeroPlayerGame
         include = ('__all__')
 
+class AppSerializer_Category_Inline(serializers.ModelSerializer):
+    snapshots = serializers.SerializerMethodField(read_only=True)
+
+    def get_snapshots(self, obj):
+        snaps = []
+        for inst in obj.instances.all():
+            for im in inst.images.all():
+                snaps.append(im.image.name.replace("./", ""))
+        return snaps
+
+    class Meta:
+        model = ZeroPlayerGame
+        exclude = ('source', 'seedStructure')
+        #include = ('__all__')
+
 
 class InstanceMixin(serializers.ModelSerializer):
     instantiator = UserSerializer(required=False, read_only=True)
@@ -120,6 +135,9 @@ class InstanceSerializer_Inline(InstanceMixin, serializers.ModelSerializer):
         model = GameInstance
         include = ('snapshots', 'game')
         read_only_fields = ('images', 'created', 'updated', 'snapshots')
+
+
+
 
 
 class AppSerializer(serializers.ModelSerializer):
@@ -172,3 +190,10 @@ class AppSerializer(serializers.ModelSerializer):
         validated_data['owner'] = self.context['request'].user
         app = ZeroPlayerGame.objects.create(**validated_data)
         return app
+
+
+class CategoryAppsSerializer(serializers.ModelSerializer):
+    apps = AppSerializer(read_only=True, many=True)
+    class Meta:
+        model = Category
+        fields = '__all__'
