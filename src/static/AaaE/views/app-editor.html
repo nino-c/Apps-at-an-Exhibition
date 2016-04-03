@@ -1,9 +1,22 @@
 <md-content ng-controller="AppEditorController" ng-cloak ng-init="initializeEditor()">
 
+  <div ng-if="isLoading" class="loading-bg">
+      <div class="loader">
+        <svg class="circular">
+          <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" 
+              stroke-miterlimit="10"/>
+        </svg>
+      </div>
+      <div class="loading-text">Loading...</span></div>
+  </div>
+
+  <md-card>
+    <md-card-content>
+
     <form name="appform">
 
       <md-content class="container-fluid" layout="row" layout-padding>
-        <div flex="30" layout="column" layout-align="top down">
+        <div flex="35" layout="column" layout-align="top down">
 
           <md-input-container>
             <label for="id_title">Title</label>
@@ -30,7 +43,7 @@
                 ng-model="app.description"></textarea>
            
           </md-input-container>
-          <md-input-container>
+          <!-- <md-input-container>
             <label class="control-label">Code Modules</label>
                 <br /><br /><br />
              
@@ -38,38 +51,58 @@
                   ng-model="mod.selected" flex>{{ mod.title }}</md-checkbox>
              
            
-          </md-input-container>
+          </md-input-container> -->
 
         </div>
         <div flex="grow" layout="column">
 
-          <div ng-if="isLoading">
-            <spinner />
-          </div>
+          <div>
 
-          <div ng-if="!isLoading">
-            <div class="control-group">
-              <label class="control-label">Script</label>
-              <ui-codemirror ui-codemirror-opts="cmOptions"
-                ng-model="app.source" name="source" ui-refresh="editor1"></ui-codemirror>
-              
-            </div>
+            <md-tabs md-dynamic-height md-border-bottom>
+              <md-tab label="Source Code">
 
-            <div class="control-group">
-              <label class="control-label">Seed Structure</label>
-              
-              <br />
-              <span ng-show="appform.seedStructure.$error.validateJson"
-                class="form-error">Invalid JSON</span>
+                  <md-content style="max-height: 400px;">
+                    <div ng-if="isLoading">
+                      <spinner />
+                    </div>
+                    <ui-codemirror ui-codemirror-opts="cmOptions"
+                      ng-model="app.source" 
+                      name="source" 
+                      ui-refresh="editor1">
+                    </ui-codemirror>
+                  
+                  </md-content>
 
-              <ui-codemirror ui-codemirror-opts="cm2Options"
-                name="seedStructure" 
-                ng-model-options="{updateOn: 'default blur'}"
-                validate-json
-                ng-model="app.seedStructure" ui-refresh="editor2"
-                ></ui-codemirror>
-          
-            </div>
+              </md-tab>
+              <md-tab label="Code Modules">
+
+                <md-content layout="column" layout-padding>
+                  
+                    <md-checkbox ng-repeat="mod in codeModules" 
+                      ng-model="mod.selected" flex>{{ mod.title }}</md-checkbox>
+                  
+                </md-content>
+
+              </md-tab>
+              <md-tab label="Seed Structure">
+
+                <md-content>
+                
+                  <span ng-show="appform.seedStructure.$error.validateJson"
+                    class="form-error">Invalid JSON</span>
+
+                  <ui-codemirror ui-codemirror-opts="cm2Options"
+                    name="seedStructure" 
+                    ng-model-options="{updateOn: 'default blur'}"
+                    validate-json
+                    ng-model="app.seedStructure" ui-refresh="editor2">
+                  </ui-codemirror>
+
+                </md-content>
+               
+              </md-tab>
+            </md-tabs>
+
           </div>
 
           
@@ -82,15 +115,12 @@
 
     </form>
 
-    
+  </md-card-content>
+  <md-card-actions>
+    <md-button class="md-primary md-raised" md-ripple-size="full" ng-click="back()">Cancel</md-button>
+    <md-button class="md-success md-raised" md-ripple-size="full" ng-click="saveapp(event)">Save</md-button>
+  </md-card-actions>
+</md-card>
    
-
-
-<div id="toolbar-bottom">
-  <md-button class="md-primary md-raised" md-ripple-size="full" ng-click="back()">Cancel</md-button>
-
-  <md-button class="md-success md-raised" md-ripple-size="full" 
-  ng-click="saveapp(event)">Save</md-button>
-</div>
 
 </md-content>

@@ -1,0 +1,49 @@
+{% extends "angular-index.html" %}
+
+{% block maincontent %}
+
+<md-content>
+  
+  <main class="main" role="main" flex>
+    <div ng-view class="flex"></div>
+  </main>
+
+</md-content>
+
+<canvas id="big-canvas" ng-show="showAppCanvas"></canvas>
+<canvas id="bg-canvas" ng-show="showBGCanvas"></canvas>
+
+{% endblock %}
+
+{% block bottomscripts %}
+
+	<script type="text/paperscript" src="/static/AaaE/temp/affine-transformations.js" canvas="bg-canvas"></script>
+	
+	<script type="text/javascript" src="/static/AaaE/lib/angular/angular.js"></script>
+	<script type="text/javascript" src="/static/AaaE/lib/angular-ui-codemirror/ui-codemirror.js"></script>
+	<script src="/static/AaaE/lib/angular-material/angular-material.min.js"></script>
+	<script src="/static/AaaE/lib/angular-bootstrap/ui-bootstrap.js"></script>
+	<script src="/static/AaaE/lib/angular-route/angular-route.js"></script>
+	<script src="/static/AaaE/lib/angular-resource/angular-resource.js"></script>
+	<script src="/static/AaaE/lib/angular-cookies/angular-cookies.js"></script>
+	<script src="/static/AaaE/lib/angular-animate/angular-animate.js"></script>
+	<script src="/static/AaaE/lib/angular-aria/angular-aria.js"></script>
+	<script src="/static/AaaE/lib/angular-messages/angular-messages.js"></script>
+	<script src="/static/node/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js"></script>
+	<!--<script src="/static/bower/angular-moment/moment.min.js"></script>-->
+
+
+
+	<!-- main angular app  -->
+	<script src="/static/AaaE/js/app.js"></script>
+	<script src="/static/AaaE/js/controllers/category-apps.js"></script>
+	<script src="/static/AaaE/js/controllers/categories.js"></script>
+	<script src="/static/AaaE/js/controllers/app-editor.js"></script>
+	<script src="/static/AaaE/js/controllers/instances.js"></script>
+	<script src="/static/AaaE/js/controllers/instance.js"></script>
+	<script src="/static/AaaE/js/controllers/canvas.js"></script>
+	<script src="/static/AaaE/js/services/services.js"></script>
+	<script src="/static/AaaE/js/directives/directives.js"></script>
+	<script src="/static/AaaE/js/filters/filters.js"></script>
+
+{% endblock %}

@@ -1,60 +1,94 @@
 html,
 body {
-  /*font-family: 'Roboto', 'Helvetica','Arial',sans-serif!important;*/
-
-  font-weight: 200;
-  font-family: monospace;
+  font-family: 'Roboto', sans-serif !important;
+  font-weight: 300;
   font-size: 11px;
   height: 100%;
   margin: 0px;
   padding: 0px;
   background-color: transparent;
 }
+md-toolbar.md-default-theme:not(.md-menu-toolbar),
+md-toolbar:not(.md-menu-toolbar) {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #666666;
+}
+md-content {
+  background-color: transparent;
+}
+md-input-container {
+  margin-bottom: 0px;
+}
+md-select-menu {
+  background-color: #ffffff;
+}
+md-card,
+md-card.md-default-theme {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+.footer-toolbar {
+  padding: 15px 5px 5px 5px;
+  position: fixed;
+  bottom: 0px;
+  background: linear-gradient(rgba(255, 255, 255, 0), #ffffff);
+}
 .main {
   z-index: 2;
 }
-#big-canvas {
+.canvas-full {
   z-index: -1000;
   display: block;
   height: 0px;
   position: fixed;
-  top: 50px;
   left: 0px;
   width: 100%;
   height: 100%;
   background: transparent;
   padding: 0px;
 }
+#big-canvas {
+  z-index: -1000;
+  display: block;
+  height: 0px;
+  position: fixed;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  padding: 0px;
+  top: 60px;
+}
+#bg-canvas {
+  z-index: -1000;
+  display: block;
+  height: 0px;
+  position: fixed;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  padding: 0px;
+  top: 0px;
+}
+#top-toolbar {
+  padding: 10px;
+}
+#top-toolbar span {
+  vertical-align: middle;
+}
 #brand {
   font-size: 32px;
-  color: #cfff8e;
   font-weight: bold;
   margin-right: 12px;
   cursor: pointer;
 }
-md-content {
-  background: transparent;
-}
-md-toolbar {
-  height: 50px;
-  min-height: 50px;
-  max-height: 50px;
+.app-display:hover {
+  cursor: pointer;
+  background-color: rgba(200, 200, 200, 0.3);
 }
 .form-error {
   color: #cc0000;
   font-weight: bold;
-}
-.md-toolbar-tools {
-  height: 50px;
-  max-height: 50px;
-  padding: 4px;
-  z-index: 3000;
-}
-md-card {
-  background-color: rgba(255, 255, 255, 0.85);
-}
-md-input-container {
-  margin-bottom: 0px;
 }
 .snapshot {
   width: 80px;
@@ -69,7 +103,7 @@ md-input-container {
 .nthumbnail {
   display: block;
   padding: 4px;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   line-height: 1.42857143;
   background-color: #fff;
   border: 1px solid #ddd;
@@ -81,7 +115,7 @@ md-input-container {
 .thumbnail-tiny {
   display: block;
   padding: 4px;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   line-height: 1.42857143;
   background-color: #fff;
   border: 1px solid #ddd;
@@ -101,7 +135,7 @@ md-input-container {
   position: fixed;
   top: 100px;
   right: -8px;
-  background-color: rgba(253, 252, 247, 0.95);
+  background-color: rgba(250, 250, 250, 0.8);
   border: 1px solid #cccccc;
   border-radius: 5px;
   box-shadow: 0px 0px 2px #dddddd;
@@ -112,7 +146,7 @@ md-input-container {
   box-shadow: 0px 0px 2px #dddddd;
   padding: 10px;
   z-index: 1000;
-  background-color: rgba(253, 252, 247, 0.95);
+  background-color: rgba(250, 250, 250, 0.8);
   position: fixed;
   right: 20px;
   top: 120px;
@@ -126,7 +160,7 @@ md-input-container {
   height: 100px;
   display: block;
   width: 100%;
-  z-index: 10;
+  z-index: -10;
 }
 #inline-canvas {
   border: 0px;
@@ -141,34 +175,18 @@ md-input-container {
   height: 50px;
   width: 100%;
   padding: 5px;
-  background-color: rgba(253, 252, 247, 0.95);
+  background-color: rgba(250, 250, 250, 0.8);
   border-top: 1px solid #eee;
   line-height: auto;
   box-shadow: 0px 1px 0px #ddd;
   text-align: left;
 }
 .exhibit {
-  border: 1px solid #cccccc;
-  border-radius: 5px;
-  box-shadow: 0px 0px 2px #dddddd;
   padding: 10px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 10px;
   margin-top: 10px;
-  background-color: rgba(253, 252, 247, 0.95);
-}
-.navbar .navbar-nav a {
-  padding: 5px;
-  font-size: 12px;
-}
-.navbar .navbar-brand {
-  padding: 12px;
-  color: #337ab7;
-  font-size: 45px;
-}
-md-select-menu {
-  background-color: #ffffff;
 }
 .loading-bg {
   position: fixed;
@@ -247,7 +265,7 @@ md-select-menu {
   }
   80%,
   90% {
-    stroke: rgba(253, 252, 247, 0.95);
+    stroke: rgba(250, 250, 250, 0.8);
   }
 }
 .fa-spin-custom,
@@ -267,4 +285,21 @@ md-select-menu {
 }
 canvas {
   padding: 0px;
+}
+.n_viz {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.4);
+  overflow: hidden;
+}
+.n_viz_bar {
+  float: left;
+  display: inline;
+  position: relative;
+  width: 8px;
+  height: 120px;
+  margin-top: 120px;
+  background-color: #cccc00;
+  border: 1px solid #cccccc;
+  -webkit-transition: 0.1s ease all;
 }

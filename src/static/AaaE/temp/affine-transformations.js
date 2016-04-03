@@ -1,4 +1,4 @@
-var Canvas = document.getElementById('big-canvas');
+var Canvas = document.getElementById('bg-canvas');
 view.viewSize = new Size(Canvas.width, Canvas.height);
 
 

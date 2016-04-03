@@ -38,25 +38,25 @@ angular.module('Exhibition', [
 
       $routeProvider
         .when('/', {
-          templateUrl: 'views/categories.html'
+          templateUrl: '/static/AaaE/views/categories.html'
         })
         .when('/category/:id/', {
-          templateUrl: 'views/category-list.html'
+          templateUrl: '/static/AaaE/views/category-list.html'
         })
         .when('/apps/new/', {
-          templateUrl: 'views/app-editor.html'
+          templateUrl: '/static/AaaE/views/app-editor.html'
         })
         .when('/apps/:id/', {
-          templateUrl: 'views/app-details.html'
+          templateUrl: '/static/AaaE/views/app-details.html'
         })
         .when('/apps/:id/edit/', {
-          templateUrl: 'views/app-editor.html'
+          templateUrl: '/static/AaaE/views/app-editor.html'
         })
         // .when('/instance/new/', {
-        //   templateUrl: 'views/app-display.html'
+        //   templateUrl: '/static/AaaE/views/app-display.html'
         // })
         .when('/instance/:app_id/:instance_id/', {
-          templateUrl: 'views/app-display.html'
+          templateUrl: '/static/AaaE/views/app-display.html'
         })
         .otherwise({
           redirectTo: '/'
@@ -73,6 +73,8 @@ angular.module('Exhibition', [
     $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken']
     $http.defaults.xsrfCookieName = 'csrftoken';
     $http.defaults.xsrfHeaderName = 'X-CSRFToken';
+
+    console.log('cookies', $cookies.getAll())
 
     $rootScope.showBGCanvas = true;
     $rootScope.showAppCanvas = false;

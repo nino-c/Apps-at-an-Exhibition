@@ -32,6 +32,7 @@ class Category(models.Model):
     parent = models.ForeignKey('self', null=True, blank=True, related_name="children")
     description = models.TextField(null=True, blank=True)
     image = ImageWithThumbsField(null=True, blank=True, sizes=((125,125),(200,200),(300,300)))
+    popularity = models.IntegerField(default=1)
 
     def __unicode__(self):
         return self.name

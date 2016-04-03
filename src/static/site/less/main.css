@@ -26,36 +26,56 @@ md-card,
 md-card.md-default-theme {
   background-color: rgba(255, 255, 255, 0.6);
 }
+h3 {
+  color: #666666;
+  font-weight: 300;
+}
+.footer-toolbar {
+  padding: 15px 5px 5px 5px;
+  position: fixed;
+  bottom: 0px;
+  background: linear-gradient(rgba(255, 255, 255, 0), #ffffff);
+}
 .main {
   z-index: 2;
 }
 .canvas-full {
   z-index: -1000;
   display: block;
-  height: 0px;
   position: fixed;
   left: 0px;
   width: 100%;
   height: 100%;
   background: transparent;
   padding: 0px;
+}
+.canvas-inline {
+  z-index: -1000;
+  display: block;
+  width: 90%;
+  height: 90%;
+  margin: auto;
+  border: 1px solid #cccccc;
+  background: transparent;
+  padding: 0px;
+}
+.source-container {
+  max-height: 600px;
 }
 #big-canvas {
   z-index: -1000;
   display: block;
-  height: 0px;
   position: fixed;
   left: 0px;
   width: 100%;
   height: 100%;
   background: transparent;
   padding: 0px;
-  top: 50px;
+  top: 70px;
 }
 #bg-canvas {
   z-index: -1000;
   display: block;
-  height: 0px;
   position: fixed;
   left: 0px;
   width: 100%;
@@ -174,6 +194,10 @@ md-card.md-default-theme {
   line-height: auto;
   box-shadow: 0px 1px 0px #ddd;
   text-align: left;
+  vertical-align: middle;
+}
+#toolbar-bottom div {
+  vertical-align: middle;
 }
 .exhibit {
   padding: 10px;

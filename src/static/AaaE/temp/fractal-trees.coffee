@@ -21,11 +21,13 @@ root = Math.sqrt
 moveTo = ([x,y]) -> gl.moveTo(x, y)
 lineTo = ([x,y]) -> gl.lineTo(x, y)
 
-NUM_ITERATIONS = 5
-TRAPEZOIDAL_SECTIONS = 10
-CHILDREN = [3, -7]
-DEGREE1_COEFF = 17
-DEGREE2_COEFF = 30
+# COLOR1 = "#785A3C"
+# COLOR2 = "#00aa00"
+# NUM_ITERATIONS = 6
+# TRAPEZOIDAL_SECTIONS = 20
+# CHILDREN = [3, -7, 6, 13]
+# DEGREE1_COEFF = 17
+# DEGREE2_COEFF = 30
 
 
 
@@ -207,9 +209,9 @@ class TreeStick
             #console.log trap
             gl.strokeStyle = '#111111'
             gl.lineWidth = 1
-            gl.fillStyle = 'rgba(120, 90, 60, 1)' # + @start_alpha.toString() +')'
-            #if @generation == NUM_ITERATIONS
-            #    gl.strokeStyle = '#00aa00'
+            gl.fillStyle = COLOR1 #'rgba(120, 90, 60, 1)' # + @start_alpha.toString() +')'
+            if @generation == NUM_ITERATIONS
+                gl.strokeStyle = COLOR2
             gl.beginPath()
             moveTo trap[0]
             lineTo trap[1]

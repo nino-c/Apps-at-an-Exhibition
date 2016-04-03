@@ -1,21 +1,21 @@
 <md-content ng-controller="InstancesController">
 
-
+<!-- 
     <div class="image-gallery-9 pull-right">
         <img ng-src="/media/{{ snapshot | thumbnail:200 }}" 
             class="thumbnail thumbnail-med pull-right"
             ng-repeat="snapshot in instance.snapshots" />
-    </div>
+    </div> -->
     
-    <div class="row">
-        <div class="col-md-12">
-
+    <md-card>
+        <md-card-title>
             <h3>{{ app.title }}</h3>
-            
+        </md-card-title>
+        <md-card-content>
+
             <div>by <strong>{{ app.owner.name }}</strong></div>
-            <div class="text-muted">created @ {{ app.created }}</div>
-            <br />
             <div><strong>Category:</strong> {{app.category}}</div>
+            <div class="text-muted">created @ {{ app.created }}</div>
             <hr />
 
             <a class="btn btn-primary" href="#/apps/{{ app.id }}/edit/" 
@@ -40,62 +40,69 @@
                 <span class="glyphicon glyphicon-plus-sign"></span>
                 Create a new instance
             </button><br /><br />
-       
-            
-        
-            <div class="exhibit" 
-                ng-repeat="instance in app.instances | orderBy:'created':true" 
+
+
+           
+
+            <md-card ng-repeat="instance in app.instances | orderBy:'created':true" 
                 ng-click="selectInstance(instance)">
+
+                <md-card-content>
 
                 {{ instance.instantiator.name }}&apos;s instance @ {{ instance.created }}
                 <br /><br />
 
                 <div class="layout container-fluid">
-                    <div flex="30">
-                        <strong>Seed: </strong>
-                        
-                        <div ng-repeat="seedling in instance.seedlist">
-                            <div>
-                                <em>{{ seedling[0] }}:</em> 
-                                
-                                    <span ng-if="!seedling[1].type || seedling[1].type == 'string' || seedling[1].type == 'number'" 
-                                        class="text-muted">{{ seedling[1].value }}</span>
-                                    
-                                   
-                                    <div ng-if="seedling[1].type == 'color'" style="display: inline-block; background-color: {{ seedling[1].value }}; width: 15px; height: 15px; border: 1px solid #eeeeee;"></div>
-                                    
-                                    
-                                    <span ng-if="seedling[1].type == 'math'" class="text-muted">${{ seedling[1].latex }}$</span>
-
-                                    <span ng-if="seedling[1].type == 'javascript'" class="text-muted">{{ seedling[1].value }}</span>
-                                
-                            </div>
-                        </div>
-                     
-                    </div><br />
-                    <div flex="70">
-                        <strong>Snapshots: </strong><hr />
-                        <div class="container-fluid">
+                <hr />
+                <div flex="30">
+                    <strong>Seed: </strong>
+                    
+                    <div ng-repeat="seedling in instance.seedlist">
+                        <div>
+                            <em>{{ seedling[0] }}:</em> 
                             
-                            <img ng-src="/media/{{ snap | thumbnail:125 }}" 
-                                class="thumbnail thumbnail-tiny pull-left"
-                                ng-repeat="snap in instance.snapshots" />
-                        
+                                <span ng-if="!seedling[1].type || seedling[1].type == 'string' || seedling[1].type == 'number'" 
+                                    class="text-muted">{{ seedling[1].value }}</span>
+                                
+                               
+                                <div ng-if="seedling[1].type == 'color'" style="display: inline-block; background-color: {{ seedling[1].value }}; width: 15px; height: 15px; border: 1px solid #eeeeee;"></div>
+                                
+                                
+                                <span ng-if="seedling[1].type == 'math'" class="text-muted">${{ seedling[1].latex }}$</span>
+
+                                <span ng-if="seedling[1].type == 'javascript'" class="text-muted">{{ seedling[1].value }}</span>
+                            
                         </div>
                     </div>
+                 
+                </div><br />
+                <div flex="70">
+                    <strong>Snapshots: </strong><hr />
+                    <div class="container-fluid">
+                        
+                        <img ng-src="/media/{{ snap | thumbnail:125 }}" 
+                            class="thumbnail thumbnail-tiny pull-left"
+                            ng-repeat="snap in instance.snapshots" />
+                    
                     </div>
+                </div>
+                </div>
 
-                <a class="btn btn-primary" href="#/instance/{{ app.id }}/{{ instance.id }}/" 
-                    role="button">View &raquo;</a>
-                <a class="btn btn-danger pull-right" 
-                    ng-click="deleteInstance($event, instance)"
-                    data-id="{{instance.id}}"
-                    role="button">
-                <span class="glyphicon glyphicon-remove"></span>
-                    Delete</a>
+            
+                </md-card-content>
+                
+                <md-card-actions>
+                    <a class="btn btn-primary" href="#/instance/{{ app.id }}/{{ instance.id }}/" 
+                        role="button">View &raquo;</a>
+                    <a class="btn btn-danger pull-right" 
+                        ng-click="deleteInstance($event, instance)"
+                        data-id="{{instance.id}}"
+                        role="button"><span class="glyphicon glyphicon-remove"></span>
+                        Delete</a>
+                </md-card-actions>
 
-                <br /><br />
-            </div>
+               
+            </md-card>
            
            
             <div ng-if="app.instances.length == 0">
@@ -103,10 +110,11 @@
                     <span class="glyphicon glyphicon-refresh fa-spin-custom"></span>
                 </em>
             </div>
-          
 
-        </div>
-        
-    </div>
+        </md-card-content>
+    </md-card>
+
+
+            
 
 </md-content>

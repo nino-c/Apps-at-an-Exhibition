@@ -54,7 +54,7 @@ angular
                       lineNumbers: true,
                       indentWithTabs: true,
                       viewportMargin: Infinity,
-                      theme: "monokai",
+                      //theme: "monokai",
                       mode: lang,
                       matchBrackets: true,
                     }
@@ -64,7 +64,7 @@ angular
                       lineNumbers: true,
                       indentWithTabs: true,
                       viewportMargin: Infinity,
-                      theme: "monokai",
+                      //theme: "monokai",
                       mode: 'javascript',
                       matchBrackets: true,
                     }

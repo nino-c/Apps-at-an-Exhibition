@@ -9,7 +9,8 @@ def index(request):
 	# return render(request, "home.html", {'categories': categories,
 	# 	'iframe_src': '/deployments/bivariate-polynomial-landscape'})
 	#return render(request, "home.html", {'categories': categories})
-    return redirect("/static/AaaE/index.html")
+    #return redirect("/static/AaaE/index.html")
+    return render(request, "angular-app-main.html")
 
 def templatetest(request, template):
 	return render(request, template+".html")

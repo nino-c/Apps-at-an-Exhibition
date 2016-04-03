@@ -1,4 +1,4 @@
-<md-content ng-controller="InstanceController">
+<md-content ng-controller="InstanceController" ng-init="initialize()">
     
     <!-- loading spinner -->
     <div ng-if="loading" class="loading-bg">
@@ -10,6 +10,8 @@
         </div>
         <div class="loading-text">Loading...</span></div>
     </div>
+
+   
 
     <!-- seed display -->
     <div id="seedDisplay" layout="row">
@@ -53,18 +55,15 @@
                     ng-model="seed[1].value" />
             </md-input-container>
 
-            
-            
-           
         </div>
 
-        
-   
         <br />
+
         <button ng-click="updateInstance()" 
             class="btn btn-primary" ng-disabled="!seedTouched">Reload</button>
         <button ng-click="saveAsNewInstance()" 
             class="btn btn-warning" ng-disabled="!readyToSave">Save as new instance</button>
+
     </div>
 <!--  -->
     <!-- bottombar -->

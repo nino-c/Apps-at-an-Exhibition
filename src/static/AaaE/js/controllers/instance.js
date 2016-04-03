@@ -9,6 +9,8 @@ angular
         $resource, $mdToast, $timeout, $http,
         AppService, InstanceService) => {
 
+        //paper.setup('big-canvas');
+
         var timer;
 
         $scope.loading = true;
@@ -21,6 +23,10 @@ angular
         $scope.instance.$promise.then(function() {
             $scope.execute();
         })
+
+        $scope.initialize = function() {
+            //paper.setup('big-canvas');
+        }
 
         $scope.seedChange = function($event) {
             $scope.seedTouched = true;
@@ -152,11 +158,13 @@ angular
                         }).join("\n\n");
                 }
 
-                console.log('req required_codeblocks', required_codeblocks);
+                //console.log('req required_codeblocks', required_codeblocks);
 
                 var source = seedcodelines.join("\n") + "\n"
                     + required_codeblocks + "\n" 
                     + $scope.instance.sourcecode;
+
+                console.log(source)
 
                 if (coffee) {
                     $scope.instance.sourcecode 

@@ -5,7 +5,7 @@ from rest_framework import routers, serializers, viewsets
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
 from .serializers import *
@@ -17,13 +17,15 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
+#@permission_classes((IsAuthenticated, ))
 @permission_classes((IsAuthenticated, ))
 class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
 
 
-@permission_classes((IsAuthenticated, ))
+#@permission_classes((IsAuthenticated, ))
+@permission_classes((AllowAny, ))
 class CategoryAppsViewSet(viewsets.ModelViewSet):
     serializer_class = CategoryAppsSerializer
     queryset = Category.objects.all()

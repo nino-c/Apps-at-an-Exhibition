@@ -1,0 +1,124 @@
+{% load staticfiles %}
+{% load thumbnail %}
+<!doctype html>
+<html ng-app="Exhibition">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="keywords" content=""/>
+  <meta name="description" content=""/>
+  <meta name="viewport" content="initial-scale=1" />
+
+  <!-- opengraph tags -->
+  <meta property="og:site_name" content="plerp.org">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="blog | ">
+  <meta property="og:description" content="blog">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+
+<!--   <link rel="stylesheet" href="/static/site/css/bootstrap.css" /> -->
+  <link rel="stylesheet" href="/static/site/css/roboto-font.css" />
+  <link rel="stylesheet" href="/static/site/css/material-icons.css" />
+  <link rel="stylesheet" href="/static/bower/angular-material/angular-material.css" />
+
+<!--   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" /> -->
+
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+  </script>
+  <script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+
+  <script src="/static/site/js/lib/jQuery2.1.1.js"></script>
+  <script type="text/javascript" src="/static/site/js/lib/moment.min.js"></script>
+  <script type="text/javascript" src="/static/site/js/lib/underscore.js"></script>
+  <script type="text/javascript" src="/static/site/js/lib/paper.js"></script>
+  <script type="text/javascript" src="/static/site/js/lib/three.js"></script>
+  <script type="text/javascript" src="/static/site/js/lib/numeric-1.2.6.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="/static/AaaE/lib/codemirror/lib/codemirror.css" />
+  <link rel="stylesheet" type="text/css" href="/static/AaaE/lib/codemirror/theme/night.css" />
+  <link rel="stylesheet" type="text/css" href="/static/AaaE/lib/codemirror/theme/monokai.css" />
+  <link rel="stylesheet" type="text/css" href="/static/node/angular-bootstrap-colorpicker/css/colorpicker.css" />
+
+  <script type="text/javascript" src="/static/site/js/lib/coffee-script.js"></script>
+  <script type="text/javascript" src="/static/AaaE/lib/codemirror/lib/codemirror.js"></script>
+  <script type="text/javascript" src="/static/AaaE/lib/codemirror/lib/codemirror.js"></script>
+  <script type="text/javascript" src="/static/AaaE/lib/codemirror/addon/edit/matchbrackets.js"></script>
+  <script type="text/javascript" src="/static/AaaE/lib/codemirror/mode/javascript/javascript.js"></script>
+  <script type="text/javascript" src="/static/AaaE/lib/codemirror/mode/coffeescript/coffeescript.js"></script>
+
+  <link rel="stylesheet" href="/static/site/less/main.css"/>
+
+  <script type="text/javascript">
+    paper.install(window);
+  </script>
+
+ 
+  <title>Apps at an Exhibition</title>
+
+</head>
+
+
+<body data-spy="scroll" style="zoom: 1;">
+
+ 
+  <md-toolbar ng-cloak md-whiteframe="3">
+      <div id="top-toolbar">
+        <span onclick="window.location='#'" id="brand" flex>∀aa∃</span>
+        <span flex>Apps at an Exhibition</span>
+        
+        <span class="pull-right">
+        {% if user.is_authenticated %}
+
+           <md-menu>
+            <md-button ng-click="$mdOpenMenu()">
+              <img src="{% thumbnail user.profile.picture|default:'default_profile.png' 30x30 crop %}" alt="" />
+              {{ user.get_full_name|truncatechars:20 }}
+              <span class="caret"></span>
+            </md-button>
+            <md-menu-content>
+              <md-menu-item>
+                <md-button href="{% url 'profiles:show_self' %}">Profile</md-button>
+              </md-menu-item>
+              <md-menu-item>
+                <md-button href="{% url 'accounts:logout' %}">Logout</md-button>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
+           
+        {% endif %}
+        {% if not user.is_authenticated %}
+
+          <md-button class="btn btn-default" href="{% url 'accounts:login' %}" role="button">Log in</md-button>
+          <md-button class="btn btn-primary" href="{% url 'accounts:signup' %}" role="button">Sign up</md-button>
+        
+        {% endif %}
+        </span>
+      </div>
+  </md-toolbar>
+  
+  {% block maincontent %}
+  {% endblock %}
+
+<!--   <footer class="footer-toolbar">
+    &copy; 2016 Nino P. Cocchiarella <code>mrcodeswitcher.com</code>
+  </footer> -->
+
+
+
+  {% block bottomscripts %}
+
+  {% endblock %}
+
+
+ 
+
+</body>
+</html>
