@@ -64,73 +64,63 @@
 
             <h3>Instances</h3>
 
-            <button class="btn btn-success" ng-click="instantiate()" ng-if="userLoggedIn">
+            <!-- <button class="btn btn-success" ng-click="instantiate()" ng-if="userLoggedIn">
                 <span class="glyphicon glyphicon-plus-sign"></span>
                 Create a new instance
-            </button><br /><br />
+            </button><br /><br /> -->
 
+            <md-content layout="flex" layout-wrap>
+                <div flex="33" 
+                    ng-repeat="instance in app.instances | orderBy:'created':true">
 
+                    <md-card ng-repeat="instance in app.instances | orderBy:'created':true" 
+                        ng-click="selectInstance(instance)">
+
+                        <div style="text-align: center;" layout-align="center center">
+                            <img ng-src="/media/{{ instance.snapshots[0] | thumbnail:200 }}" 
+                                class="thumbnail thumbnail-lg" />
+                        </div>
+                        <md-card-content>
+
+                            <h5>Seed:</h5>
+                            <div ng-repeat="seedling in instance.seedlist">
+                                <div>
+                                    <em>{{ seedling[0] }}:</em> 
+                                    
+                                        <span ng-if="!seedling[1].type || seedling[1].type == 'string' || seedling[1].type == 'number'" 
+                                            class="text-muted">{{ seedling[1].value }}</span>
+                                        
+                                       
+                                        <div ng-if="seedling[1].type == 'color'" style="display: inline-block; background-color: {{ seedling[1].value }}; width: 15px; height: 15px; border: 1px solid #eeeeee;"></div>
+                                        
+                                        
+                                        <span ng-if="seedling[1].type == 'math'" class="text-muted">${{ seedling[1].latex }}$</span>
+
+                                        <span ng-if="seedling[1].type == 'javascript'" class="text-muted">{{ seedling[1].value }}</span>
+                                    
+                                </div>
+                            </div>
+                        
+                        </md-card-content>
+                        
+                        <md-card-actions ng-if="userLoggedIn">
+                            <!-- <a class="btn btn-primary" href="#/instance/{{ app.id }}/{{ instance.id }}/" 
+                                role="button">View &raquo;</a> -->
+                            <a class="btn btn-danger pull-right" 
+                                ng-click="deleteInstance($event, instance)"
+                                data-id="{{instance.id}}"
+                                role="button"><span class="glyphicon glyphicon-remove"></span>
+                                Delete</a>
+                        </md-card-actions>
+
+                       
+                    </md-card>
+
+                </div>
+            </md-content>
            
 
-            <md-card ng-repeat="instance in app.instances | orderBy:'created':true" 
-                ng-click="selectInstance(instance)">
-
-                <md-card-content>
-
-                {{ instance.instantiator.name }}&apos;s instance @ {{ instance.created }}
-                <br /><br />
-
-                <div class="layout container-fluid">
-                <hr />
-                <div flex="30">
-                    <strong>Seed: </strong>
-                    
-                    <div ng-repeat="seedling in instance.seedlist">
-                        <div>
-                            <em>{{ seedling[0] }}:</em> 
-                            
-                                <span ng-if="!seedling[1].type || seedling[1].type == 'string' || seedling[1].type == 'number'" 
-                                    class="text-muted">{{ seedling[1].value }}</span>
-                                
-                               
-                                <div ng-if="seedling[1].type == 'color'" style="display: inline-block; background-color: {{ seedling[1].value }}; width: 15px; height: 15px; border: 1px solid #eeeeee;"></div>
-                                
-                                
-                                <span ng-if="seedling[1].type == 'math'" class="text-muted">${{ seedling[1].latex }}$</span>
-
-                                <span ng-if="seedling[1].type == 'javascript'" class="text-muted">{{ seedling[1].value }}</span>
-                            
-                        </div>
-                    </div>
-                 
-                </div><br />
-                <div flex="70">
-                    <strong>Snapshots: </strong><hr />
-                    <div class="container-fluid">
-                        
-                        <img ng-src="/media/{{ snap | thumbnail:125 }}" 
-                            class="thumbnail thumbnail-tiny pull-left"
-                            ng-repeat="snap in instance.snapshots" />
-                    
-                    </div>
-                </div>
-                </div>
-
             
-                </md-card-content>
-                
-                <md-card-actions>
-                    <!-- <a class="btn btn-primary" href="#/instance/{{ app.id }}/{{ instance.id }}/" 
-                        role="button">View &raquo;</a> -->
-                    <a class="btn btn-danger pull-right" 
-                        ng-click="deleteInstance($event, instance)"
-                        data-id="{{instance.id}}"
-                        role="button" ng-if="userLoggedIn"><span class="glyphicon glyphicon-remove"></span>
-                        Delete</a>
-                </md-card-actions>
-
-               
-            </md-card>
            
            
             <div ng-if="app.instances.length == 0">

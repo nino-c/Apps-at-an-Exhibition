@@ -154,6 +154,20 @@ h3 {
   width: 100px;
   height: 100px;
 }
+.thumbnail-lg {
+  display: block;
+  padding: 4px;
+  margin-bottom: 0px;
+  line-height: 1.42857143;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  -webkit-transition: border 0.2s ease-in-out;
+  -o-transition: border 0.2s ease-in-out;
+  transition: border 0.2s ease-in-out;
+  width: 200px;
+  height: 200px;
+}
 .round-border {
   border: 1px solid #cccccc;
   border-radius: 5px;
