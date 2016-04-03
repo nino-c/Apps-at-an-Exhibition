@@ -1,13 +1,14 @@
 <md-content ng-controller="AppListController" layout-padding>
     
-    <!-- <h3 class="md-primary">{{ category.name }}
+    <h3 class="md-primary" ng-if="userLoggedIn">
+        {{ category.name }}
         <a href="#/apps/new/" class="btn btn-primary pull-right">
             <span class="glyphicon glyphicon-plus-sign"></span>
             Create a new app
         </a>
-    </h3> -->
+    </h3>
 
-    <h3>{{ category.name }}</h3>
+    <h3 ng-if="!userLoggedIn">{{ category.name }}</h3>
 
     
     <md-card ng-repeat="app in apps | orderBy:'created':true" 
@@ -34,11 +35,11 @@
             </div>
         </md-card-content>
         
-        <md-card-actions>
+        <!-- <md-card-actions>
             <a class="btn btn-primary" href="#/apps/{{ app.id }}" 
                 data-id="{{ app.id }}"
                 role="button">View</a>
-        </md-card-actions>
+        </md-card-actions> -->
 
     </md-card>
 

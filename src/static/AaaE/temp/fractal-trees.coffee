@@ -37,8 +37,7 @@ class TreeStick
         return x * (180/pi)
 
     constructor: (params) ->
-        {
-            @start,
+        {@start,
             @direction,
             @length,
             @start_alpha,

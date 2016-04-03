@@ -60,6 +60,14 @@
     paper.install(window);
   </script>
 
+  <script type="text/javascript">
+    {% if user.is_authenticated %}
+      window.USER_ID = {{ user.id }};
+    {% else %}
+      window.USER_ID = null;
+    {% endif %}
+  </script>
+
  
   <title>Apps at an Exhibition</title>
 

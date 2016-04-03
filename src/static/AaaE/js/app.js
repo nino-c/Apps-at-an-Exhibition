@@ -68,7 +68,7 @@ angular.module('Exhibition', [
 
 
   })
-  .run(function($rootScope, $location, $http, $cookies, $timeout) {
+  .run(function($rootScope, $location, $http, $cookies, $timeout, $window) {
 
     $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken']
     $http.defaults.xsrfCookieName = 'csrftoken';
@@ -95,6 +95,8 @@ angular.module('Exhibition', [
 
       
     })
+
+    $rootScope.userLoggedIn = isNaN(parseInt($window.USER_ID)) ? false : true;
 
     $rootScope.$on('$routeChangeSuccess', function() {
         history.push($location.$$path);

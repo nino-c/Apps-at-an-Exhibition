@@ -18,7 +18,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
 
 #@permission_classes((IsAuthenticated, ))
-@permission_classes((IsAuthenticated, ))
+@permission_classes((AllowAny, ))
 class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
@@ -30,35 +30,41 @@ class CategoryAppsViewSet(viewsets.ModelViewSet):
     serializer_class = CategoryAppsSerializer
     queryset = Category.objects.all()
 
+@permission_classes((AllowAny, ))
 class AppViewSet(viewsets.ModelViewSet):
-    authentication_classes = (SessionAuthentication,)
-    permission_classes = [IsAuthenticated,]
+    #authentication_classes = (SessionAuthentication,)
+    #permission_classes = [IsAuthenticated,]
     serializer_class = AppSerializer
     queryset = ZeroPlayerGame.objects.all()
 
+@permission_classes((AllowAny, ))
 class InstanceViewSet(viewsets.ModelViewSet):
-    authentication_classes = (SessionAuthentication,)
-    permission_classes = [IsAuthenticated,]
+    #authentication_classes = (SessionAuthentication,)
+    #permission_classes = [IsAuthenticated,]
     serializer_class = InstanceSerializer
     queryset = GameInstance.objects.all()
 
+@permission_classes((AllowAny, ))
 class SnapshotViewSet(viewsets.ModelViewSet):
     serializer_class = SnapshotSerializer
     queryset = GameInstanceSnapshot.objects.all()
 
 #@permission_classes((IsAuthenticated, ))
+@permission_classes((AllowAny, ))
 class CodeModuleViewSet(viewsets.ModelViewSet):
-    authentication_classes = (SessionAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    #authentication_classes = (SessionAuthentication,)
+    #permission_classes = (IsAuthenticated,)
     queryset = CodeModule.objects.all()
     serializer_class = CodeModuleSerializer
 
+@permission_classes((AllowAny, ))
 class AppView(viewsets.ModelViewSet):
-    authentication_classes = (SessionAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    #authentication_classes = (SessionAuthentication,)
+    #permission_classes = (IsAuthenticated,)
     queryset = ZeroPlayerGame.objects.all()
     serializer_class = AppSerializer
 
+@permission_classes((AllowAny, ))
 class InstanceAppViewSet(viewsets.ModelViewSet):
     qeueryset = ZeroPlayerGame.objects.all()
 

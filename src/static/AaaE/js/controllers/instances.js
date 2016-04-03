@@ -23,6 +23,15 @@ angular
           $scope.app.instances[i].seedlist = _.pairs($scope.app.instances[i]._seed); 
         }
 
+        $scope.snapshots = _.flatten(
+          _.map($scope.app.instances, function(inst) {
+            return inst.snapshots;
+          })
+        );
+        if ($scope.snapshots.length > 9) {
+          $scope.snapshots = $scope.snapshots.slice(0,9);
+        }
+
       })
 
 

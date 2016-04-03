@@ -1,5 +1,5 @@
 <div ng-controller="CategoriesController" layout="row" layout-wrap>
-
+	
 	<div flex="50" ng-repeat="category in categories | orderBy: 'popularity': true">
 		<md-card ng-click="selectCategory(category)">
 			<md-card-title>

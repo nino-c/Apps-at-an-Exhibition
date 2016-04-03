@@ -1,42 +1,70 @@
 <md-content ng-controller="InstancesController">
 
-<!-- 
-    <div class="image-gallery-9 pull-right">
-        <img ng-src="/media/{{ snapshot | thumbnail:200 }}" 
-            class="thumbnail thumbnail-med pull-right"
-            ng-repeat="snapshot in instance.snapshots" />
-    </div> -->
-    
     <md-card>
         <md-card-title>
             <h3>{{ app.title }}</h3>
         </md-card-title>
         <md-card-content>
 
-            <div>by <strong>{{ app.owner.name }}</strong></div>
-            <div><strong>Category:</strong> {{app.category}}</div>
-            <div class="text-muted">created @ {{ app.created }}</div>
-            <hr />
 
-            <a class="btn btn-primary" href="#/apps/{{ app.id }}/edit/" 
-                role="button">
-                <span class="glyphicon glyphicon-pencil"></span>
-                Edit</a>
-            <a class="btn btn-danger" ng-click="delete()"
-                role="button">
-                <span class="glyphicon glyphicon-remove"></span>
-                Delete</a>
-            <br /><br />
+            <div layout="row" layout-wrap>
+                <div flex>
 
-            <div class="caption">
-                <p>{{ app.description }}</p>
+                    <div>by <strong>{{ app.owner.name }}</strong></div>
+                    <div><strong>Category:</strong> {{app.category}}</div>
+                    <div class="text-muted">created @ {{ app.created }}</div>
+                    <hr />
+
+                    <div layout="row">
+                        <div ng-if="userLoggedIn">
+                            <md-button class="md-raised md-primary"  
+                                href="#/apps/{{ app.id }}/edit/" 
+                                role="button" layout-align="center center">
+                                <md-icon md-font-set="material-icons">&#xE254;</md-icon>
+                                <span>Edit</span>
+                            </md-button>
+
+                            <md-button class="md-raised md-warn"  
+                                href="#/apps/{{ app.id }}/edit/" 
+                                role="button" layout-align="center center">
+                                <md-icon md-font-set="material-icons">&#xE872;</md-icon>
+                                <span>Delete</span>
+                            </md-button>
+                        </div>
+                    </div>
+
+                    <div class="caption">
+                        <p>{{ app.description }}</p>
+                    </div>
+
+
+                    <md-button class="md-raised md-accent"  
+                        href="#/apps/{{ app.id }}/edit/" 
+                        role="button" layout-align="center center">
+                        <md-icon md-font-set="material-icons">&#xE039;</md-icon>
+                        <span>Play App</span>
+                    </md-button>
+
+                </div>
+                <div flex="5"></div>
+                <div flex="none">
+
+                    <div style="width:300px;">
+                        <md-grid-list md-cols="3" md-row-height="100px" md-gutter="0px">
+                            <md-grid-tile ng-repeat="snapshot in snapshots">
+                                <img ng-src="/media/{{ snapshot | thumbnail:125 }}" 
+                                    class="thumbnail thumbnail-med" width="100" height="100" />
+                            </md-grid-tile>
+                        </md-grid-list>
+                    </div>
+
+                </div>
             </div>
-
             
 
             <h3>Instances</h3>
 
-            <button class="btn btn-success" ng-click="instantiate()">
+            <button class="btn btn-success" ng-click="instantiate()" ng-if="userLoggedIn">
                 <span class="glyphicon glyphicon-plus-sign"></span>
                 Create a new instance
             </button><br /><br />
@@ -92,12 +120,12 @@
                 </md-card-content>
                 
                 <md-card-actions>
-                    <a class="btn btn-primary" href="#/instance/{{ app.id }}/{{ instance.id }}/" 
-                        role="button">View &raquo;</a>
+                    <!-- <a class="btn btn-primary" href="#/instance/{{ app.id }}/{{ instance.id }}/" 
+                        role="button">View &raquo;</a> -->
                     <a class="btn btn-danger pull-right" 
                         ng-click="deleteInstance($event, instance)"
                         data-id="{{instance.id}}"
-                        role="button"><span class="glyphicon glyphicon-remove"></span>
+                        role="button" ng-if="userLoggedIn"><span class="glyphicon glyphicon-remove"></span>
                         Delete</a>
                 </md-card-actions>
 
