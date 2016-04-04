@@ -20,14 +20,15 @@
             </md-card-title-text>
         </md-card-title>
         <md-card-content>
-            <div layout="row" layout-wrap>
-                <div flex="30" class="text-muted">
+            <div layout-gt-xs="row" layout-xs="column" layout-wrap>
+                <div flex-gt-xs="30" class="text-muted">
                     <strong>Author: </strong>{{ app.owner.name }}<br />
                     <em>created {{ app.created }}</em><br /><br />
                     {{ app.instances.length }} instances<br />
                     {{ app.instances.length }} snapshots
                 </div>
-                <div flex="70">
+                <p hide-gt-xs></p>
+                <div flex-gt-xs="70">
                     <img ng-src="/media/{{ snap | thumbnail:125 }}" 
                         class="thumbnail thumbnail-tiny pull-left"
                         ng-repeat="snap in app.snapshots" />

@@ -1,6 +1,6 @@
-<div ng-controller="CategoriesController" layout="row" layout-wrap>
+<div ng-controller="CategoriesController" layout-xs="column" layout-gt-xs="row" layout-wrap>
 	
-	<div flex="50" ng-repeat="category in categories | orderBy: 'popularity': true">
+	<div flex="100" flex-gt-xs="50" ng-repeat="category in categories | orderBy: 'popularity': true">
 		<md-card ng-click="selectCategory(category)">
 			<md-card-title>
 				<md-card-title-text>
@@ -15,11 +15,11 @@
 							class="thumbnail thumbnail-tiny" />
 					</md-grid-tile>
 				</md-grid-list> -->
-
+				
 				<img ng-src="/media/{{ im | thumbnail:125 }}" 
 					class="thumbnail thumbnail-tiny pull-left" 
 					ng-repeat="im in category.images" />
-
+				
 			</md-card-content>
 		</md-card>
 	</div>

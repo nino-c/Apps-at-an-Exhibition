@@ -70,34 +70,38 @@
         
         <div ng-repeat="seed in seedList">
             
-            <div ng-if="seed[1].type == 'math'">
-                <label>{{ seed[0] }}:</label>
-                <div ng-if="!seed[1].parsing" class="text-muted">${{ seed[1].latex }}$</div>
-            </div>
+           <!--  <div flex="50"> -->
 
-            <div 
-                ng-if="seed[1].type == 'string' || seed[1].type == 'number'">
-                <label>{{ seed[0] }}:</label>
-                {{ seed[1].value }}
-            </div>
+                <div ng-if="seed[1].type == 'math'">
+                    <label>{{ seed[0] }}:</label>
+                    <div ng-if="!seed[1].parsing" class="text-muted">${{ seed[1].latex }}$</div>
+                </div>
 
-            <div 
-                ng-if="seed[1].type == 'color'">
-                <label>{{ seed[0] }}:</label>
-                <div style="display: inline-block; width: 10px; height: 10px; background-color:{{ seed[1].value }}"></div>
-            </div>
-            
-            <div 
-                ng-if="seed[1].type == 'javascript'">
-                <label>{{ seed[0] }}:</label>
-                {{ seed[1].value }}
-            </div>
+                <div 
+                    ng-if="seed[1].type == 'string' || seed[1].type == 'number'">
+                    <label>{{ seed[0] }}:</label>
+                    {{ seed[1].value }}
+                </div>
+
+                <div 
+                    ng-if="seed[1].type == 'color'">
+                    <label>{{ seed[0] }}:</label>
+                    <div style="display: inline-block; width: 10px; height: 10px; background-color:{{ seed[1].value }}"></div>
+                </div>
+                
+                <div 
+                    ng-if="seed[1].type == 'javascript'">
+                    <label>{{ seed[0] }}:</label>
+                    {{ seed[1].value }}
+                </div>
+
+            <!-- </div> -->
 
         </div>
 
         <md-content layout="row" layout-align="start start">
             <md-button
-                ng-click="editSeed()"
+                ng-click="editSeed($event)"
                 role="button" 
                 md-fab md-mini
                 style="font-size:12px;">
@@ -120,21 +124,25 @@
 
 <!--  -->
     <!-- bottombar -->
-    <div id="toolbar-bottom" layout-padding layout-align="start center">
+    <div id="toolbar-bottom" layout="row" layout-wrap layout-align="center center">
           
-        <div id="footer-title" class="pull-left">{{ instance.game.title }}</div>
-
-        <div class="container-fluid pull-right">
+        <span id="footer-title" flex="70">{{ instance.game.title }}</span>
+        
+        
+        <div layout="row" layout-align="end center" flex="30">
             <button type="button" 
                 class="btn btn-primary" 
                 ng-click="snapshot()"
                 ng-if="userLoggedIn">
               <span class="glyphicon glyphicon-camera"></span>
               Snapshot</button>&nbsp;
-            <button type="button" class="btn btn-warning" ng-click="editSource()">
+            <button type="button"
+                class="btn btn-warning" 
+                ng-click="editSource()">
               <span class="glyphicon glyphicon-eye-open"></span>
               View source-code</button>
         </div>
+        
            
     </div>
    

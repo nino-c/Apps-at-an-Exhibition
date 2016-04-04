@@ -1,0 +1,110 @@
+<md-dialog aria-label="Seed Editor" style="width: 600px;" ng-init="initialize()">
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Seed Editor</h2>
+        <span flex></span>
+        <md-button ng-click="closeDialog()">
+          <md-icon md-font-set="material-icon">close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <md-tabs md-dynamic-height md-border-bottom>
+        <md-tab label="Seed Paramaters">
+          <md-content layout-padding>
+            
+            <div layout="row" layout-wrap>
+              <div ng-repeat="seed in seedList" flex="45">
+            
+                <md-input-container ng-if="seed[1].type == 'math'">
+                    <label>{{ seed[0] }}</label>
+                    <input type="text" 
+                        ng-blur="seedChangeAsync($event, seed[0])"
+                        ng-change="seedChange($event)" 
+                        ng-model="seed[1].value" />
+                    <div ng-if="seed[1].parsing">
+                        <spinner />
+                        <span class="text-muted"> parsing...</span>
+                    </div>
+                    <div ng-if="!seed[1].parsing" class="text-muted">${{ seed[1].latex }}$</div>
+                </md-input-container>
+
+                <md-input-container 
+                    ng-if="seed[1].type == 'string' || seed[1].type == 'number'">
+                    <label>{{ seed[0] }}</label>
+                    <input type="text" 
+                        ng-change="seedChange($event)" 
+                        ng-model="seed[1].value" />
+                </md-input-container>
+
+                <md-input-container 
+                    ng-if="seed[1].type == 'color'">
+                    <label>{{ seed[0] }}</label>
+                    <input type="text" colorpicker 
+                        ng-change="seedChange($event)" 
+                        ng-model="seed[1].value" />
+                </md-input-container>
+                
+                <md-input-container 
+                    ng-if="seed[1].type == 'javascript'">
+                    <label>{{ seed[0] }}</label>
+                    <input type="text" 
+                        ng-change="seedChange($event)" 
+                        ng-model="seed[1].value" />
+                </md-input-container>
+
+            </div>
+            </div>
+          </md-content>
+        </md-tab>
+        <md-tab label="Cycle parameter">
+          <md-content class="md-padding">
+            <h5>Automatically iterate through many instances</h5>
+            
+            <div layout="row" layout-wrap>
+
+              <div flex="50">
+                <md-input-container>
+                  <md-radio-group ng-model="selectedSeedCycle">
+                    <md-radio-button ng-value="seed[0]" 
+                      ng-repeat="seed in seedList | numberType">{{ seed[0] }}</md-radio-button>
+                  </md-radio-group>
+                </md-input-container>
+              </div>
+
+              <div flex="50">
+                <div ng-if="selectedSeedCycle != null">
+                
+                <div class="md-subhead">
+                Vary seed parameter <code>{{ selectedSeedCycle }}</code>:
+                </div>
+
+                <div layout="column">
+                  <md-input-container>
+                    <label>From:</label>
+                    <input type="text" ng-model="varyMin" />
+                  </md-input-container>
+                  
+                  <md-input-container>
+                    <label>To:</label>
+                    <input type="text" ng-model="varyMax" />
+                  </md-input-container>
+                </div>
+                </div>
+              </div>
+
+            </div>
+
+          </md-content>
+        </md-tab>
+      </md-tabs>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" layout-align="end center">
+      <button ng-click="updateInstance()" 
+          class="btn btn-primary" ng-disabled="!seedTouched">Apply</button>
+      <!-- <button ng-click="saveAsNewInstance()" 
+          class="btn btn-warning" ng-disabled="!readyToSave">Save as new instance</button> -->
+    </md-dialog-actions>
+  </form>
+</md-dialog>

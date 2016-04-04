@@ -10,3 +10,10 @@ angular.module('Exhibition')
             return Math.round(input);
         }
     })
+    .filter('numberType', function() {
+        return function(input) {
+            return _.filter(input, function(item) {
+                return item[1].type == 'number';
+            })
+        }
+    })

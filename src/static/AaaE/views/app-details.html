@@ -39,18 +39,21 @@
 
 
                     <md-button class="md-raised md-accent"  
-                        href="#/apps/{{ app.id }}/edit/" 
+                        ng-click="selectInstance(app.instances[0])"
                         role="button" layout-align="center center">
                         <md-icon md-font-set="material-icons">&#xE039;</md-icon>
                         <span>Play App</span>
                     </md-button>
+
+                    <p hide-gt-xs></p>
 
                 </div>
                 <div flex="5"></div>
                 <div flex="none">
 
                     <div style="width:300px;">
-                        <md-grid-list md-cols="3" md-row-height="100px" md-gutter="0px">
+                        <md-grid-list md-cols="3"
+                            md-row-height="100px" md-gutter="0px">
                             <md-grid-tile ng-repeat="snapshot in snapshots">
                                 <img ng-src="/media/{{ snapshot | thumbnail:125 }}" 
                                     class="thumbnail thumbnail-med" width="100" height="100" />
@@ -69,17 +72,17 @@
                 Create a new instance
             </button><br /><br /> -->
 
-            <md-content layout="flex" layout-wrap>
-                <div flex="33" 
+            <md-content layout="row" layout-wrap>
+                
+                <div flex-sm="33" flex-xs="50" style="max-width: 300px;"
                     ng-repeat="instance in app.instances | orderBy:'created':true">
 
-                    <md-card ng-repeat="instance in app.instances | orderBy:'created':true" 
-                        ng-click="selectInstance(instance)">
+                    <md-card ng-click="selectInstance(instance)">
 
-                        <div style="text-align: center;" layout-align="center center">
+                        
                             <img ng-src="/media/{{ instance.snapshots[0] | thumbnail:200 }}" 
-                                class="thumbnail thumbnail-lg" />
-                        </div>
+                                class="thumbnail thumbnail-lg" style="width:100%; height: auto;" />
+                        
                         <md-card-content>
 
                             <h5>Seed:</h5>
@@ -91,7 +94,7 @@
                                             class="text-muted">{{ seedling[1].value }}</span>
                                         
                                        
-                                        <div ng-if="seedling[1].type == 'color'" style="display: inline-block; background-color: {{ seedling[1].value }}; width: 15px; height: 15px; border: 1px solid #eeeeee;"></div>
+                                        <div ng-if="seedling[1].type == 'color'" style="display: inline-block; background-color: {{ seedling[1].value }}; width: 15px; height: 15px;"></div>
                                         
                                         
                                         <span ng-if="seedling[1].type == 'math'" class="text-muted">${{ seedling[1].latex }}$</span>
@@ -117,6 +120,7 @@
                     </md-card>
 
                 </div>
+                
             </md-content>
            
 

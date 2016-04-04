@@ -16,8 +16,6 @@ arctan = Math.atan
 root = Math.sqrt
 
 
-
-
 moveTo = ([x,y]) -> gl.moveTo(x, y)
 lineTo = ([x,y]) -> gl.lineTo(x, y)
 
@@ -25,11 +23,19 @@ lineTo = ([x,y]) -> gl.lineTo(x, y)
 # COLOR2 = "#00aa00"
 # NUM_ITERATIONS = 6
 # TRAPEZOIDAL_SECTIONS = 20
-# CHILDREN = [3, -7, 6, 13]
+# CHILDREN = [3, -7, 6]
 # DEGREE1_COEFF = 17
 # DEGREE2_COEFF = 30
 
 
+generationChildCounts = _.map _.range(NUM_ITERATIONS+1), () -> 0
+
+colorHex2rgb = (color) ->
+    col = color.split("#").join("")
+    _r = col.substr 0,2
+    _g = col.substr 2,2
+    _b = col.substr 4,2
+    return _.map [_r,_g,_b], (c) -> parseInt(c,16)
 
 class TreeStick
 
@@ -37,7 +43,8 @@ class TreeStick
         return x * (180/pi)
 
     constructor: (params) ->
-        {@start,
+        {
+            @start,
             @direction,
             @length,
             @start_alpha,
@@ -187,8 +194,8 @@ class TreeStick
                     generation: @generation + 1
                     children: @children
 
-
                 baby = new TreeStick babyTreeStick
+                
                 
 
         #else
@@ -203,12 +210,14 @@ class TreeStick
 
 
     draw: ->
-        #console.log 'draw'
+
+        generationChildCounts[@generation]++
+
         for trap in @trapezoids
-            #console.log trap
             gl.strokeStyle = '#111111'
             gl.lineWidth = 1
-            gl.fillStyle = COLOR1 #'rgba(120, 90, 60, 1)' # + @start_alpha.toString() +')'
+            [r,g,b] = colorHex2rgb COLOR1
+            gl.fillStyle = "rgba(#{r},#{g},#{b},#{@start_alpha})"
             if @generation == NUM_ITERATIONS
                 gl.strokeStyle = COLOR2
             gl.beginPath()
@@ -219,27 +228,21 @@ class TreeStick
             gl.closePath()
             gl.stroke()
             gl.fill()
+        
+        if @generation == NUM_ITERATIONS and generationChildCounts[NUM_ITERATIONS] == Math.pow @children.length, NUM_ITERATIONS
+            try
+                window.renderingDone()
+            catch e
+                console.log e
 
 
-    grow: ->
-
-        #console.log 'grow'
-
-        # draw a trapezoid
-        #gl.fillStyle = '#007700'
-        #gl.beginPath()
-        #gl.moveTo 0,0
-        #gl.lineTo 100,100
-        #gl.lineTo 200,50
-        #gl.closePath()
-        #gl.fill()
 
 
 gl = null
 
 $(document).ready ->
 
-    Canvas = document.getElementById('big-canvas')
+    #Canvas = document.getElementById('big-canvas')
 
     gl = Canvas.getContext('2d')
 

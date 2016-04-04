@@ -2,11 +2,11 @@ angular
   .module('Exhibition')
   .controller('InstanceController', ['$rootScope', '$window', '$document', '$scope', 
     '$interval', '$location', '$route', '$resource', '$mdToast', 
-    '$timeout', '$http',
+    '$timeout', '$http', '$mdDialog', 
     'AppService',
     'InstanceService',
     ($rootScope, $window, $document, $scope, $interval, $location, $route, 
-        $resource, $mdToast, $timeout, $http,
+        $resource, $mdToast, $timeout, $http, $mdDialog,
         AppService, InstanceService) => {
 
         //paper.setup('big-canvas');
@@ -26,39 +26,19 @@ angular
 
         $scope.initialize = function() {
             //paper.setup('big-canvas');
-        }
-
-        $scope.seedChange = function($event) {
-            $scope.seedTouched = true;
-            $scope.readyToSave = true;
-        }
-
-        $scope.seedChangeAsync = function($event, seedkey) {
-            
-            $scope._seed[seedkey].parsing = true;
-
-            var val = $event.currentTarget.value;
-            $.post("/symbolic_math/latex/", {
-                expressionString: val
-            }, function(data) {
-                
-                $scope._seed[seedkey].string = val;
-                $scope._seed[seedkey].javascript = data.javascript;
-                $scope._seed[seedkey].latex = data.latex;
-                
-                $scope.parseSeedList();
-                $scope.$apply();
-
+            $window.renderingDone = function() {
                 $timeout(function() {
-                    $scope._seed[seedkey].parsing = false;
-                    $timeout(function() {
-                        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-                    }, 500)
+                    $scope.renderingDone();
                 }, 500)
-                
-            });
-           
-            
+            }
+        }
+
+        $scope.renderingDone = function() {
+
+        }
+
+        $scope.cycleParam = function(param, min, max) {
+
         }
 
         $scope.parseSeedList = function(setToFalse) {
@@ -76,6 +56,100 @@ angular
             $timeout(function() {
                 MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             }, 500)
+        }
+
+        var self_scope = $scope;
+
+        $scope.editSeed = function(ev) {
+
+            $mdDialog.show({
+                locals: {
+                    seedList: $scope.seedList,
+                    seedStructure: $scope.seedStructure,
+                    _seed: $scope._seed
+                },
+                templateUrl: '/static/AaaE/views/seed-editor-dialog.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                controller: DialogController
+            });
+
+            function DialogController($scope, $mdDialog, seedList, seedStructure, _seed) {
+
+                $scope.seedList = seedList;
+                $scope.seedStructure = seedStructure;
+                $scope._seed = _seed;
+                $scope.selectedSeedCycle = null;
+                $scope.varyMin = 0;
+                $scope.varyMax = 0;
+                $scope.seedTouched = false;
+
+                $scope.closeDialog = function() {
+                    $mdDialog.hide();
+                };
+
+                $scope.seedChange = function($event) {
+                    $scope.seedTouched = true;
+                    $scope.readyToSave = true;
+                };
+
+                $scope.initialize = function() {
+                    console.log('ng-init');
+                    $timeout(function() {
+                        $scope.parseSeedList();
+                    }, 500);
+                }
+
+                $scope.seedChangeAsync = function($event, seedkey) {
+                    
+                    $scope._seed[seedkey].parsing = true;
+
+                    var val = $event.currentTarget.value;
+                    $.post("/symbolic_math/latex/", {
+                        expressionString: val
+                    }, function(data) {
+                        
+                        $scope._seed[seedkey].string = val;
+                        $scope._seed[seedkey].javascript = data.javascript;
+                        $scope._seed[seedkey].latex = data.latex;
+                        
+                        $scope.parseSeedList();
+                        $scope.$apply();
+
+                        $timeout(function() {
+                            $scope._seed[seedkey].parsing = false;
+                            $timeout(function() {
+                                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                            }, 500)
+                        }, 500)
+                        
+                    });
+                   
+                };
+
+                $scope.parseSeedList = function(setToFalse) {
+                    if (setToFalse === undefined) setToFalse = false;
+                    $scope._seed = _.mapObject(
+                        $scope._seed, function(s) {
+                            if (s.parsing === undefined) s.parsing = false;
+                            if (setToFalse) s.parsing = false;
+                            return s;
+                        });
+
+                    $scope.seedList = _.pairs($scope._seed);
+                    console.log('seedList', $scope.seedList);
+                    
+                    $timeout(function() {
+                        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                    }, 500)
+                }
+
+                $scope.updateInstance = function() {
+                    self_scope.updateInstance();
+                    $mdDialog.hide();
+                }
+
+              }
         }
 
         $scope.execute = function() {
@@ -158,23 +232,21 @@ angular
                         }).join("\n\n");
                 }
 
-                //console.log('req required_codeblocks', required_codeblocks);
-
                 var source = seedcodelines.join("\n") + "\n"
                     + required_codeblocks + "\n" 
                     + $scope.instance.sourcecode;
 
-                console.log(source)
-
                 if (coffee) {
                     $scope.instance.sourcecode 
-                        += "\ntry\n\twindow.start()\ncatch error\n\tconsole.log #{error}"
+                        += "\ntry\n\twindow.start()\ncatch error\n\tconsole.log error"
                     source = CoffeeScript.compile($scope.instance.sourcecode);
                 } else {
                     source += "\n try { window.start(); } catch(e) {}"
                 }
 
-                
+                if (source.indexOf('window.renderingDone()') == -1) {
+                    source += "\n\nwindow.renderingDone()";
+                }
 
                 function updateElapsedTime() {
                     $scope.timeElapsed = ((new Date()).getTime() - $scope.appstart.getTime()) / 1000;
@@ -234,11 +306,10 @@ angular
                     console.log(data);
                 }
             );
-            //App.editors = [];
         }
 
         $scope.saveAsNewInstance = function() {
-
+            return;
             $scope.updateSeed();
             
             var req = {
@@ -353,15 +424,50 @@ angular
         }
 
         $scope.updateInstance = function() {
+            $scope.loading = true;
             $scope.updateSeed();
             $scope.instance.seed = JSON.stringify($scope._seed)
-            
-            $scope.clearCanvas();
-            $scope.clearPaperCanvas();
-            $scope.clearEvalScope();
 
-            $scope.seedTouched = false;
-            $timeout($scope.execute, 500)
+            var req = {
+                method: 'POST',
+                data: $scope._seed,
+                url: '/game/app-instantiate/' + $scope.instance.game.id + '/',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+
+            $http(req).then(function successCallback(response) {
+                
+                if (response.data.id) {
+                    $scope.instance = InstanceService.get({id:response.data.id})
+                    $scope.instance.$promise.then(function() {
+
+                        $scope.clearCanvas();
+                        $scope.clearPaperCanvas();
+                        $scope.clearEvalScope();
+
+                        $mdToast.showSimple("Saved as new instance.");
+                        
+                        $scope.loading = true;
+                        $scope.timeElapsed = 0;
+                        $scope.seedTouched = false;
+                        $scope.readyToSave = false;
+
+                        $scope.execute();
+                    })
+
+                   
+                }
+                
+            }, function errorCallback(response) {
+                console.log('error', response)
+            });
+
+           
+
+            //$scope.seedTouched = false;
+            //$timeout($scope.execute, 500)
             //$timeout($scope.snapshot, 2000)
         }
 
