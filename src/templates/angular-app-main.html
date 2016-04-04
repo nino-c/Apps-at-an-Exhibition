@@ -10,14 +10,17 @@
 
 </md-content>
 
+<!-- <canvas id="big-canvas" ng-show="showAppCanvas"></canvas>
+<canvas id="bg-canvas" ng-show="showBGCanvas"></canvas> -->
 <canvas id="big-canvas" ng-show="showAppCanvas"></canvas>
-<canvas id="bg-canvas" ng-show="showBGCanvas"></canvas>
+<iframe id="bg-iframe" src="/static/AaaE/iframe.html" 
+	frameborder="0" width="100%" height="100%" ng-show="showBGCanvas"></iframe>
 
 {% endblock %}
 
 {% block bottomscripts %}
 
-	<script type="text/paperscript" src="/static/AaaE/temp/affine-transformations.js" canvas="bg-canvas"></script>
+
 	
 	<script type="text/javascript" src="/static/AaaE/lib/angular/angular.js"></script>
 	<script type="text/javascript" src="/static/AaaE/lib/angular-ui-codemirror/ui-codemirror.js"></script>

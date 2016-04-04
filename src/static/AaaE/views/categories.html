@@ -1,6 +1,6 @@
 <div ng-controller="CategoriesController" layout-xs="column" layout-gt-xs="row" layout-wrap>
 	
-	<div flex="100" flex-gt-xs="50" ng-repeat="category in categories | orderBy: 'popularity': true">
+	<div flex-xs="100" flex-gt-xs="50" ng-repeat="category in categories | orderBy: 'popularity': true">
 		<md-card ng-click="selectCategory(category)">
 			<md-card-title>
 				<md-card-title-text>

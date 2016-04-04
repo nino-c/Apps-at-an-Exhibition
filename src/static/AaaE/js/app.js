@@ -68,7 +68,8 @@ angular.module('Exhibition', [
 
 
   })
-  .run(function($rootScope, $location, $http, $cookies, $timeout, $window) {
+  .run(function($rootScope, $location, $http, $cookies, 
+      $timeout, $window, AppService) {
 
     $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken']
     $http.defaults.xsrfCookieName = 'csrftoken';
@@ -116,6 +117,8 @@ angular.module('Exhibition', [
         'text/paperscript'
       ]
 
+    //paper.setup('big-canvas');
+    //paper.setup(document.getElementById('bg-canvas'));
     paper.setup('big-canvas');
 
   })
