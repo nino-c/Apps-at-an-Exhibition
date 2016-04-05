@@ -35,11 +35,27 @@ angular
         }
 
         $scope.renderingDone = function() {
-
+            if ($scope.currentCycleValue != null) {
+                $scope.doCycle();
+            }
         }
 
+        $scope.currentCycleValue = null;
+        $scope.cycleArgs = null;
         $scope.cycleParam = function(param, min, max) {
+            $scope.currentCycleValue = min;
+            $scope.cycleArgs = [param, min, max];
+            $scope.parseSeedList();
+            $scope.updateInstance();
+        }
 
+        $scope.doCycle = function() {
+            $scope.currentCycleValue++;
+            if ($scope.currentCycleValue > $scope.cycleArgs[2]) return;
+
+            $scope._seed[$scope.cycleArgs[0]] = $scope.currentCycleValue;
+            $scope.parseSeedList();
+            $scope.updateInstance();
         }
 
         $scope.parseSeedList = function(setToFalse) {
@@ -146,7 +162,12 @@ angular
                 }
 
                 $scope.updateInstance = function() {
-                    self_scope.updateInstance();
+                    if ($scope.selectedSeedCycle != null) {
+                        console.log('call cycle', $scope.selectedSeedCycle, $scope.varyMin, $scope.varyMax)
+                        self_scope.cycleParam($scope.selectedSeedCycle, $scope.varyMin, $scope.varyMax);
+                    } else {
+                        self_scope.updateInstance();    
+                    }
                     $mdDialog.hide();
                 }
 

@@ -10,7 +10,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework import generics
 from game.models import *
 from game.serializers import *
-from plsys.settings.development import MEDIA_URL
+from plsys.settings import MEDIA_URL
 
 import base64
 import json
