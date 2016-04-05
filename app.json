@@ -1,5 +1,9 @@
 {
   "name": "Apps-at-an-Exhibition",
+  "description": "An experiment in javascript meta-programming meant to generate art from mathematical chaos.",
+  "image": "heroku/python",
+  "repository": "https://github.com/nino-c/Apps-at-an-Exhibition",
+  "keywords": ["python", "django" ],
   "scripts": {
   },
   "env": {
@@ -21,4 +25,5 @@
       "url": "heroku/python"
     }
   ]
+
 }
