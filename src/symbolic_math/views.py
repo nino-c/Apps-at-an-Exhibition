@@ -19,7 +19,6 @@ from sympy.printing.latex import *
 from jscode import *
 
 
-
 class SymbolicExpression(object):
     
     def __init__(self, expressionString):

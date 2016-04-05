@@ -39,7 +39,7 @@
 
 
                     <md-button class="md-raised md-accent"  
-                        ng-click="selectInstance(app.instances[0])"
+                        ng-click="selectFirstInstance()"
                         role="button" layout-align="center center">
                         <md-icon md-font-set="material-icons">&#xE039;</md-icon>
                         <span>Play App</span>
@@ -107,8 +107,6 @@
                         </md-card-content>
                         
                         <md-card-actions ng-if="userLoggedIn">
-                            <!-- <a class="btn btn-primary" href="#/instance/{{ app.id }}/{{ instance.id }}/" 
-                                role="button">View &raquo;</a> -->
                             <a class="btn btn-danger pull-right" 
                                 ng-click="deleteInstance($event, instance)"
                                 data-id="{{instance.id}}"
@@ -128,9 +126,15 @@
            
            
             <div ng-if="app.instances.length == 0">
-                <em>Creating first instance...
+                <!-- <em>Creating first instance...
                     <span class="glyphicon glyphicon-refresh fa-spin-custom"></span>
-                </em>
+                </em> -->
+                <md-button class="md-raised md-primary"  
+                    ng-click="instantiate()"
+                    role="button" layout-align="center center">
+                    <md-icon md-font-set="material-icons">&#xE039;</md-icon>
+                    <span>Create first instance</span>
+                </md-button>
             </div>
 
         </md-card-content>

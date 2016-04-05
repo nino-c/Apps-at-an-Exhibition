@@ -21,6 +21,12 @@ import datetime
 
 
 def home(request):
+    # angular_dirs = ['modules', 'services', 'controllers', 'directives', 'filters']
+    # angular_includes = map( 
+    #     lambda dir: filter(
+    #         lambda file: not file.startswith('_'), os.listdir(os.path.join(STATIC_ROOT, 'AaaE/js', dir))), 
+    #             angular_dirs 
+    # )
     return render(request, "game/index.html")
 
 def instantiateGame(request, pk):

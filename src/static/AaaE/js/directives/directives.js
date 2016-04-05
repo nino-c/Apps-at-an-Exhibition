@@ -105,6 +105,45 @@ angular.module('Exhibition')
             }
         }
     })
+    .directive('draw', function () {
+        return {
+            restrict: 'A',
+            link: function postLink($scope, element, attrs) {
+
+                
+                function initPaper() {
+
+                    paper.install(window);
+                    paper.setup(angular.element(element)[0].id);
+                    //paper.view.onFrame
+                }
+
+                //$scope.$apply(function() {
+                    initPaper();
+                //})
+                
+
+
+            }
+        };
+
+    })
+    .directive('paper', function () {
+        return {
+            replace: true,
+            template: '<canvas class="display-canvas"></canvas>',
+            restrict: 'E',
+            link: function postLink(scope, element, attrs) {
+
+                var _scope = new paper.PaperScope();
+                _scope.setup(element[0]);
+                _scope.install(window)
+                //console.log('src', attrs)
+                paper.PaperScript.evaluate(paper.PaperScript.parse(attrs.source), _scope);
+                
+            }
+        };
+    });
     // .component('seedDisplay', {
     //     bindings: {
     //         __seed: '='

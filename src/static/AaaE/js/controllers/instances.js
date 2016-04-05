@@ -34,6 +34,13 @@ angular
 
       })
 
+      $scope.selectFirstInstance = function() {
+        if ($scope.app.instances.length > 0) {
+          $scope.selectInstance($scope.app.instances[0]);
+        } else {
+          $scope.instantiate();
+        }
+      };
 
       $scope.selectInstance = (chosenInstance) => {
         $scope.selectedInstance = chosenInstance 

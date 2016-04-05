@@ -69,9 +69,8 @@ var fixedpoint = (new Point(0,0)).transform(cartesian_matrix)
 //var radiusOfInversion = 
 
 function applyTransform(seg,t) {
-	//console.log(seg.point)
 	var vec = fixedpoint - seg.point
-	//console.log(vec.length)
+	//console.log('vec', vec)
 	if (vec.length != 0) {
 		vec.angle += vec.length;
 		seg.point = seg.point + (vec.normalize()*Math.cos(t/10))

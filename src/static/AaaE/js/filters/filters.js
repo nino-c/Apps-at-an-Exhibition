@@ -1,6 +1,7 @@
 angular.module('Exhibition')
     .filter('thumbnail', function() {
         return function(input, size) {
+            if (!input) return '';
             return input.split(".png")
                 .join("."+size.toString()+'x'+size.toString()+".png");
         }
