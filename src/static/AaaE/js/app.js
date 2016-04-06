@@ -119,6 +119,6 @@ angular.module('Exhibition', [
 
     //paper.setup('big-canvas');
     //paper.setup(document.getElementById('bg-canvas'));
-    paper.setup('big-canvas');
+    //paper.setup('big-canvas');
 
   })
