@@ -77,6 +77,43 @@ angular
 
         var self_scope = $scope;
 
+        $scope.viewSource = function(ev) {
+            console.log('viewsource')
+            $mdDialog.show({
+                locals: {
+                    app: $scope.instance.game,
+                },
+                templateUrl: '/static/AaaE/views/view-source-dialog.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                controller: ViewSourceDialog
+            });
+
+            function ViewSourceDialog($scope, $mdDialog, app) {
+                
+                $scope.initialize = function() {
+                    var lang = app.scriptType.split('text/').join('');
+                    if (lang == 'paperscript') { lang = 'javascript'; }
+
+                    $scope.cmOptions = {
+                      lineWrapping: true,
+                      lineNumbers: true,
+                      indentWithTabs: true,
+                      viewportMargin: Infinity,
+                      mode: lang,
+                      matchBrackets: true,
+                      gutters: ['codemirror-gutters']
+                    }
+
+                    $scope.app = app;
+                }
+
+                $scope.closeDialog = function() {
+                    $mdDialog.hide();
+                };
+            }
+        }
+
         $scope.editSeed = function(ev) {
 
             $mdDialog.show({
@@ -506,6 +543,7 @@ angular
                 });
 
             } else {
+                
                 $scope.clearCanvas();
                 $scope.clearPaperCanvas();
                 $scope.clearEvalScope();

@@ -14,9 +14,11 @@ angular.module('Exhibition', [
       lineWrapping : true,
       lineNumbers: true,
       indentWithTabs: true,
-      theme: "monokai",
+      //theme: "monokai",
+      viewportMargin: Infinity,
       mode: 'javascript',
-      matchBrackets: true
+      matchBrackets: true,
+      //gutters: ['codemirror-gutters']
     }
   }).config(
     function($mdThemingProvider, $routeProvider, $resourceProvider) {

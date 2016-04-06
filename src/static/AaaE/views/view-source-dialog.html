@@ -1,0 +1,27 @@
+<md-dialog aria-label="Seed Editor" ng-init="initialize()">
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Source Code</h2>
+        <span flex></span>
+        <md-button ng-click="closeDialog()">
+          <md-icon md-font-set="material-icon" class="md-raised">close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content layout-padding>
+      
+      <h4>{{ app.title }}</h4>
+      <md-content>
+        <ui-codemirror ui-codemirror-opts="cmOptions" class="inDialog"
+            ng-model="app.source" 
+            name="source" style="width:80%;">
+        </ui-codemirror>
+      </md-content>
+
+    </md-dialog-content>
+    <md-dialog-actions layout="row" layout-align="end center">
+      <button class="btn btn-primary" ng-click="closeDialog()">Close</button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
