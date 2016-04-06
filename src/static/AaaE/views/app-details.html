@@ -1,6 +1,17 @@
 <md-content ng-controller="InstancesController">
 
-    <md-card>
+    <!-- loading spinner -->
+    <div ng-if="loading" class="loading-bg-base">
+        <div class="loader-lg">
+            <svg class="circular2">
+            <circle class="path" cx="125" cy="125" r="40" fill="none" stroke-width="4" 
+                stroke-miterlimit="10"/>
+            </svg>
+            <div class="loading-text">Loading...</span></div>
+        </div>
+    </div>
+
+    <md-card ng-if="!loading">
         <md-card-title>
             <h3>{{ app.title }}</h3>
         </md-card-title>

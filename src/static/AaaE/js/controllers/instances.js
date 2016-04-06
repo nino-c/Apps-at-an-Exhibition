@@ -8,8 +8,10 @@ angular
     '$mdToast',
     'AppService',  
     'InstanceService',
-    ($scope, $location, $route, $http, $window, $mdToast, 
-      AppService, InstanceService) => {
+    function ($scope, $location, $route, $http, $window, $mdToast, 
+      AppService, InstanceService) {
+
+      $scope.loading = true;
 
       //var apps = AppService.get({id:$route.current.params.id});
       // well, don't' like them loops, but oh well
@@ -21,6 +23,7 @@ angular
             JSON.parse($scope.app.instances[i].seed);
 
           $scope.app.instances[i].seedlist = _.pairs($scope.app.instances[i]._seed); 
+          $scope.loading = false;
         }
 
         $scope.snapshots = _.flatten(
@@ -42,7 +45,7 @@ angular
         }
       };
 
-      $scope.selectInstance = (chosenInstance) => {
+      $scope.selectInstance = function(chosenInstance) {
         $scope.selectedInstance = chosenInstance 
         $location.path('/instance/'+$scope.app.id+'/'+chosenInstance.id+'/')
         //$window.location = 'index.html#/instance/'+$scope.app.id+'/'+chosenInstance.id+'/';

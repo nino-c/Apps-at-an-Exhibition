@@ -260,6 +260,14 @@ h3 {
   margin-bottom: 10px;
   margin-top: 10px;
 }
+.loading-bg-base {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 2000;
+}
 .loading-bg {
   position: fixed;
   top: 0px;
@@ -278,13 +286,24 @@ h3 {
   color: #333333;
   text-align: center;
 }
+.loader-base {
+  position: absolute;
+  margin: 0px auto;
+  left: 50%;
+  top: 50%;
+}
 .loader {
   position: absolute;
   margin: 0px auto;
-  width: 100px;
-  height: 100px;
   left: 50%;
   top: 50%;
+  width: 100px;
+  height: 100px;
+}
+.loader-lg {
+  margin: 200px auto;
+  width: 250px;
+  height: 250px;
 }
 .circular {
   animation: rotate 2s linear infinite;
@@ -292,6 +311,19 @@ h3 {
   transform-origin: center center;
   width: 100px;
   height: 100px;
+  position: relative;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.circular2 {
+  animation: rotate 2s linear infinite;
+  height: 100%;
+  transform-origin: center center;
+  width: 250px;
+  height: 250px;
   position: relative;
   top: 0;
   bottom: 0;

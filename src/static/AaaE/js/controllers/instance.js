@@ -5,9 +5,9 @@ angular
     '$timeout', '$http', '$mdDialog', 
     'AppService',
     'InstanceService',
-    ($rootScope, $window, $document, $scope, $interval, $location, $route, 
+    function ($rootScope, $window, $document, $scope, $interval, $location, $route, 
         $resource, $mdToast, $timeout, $http, $mdDialog,
-        AppService, InstanceService) => {
+        AppService, InstanceService)  {
 
         //paper.setup('big-canvas');
 

@@ -8,7 +8,6 @@ angular.module('Exhibition', [
   'ngAnimate',
   'ngCookies',
   'colorpicker.module',
-  'symbolic_math'
   ])
   .value('ui.config', {
     codemirror: {
@@ -20,7 +19,7 @@ angular.module('Exhibition', [
       matchBrackets: true
     }
   }).config(
-    ($mdThemingProvider, $routeProvider, $resourceProvider) => {
+    function($mdThemingProvider, $routeProvider, $resourceProvider) {
 
       // $mdThemingProvider.theme('default')
       //     .primaryPalette('light-green', {
@@ -53,9 +52,6 @@ angular.module('Exhibition', [
         .when('/apps/:id/edit/', {
           templateUrl: '/static/AaaE/views/app-editor.html'
         })
-        // .when('/instance/new/', {
-        //   templateUrl: '/static/AaaE/views/app-display.html'
-        // })
         .when('/instance/:app_id/:instance_id/', {
           templateUrl: '/static/AaaE/views/app-display.html'
         })

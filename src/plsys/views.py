@@ -13,10 +13,10 @@ def index(request):
     angular_appdir = os.path.join(STATIC_ROOT, "AaaE/js")
     angular_includes = reduce(
         lambda a,b: a+b, map( 
-            lambda dir: filter(
+            lambda dir: sorted(filter(
                 lambda file: not file.startswith('_'), 
-                    map(lambda f: os.path.join(angular_appdir_site, dir, f), os.listdir(os.path.join(angular_appdir, dir)))
-                ), angular_dirs)
+                    map(lambda f: os.path.join("AaaE/js", dir, f), os.listdir(os.path.join(angular_appdir, dir)))
+                )), angular_dirs)
         )
 
     return render(request, "angular-app-main.html", {'angular_includes': angular_includes})

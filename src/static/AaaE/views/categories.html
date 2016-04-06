@@ -1,5 +1,17 @@
 <div ng-controller="CategoriesController" layout-xs="column" layout-gt-xs="row" layout-wrap>
 	
+	<!-- loading spinner -->
+    <div ng-if="loading" class="loading-bg-base">
+        <div class="loader-lg">
+			<svg class="circular2">
+			<circle class="path" cx="125" cy="125" r="40" fill="none" stroke-width="4" 
+			    stroke-miterlimit="10"/>
+			</svg>
+        	<div class="loading-text">Loading...</span></div>
+        </div>
+    </div>
+    
+
 	<div flex-xs="100" flex-gt-xs="50" ng-repeat="category in categories | orderBy: 'popularity': true">
 		<md-card ng-click="selectCategory(category)">
 			<md-card-title>

@@ -95,7 +95,7 @@ angular
                 } else {
                     console.log($scope.app)
                     $scope.app.$update().then(
-                        (app, putResponse) => {
+                        function(app, putResponse) {
                             $mdToast.showSimple("App saved.")
                             $location.path('/apps/'+app.id)
                         })

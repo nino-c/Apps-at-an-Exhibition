@@ -1,5 +1,16 @@
 <md-content ng-controller="AppListController" layout-padding>
     
+    <!-- loading spinner -->
+    <div ng-if="loading" class="loading-bg-base">
+        <div class="loader-lg">
+            <svg class="circular2">
+            <circle class="path" cx="125" cy="125" r="40" fill="none" stroke-width="4" 
+                stroke-miterlimit="10"/>
+            </svg>
+            <div class="loading-text">Loading...</span></div>
+        </div>
+    </div>
+    
     <h3 class="md-primary" ng-if="userLoggedIn">
         {{ category.name }}
         <a href="#/apps/new/" class="btn btn-primary pull-right">
@@ -12,7 +23,7 @@
 
     
     <md-card ng-repeat="app in apps | orderBy:'created':true" 
-        ng-click="selectApp(app)">
+        ng-click="selectApp(app)" ng-if="!loading">
         
         <md-card-title>
             <md-card-title-text>

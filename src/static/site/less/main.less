@@ -270,16 +270,17 @@ h3 {
 
 
 
-@loaderwidth: 100px;
-
-.loading-bg {
+.loading-bg-base {
   position: fixed;
   top: 0px;
   left: 0px;
-  //padding: 5%;
   width: 100%;
   height: 100%;
   z-index: 2000;
+}
+
+.loading-bg {
+  .loading-bg-base;
   background-color: rgba(50,50,50,0.4);
 }
 
@@ -293,21 +294,27 @@ h3 {
   text-align: center;
 }
 
-// end demo-specific
 
-.loader {
+@loaderwidth: 100px;
+@loaderwidth2: 250px;
+
+.loader-base {
   position: absolute;
   margin: 0px auto;
+  left: 50%;
+  top: 50%;
+}
+
+.loader {
+  .loader-base;
   width: @loaderwidth;
   height: @loaderwidth;
-  left: 50%;
+}
 
-  top: 50%;
-  // &:before {
-  //   content:'';
-  //   display: block;
-  //   padding-top: 100%;
-  // }
+.loader-lg {
+  margin: 200px auto;
+  width: @loaderwidth2;
+  height: @loaderwidth2;
 }
 
 .circular {
@@ -316,6 +323,17 @@ h3 {
   transform-origin: center center;
   width: @loaderwidth;
   height: @loaderwidth;
+  position: relative;
+  top: 0; bottom: 0; left: 0; right: 0;
+  margin: auto;
+}
+
+.circular2 {
+  animation: rotate 2s linear infinite;
+  height: 100%;
+  transform-origin: center center;
+  width: @loaderwidth2;
+  height: @loaderwidth2;
   position: relative;
   top: 0; bottom: 0; left: 0; right: 0;
   margin: auto;

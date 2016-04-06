@@ -153,6 +153,11 @@ STATICFILES_FINDERS = (
 STATIC_PRECOMPILER_COMPILERS = (
     ('static_precompiler.compilers.CoffeeScript', {"executable": "/usr/bin/coffeescript"}),
     ('static_precompiler.compilers.LESS', {"executable": "/usr/bin/lessc"}),
+    ('static_precompiler.compilers.Babel', {
+        "executable": "/usr/local/bin/babel",
+        "sourcemap_enabled": True,
+        "presets": "es2015",
+    }),
 )
 
 STATIC_URL = '/static/'
@@ -190,6 +195,21 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Show thumbnail generation errors
 THUMBNAIL_DEBUG = True
+
+# PIPELINE = {
+#     'PIPELINE_ENABLED': True,
+#     'COMPILERS': ('pipeline.compilers.es6.ES6Compiler', ),
+#     'JAVASCRIPT':{
+#         'stats': {
+#             'source_filenames' : (
+#                 'AaaE/js/*/*.es6',
+#             ),
+#             'output_filename': 'AaaE/js/entry-point.js',
+#         },
+#     }
+# }
+
+
 
 # Log everything to the logs directory at the top
 LOGFILE_ROOT = join(dirname(BASE_DIR), 'logs')

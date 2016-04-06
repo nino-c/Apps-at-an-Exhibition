@@ -7,8 +7,8 @@
       'CategoryService',
       //'InstanceService',
       //'AppEditor',
-      ($rootScope, $scope, $location, $mdDialog,
-        AppService, CategoryService) => {
+      function ($rootScope, $scope, $location, $mdDialog,
+        AppService, CategoryService) {
 
         $scope.apps = AppService.query()
         $scope.categories = CategoryService.query()
@@ -20,7 +20,7 @@
           {name:'text/paperscript', label: 'paperscript'}
         ]
 
-        $scope.selectApp = (chosenApp) => {
+        $scope.selectApp = function(chosenApp) {
           $scope.selectedApp = chosenApp
           $location.path('/apps/'+chosenApp.id)
         }
