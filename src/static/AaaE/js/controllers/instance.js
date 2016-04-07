@@ -31,7 +31,17 @@ angular
                 $timeout(function() {
                     $scope.renderingDone();
                 }, 500)
+            };
+
+            $window.featureDisplay = function(content) {
+                $scope.featureDisplay(content);
             }
+        }
+
+        $scope.featureDisplayContent = '';
+        $scope.featureDisplay = function(content) {
+            $scope.featureDisplayContent = content;
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
         }
 
         $scope.renderingDone = function() {
@@ -490,6 +500,8 @@ angular
                 
         //     }
         // }
+
+        
 
 
         $scope.updateSeed = function() {

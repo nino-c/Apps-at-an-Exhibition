@@ -15,25 +15,28 @@ angular
 
       //var apps = AppService.get({id:$route.current.params.id});
       // well, don't' like them loops, but oh well
-      $scope.app = AppService.get({id:$route.current.params.id}); 
-      $scope.app.$promise.then(function(a) {
+      AppService.get({id:$route.current.params.id})
+        .$promise.then(function(a) {
         
-        for (var i=0; i<$scope.app.instances.length; i++) {
-          $scope.app.instances[i]._seed = 
-            JSON.parse($scope.app.instances[i].seed);
+          $scope.app = a;
 
-          $scope.app.instances[i].seedlist = _.pairs($scope.app.instances[i]._seed); 
+          for (var i=0; i<$scope.app.instances.length; i++) {
+            $scope.app.instances[i]._seed = 
+              JSON.parse($scope.app.instances[i].seed);
+
+            $scope.app.instances[i].seedlist = _.pairs($scope.app.instances[i]._seed); 
+          }
+
+          $scope.snapshots = _.flatten(
+            _.map($scope.app.instances, function(inst) {
+              return inst.snapshots;
+            })
+          );
+          if ($scope.snapshots.length > 9) {
+            $scope.snapshots = $scope.snapshots.slice(0,9);
+          }
+
           $scope.loading = false;
-        }
-
-        $scope.snapshots = _.flatten(
-          _.map($scope.app.instances, function(inst) {
-            return inst.snapshots;
-          })
-        );
-        if ($scope.snapshots.length > 9) {
-          $scope.snapshots = $scope.snapshots.slice(0,9);
-        }
 
       })
 
