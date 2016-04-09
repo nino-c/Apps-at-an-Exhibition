@@ -22,6 +22,8 @@ build
 
 # Environment variables
 local.env
+.env
+src/.env
 
 # Django stuff:
 *.mo
