@@ -1,0 +1,35 @@
+{
+  "name": "sauce-connect",
+  "keywords": [
+    "selenium",
+    "selenese",
+    "browser-automation",
+    "sauce",
+    "saucelabs",
+    "sauce-labs"
+  ],
+  "version": "0.1.1",
+  "sauce-connect-url": "http://saucelabs.com/downloads/Sauce-Connect-latest.zip",
+  "description": "Node.js wrapper over the SauceLabs SauceConnect.jar program for establishing a secure tunnel for intranet testing",
+  "main": "lib/sauce-connect.coffee",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "env": "env",
+    "install": "make install"
+  },
+  "author": {
+    "name": "Dave Dopson",
+    "email": "ddopson@gmail.com"
+  },
+  "license": "WTFPL",
+  "readme": "node-sauce-connect\n==================\n\nThis module is a simple wrapper around the SauceConnect.jar program available from SauceLabs.\n\n````\nSauceConnect = require 'sauce-connect'\n\nSauceConnect.launch 'wavii', 'abcd1234-1234-abcd-a123-000000000000', ->\n  console.log \"READY TO START TESTS\"\n````\n\n",
+  "readmeFilename": "README.md",
+  "_id": "sauce-connect@0.1.1",
+  "dist": {
+    "shasum": "b9e81595b5b150d591c5718566ab1fb811017c2a"
+  },
+  "_from": "sauce-connect@",
+  "_resolved": "https://registry.npmjs.org/sauce-connect/-/sauce-connect-0.1.1.tgz"
+}

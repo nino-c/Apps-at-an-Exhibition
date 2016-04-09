@@ -1,0 +1,48 @@
+{
+  "name": "angular-bootstrap-colorpicker",
+  "version": "3.0.25",
+  "description": "Native AngularJS colorpicker directive",
+  "main": "js/bootstrap-colorpicker-module.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-jshint": "^1.11.2",
+    "gulp-less": "^3.0.3",
+    "gulp-minify-css": "^1.2.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.4.0",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.13.9",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-cli": "0.1.0",
+    "karma-coverage": "^0.5.1",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-jasmine": "^0.3.6"
+  },
+  "scripts": {
+    "test": "karma start test/karma.conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/buberdds/angular-bootstrap-colorpicker"
+  },
+  "keywords": [
+    "angular",
+    "color picker",
+    "bootstrap"
+  ],
+  "author": {
+    "name": "Michal Zielenkiewicz"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/buberdds/angular-bootstrap-colorpicker/issues"
+  },
+  "homepage": "https://github.com/buberdds/angular-bootstrap-colorpicker",
+  "readme": "[![devDependency Status](https://david-dm.org/buberdds/angular-bootstrap-colorpicker/dev-status.svg?branch=master)](https://david-dm.org/buberdds/angular-bootstrap-colorpicker#info=devDependencies)\r\n[![Build Status](https://travis-ci.org/buberdds/angular-bootstrap-colorpicker.svg?branch=master)](https://travis-ci.org/buberdds/angular-bootstrap-colorpicker)\r\n\r\nangular-bootstrap-colorpicker\r\n=============================\r\n\r\nThis version contains a native AngularJS directive based on bootstrap-colorpicker jQuery library.<br />\r\nNo dependency on jQuery or jQuery plugin is required.<br />\r\n\r\n<a href=\"http://codepen.io/buberdds/full/fBAsr/\" target=\"_blank\">Demo page (Bootstrap v3.x.x)</a>\r\n\r\nPrevious releases:\r\n  - <a href=\"https://github.com/buberdds/angular-bootstrap-colorpicker/tree/2.0\">branch 2.0</a> (Bootstrap v2.x.x)\r\n  - <a href=\"https://github.com/buberdds/angular-bootstrap-colorpicker/tree/1.0.0\">branch 1.0</a> if you need a functionality from the original plugin or IE&lt;9 support\r\n\r\nInstallation\r\n===============================\r\n\r\n#### npm\r\n```shell\r\n$ npm install angular-bootstrap-colorpicker --save\r\n```\r\n\r\nCopy `css/colorpicker.css` and `js/bootstrap-colorpicker-module.js`.\r\nAdd a dependency to your app, for instance:\r\n\r\n    angular.module('myApp', ['colorpicker.module'])\r\n\r\nExamples:\r\n===============================\r\n\r\nHex format\r\n```html\r\n<input colorpicker type=\"text\" ng-model=\"your_model\" />\r\n```\r\nor\r\n```html\r\n<input colorpicker=\"hex\" type=\"text\" ng-model=\"your_model\" />\r\n```\r\n\r\nRGB format\r\n```html\r\n<input colorpicker=\"rgb\" type=\"text\" ng-model=\"your_model\" />\r\n```\r\n\r\nRBGA format\r\n```html\r\n<input colorpicker=\"rgba\" type=\"text\" ng-model=\"your_model\" />\r\n```\r\n\r\nAs non input element\r\n```html\r\n<div colorpicker ng-model=\"your_model\"></div>\r\n```\r\n\r\nThe color picker template with an input element\r\n```html\r\n<input colorpicker colorpicker-with-input=\"true\" type=\"text\" ng-model=\"your_model\" />\r\n```\r\n\r\nPosition of the color picker (top, right, bottom, left).\r\n```html\r\n<input colorpicker colorpicker-position=\"right\" type=\"text\" ng-model=\"your_model\" />\r\n```\r\n\r\nThe color picker in a fixed element\r\n```html\r\n<input colorpicker colorpicker-fixed-position=\"true\" type=\"text\" ng-model=\"your_model\" />\r\n```\r\n\r\nWhen using fixed positioning, you can also put the picker into the parent element (this allows more styling control)\r\n```html\r\n<input colorpicker colorpicker-fixed-position=\"true\" colorpicker-parent=\"true\" type=\"text\" ng-model=\"your_model\" />\r\n```\r\n\r\nThe color picker in UI Bootstrap modal (the parent element position property must be set to relative)\r\n```html\r\n<input colorpicker colorpicker-parent=\"true\" type=\"text\" ng-model=\"your_model\" />\r\n```\r\n\r\nBinding the visibility of the color picker to a variable in the scope\r\n```html\r\n<input colorpicker colorpicker-is-open=\"isOpen\" type=\"text\" ng-model=\"your_model\" />\r\n```\r\n\r\nAuto hiding the color picker when a color has been selected\r\n```html\r\n<input colorpicker colorpicker-close-on-select type=\"text\" ng-model=\"your_model\" />\r\n```\r\n\r\nCustomize a size of the color picker saturation panel\r\n```html\r\n<input colorpicker colorpicker-size=\"200\" type=\"text\" ng-model=\"your_model\" />\r\n```\r\n\r\nEvents:\r\n===============================\r\n\r\nEach color picker will emit the following events passing a data object in the following format:\r\n```javascript\r\n{\r\n\tname: '',\r\n\tvalue: ''\r\n}\r\n```\r\nName is the string representation of ng-model and value is the current color.\r\n\r\n#### colorpicker-selected\r\nA global selected event, will be fired when a color is selected from the saturation, hue or alpha slider.\r\n\r\n#### colorpicker-selected-saturation\r\nWill be fired when a color is selected from the saturation slider.\r\n\r\n#### colorpicker-selected-hue\r\nWill be fired when a color is selected from the hue slider.\r\n\r\n#### colorpicker-selected-alpha\r\nWill be fired when a color is selected from the alpha slider.\r\n\r\n#### colorpicker-shown\r\nWill be fired when a color picker is opened.\r\n\r\n#### colorpicker-closed\r\nWill be fired when a color picker is closed.\r\n",
+  "readmeFilename": "README.md",
+  "_id": "angular-bootstrap-colorpicker@3.0.25",
+  "_from": "angular-bootstrap-colorpicker@"
+}
