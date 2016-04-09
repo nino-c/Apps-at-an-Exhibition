@@ -57,3 +57,7 @@ Desktop.ini
 
 # Project settings
 ./site/
+
+src/static/node/*
+src/static/bower/*
+src/static/bower_components/*

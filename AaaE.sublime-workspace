@@ -1,0 +1,1226 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"seedc",
+				"seedcodelines"
+			],
+			[
+				"Pol",
+				"PolynomialObj"
+			],
+			[
+				"pol",
+				"polynomial_string"
+			],
+			[
+				"poly",
+				"polynomial_string_arr"
+			],
+			[
+				"get",
+				"getTerms"
+			],
+			[
+				"angu",
+				"angular_appdir"
+			],
+			[
+				"ang",
+				"angular_includes"
+			],
+			[
+				"save",
+				"saveAsNewInstance"
+			],
+			[
+				"cons",
+				"console.	console.log"
+			],
+			[
+				"gene",
+				"generationChildCounts"
+			],
+			[
+				"gen",
+				"generationChildCounts"
+			],
+			[
+				"fill",
+				"fillStyle"
+			],
+			[
+				"COLO",
+				"COLOR1"
+			],
+			[
+				"colo",
+				"colorHex2rgb"
+			],
+			[
+				"seed",
+				"seedList"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"A",
+				"AllowAny"
+			],
+			[
+				"cat",
+				"category"
+			],
+			[
+				"show",
+				"showCanvas"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"Ap",
+				"AppSerializer_Inline"
+			],
+			[
+				"canvas",
+				"canvas-full"
+			],
+			[
+				"rg",
+				"rgba(r,g,b,a)"
+			],
+			[
+				"trans",
+				"transform"
+			],
+			[
+				"tran",
+				"transformation"
+			],
+			[
+				"strok",
+				"strokeColor"
+			],
+			[
+				"str",
+				"strokeWidth"
+			],
+			[
+				"stroke",
+				"strokeWidth"
+			],
+			[
+				"grid",
+				"gridraster"
+			],
+			[
+				"num",
+				"numeric"
+			],
+			[
+				"ge",
+				"getOrderedPairs"
+			],
+			[
+				"crea",
+				"createUnivalentMatrix"
+			],
+			[
+				"create",
+				"createMatrix"
+			],
+			[
+				"fta",
+				"fdata_subset"
+			],
+			[
+				"nu",
+				"num_rows"
+			],
+			[
+				"clea",
+				"clearCanvas"
+			],
+			[
+				"r",
+				"rfac"
+			],
+			[
+				"append",
+				"appendChild"
+			],
+			[
+				"aud",
+				"audiosrc"
+			],
+			[
+				"start",
+				"start_alpha"
+			],
+			[
+				"source",
+				"sourcecode"
+			],
+			[
+				"scr",
+				"scriptType"
+			],
+			[
+				"requ",
+				"required_codeblocks"
+			],
+			[
+				"code",
+				"required_codeblocks"
+			],
+			[
+				"requi",
+				"required_modules"
+			],
+			[
+				"CodeMod",
+				"CodeModuleSerializer"
+			],
+			[
+				"mod",
+				"models"
+			],
+			[
+				"draw",
+				"drawAxes"
+			],
+			[
+				"parse",
+				"parseSeedList"
+			],
+			[
+				"ep",
+				"expressionString"
+			],
+			[
+				"see",
+				"seedkey"
+			],
+			[
+				"inst",
+				"instantiate"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/static/AaaE/js/controllers/instance.js",
+			"settings":
+			{
+				"buffer_size": 17990,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/static/AaaE/views/app-display.html",
+			"settings":
+			{
+				"buffer_size": 5169,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/static/AaaE/js/directives/directives.js",
+			"settings":
+			{
+				"buffer_size": 5520,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/static/AaaE/temp/affine-transformations.js",
+			"settings":
+			{
+				"buffer_size": 2097,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/templates/angular-app-main.html",
+			"settings":
+			{
+				"buffer_size": 1686,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/static/AaaE/js/controllers/instances.js",
+			"settings":
+			{
+				"buffer_size": 3064,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/static/AaaE/js/controllers/categories.js",
+			"settings":
+			{
+				"buffer_size": 1863,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 222.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"spac",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"space",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"make",
+				"Django: Make Migration"
+			],
+			[
+				"instla",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"remov",
+				"Package Control: Remove Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"linter",
+				"SublimeLinter: Show Errors on Save"
+			],
+			[
+				"show",
+				"SublimeLinter: Show All Errors"
+			],
+			[
+				"linter ",
+				"SublimeLinter: Show All Errors"
+			],
+			[
+				"jsl",
+				"JSLint"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"list",
+				"Package Control: List Packages"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"package",
+				"Package Control: List Packages"
+			],
+			[
+				"jsh",
+				"JSHint"
+			],
+			[
+				"jshin",
+				"JSHint"
+			],
+			[
+				"pack",
+				"Preferences: Browse Packages"
+			]
+		],
+		"width": 458.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+			"json.loads(\"[1,2,3]\")",
+			"import json",
+			"json.loads(\"[1,2,3]\")",
+			"list(\"[1,2,3]\")",
+			"'sdfgsdfg'[:1000]",
+			"'sdfgsdfgdsfgsdfg'[-100:]",
+			"'sdfgsdfgdsfgsdfg'[:-100]",
+			"chr(9)",
+			"ord('	')",
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/ninopq/Projects/AaaE",
+		"/home/ninopq/Projects/AaaE/app-scripts",
+		"/home/ninopq/Projects/AaaE/src",
+		"/home/ninopq/Projects/AaaE/src/static",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/controllers",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/modules",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/temp",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/views",
+		"/home/ninopq/Projects/AaaE/src/static/audio",
+		"/home/ninopq/Projects/AaaE/src/static/site",
+		"/home/ninopq/Projects/AaaE/src/static/site/js",
+		"/home/ninopq/Projects/AaaE/src/templates"
+	],
+	"file_history":
+	[
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/app.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/modules/module.exhibition.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/app-details.html",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/filters/filters.js",
+		"/home/ninopq/Projects/AaaE/src/static/site/less/main.less",
+		"/home/ninopq/Projects/AaaE/src/templates/angular-index.html",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/temp/affine-transformations.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/temp/polynomial-landscape2.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/iframe.html",
+		"/home/ninopq/Projects/AaaE/src/templates/angular-app-main.html",
+		"/home/ninopq/Projects/AaaE/src/deployments/files/fractal1.html",
+		"/home/ninopq/Projects/AaaE/src/deployments/files/bipoly.html",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/app-display.html",
+		"/home/ninopq/Projects/AaaE/src/deployments/files/bivariate-polynomial-landscape-FREEZE.html",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/modules/module._symbolic_math.js",
+		"/home/ninopq/Projects/AaaE/src/plsys/views.py",
+		"/home/ninopq/Projects/AaaE/src/game/views.py",
+		"/home/ninopq/Projects/AaaE/src/plsys/settings/base.py",
+		"/home/ninopq/Projects/AaaE/src/symbolic_math/views.py",
+		"/home/ninopq/Projects/AaaE/src/symbolic_math/models.py",
+		"/home/ninopq/Projects/AaaE/src/symbolic_math/tests.py",
+		"/home/ninopq/Projects/AaaE/src/deployments/files/affine-transformations.html",
+		"/home/ninopq/Projects/AaaE/src/deployments/files/function-1-var-1-param.html",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/controllers/category-apps.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/services/services.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/categories.html",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/seed-editor-dialog.html",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/controllers/instances.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/temp/fractal-trees.coffee",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/category-list.html",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/controllers/categories.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/app-list.html",
+		"/home/ninopq/Projects/AaaE/src/game/models.py",
+		"/home/ninopq/Projects/AaaE/src/game/urls.py",
+		"/home/ninopq/Projects/AaaE/src/templates/home.html",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/controllers/instance.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/app-editor.html",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/controllers/app-editor.js",
+		"/home/ninopq/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/ninopq/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings",
+		"/home/ninopq/Projects/AaaE/src/profiles/templates/profiles/show_profile.html",
+		"/home/ninopq/Projects/AaaE/src/accounts/templates/accounts/login.html",
+		"/home/ninopq/Projects/AaaE/src/accounts/templates/accounts/auth_base.html",
+		"/home/ninopq/Projects/AaaE/src/accounts/templates/accounts/signup.html",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/index.html",
+		"/home/ninopq/Projects/AaaE/src/static/site/css/material-icons.css",
+		"/home/ninopq/Projects/AaaE/src/static/site/css/roboto-font.css",
+		"/home/ninopq/Projects/AaaE/src/static/site/css/bootstrap.css",
+		"/home/ninopq/Projects/AaaE/src/static/site/css/bootstrap.min.css",
+		"/home/ninopq/Projects/AaaE/src/game/serializers.py",
+		"/home/ninopq/Projects/AaaE/src/templates/base.html",
+		"/home/ninopq/Projects/AaaE/src/plsys/urls.py",
+		"/home/ninopq/Projects/AaaE/src/deployments/files/iterations-on-complex-plane.html",
+		"/home/ninopq/Projects/AaaE/src/game/apps.py",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/controllers/exhibition.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/_index.html",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/temp/audio_viz2.js",
+		"/home/ninopq/Projects/AaaE/app-scripts/func-1-var.js",
+		"/home/ninopq/Projects/AaaE/src/deployments/files/cartesian-coordinates.html",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/temp/sierpenski_2(x).js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/temp/sierpenski_1.js",
+		"/home/ninopq/Projects/AaaE/src/deployments/files/function-1-param.html",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/temp/audio_viz3.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/temp/audio_viz.js",
+		"/home/ninopq/Projects/AaaE/docs/app_plans/mviz.md",
+		"/home/ninopq/Projects/AaaE/src/static/site/js/lib/paper.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/directives/directives.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/temp/maze3.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/lib/iron-a11y-keys-behavior/index.html",
+		"/home/ninopq/Projects/AaaE/src/deployments/files/function-in-2-vars-1-param.html",
+		"/home/ninopq/Projects/AaaE/app-scripts/fractal-trees.coffee",
+		"/home/ninopq/Projects/AaaE/src/deployments/files/audioviz.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/coffee/fractal-trees.coffee",
+		"/home/ninopq/Projects/AaaE/src/deployments/files/2d-maze-solver.html",
+		"/home/ninopq/Projects/AaaE/src/static/site/js/lib/coffee-script.js",
+		"/home/ninopq/Projects/AaaE/src/game/admin.py",
+		"/home/ninopq/Projects/AaaE/src/.env",
+		"/home/ninopq/Projects/AaaE/app-scripts/polynomial-landscape.js",
+		"/home/ninopq/Projects/AaaE/src/app-extractions.psql.js",
+		"/home/ninopq/Projects/AaaE/src/symbolic_math/admin.py",
+		"/home/ninopq/Projects/AaaE/src/postgres.bak.31216.sql",
+		"/home/ninopq/Projects/AaaE/src/bower_components/codemirror/mode/apl/apl.js",
+		"/home/ninopq/Projects/AaaE/src/symbolic_math/templates/symbolic_math/symmath.html",
+		"/home/ninopq/Projects/AaaE/src/symbolic_math/urls.py",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/lib/angular/package.json",
+		"/home/ninopq/Projects/AaaE/node_modules/angular-bootstrap-colorpicker/package.json",
+		"/home/ninopq/Projects/AaaE/index.html",
+		"/home/ninopq/Projects/AaaE/src/accounts/models.py",
+		"/home/ninopq/.config/sublime-text-3/Packages/User/SublimeLinter.sublime-settings",
+		"/home/ninopq/.config/sublime-text-3/Packages/SublimeLinter/SublimeLinter.sublime-settings",
+		"/home/ninopq/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap",
+		"/home/ninopq/Projects/AaaE/.jshintrc",
+		"/home/ninopq/.config/sublime-text-3/Packages/Package Control/Package Control.sublime-settings",
+		"/home/ninopq/Projects/AaaE/docs/revision.md",
+		"/home/ninopq/Projects/AaaE/docs/update.md",
+		"/home/ninopq/Projects/AaaE/src/accounts/urls.py",
+		"/home/ninopq/Projects/AaaE/src/accounts/views.py"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"/home/ninopq/Projects/AaaE/src/static",
+			"/home/ninopq/Projects/AaaE/src",
+			"/home/ninopq/Projects/AaaE/src/static/AaaE",
+			"/home/ninopq/Projects/AaaE/src/static/AaaE/js",
+			"/home/ninopq/Projects/AaaE/src/static/AaaE",
+			"/home/ninopq/Projects/AaaE/src"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"scope",
+			"\\n",
+			"paper.install",
+			"paper.inst",
+			"-canvas",
+			"split",
+			"default",
+			"seedStruct",
+			"[k]",
+			"attr",
+			"},",
+			",",
+			"bnum",
+			"b",
+			"\"def",
+			",",
+			"0",
+			"t1",
+			"1",
+			"Cartesian",
+			"plsys.settings",
+			"select",
+			"div",
+			"</label>",
+			"md-input-container",
+			"md",
+			"100px",
+			"med",
+			"125",
+			"Edit",
+			"span",
+			"125px",
+			"125",
+			"parseSee",
+			"tab",
+			"bootstrap",
+			"footer",
+			"IsAuthenticated",
+			"views",
+			"a",
+			"{{",
+			"thumb",
+			"category",
+			"AppService",
+			"false",
+			"showCanvas",
+			"$prom",
+			"h2",
+			"exhibition",
+			"button",
+			"transparent",
+			"255",
+			"point",
+			"transformPoint",
+			"0.3",
+			"func",
+			"01",
+			"0",
+			"points1",
+			"path1",
+			"points1",
+			"1",
+			"position",
+			"p",
+			"points",
+			"allpoints",
+			"path2",
+			"path1",
+			"points1",
+			"path1",
+			"LIGHT_GREY",
+			"range(10)",
+			"grid",
+			"i",
+			"grid",
+			"numlines",
+			"grid",
+			"_layer",
+			"numeric.t",
+			"75",
+			"100",
+			"10",
+			"0.9",
+			"project.activeLayer",
+			"seedChangeAsynch",
+			"seedChangeAsync",
+			"seedChangeAsynch",
+			"sierpenski",
+			"sierpenski_IFS",
+			"pix2",
+			"pix1",
+			"each",
+			"map",
+			"createMatrix",
+			"copy",
+			"Cartesian",
+			"fac",
+			"num_rows",
+			"<!",
+			"evalAsync",
+			"evalAsynch",
+			"evalAs",
+			"evalA",
+			"_dest",
+			"aud",
+			"console.",
+			"FRACTAL_DIMENSION",
+			"start_alpha.to",
+			"start_al",
+			"start",
+			"ctx",
+			"//",
+			"canvas",
+			"required_modules",
+			"snapshots",
+			"InstanceSer",
+			"javascript",
+			"Function",
+			"[^a-z]*Function",
+			"[^a-z\\ ]*Function",
+			"\\\\r",
+			"\\\\n",
+			"Polynomial",
+			"ninopq",
+			"Function",
+			"clearEvalScope",
+			"seedStructure",
+			"mapObject"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"\\\\n",
+			"},\\n",
+			",\\n",
+			"\"type\":\"number\", \"def",
+			",\\n",
+			"#console.",
+			"gl",
+			"",
+			"\\n",
+			"MFunction"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/static/AaaE/js/controllers/instance.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 17990,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								10773,
+								10773
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JavaScriptNext.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3836.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/static/AaaE/views/app-display.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5169,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								444,
+								444
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/static/AaaE/js/directives/directives.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5520,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3934,
+								3934
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JavaScriptNext.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1519.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/static/AaaE/temp/affine-transformations.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2097,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								507,
+								507
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JavaScriptNext.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/templates/angular-app-main.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1686,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								263,
+								263
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/static/AaaE/js/controllers/instances.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3064,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1714,
+								1714
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JavaScriptNext.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 232.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/static/AaaE/js/controllers/categories.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1863,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1264,
+								1264
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JavaScriptNext.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 188.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "AaaE.sublime-project",
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"app-dis",
+				"src/static/AaaE/views/app-display.html"
+			],
+			[
+				"filt",
+				"src/static/AaaE/js/filters/filters.js"
+			],
+			[
+				"direc",
+				"src/static/AaaE/js/directives/directives.js"
+			],
+			[
+				"-index",
+				"src/templates/angular-index.html"
+			],
+			[
+				"ifram",
+				"src/static/AaaE/iframe.html"
+			],
+			[
+				"iframe.",
+				"src/static/AaaE/iframe.html"
+			],
+			[
+				"app-de",
+				"src/static/AaaE/views/app-details.html"
+			],
+			[
+				"instances",
+				"src/static/AaaE/js/controllers/instances.js"
+			],
+			[
+				"view",
+				"src/game/views.py"
+			],
+			[
+				"plsysview",
+				"src/plsys/views.py"
+			],
+			[
+				"base.py",
+				"src/plsys/settings/base.py"
+			],
+			[
+				"views",
+				"src/game/views.py"
+			],
+			[
+				"app.js",
+				"src/static/AaaE/js/app.js"
+			],
+			[
+				"main.les",
+				"src/static/site/less/main.less"
+			],
+			[
+				"affine",
+				"src/static/AaaE/temp/affine-transformations.js"
+			],
+			[
+				"services",
+				"src/static/AaaE/js/services/services.js"
+			],
+			[
+				"filters",
+				"src/static/AaaE/js/filters/filters.js"
+			],
+			[
+				"insta",
+				"src/static/AaaE/js/controllers/instances.js"
+			],
+			[
+				"temp/fra",
+				"src/static/AaaE/temp/fractal-trees.coffee"
+			],
+			[
+				"app-det",
+				"src/static/AaaE/views/app-details.html"
+			],
+			[
+				"app-list",
+				"src/static/AaaE/views/app-list.html"
+			],
+			[
+				"model",
+				"src/game/models.py"
+			],
+			[
+				"urls",
+				"src/game/urls.py"
+			],
+			[
+				"app.",
+				"src/static/AaaE/js/app.js"
+			],
+			[
+				"instan",
+				"src/static/AaaE/js/controllers/instance.js"
+			],
+			[
+				"instance",
+				"src/static/AaaE/js/controllers/instances.js"
+			],
+			[
+				"app-edi",
+				"src/static/AaaE/js/controllers/app-editor.js"
+			],
+			[
+				"aaae/index",
+				"src/static/AaaE/index.html"
+			],
+			[
+				"angular-in",
+				"src/templates/angular-index.html"
+			],
+			[
+				"main.less",
+				"src/static/site/less/main.less"
+			],
+			[
+				"serial",
+				"src/game/serializers.py"
+			],
+			[
+				"app-li",
+				"src/static/AaaE/views/app-list.html"
+			],
+			[
+				"catego",
+				"src/static/AaaE/views/category-list.html"
+			],
+			[
+				"exhib",
+				"src/static/AaaE/js/controllers/exhibition.js"
+			],
+			[
+				"affine-",
+				"src/static/AaaE/temp/affine-transformations.js"
+			],
+			[
+				"itera",
+				"src/deployments/files/iterations-on-complex-plane.html"
+			],
+			[
+				"iterations",
+				"src/deployments/files/iterations-on-complex-plane.html"
+			],
+			[
+				"aaae/temp/",
+				"src/static/AaaE/temp/audio_viz2.js"
+			],
+			[
+				"func",
+				"app-scripts/func-1-var.js"
+			],
+			[
+				"carte",
+				"src/deployments/files/cartesian-coordinates.html"
+			],
+			[
+				"app-ed",
+				"src/static/AaaE/views/app-editor.html"
+			],
+			[
+				"sier",
+				"src/static/AaaE/temp/sierpenski_2(x).js"
+			],
+			[
+				"audio",
+				"src/static/AaaE/temp/audio_viz.js"
+			],
+			[
+				"dire",
+				"src/static/AaaE/js/directives/directives.js"
+			],
+			[
+				"app-e",
+				"src/static/AaaE/views/app-editor.html"
+			],
+			[
+				"aaaeindex.ht",
+				"src/static/AaaE/index.html"
+			],
+			[
+				"aaaeindex.",
+				"src/static/AaaE/index.html"
+			],
+			[
+				"aaindex.ht",
+				"src/static/AaaE/lib/iron-a11y-keys-behavior/index.html"
+			],
+			[
+				"aaindex.h",
+				"src/static/AaaE/index.html"
+			],
+			[
+				"app-detai",
+				"src/static/AaaE/views/app-details.html"
+			],
+			[
+				"mode",
+				"src/game/models.py"
+			],
+			[
+				"app-edit",
+				"src/static/AaaE/js/controllers/app-editor.js"
+			],
+			[
+				"symvie",
+				"src/symbolic_math/views.py"
+			],
+			[
+				"gamemod",
+				"src/game/models.py"
+			],
+			[
+				"app-",
+				"src/static/AaaE/views/app-details.html"
+			],
+			[
+				"inst",
+				"src/static/AaaE/js/controllers/instance.js"
+			],
+			[
+				"base",
+				"src/plsys/settings/base.py"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+		"last_automatic_layout":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		]
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 264.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+		"max_columns": 1
+	}
+}
