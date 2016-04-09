@@ -54,7 +54,8 @@ if exists(env_file):
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # Raises ImproperlyConfigured exception if SECRET_KEY not in os.environ
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = "sdfgsdfg9876sdf8g76dsfg" #env('SECRET_KEY')
+DATABASE_URL = 'postgres://ninopq:pl3rp!!@localhost:5432/AaaE'
 
 ALLOWED_HOSTS = []
 
@@ -68,6 +69,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #'whitenoise.runserver_nostatic',
 
     'authtools',
     'crispy_forms',
@@ -91,6 +93,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'whitenoise.middleware.WhiteNoiseMiddleware',
 )
 
 ROOT_URLCONF = 'plsys.urls'
@@ -153,11 +156,11 @@ STATICFILES_FINDERS = (
 STATIC_PRECOMPILER_COMPILERS = (
     ('static_precompiler.compilers.CoffeeScript', {"executable": "/usr/bin/coffeescript"}),
     ('static_precompiler.compilers.LESS', {"executable": "/usr/bin/lessc"}),
-    ('static_precompiler.compilers.Babel', {
-        "executable": "/usr/local/bin/babel",
-        "sourcemap_enabled": True,
-        "presets": "es2015",
-    }),
+    # ('static_precompiler.compilers.Babel', {
+    #     "executable": "/usr/local/bin/babel",
+    #     "sourcemap_enabled": True,
+    #     "presets": "es2015",
+    # }),
 )
 
 STATIC_URL = '/static/'
@@ -166,7 +169,7 @@ STATIC_PRECOMPILER_ROOT = join(BASE_DIR, 'static')
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 
 

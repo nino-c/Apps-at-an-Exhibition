@@ -12,6 +12,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='home'),
+    url(r'^preview/$', views.plerpingapp, name='plerpingapp'),
     url(r'^about/$', views.AboutPage.as_view(), name='about'),
     url(r'^users/', include(profiles.urls, namespace='profiles')),
     url(r'^admin/', include(admin.site.urls)),

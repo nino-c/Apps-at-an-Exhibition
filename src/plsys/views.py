@@ -1,13 +1,16 @@
 from django.views import generic
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 
 from portfolio import models
 
 import os, os.path
 from .settings import *
 
-
 def index(request):
+    return HttpResponse("Mr. Code-switcher, a.k.a. 'dood who \"code-switched\" up-on the word code-switching itself.'")
+
+def plerpingapp(request):
     angular_dirs = ['modules', 'services', 'controllers', 'directives', 'filters']
     angular_appdir_site = '/static/AaaE/js'
     angular_appdir = os.path.join(STATIC_ROOT, "AaaE/js")
