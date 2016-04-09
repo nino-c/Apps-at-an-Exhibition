@@ -8,6 +8,7 @@ angular.module('Exhibition', [
   'ngAnimate',
   'ngCookies',
   'colorpicker.module',
+  'ng.deviceDetector'
   ])
   .value('ui.config', {
     codemirror: {
@@ -68,7 +69,7 @@ angular.module('Exhibition', [
 
   })
   .run(function($rootScope, $location, $http, $cookies, 
-      $timeout, $window, AppService) {
+      $timeout, $mdToast, $window, AppService) {
 
     $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken']
     $http.defaults.xsrfCookieName = 'csrftoken';
@@ -96,6 +97,14 @@ angular.module('Exhibition', [
       
     })
 
+    // root-scope vars
+
+    $rootScope.scriptTypes = [
+        'text/javascript', 
+        'text/coffeescript', 
+        'text/paperscript'
+      ]
+
     $rootScope.userLoggedIn = isNaN(parseInt($window.USER_ID)) ? false : true;
 
     $rootScope.$on('$routeChangeSuccess', function() {
@@ -110,11 +119,14 @@ angular.module('Exhibition', [
         $location.path(prevUrl);
     };
 
-    $rootScope.scriptTypes = [
-        'text/javascript', 
-        'text/coffeescript', 
-        'text/paperscript'
-      ]
+    $rootScope.toast = function(message) {
+      var t = $mdToast.simple()
+        .content(message)
+        .position('top');
+      $mdToast.show(t);
+    }
+
+    
 
     //paper.setup('big-canvas');
     //paper.setup(document.getElementById('bg-canvas'));

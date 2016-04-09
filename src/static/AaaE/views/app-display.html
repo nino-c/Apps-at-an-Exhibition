@@ -13,13 +13,21 @@
 
     <!-- app canvas element -->
     <canvas id="big-canvas" ng-show="showAppCanvas" draw></canvas>
-    <div id="feature-display" ng-if="featureDisplayContent">{{ featureDisplayContent }}</div>
+    
+    <div class="feature-display" 
+        style="{{featureDisplayCSS}}"
+        ng-show="featureDisplayContent.length > 0">
+        <div ng-repeat="line in featureDisplayContent">{{ line | rawText}}</div>
+        </div>
+
+    <!-- <feature-display 
+        class="feature-display">
+    </feature-display> -->
 
     <!-- seed display -->
     <div id="seedDisplay" layout="row" ng-if="false">
         
         <div layout="column" ng-repeat="seed in seedList">
-            
             <md-input-container ng-if="seed[1].type == 'math'">
                 <label>{{ seed[0] }}</label>
                 <input type="text" 

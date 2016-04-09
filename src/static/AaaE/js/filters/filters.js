@@ -18,3 +18,8 @@ angular.module('Exhibition')
             })
         }
     })
+    .filter('rawText', function() {
+        return function(text) {
+          return  text ? String(text).replace(/<[^>]+>/gm, '') : '';
+        };
+    });

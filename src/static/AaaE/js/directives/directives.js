@@ -125,8 +125,7 @@ angular.module('Exhibition')
 
 
             }
-        };
-
+        }
     })
     .directive('paper', function () {
         return {
@@ -134,16 +133,42 @@ angular.module('Exhibition')
             template: '<canvas class="display-canvas"></canvas>',
             restrict: 'E',
             link: function postLink(scope, element, attrs) {
-
                 var _scope = new paper.PaperScope();
                 _scope.setup(element[0]);
                 _scope.install(window)
-                //console.log('src', attrs)
                 paper.PaperScript.evaluate(paper.PaperScript.parse(attrs.source), _scope);
-                
             }
         };
-    });
+    })
+    .directive('feature-display', ['$scope', function() {
+        return {
+            scope: {
+                featureDisplayContent: '@',
+                featureDisplayCSS: '@'
+            },
+            restrict: 'E',
+            template: function(element, attr) {
+                var style = _.reduce(_.mapObject(featureDisplayCSS, function(val, key) {
+                    return key+':'+val+';';
+                }), function(a,b) { return a+b; }, '');
+                return '<div class="feature-display" style="{{style}}">{{featureDisplayContent}}</div>';
+            },
+            //transclude: true,
+            link: function postLink($scope, element, attrs) {
+                console.log('ss', $scope, element, attrs)
+                
+                function applyCSS() {
+                    $(element[0]).css($scope.featureDisplayCSS);
+                }
+                
+                $scope.$watch("featureDisplayContent.length > 0", function(newValue) {
+                    console.log('fff')
+                    applyCSS();
+                    $(element[0]).html(newValue);
+                });
+            }
+        }
+    }])
     // .component('seedDisplay', {
     //     bindings: {
     //         __seed: '='
