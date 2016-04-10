@@ -86,7 +86,8 @@ urlpatterns = [
     url(r'^test/', views.test, name="game-test"),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^snapshot/$', views.snapshotList, name="snapshot-list"),
-    url(r'^clean_images/$', views.clean_images, name="seed-list"),
+    url(r'^review_seeds/$', views.review_seeds, name="seed-list"),
+    url(r'^updateSeedLists/$', views.updateSeedLists, name="updateSeedLists"),
     url(r'^app-instantiate/(?P<pk>[0-9]+)/$', views.instantiateGame),
 ]
 

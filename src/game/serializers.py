@@ -129,7 +129,11 @@ class InstanceMixin(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
        
+        for sp in instance.seedParams.all():
+            sp.delete()
+
         seed = json.loads(instance.seed)
+
         for key, val in seed.iteritems():
             if type(val) == type(dict()) and 'value' in val:
                 value = val['value']
@@ -145,7 +149,6 @@ class InstanceMixin(serializers.ModelSerializer):
             
             seedkv = SeedKeyVal(key=key, val=value, jsonval=jsonval)
             seedkv.save()
-
             instance.seedParams.add(seedkv)
         
         instance.save()
@@ -164,21 +167,26 @@ class InstanceMixin(serializers.ModelSerializer):
         instance = GameInstance.objects.create(**validated_data)
         #print instance.seedParams
 
-        # seeddict = json.loads(instance.seed)
-        # for key, val in seeddict.iteritems():
-        #     if type(val) == type(dict()) and 'value' in val:
-        #         value = str(val['value'])
-        #         jsonval = json.dumps(val)
-        #     else:
-        #         value = str(val)
-        #         jsonval = str(val)
 
-        #     print key, value, jsonval
+        seeddict = json.loads(instance.seed)
+        for key, val in seed.iteritems():
+            if type(val) == type(dict()) and 'value' in val:
+                value = val['value']
+                jsonval = json.dumps(val)
+            else:
+                value = val
+                jsonval = json.dumps(val)
 
-        #     seedkv = SeedKeyVal(key=key, val=value, jsonval=jsonval)
-        #     seedkv.save()
+            try:
+                value = int(val)
+            except ValueError:
+                pass
 
-        #     instance.seedParams.add(seedkv)
+            
+            seedkv = SeedKeyVal(key=key, val=value, jsonval=jsonval)
+            seedkv.save()
+            
+            inst.seedParams.add(seedkv)
 
         instance.save()
         return instance

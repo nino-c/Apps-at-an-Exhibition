@@ -30,7 +30,7 @@ angular
         InstanceService.get({id:$route.current.params.instance_id})
             .$promise.then(function(inst) {
 
-                console.log('instance seed', inst.seed)
+                console.log('instance seed', inst.seed, inst)
 
                 $scope.instance = inst;
                 $scope.seedStructure = JSON.parse(inst.game.seedStructure);

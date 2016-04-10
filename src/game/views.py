@@ -2,22 +2,28 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.http.request import HttpRequest
+from django.core.files import File
+
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.parsers import JSONParser
-
 from rest_framework import generics
-from game.models import *
-from game.serializers import *
-from plsys.settings import MEDIA_URL
+
+from sets import Set
 
 import base64
 import json
-from django.core.files import File
 import hashlib
 import time
 import datetime
+import os.path
+import os
+import plsys.settings
+
+from game.models import *
+from game.serializers import *
+from plsys.settings import MEDIA_URL
 
 
 def home(request):
@@ -62,11 +68,17 @@ def updateGame(request, pk):
         return JsonResponse(serializer.data)
 
 
+"""
+Test and utility functions below
+"""
+
 def updateSeedLists(request):
     out = []
     instances = GameInstance.objects.all()
     #instances = instances[:5]
     for instance in instances:
+        for sp in instance.seedParams.all():
+            sp.delete()
         seed = json.loads(instance.seed)
         for key, val in seed.iteritems():
             if type(val) == type(dict()) and 'value' in val:
@@ -91,10 +103,7 @@ def updateSeedLists(request):
 
     return HttpResponse("\n".join(out))
 
-import os.path
-import os
-import plsys.settings
-from sets import Set
+
 def clean_images(request):
     out = []
     imagesInUse = []
@@ -113,6 +122,20 @@ def clean_images(request):
     #     os.remove(os.path.join(plsys.settings.MEDIA_ROOT, im))
     return HttpResponse(''.join(ims))
 
+def review_seeds(request):
+    out = []
+    for instance in GameInstance.objects.all():
+        seeddict = json.loads(instance.seed)
+        out.append(', '.join(
+            map(lambda x: str(x), 
+                [instance.game.title, len(seeddict.keys()), instance.seedParams.count()])
+            ))
+       
+        # to check if there are any mismatched seedobjs and seedcols
+        # if len(seeddict.keys()) != instance.seedParams.count():
+        #     out.append(insntance.id)
+
+    return HttpResponse('<br />'.join(out))
 
 
 ##############################
