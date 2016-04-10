@@ -9,7 +9,7 @@ from .settings import *
 
 def index(request):
     #return HttpResponse("<div style=\"font-size: 15px; color: #999999; padding: 50px;\" Mr. Code-switcher, a.k.a. "'dood who \"code-switched\" up-on the word code-switching itself.'")
-    return HttpResponse("mrcodeswitcher.com future home")
+    return HttpResponse("<strong>Mr. Code-switcher</strong><br /><em>'dood who \"code-switched\" up-on the word code-switching itself.'</em>")
 
 def plerpingapp(request):
     angular_dirs = ['modules', 'services', 'controllers', 'directives', 'filters']

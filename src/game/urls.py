@@ -91,6 +91,10 @@ urlpatterns = [
     url(r'^app-instantiate/(?P<pk>[0-9]+)/$', views.instantiateGame),
 ]
 
+""" 
+old API
+"""
+
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 # urlpatterns = [

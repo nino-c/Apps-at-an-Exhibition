@@ -8,7 +8,9 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.parsers import JSONParser
-from rest_framework import generics
+from rest_framework import generics, serializers, viewsets
+
+
 
 from sets import Set
 
@@ -47,25 +49,35 @@ def instantiateGame(request, pk):
         serializer = InstanceSerializer(instance)
         return JsonResponse(serializer.data)
 
-
 @csrf_exempt
-def updateGame(request, pk):
-    try:
-        game = ZeroPlayerGame.objects.get(pk=pk)
-    except ZeroPlayerGame.DoesNotExist:
-        return HttpResponse(status=404)
-
+def snapshotList(request, format=None):
     if request.method == 'POST':
-        game.source = request.POST.get('source')
-        game.seedStructure = request.POST['seedStructure']
-        game.save()
+        # get raw base64-encoded image
+        imageBIN = base64.b64decode(request.POST['image'].split(',')[-1])
+        imagename = hashlib.sha224(str(time.time())).hexdigest() + ".png"
 
-        game2 = ZeroPlayerGame.objects.get(pk=pk)
-        #print game2.__dict__
+        # get instance
+        instanceid = int(request.POST['instance'])
+        instance = GameInstance.objects.get(pk=instanceid)
+        print instance
 
-        gamedict = game.__dict__
-        serializer = ZeroPlayerGameSerializer(game)
-        return JsonResponse(serializer.data)
+        # write to /tmp
+        file = open(os.path.join("/tmp", imagename), 'w')
+        file.write(imageBIN)
+        file.close()
+
+        # save new snapshot object
+        file =  open(os.path.join("/tmp", imagename), 'r')
+        snap = GameInstanceSnapshot()
+        snap.instance = instance
+        snap.time = float(request.POST['time'])
+        snap.image.save(imagename, File(file))
+        snap.save()
+        file.close()
+
+        #return JsonResponse(im.__dict__)
+
+        return JsonResponse({'a':'ok'})
 
 
 """
@@ -132,6 +144,7 @@ def review_seeds(request):
             ))
        
         # to check if there are any mismatched seedobjs and seedcols
+
         # if len(seeddict.keys()) != instance.seedParams.count():
         #     out.append(insntance.id)
 
@@ -144,33 +157,6 @@ def review_seeds(request):
 #                            #
 ##############################
 
-# def test(request):
-#   games = ZeroPlayerGame.objects.all()
-#   counts = []
-#   for game in games:
-#     firstInstance = game.instances.all()[0]
-#     #print firstInstance
-#     firstImage = firstInstance.images.all()[0]
-#     print firstImage
-#     counts.append(firstImage)
-#     #counts.append(game.instances.count())
-#     continue
-#     if game.instances.count() > 0:
-#       for ins in game.instances.all():
-
-#         #counts.append(ins.images.count())
-
-#         if ins.images.count() > 0:
-#           print '---------------'
-#           print ins.images.all()
-#           print ins.images.all()[0]
-#           im = ins.images.all()[0]
-#           counts.append( im.pk )
-#           game.mainImage = im
-#           print game.mainImage
-#           #game.save(force_update=True)
-#           continue
-#   return HttpResponse(str(counts))
 
 # class GameList(generics.ListCreateAPIView):
 #     queryset = ZeroPlayerGame.objects.all()
@@ -196,50 +182,67 @@ def review_seeds(request):
 #     queryset = GameInstanceSnapshot.objects.all()
 #     serializer_class = SnapshotSerializer
 
-# @api_view(['GET', 'POST'])
-# @permission_classes((AllowAny,))
 
-# -- TO FIX
-# security hole (validate where image comes from and deal with csrf) 
+class UserViewSet(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
 
-@csrf_exempt
-def snapshotList(request, format=None):
-    if request.method == 'POST':
-        # get raw base64-encoded image
-        imageBIN = base64.b64decode(request.POST['image'].split(',')[-1])
-        imagename = hashlib.sha224(str(time.time())).hexdigest() + ".png"
+#@permission_classes((IsAuthenticated, ))
+@permission_classes((AllowAny, ))
+class CategoryViewSet(viewsets.ModelViewSet):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
 
-        # get instance
-        instanceid = int(request.POST['instance'])
-        instance = GameInstance.objects.get(pk=instanceid)
-        print instance
 
-        # write to /tmp
-        file = open(os.path.join("/tmp", imagename), 'w')
-        file.write(imageBIN)
-        file.close()
+#@permission_classes((IsAuthenticated, ))
+@permission_classes((AllowAny, ))
+class CategoryAppsViewSet(viewsets.ModelViewSet):
+    serializer_class = CategoryAppsSerializer
+    queryset = Category.objects.all()
 
-        # save new snapshot object
-        file =  open(os.path.join("/tmp", imagename), 'r')
-        snap = GameInstanceSnapshot()
-        snap.instance = instance
-        snap.time = float(request.POST['time'])
-        snap.image.save(imagename, File(file))
-        snap.save()
-        file.close()
+@permission_classes((AllowAny, ))
+class AppViewSet(viewsets.ModelViewSet):
+    #authentication_classes = (SessionAuthentication,)
+    #permission_classes = [IsAuthenticated,]
+    serializer_class = AppSerializer
+    queryset = ZeroPlayerGame.objects.all()
 
-        #return JsonResponse(im.__dict__)
+@permission_classes((AllowAny, ))
+class InstanceViewSet(viewsets.ModelViewSet):
+    #authentication_classes = (SessionAuthentication,)
+    #permission_classes = [IsAuthenticated,]
+    serializer_class = InstanceSerializer
+    queryset = GameInstance.objects.all()
 
-        return JsonResponse({'a':'ok'})
+@permission_classes((AllowAny, ))
+class SnapshotViewSet(viewsets.ModelViewSet):
+    serializer_class = SnapshotSerializer
+    queryset = GameInstanceSnapshot.objects.all()
 
-# instance = models.ForeignKey(GameInstance)
-#     image = ImageWithThumbsField(sizes=((125,125),(200,200)))
-#     time = models.FloatField(default=0, blank=False)
-#     gallery = models.ForeignKey(GameInstance, null=True, related_name='images')
-#     timestamp = models.DateTimeField(auto_now_ad
+#@permission_classes((IsAuthenticated, ))
+@permission_classes((AllowAny, ))
+class CodeModuleViewSet(viewsets.ModelViewSet):
+    #authentication_classes = (SessionAuthentication,)
+    #permission_classes = (IsAuthenticated,)
+    queryset = CodeModule.objects.all()
+    serializer_class = CodeModuleSerializer
 
-def snapshotDetail(request, format=None):
-    pass
+@permission_classes((AllowAny, ))
+class AppView(viewsets.ModelViewSet):
+    #authentication_classes = (SessionAuthentication,)
+    #permission_classes = (IsAuthenticated,)
+    queryset = ZeroPlayerGame.objects.all()
+    serializer_class = AppSerializer
+
+@permission_classes((AllowAny, ))
+class InstanceAppViewSet(viewsets.ModelViewSet):
+    qeueryset = ZeroPlayerGame.objects.all()
+
+
+"""
+manually handle REST API below (old)
+"""
+
 
 # @api_view(['GET', 'POST'])
 # @permission_classes((AllowAny,))

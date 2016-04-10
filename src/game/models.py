@@ -125,10 +125,6 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
                 expr = SymbolicExpression(v['value'])
                 sym = expr.latex(raw=True)
                 v.update(sym)
-            # elif v['type'] == 'javascript':
-            #     print 'vval', v['value']
-            #     print 'vval2', json.loads(v['value'])
-            #     v['value'] = json.loads(v['value'])
 
         if request.user is None:
             user = request.user
