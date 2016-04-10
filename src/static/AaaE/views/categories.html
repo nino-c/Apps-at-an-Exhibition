@@ -10,9 +10,9 @@
         	<div class="loading-text">Loading...</span></div>
         </div>
     </div>
-    
 
-	<div flex-xs="100" flex-gt-xs="50" ng-repeat="category in categories | orderBy: 'popularity': true">
+
+	<div flex-xs="100" flex-gt-xs="50" ng-repeat="category in categories | orderBy: 'avg_popularity': true">
 		<md-card ng-click="selectCategory(category)">
 			<md-card-title>
 				<md-card-title-text>

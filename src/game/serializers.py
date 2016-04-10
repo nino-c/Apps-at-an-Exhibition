@@ -39,9 +39,18 @@ class CategoryField(serializers.Field):
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    total_popularity = serializers.SerializerMethodField(read_only=True)
+    avg_popularity = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Category
         fields = '__all__'
+
+    def get_total_popularity(self, object):
+        return sum(map(lambda app: app.popularity, object.apps.all()))
+
+    def get_avg_popularity(self, object):
+        return sum(map(lambda app: app.popularity, object.apps.all())) / object.apps.count()
 
 class CodeModuleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -178,8 +187,6 @@ class AppSerializer(serializers.ModelSerializer):
         return ""
 
     def update(self, app, validated_data):
-        print dir(validated_data)
-        print '++++++++'
         for k,v in validated_data.iteritems():
             app.__setattr__(k, v)
         #app.seedStructure = validated_data.get('seedStructure', app.seedStructure)
@@ -194,6 +201,15 @@ class AppSerializer(serializers.ModelSerializer):
 
 class CategoryAppsSerializer(serializers.ModelSerializer):
     apps = AppSerializer(read_only=True, many=True)
+    total_popularity = serializers.SerializerMethodField(read_only=True)
+    avg_popularity = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Category
         fields = '__all__'
+
+    def get_total_popularity(self, object):
+        return sum(map(lambda app: app.popularity, object.apps.all()))
+
+    def get_avg_popularity(self, object):
+        return sum(map(lambda app: app.popularity, object.apps.all())) / object.apps.count()

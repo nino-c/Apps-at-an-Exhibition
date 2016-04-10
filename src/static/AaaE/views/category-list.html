@@ -22,7 +22,7 @@
     <h3 ng-if="!userLoggedIn">{{ category.name }}</h3>
 
     
-    <md-card ng-repeat="app in apps | orderBy:'created':true" 
+    <md-card ng-repeat="app in apps | orderBy:'popularity':true" 
         ng-click="selectApp(app)" ng-if="!loading">
         
         <md-card-title>

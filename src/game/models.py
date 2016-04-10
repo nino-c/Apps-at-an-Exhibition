@@ -37,6 +37,7 @@ class Category(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class JSLibrary(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False)
     scriptPath = models.CharField(max_length=200, blank=False, null=False)
@@ -66,8 +67,7 @@ class CodeModule(TimestamperMixin, models.Model):
     hould be available to every user
     """
     title = models.CharField(max_length=255, null=True, blank=True)
-    language = models.CharField(max_length=20, 
-        choices=DIALECTS, default="javascript")
+    language = models.CharField(max_length=20, choices=DIALECTS, default="javascript")
     source = models.TextField(null=False, blank=False)
     
 
@@ -87,6 +87,7 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
     extraIncludes = models.ManyToManyField('JSLibrary', null=True, blank=True)
     mainImage = models.CharField(null=True, blank=True, max_length=255)
     required_modules = models.ManyToManyField(CodeModule, null=True, blank=True)
+    popularity = models.IntegerField(default=1)
 
     def __unicode__(self):
         return "\"%s\", by %s" % (self.title, self.owner.name)
@@ -95,8 +96,6 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
         """
         does not need to be server-side anymore
         """
-        print '-----------------'
-        
         seedDict = json.loads(self.seedStructure)  
         
         # tidy seedStruct first 
@@ -124,8 +123,6 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
             #     print 'vval', v['value']
             #     print 'vval2', json.loads(v['value'])
             #     v['value'] = json.loads(v['value'])
-
-        print 'seed---', seed, json.dumps(seed)
 
         if request.user is None:
             user = request.user
@@ -156,6 +153,7 @@ class GameInstance(TimestamperMixin, models.Model):
     game = models.ForeignKey(ZeroPlayerGame, related_name='instances')
     instantiator = models.ForeignKey(User)
     seed = models.TextField()
+    popularity = models.IntegerField(default=1)
     #source = models.TextField()
     #pagecache = models.TextField(null=True, blank=True)
 

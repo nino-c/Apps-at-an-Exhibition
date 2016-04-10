@@ -66,9 +66,9 @@
 
               <div flex="50">
                 <md-input-container>
-                  <md-radio-group ng-model="selectedSeedCycle">
+                  <md-radio-group ng-model="varyParam">
                     <div ng-repeat="seed in seedList | numberType">
-                      <md-radio-button ng-value="seed[0]">{{ seed[0] }}</md-radio-button>
+                      <md-radio-button ng-value="seed[0]" ng-click="seedChange($event)">{{ seed[0] }}</md-radio-button>
                     </div>
                   </md-radio-group>
                 </md-input-container>
@@ -78,19 +78,17 @@
                 <div>
                 
                 <div class="md-subhead">
-                Vary seed parameter <code>{{ selectedSeedCycle }}</code>:
+                Vary seed parameter <code>{{ varyParam }}</code>:
                 </div>
-                {{ varyMin }}
                 <div layout="column">
                   <md-input-container>
                     <label>From:</label>
-                    
-                    <input type="text" ng-change="changeVaryParam($event)" ng-model="varyMin" />
+                    <input type="text" ng-change="changeVaryParam()" ng-model="varyMin" />
                   </md-input-container>
                   
                   <md-input-container>
                     <label>To:</label>
-                    <input type="text" ng-change="changeVaryParam($event)" ng-model="varyMax" />
+                    <input type="text" ng-change="changeVaryParam()" ng-model="varyMax" />
                   </md-input-container>
                 </div>
                 </div>

@@ -62,7 +62,7 @@
                 <div flex="5"></div>
                 <div flex="none">
 
-                    <div style="width:300px;">
+                    <div style="width:300px;" ng-if="snapshots.length > 0">
                         <md-grid-list md-cols="3"
                             md-row-height="100px" md-gutter="0px">
                             <md-grid-tile ng-repeat="snapshot in snapshots">
@@ -91,7 +91,7 @@
                     <md-card ng-click="selectInstance(instance)">
 
                         
-                            <img ng-src="/media/{{ instance.snapshots[0] | thumbnail:200 }}" 
+                            <img ng-if="instance.snapshots.length > 0" ng-src="/media/{{ instance.snapshots[0] | thumbnail:200 }}" 
                                 class="thumbnail thumbnail-lg" style="width:100%; height: auto;" />
                         
                         <md-card-content>

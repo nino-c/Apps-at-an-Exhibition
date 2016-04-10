@@ -18,11 +18,7 @@
         style="{{featureDisplayCSS}}"
         ng-show="featureDisplayContent.length > 0">
         <div ng-repeat="line in featureDisplayContent">{{ line | rawText}}</div>
-        </div>
-
-    <!-- <feature-display 
-        class="feature-display">
-    </feature-display> -->
+    </div>
 
     <!-- seed display -->
     <div id="seedDisplay" layout="row" ng-if="false">
@@ -113,7 +109,7 @@
             <md-button
                 ng-click="editSeed($event)"
                 role="button" 
-                md-fab md-mini
+                
                 style="font-size:12px;">
                 <md-icon md-font-set="material-icons">&#xE254;</md-icon>
                 <span>Edit Seed</span>

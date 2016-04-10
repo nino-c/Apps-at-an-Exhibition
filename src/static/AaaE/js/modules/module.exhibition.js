@@ -8,7 +8,9 @@ angular.module('Exhibition', [
   'ngAnimate',
   'ngCookies',
   'colorpicker.module',
-  'ng.deviceDetector'
+  'ng.deviceDetector',
+  'ngSilent',
+  'ngRoute'
   ])
   .value('ui.config', {
     codemirror: {
@@ -56,7 +58,8 @@ angular.module('Exhibition', [
           templateUrl: '/static/AaaE/views/app-editor.html'
         })
         .when('/instance/:app_id/:instance_id/', {
-          templateUrl: '/static/AaaE/views/app-display.html'
+          templateUrl: '/static/AaaE/views/app-display.html',
+          reloadOnSearch: false
         })
         .otherwise({
           redirectTo: '/'
@@ -120,10 +123,11 @@ angular.module('Exhibition', [
     };
 
     $rootScope.toast = function(message) {
-      var t = $mdToast.simple()
-        .content(message)
-        .position('top');
-      $mdToast.show(t);
+      $mdToast.show(
+        $mdToast.simple()
+          .textContent(message)
+          .position('top')
+        );
     }
 
     
