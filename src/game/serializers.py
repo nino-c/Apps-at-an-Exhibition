@@ -105,11 +105,17 @@ class AppSerializer_Category_Inline(serializers.ModelSerializer):
         exclude = ('source', 'seedStructure')
         #include = ('__all__')
 
+class SeedParamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SeedKeyVal
+        include = ('__all__',)
+
 
 class InstanceMixin(serializers.ModelSerializer):
     instantiator = UserSerializer(required=False, read_only=True)
     snapshots = serializers.SerializerMethodField(read_only=True)
     sourcecode = serializers.SerializerMethodField(read_only=True)
+    seedParams = SeedParamSerializer(many=True)
 
     def get_validation_exclusions(self):
         exclusions = super(InstanceSerializer, self).get_validation_exclusions()
@@ -121,11 +127,60 @@ class InstanceMixin(serializers.ModelSerializer):
     def get_snapshots(self, object):
         return object.getImages()
 
+    def update(self, instance, validated_data):
+       
+        seed = json.loads(instance.seed)
+        for key, val in seed.iteritems():
+            if type(val) == type(dict()) and 'value' in val:
+                value = val['value']
+                jsonval = json.dumps(val)
+            else:
+                value = val
+                jsonval = json.dumps(val)
+
+            try:
+                value = int(value)
+            except:
+                value = value
+            
+            seedkv = SeedKeyVal(key=key, val=value, jsonval=jsonval)
+            seedkv.save()
+
+            instance.seedParams.add(seedkv)
+        
+        instance.save()
+        
+        return instance
+
+
+
     def create(self, validated_data):
+        
         validated_data['instantiator'] = self.context['request'].user
         validated_data['game'] = ZeroPlayerGame.objects.get(pk=validated_data['game_id'])
+        validated_data['popularity'] = 34
         del validated_data['game_id']
-        instance = GameInstance(**validated_data)
+
+        instance = GameInstance.objects.create(**validated_data)
+        #print instance.seedParams
+
+        # seeddict = json.loads(instance.seed)
+        # for key, val in seeddict.iteritems():
+        #     if type(val) == type(dict()) and 'value' in val:
+        #         value = str(val['value'])
+        #         jsonval = json.dumps(val)
+        #     else:
+        #         value = str(val)
+        #         jsonval = str(val)
+
+        #     print key, value, jsonval
+
+        #     seedkv = SeedKeyVal(key=key, val=value, jsonval=jsonval)
+        #     seedkv.save()
+
+        #     instance.seedParams.add(seedkv)
+
+        instance.save()
         return instance
 
     
@@ -173,6 +228,7 @@ class AppSerializer(serializers.ModelSerializer):
         for inst in obj.instances.all():
             for im in inst.images.all():
                 snaps.append(im.image.name.replace("./", ""))
+        snaps.reverse()
         return snaps
 
     def get_api_url(self, obj):

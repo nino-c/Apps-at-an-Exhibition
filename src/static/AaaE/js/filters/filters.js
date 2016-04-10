@@ -31,3 +31,8 @@ angular.module('Exhibition')
             return input;
         }
     })
+    .filter('reverse', function() {
+        return function(input) {
+            return input.reverse();
+        }
+    })

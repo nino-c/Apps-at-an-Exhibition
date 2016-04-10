@@ -180,7 +180,8 @@ angular
                         'Content-Type': 'application/json'
                     }
                 }
-                console.log('REQ', req)
+                console.log(req)
+
                 $http(req).then(function successCallback(response) {
                 
                     if (response.data.id) {

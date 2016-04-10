@@ -6,11 +6,17 @@ import json
 import itertools
 import random
 
+from authtools.models import User
+
 from django.db import models
 from django.conf import settings
+
+#from django.contrib.postgres.fields import JSONField
 #from jsonfield import JSONField
 from django_thumbs.db.models import ImageWithThumbsField
-from authtools.models import User
+
+
+#from jsonfield import JSONField
 
 from symbolic_math.views import *
 
@@ -134,6 +140,25 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
                 seed=json.dumps(seed),
             )
 
+            for key, val in seed.iteritems():
+                if type(val) == type(dict()) and 'value' in val:
+                    value = val['value']
+                    jsonval = json.dumps(val)
+                else:
+                    value = val
+                    jsonval = json.dumps(val)
+
+                try:
+                    value = int(val)
+                except ValueError:
+                    pass
+
+                
+                seedkv = SeedKeyVal(key=key, val=value, jsonval=jsonval)
+                seedkv.save()
+                
+                inst.seedParams.add(seedkv)
+
         inst.save()
         return inst
 
@@ -148,11 +173,17 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
         return images[:order]
 
 
+class SeedKeyVal(models.Model):
+    key = models.CharField(max_length=255, blank=False)
+    val = models.TextField(null=False, blank=False, default='')
+    jsonval = models.TextField(null=False, blank=False, default='')
+
 
 class GameInstance(TimestamperMixin, models.Model):
     game = models.ForeignKey(ZeroPlayerGame, related_name='instances')
     instantiator = models.ForeignKey(User)
     seed = models.TextField()
+    seedParams = models.ManyToManyField(SeedKeyVal, null=True, blank=True)
     popularity = models.IntegerField(default=1)
     #source = models.TextField()
     #pagecache = models.TextField(null=True, blank=True)

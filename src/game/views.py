@@ -62,6 +62,35 @@ def updateGame(request, pk):
         return JsonResponse(serializer.data)
 
 
+def updateSeedLists(request):
+    out = []
+    instances = GameInstance.objects.all()
+    #instances = instances[:5]
+    for instance in instances:
+        seed = json.loads(instance.seed)
+        for key, val in seed.iteritems():
+            if type(val) == type(dict()) and 'value' in val:
+                value = val['value']
+                jsonval = json.dumps(val)
+            else:
+                value = val
+                jsonval = json.dumps(val)
+
+            try:
+                value = int(value)
+            except:
+                value = value
+            
+            seedkv = SeedKeyVal(key=key, val=value, jsonval=jsonval)
+            seedkv.save()
+
+            instance.seedParams.add(seedkv)
+            
+            out.append(", ".join(map(lambda sp: sp.key+sp.val, instance.seedParams.all())))
+        instance.save()
+
+    return HttpResponse("\n".join(out))
+
 
 ##############################
 #                            #
@@ -69,33 +98,33 @@ def updateGame(request, pk):
 #                            #
 ##############################
 
-def test(request):
-  games = ZeroPlayerGame.objects.all()
-  counts = []
-  for game in games:
-    firstInstance = game.instances.all()[0]
-    #print firstInstance
-    firstImage = firstInstance.images.all()[0]
-    print firstImage
-    counts.append(firstImage)
-    #counts.append(game.instances.count())
-    continue
-    if game.instances.count() > 0:
-      for ins in game.instances.all():
+# def test(request):
+#   games = ZeroPlayerGame.objects.all()
+#   counts = []
+#   for game in games:
+#     firstInstance = game.instances.all()[0]
+#     #print firstInstance
+#     firstImage = firstInstance.images.all()[0]
+#     print firstImage
+#     counts.append(firstImage)
+#     #counts.append(game.instances.count())
+#     continue
+#     if game.instances.count() > 0:
+#       for ins in game.instances.all():
 
-        #counts.append(ins.images.count())
+#         #counts.append(ins.images.count())
 
-        if ins.images.count() > 0:
-          print '---------------'
-          print ins.images.all()
-          print ins.images.all()[0]
-          im = ins.images.all()[0]
-          counts.append( im.pk )
-          game.mainImage = im
-          print game.mainImage
-          #game.save(force_update=True)
-          continue
-  return HttpResponse(str(counts))
+#         if ins.images.count() > 0:
+#           print '---------------'
+#           print ins.images.all()
+#           print ins.images.all()[0]
+#           im = ins.images.all()[0]
+#           counts.append( im.pk )
+#           game.mainImage = im
+#           print game.mainImage
+#           #game.save(force_update=True)
+#           continue
+#   return HttpResponse(str(counts))
 
 # class GameList(generics.ListCreateAPIView):
 #     queryset = ZeroPlayerGame.objects.all()
@@ -123,9 +152,11 @@ def test(request):
 
 # @api_view(['GET', 'POST'])
 # @permission_classes((AllowAny,))
-@csrf_exempt
+
 # -- TO FIX
 # security hole (validate where image comes from and deal with csrf) 
+
+@csrf_exempt
 def snapshotList(request, format=None):
     if request.method == 'POST':
         # get raw base64-encoded image
