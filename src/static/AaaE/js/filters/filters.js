@@ -22,4 +22,12 @@ angular.module('Exhibition')
         return function(text) {
           return  text ? String(text).replace(/<[^>]+>/gm, '') : '';
         };
-    });
+    })
+    .filter('limit', function() {
+        return function(input, length) {
+            if (input.length > length) {
+                input = input.slice(0,length);
+            }
+            return input;
+        }
+    })

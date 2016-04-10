@@ -42,7 +42,7 @@
                 <div flex-gt-xs="70">
                     <img ng-src="/media/{{ snap | thumbnail:125 }}" 
                         class="thumbnail thumbnail-tiny pull-left"
-                        ng-repeat="snap in app.snapshots" />
+                        ng-repeat="snap in app.snapshots | limit:20" />
                 </div>
             </div>
         </md-card-content>
