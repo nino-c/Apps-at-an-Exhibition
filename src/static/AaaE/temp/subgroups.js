@@ -69,8 +69,6 @@ function subgroups(n) {
 }
 
 
-S = subgroups(integer_group);
-
 var color1 = new Color({
 	hue: 350,
 	saturation: 0.1,
@@ -78,76 +76,110 @@ var color1 = new Color({
 });
 
 
-var positions = {};
+if (isPrime(integer_group)) {
 
-var rowheight = view.viewSize._height / S.length;
-_.each(S, function(row, i) {
+	var circ = new Path.Circle({
+		center: view.center,
+		radius: 100,
+		fillColor: color1
+	});
 
-	var centerY = (rowheight*i) + (rowheight/2);
-	var colwidth = view.viewSize._width / row.length;
+	var text = new PointText({
+	    point: view.center,
+	    justification: 'center',
+	    content: integer_group.toString(),
+	    fillColor: 'black',
+	    fontFamily: 'Courier New',
+	    fontWeight: 'bold',
+	    fontSize: 32
+	});
 
-	_.each(row, function(num, j) {
+	var text = new PointText({
+	    point: new Point(view.center.x, view.center.y + 25),
+	    justification: 'center',
+	    content: 'prime',
+	    fillColor: 'black',
+	    fontFamily: 'Courier New',
+	    fontSize: 14
+	});
 
-		var centerX = (colwidth*j) + (colwidth/2);
-		var center1 = new Point(centerX, centerY);
-		var center2 = new Point(centerX, (centerY+4));
+} else {
 
-		positions[num.toString()] = [centerX, centerY];
+	S = subgroups(integer_group);
+	var positions = {};
 
-		var circ = new Path.Circle({
-			center: center1,
-			radius: 20,
-			fillColor: color1
-		});
+	var rowheight = view.viewSize._height / S.length;
+	_.each(S, function(row, i) {
 
-		var text = new PointText({
-		    point: center2,
-		    justification: 'center',
-		    content: num.toString(),
-		    fillColor: 'black',
-		    fontFamily: 'Courier New',
-		    fontWeight: 'bold',
-		    fontSize: 16
-		});
-	})
-	
-});
+		var centerY = (rowheight*i) + (rowheight/2);
+		var colwidth = view.viewSize._width / row.length;
 
-var divisors = get_divisors(integer_group);
-var _S = S.reverse();
+		_.each(row, function(num, j) {
 
-_.each(divisors, function(div) {
-	_.each(_S, function(row, i) {
-		_.each(row, function(num) {
-			if (div == num) {
-				if (_S.length > i+1) {
-					var nextrow = _S[i+1];
-					var factors = [];
-					_.each(nextrow, function(j) {
-						if (j%div==0) {
-							factors.push(j);
-							var line = new Path.Line({
-					            strokeColor: new Color(0.7,0.7,0.7,0.6),
-					            strokeWidth: 1,
-					            from: positions[num.toString()],
-					            to: positions[j.toString()]
-					        });
-					        project.activeLayer.insertChild(0,line);
-						}
-					});
+			var centerX = (colwidth*j) + (colwidth/2);
+			var center1 = new Point(centerX, centerY);
+			var center2 = new Point(centerX, (centerY+4));
+
+			positions[num.toString()] = [centerX, centerY];
+
+			var circ = new Path.Circle({
+				center: center1,
+				radius: 20,
+				fillColor: color1
+			});
+
+			var text = new PointText({
+			    point: center2,
+			    justification: 'center',
+			    content: num.toString(),
+			    fillColor: 'black',
+			    fontFamily: 'Courier New',
+			    fontWeight: 'bold',
+			    fontSize: 16
+			});
+		})
+		
+	});
+
+	var divisors = get_divisors(integer_group);
+	var _S = S.reverse();
+
+	_.each(divisors, function(div) {
+		_.each(_S, function(row, i) {
+			_.each(row, function(num) {
+				if (div == num) {
+					if (_S.length > i+1) {
+						var nextrow = _S[i+1];
+						var factors = [];
+						_.each(nextrow, function(j) {
+							if (j%div==0) {
+								factors.push(j);
+								var line = new Path.Line({
+						            strokeColor: new Color(0.4,0.4,0.4,0.75),
+						            strokeWidth: 1,
+						            from: positions[num.toString()],
+						            to: positions[j.toString()]
+						        });
+						        project.activeLayer.insertChild(0,line);
+							}
+						});
+					}
 				}
-			}
+			});
 		});
 	});
-});
 
-
-function featureDisplay(content) {
-	$("#feature-display").text(content);
-	MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
 }
 
+var renderDone = false;
+view.onFrame = function(e) {
+	if (!renderDone && view.isVisible() && view.isInserted()) {
+	  	renderDone = true;
+	 	window.renderingDone(); 
+	}
+}
 
 try {
-    featureDisplay("$\\{H\: H \\leqslant (\\mathbb{Z}/" + integer_group + "\\space \\mathbb{Z})\\}$");
+    window.featureDisplay("$\\{H\: H \\leqslant (\\mathbb{Z}/" + 
+    	integer_group + "\\space \\mathbb{Z})\\}$", {"font-size":"18px"});
 } catch (e) {}

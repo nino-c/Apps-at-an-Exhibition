@@ -17,14 +17,21 @@ angular
         $scope.timeElapsed = 0;
         $scope.seedTouched = false;
         $scope.readyToSave = false;
+        $scope.autosnapshot = false;
 
         $scope.currentCycleValue = null;
         $scope.varyParam = null;
         $scope.varyMin = 0;
         $scope.varyMax = 0;
 
+        $scope.featureDisplayContent = '';
+        $scope.featureDisplayCSS = {};
+
         InstanceService.get({id:$route.current.params.instance_id})
             .$promise.then(function(inst) {
+
+                console.log('instance seed', inst.seed)
+
                 $scope.instance = inst;
                 $scope.seedStructure = JSON.parse(inst.game.seedStructure);
                 $scope.execute();
@@ -51,11 +58,60 @@ angular
             }
         }
 
-        $scope.featureDisplayContent = '';
-        $scope.featureDisplayCSS = {};
+        $scope.renderingDone = function() {
+            
+            if ($scope.autosnapshot) {
+                $scope.snapshot();
+                $scope.autosnapshot = false;
+            }
+
+            if ($scope.currentCycleValue != null) {
+                $timeout(function() {
+                    $scope.doCycle();
+                }, 1500)
+            }
+        }
+
+        $scope.cycleParam = function(param, min, max) {
+
+            $scope.varyParam = param;
+            $scope.currentCycleValue = min;
+            $scope.varyMin = min;
+            $scope.varyMax = max;
+
+            console.log('cycle', $scope.varyParam, $scope.varyMin, $scope.varyMax);
+
+            $scope.updateInstance(true);
+        }
+
+        $scope.doCycle = function() {
+
+            $scope.currentCycleValue++;
+
+            if ($scope.currentCycleValue > $scope.varyMax)  {
+                $scope.currentCycleValue = null;
+                return;
+            }
+
+            if (typeof $scope._seed[$scope.varyParam] == 'object' && $scope._seed[$scope.varyParam].value) {
+                $scope._seed[$scope.varyParam].value = $scope.currentCycleValue;
+            } else {
+                $scope._seed[$scope.varyParam] = $scope.currentCycleValue;
+            }
+
+            $scope.updateSeed();
+            $scope.parseSeedList();
+            $scope.updateInstance(true);
+        }
+
+        
         $scope.featureDisplay = function(content, css) {
-            if (!css) css = {}; console.log('css', content, css)
-            if (typeof content == 'string') content = [content];
+
+            if (!css)
+                css = {};
+            if (typeof content == 'string') 
+                content = [content];
+
             $scope.featureDisplayContent = content;
             $scope.featureDisplayCSS = _.reduce(_.mapObject(css, function(val, key) {
                     return key+':'+val+';';
@@ -66,58 +122,22 @@ angular
             }, 500);
         }
 
-        $scope.renderingDone = function() {
-            console.log('render done');
-
-            if ($scope.autosnapshot) {
-                $scope.snapshot();
-                $scope.autosnapshot = false;
-            }
-
-            if ($scope.currentCycleValue != null) {
-                console.log('do another cycle', $scope.currentCycleValue)
-                $timeout(function() {
-                    $scope.doCycle();
-                }, 5000)
-            }
-        }
-
-        
-        $scope.cycleParam = function(param, min, max) {
-            $scope.varyParam = param;
-            $scope.currentCycleValue = min;
-            $scope.varyMin = min;
-            $scope.varyMax = max;
-
-            console.log('cycle', $scope.varyParam, $scope.varyMin, $scope.varyMax);
-
-            //$scope.parseSeedList();
-            //$scope.updateSeed();
-            $scope.updateInstance(true);
-        }
-
-        $scope.doCycle = function() {
-
-            $scope.currentCycleValue++;
-            if ($scope.currentCycleValue > $scope.varyMax)  {
-                $scope.currentCycleValue = null;
-                return;
-            }
-
-            $scope._seed[$scope.varyParam] = $scope.currentCycleValue;
-            $scope.parseSeedList();
-            $scope.updateInstance(true);
-        }
 
         $scope.parseSeedList = function(setToFalse) {
+            /*
+                process _seed:Object
+                create  seedList:Array
+            */
+
             if (setToFalse === undefined) setToFalse = false;
+
             $scope._seed = _.mapObject(
                 $scope._seed, function(s) {
                     if (s.parsing === undefined) s.parsing = false;
                     if (setToFalse) s.parsing = false;
                     return s;
                 });
-
+            
             $scope.seedList = _.pairs($scope._seed);
             
             $timeout(function() {
@@ -126,15 +146,18 @@ angular
         }
 
         $scope.updateSeed = function() {
-            console.log('updateSeed -- seedList', $scope.seedList)
+            /*
+                process seedList:Array
+                create  _seed:Object
+            */
             _.each($scope.seedList, function(seed) {
                 $scope._seed[seed[0]] = seed[1];
             })
             $scope.instance.seed = JSON.stringify($scope._seed);
-            console.log('seed after update', $scope._seed)
+
         }
 
-        $scope.autosnapshot = false;
+        
         $scope.updateInstance = function(autosnapshot) {
 
             if (!autosnapshot) {
@@ -145,6 +168,7 @@ angular
 
             $scope.loading = true;
             $scope.updateSeed();
+            $scope.parseSeedList();
             
             if ($scope.userLoggedIn) {
 
@@ -156,26 +180,17 @@ angular
                         'Content-Type': 'application/json'
                     }
                 }
-                
+                console.log('REQ', req)
                 $http(req).then(function successCallback(response) {
                 
                     if (response.data.id) {
 
                         $scope.instance.id = response.data.id;
                         $route.current.params.instance_id = response.data.id;
-                        //$scope.clearEvalScope();
-
-                        //$scope.loading = true;
-                        $scope.timeElapsed = 0;
-                        $scope.seedTouched = false;
-                        $scope.readyToSave = false;
-
-                        
                         
                         $scope.clearCanvas();
                         $scope.clearPaperCanvas();
                         $scope.clearEvalScope();
-
                         $scope.loading = true;
                         $scope.timeElapsed = 0;
                         $scope.seedTouched = false;
@@ -183,7 +198,6 @@ angular
 
                         $rootScope.toast("Saved as new instance.");
                         $scope.execute();
-
 
                     }
                     
@@ -196,7 +210,6 @@ angular
                 $scope.clearCanvas();
                 $scope.clearPaperCanvas();
                 $scope.clearEvalScope();
-
                 $scope.loading = true;
                 $scope.timeElapsed = 0;
                 $scope.seedTouched = false;
@@ -205,10 +218,6 @@ angular
                 $scope.execute();
             }
            
-
-            //$scope.seedTouched = false;
-            //$timeout($scope.execute, 500)
-            //$timeout($scope.snapshot, 2000)
         }
 
         var self_scope = $scope;
@@ -257,6 +266,7 @@ angular
 
             $mdDialog.show({
                 //bindToController: true,
+                //require: ['^mdRadioGroup'],
                 scope: $scope,
                 templateUrl: '/static/AaaE/views/seed-editor-dialog.html',
                 parent: angular.element(document.body),
@@ -266,6 +276,10 @@ angular
 
             function DialogController($scope, $mdDialog) {
                 
+                $scope.initialize = function() {
+
+                }
+
                 $scope.closeDialog = function() {
                     $mdDialog.hide();
                 };
@@ -282,8 +296,10 @@ angular
                 }
 
                 $scope._updateInstance = function() {
+
                     $scope.updateSeed();
                     console.log('varyParam', $scope.varyParam);
+
                     if ($scope.varyParam != null) {
                         self_scope.cycleParam($scope.varyParam, $scope.varyMin, $scope.varyMax);
                     } else {
