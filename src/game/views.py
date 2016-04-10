@@ -91,6 +91,29 @@ def updateSeedLists(request):
 
     return HttpResponse("\n".join(out))
 
+import os.path
+import os
+import plsys.settings
+from sets import Set
+def clean_images(request):
+    out = []
+    imagesInUse = []
+    for instance in GameInstance.objects.all():
+        for im in instance.images.all():
+            imagesInUse.append(im.image.path)
+            imagesInUse.append(im.image.thumbnail(125))
+            imagesInUse.append(im.image.thumbnail(200))
+
+    inUseNames = Set(map(lambda x: os.path.basename(x), imagesInUse))
+    allImages = Set(filter(lambda x: len(x) > 40, os.listdir(plsys.settings.MEDIA_ROOT)))
+    toRemove = allImages.difference(inUseNames)
+
+    ims = map(lambda im: '<img src="/media/'+im+'" height="100" width="100" />', inUseNames)
+    # for im in toRemove:
+    #     os.remove(os.path.join(plsys.settings.MEDIA_ROOT, im))
+    return HttpResponse(''.join(ims))
+
+
 
 ##############################
 #                            #
