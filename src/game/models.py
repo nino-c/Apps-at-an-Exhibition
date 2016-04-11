@@ -8,16 +8,22 @@ import random
 
 from authtools.models import User
 
+from django.http import HttpResponse, JsonResponse
 from django.db import models
 from django.conf import settings
+from django_thumbs.db.models import ImageWithThumbsField
 
 #from django.contrib.postgres.fields import JSONField
 #from jsonfield import JSONField
-from django_thumbs.db.models import ImageWithThumbsField
-import plsys.settings
-from sets import Set
-
 #from jsonfield import JSONField
+
+# that daggum jsonfield... come awn, now, really?  so many!
+#  ---> CONCLUDE: eventually must go to CouchDB
+
+
+
+from plsys.settings import MEDIA_URL, MEDIA_ROOT
+from sets import Set
 
 from symbolic_math.views import *
 
@@ -83,6 +89,7 @@ class CodeModule(TimestamperMixin, models.Model):
 
 
 class ZeroPlayerGame(TimestamperMixin, models.Model):
+
     parent = models.ForeignKey('self', null=True, blank=True, related_name="children")
     category = models.ForeignKey(Category, related_name="apps")
     owner = models.ForeignKey(User)
@@ -100,7 +107,7 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
         return "\"%s\", by %s" % (self.title, self.owner.name)
 
     def simplify_seed(self, seed):
-        return {k:v['value'] for k,v in seed.iteritems() }
+        return { k:v['value'] for k,v in seed.iteritems() }
 
     def instantiate(self, request, seed=None):
         """
@@ -114,11 +121,13 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
         
         # tidy seedStruct first 
         for k,v in seedDict.iteritems():     
-            
-            if 'default' not in v:
-                seedDict['default'] = ''
             if 'type' not in v:
                 seedDict[k]['type'] = 'string'
+            if 'default' not in v:
+                if v['type'] == 'number':
+                    seedDict['default'] = 0
+                else:
+                    seedDict['default'] = ''
 
         # define seed from default
         if seed is None:
@@ -135,22 +144,30 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
                 sym = expr.latex(raw=True)
                 v.update(sym)
 
+            if v['type'] == 'number':
+                try:
+                    v['value'] = int(v['value'])
+                except Exception:
+                    pass
+
+
+        # make seed vector
+        vector = self.simplify_seed(seed)
 
         # create dict 
         inst = {
             'game': self,
             'instantiator': self.owner,
-            'seed':json.dumps(seed)
+            'seed': json.dumps(seed),
+            'vector': json.dumps(vector)
         }
 
         # create the new instance
-        instance = GameInstance.get_or_create(inst)
-        instance = GameInstance(
-            
-        )
+        instance, isNew = GameInstance.objects.get_or_create(**inst)
+        instance.save()
 
-
-
+        # deal with case from old seeds without 'value' key
+        i=0
         for key, val in seed.iteritems():
             if type(val) == type(dict()) and 'value' in val:
                 value = val['value']
@@ -159,19 +176,20 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
                 value = val
                 jsonval = json.dumps(val)
 
-            try:
-                value = int(val)
-            except ValueError:
-                pass
+            if seedDict[key]['type'] == 'number':
+                try:
+                    value['value'] = int(value['value'])
+                except Exception:
+                    pass
 
-            
-            seedkv = SeedKeyVal(key=key, val=value, jsonval=jsonval)
+            i += 1
+            seedkv = SeedKeyVal(key=key, val=value, jsonval=jsonval, ordering=i)
             seedkv.save()
             
-            inst.seedParams.add(seedkv)
-
-        inst.save()
-        return inst
+            instance.seedParams.add(seedkv)
+            
+        instance.save()
+        return instance
 
     @property
     def chooseImageSet(order=4):
@@ -185,6 +203,7 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
 
 
 class SeedKeyVal(models.Model):
+
     key = models.CharField(max_length=255, blank=False)
     val = models.CharField(max_length=5000, null=False, blank=False, default='')
     jsonval = models.TextField(null=False, blank=False, default='')
@@ -195,23 +214,24 @@ class SeedKeyVal(models.Model):
 
 
 class GameInstance(TimestamperMixin, models.Model):
+
     game = models.ForeignKey(ZeroPlayerGame, related_name='instances')
     instantiator = models.ForeignKey(User)
     seed = models.TextField()
     seedParams = models.ManyToManyField(SeedKeyVal, null=True, blank=True, related_name='params')
     popularity = models.IntegerField(default=1)
-    #source = models.TextField()
-    #pagecache = models.TextField(null=True, blank=True)
+    vector = models.CharField(max_length=5000, null=True, blank=False, unique=True)
 
     def __unicode__(self):
         return "%s's instance of \"%s\", by %s" % (self.instantiator.name, self.game.title, self.game.owner.name)
 
-    def parse_seed(self):
+    def record_seed_as_cols(self):
         
         for sp in self.seedParams.all():
             sp.delete()
 
         seed = json.loads(self.seed)
+
         i=0
         for key, val in seed.iteritems():
             if type(val) == type(dict()) and 'value' in val:
@@ -304,7 +324,7 @@ class GameInstance(TimestamperMixin, models.Model):
                 imagesInUse.append(im.image.thumbnail(200))
 
         inUseNames = Set(map(lambda x: os.path.basename(x), imagesInUse))
-        allImages = Set(filter(lambda x: len(x) > 40, os.listdir(plsys.settings.MEDIA_ROOT)))
+        allImages = Set(filter(lambda x: len(x) > 40, os.listdir(MEDIA_ROOT)))
         toRemove = allImages.difference(inUseNames)
 
         ims = map(lambda im: '<img src="/media/'+im+'" height="100" width="100" />', inUseNames)
@@ -324,10 +344,10 @@ class GameInstance(TimestamperMixin, models.Model):
            
             # to check if there are any mismatched seedobjs and seedcols
 
-            # if len(seeddict.keys()) != instance.seedParams.count():
-            #     out.append(insntance.id)
+            if len(seeddict.keys()) != instance.seedParams.count():
+                out.append(instance.id)
 
-        return HttpResponse('<br />'.join(out))
+        return JsonResponse(out)
 
 
 

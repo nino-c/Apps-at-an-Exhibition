@@ -10,10 +10,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.parsers import JSONParser
 from rest_framework import generics, serializers, viewsets
 
-
-
 from sets import Set
-
 import base64
 import json
 import hashlib
@@ -21,11 +18,10 @@ import time
 import datetime
 import os.path
 import os
-import plsys.settings
 
 from game.models import *
 from game.serializers import *
-from plsys.settings import MEDIA_URL
+
 
 
 def home(request):

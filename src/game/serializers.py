@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from rest_framework import serializers
 from authtools.models import User
 from .models import *
@@ -128,20 +129,20 @@ class InstanceMixin(serializers.ModelSerializer):
         return object.getImages()
 
     def update(self, instance, validated_data):
-        instance = instance.parse_seed()
+        instance = instance.record_seed_as_cols()
         instance.save()
         return instance
 
-    def create(self, validated_data):
-        validated_data['instantiator'] = self.context['request'].user
-        validated_data['game'] = ZeroPlayerGame.objects.get(pk=validated_data['game_id'])
-        validated_data['popularity'] = 34
-        del validated_data['game_id']
+    # def create(self, validated_data):
+    #     validated_data['instantiator'] = self.context['request'].user
+    #     validated_data['game'] = ZeroPlayerGame.objects.get(pk=validated_data['game_id'])
+    #     validated_data['popularity'] = 34
+    #     del validated_data['game_id']
 
-        instance = GameInstance.objects.create(**validated_data)
-        instance.parse_seed()
-        instance.save()
-        return instance
+    #     instance = GameInstance.objects.create(**validated_data)
+    #     instance.record_seed_as_cols()
+    #     instance.save()
+    #     return instance
 
     
 
