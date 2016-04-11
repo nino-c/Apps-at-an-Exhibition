@@ -50,7 +50,7 @@ def instantiateGame(request, pk):
         return JsonResponse(serializer.data)
 
 @csrf_exempt
-def snapshotList(request, format=None):
+def snapshot(request, format=None):
     if request.method == 'POST':
         # get raw base64-encoded image
         imageBIN = base64.b64decode(request.POST['image'].split(',')[-1])
@@ -84,71 +84,19 @@ def snapshotList(request, format=None):
 Test and utility functions below
 """
 
-def updateSeedLists(request):
-    out = []
-    instances = GameInstance.objects.all()
-    #instances = instances[:5]
-    for instance in instances:
-        for sp in instance.seedParams.all():
-            sp.delete()
-        seed = json.loads(instance.seed)
-        for key, val in seed.iteritems():
-            if type(val) == type(dict()) and 'value' in val:
-                value = val['value']
-                jsonval = json.dumps(val)
-            else:
-                value = val
-                jsonval = json.dumps(val)
 
-            try:
-                value = int(value)
-            except:
-                value = value
-            
-            seedkv = SeedKeyVal(key=key, val=value, jsonval=jsonval)
-            seedkv.save()
-
-            instance.seedParams.add(seedkv)
-            
-            out.append(", ".join(map(lambda sp: sp.key+sp.val, instance.seedParams.all())))
-        instance.save()
-
-    return HttpResponse("\n".join(out))
+def call_game_instance_static_method(request, static_method):
+    """
+    generic function to call staticmethods on GameInstance
+    """
+    if hasattr(GameInstance, static_method):
+        method = getattr(GameInstance, static_method)
+        if callable(method):
+            return method.__call__(request)
+    
+    raise Exception("method does not exist")
 
 
-def clean_images(request):
-    out = []
-    imagesInUse = []
-    for instance in GameInstance.objects.all():
-        for im in instance.images.all():
-            imagesInUse.append(im.image.path)
-            imagesInUse.append(im.image.thumbnail(125))
-            imagesInUse.append(im.image.thumbnail(200))
-
-    inUseNames = Set(map(lambda x: os.path.basename(x), imagesInUse))
-    allImages = Set(filter(lambda x: len(x) > 40, os.listdir(plsys.settings.MEDIA_ROOT)))
-    toRemove = allImages.difference(inUseNames)
-
-    ims = map(lambda im: '<img src="/media/'+im+'" height="100" width="100" />', inUseNames)
-    # for im in toRemove:
-    #     os.remove(os.path.join(plsys.settings.MEDIA_ROOT, im))
-    return HttpResponse(''.join(ims))
-
-def review_seeds(request):
-    out = []
-    for instance in GameInstance.objects.all():
-        seeddict = json.loads(instance.seed)
-        out.append(', '.join(
-            map(lambda x: str(x), 
-                [instance.game.title, len(seeddict.keys()), instance.seedParams.count()])
-            ))
-       
-        # to check if there are any mismatched seedobjs and seedcols
-
-        # if len(seeddict.keys()) != instance.seedParams.count():
-        #     out.append(insntance.id)
-
-    return HttpResponse('<br />'.join(out))
 
 
 ##############################
@@ -156,31 +104,6 @@ def review_seeds(request):
 #            API             #
 #                            #
 ##############################
-
-
-# class GameList(generics.ListCreateAPIView):
-#     queryset = ZeroPlayerGame.objects.all()
-#     serializer_class = ZeroPlayerGameSerializer
-#
-# class GameDetail(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = ZeroPlayerGame.objects.all()
-#     serializer_class = ZeroPlayerGameSerializer
-#
-# class GameInstanceList(generics.ListCreateAPIView):
-#     queryset = GameInstance.objects.all()
-#     serializer_class = GameInstanceSerializer
-#
-# class GameInstanceDetail(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = GameInstance.objects.all()
-#     serializer_class = GameInstanceSerializer
-
-# class SnapshotList(generics.ListCreateAPIView):
-#     queryset = GameInstanceSnapshot.objects.all()
-#     serializer_class = SnapshotSerializer
-
-# class SnapshotDetail(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = GameInstanceSnapshot.objects.all()
-#     serializer_class = SnapshotSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -212,7 +135,12 @@ class InstanceViewSet(viewsets.ModelViewSet):
     #authentication_classes = (SessionAuthentication,)
     #permission_classes = [IsAuthenticated,]
     serializer_class = InstanceSerializer
-    queryset = GameInstance.objects.all()
+    #queryset = GameInstance.objects.all()
+
+    def Vectorize(sp):
+        return sp
+
+    queryset = GameInstance.objects.all() #annotate(vector=Vectorize('seedParams'))
 
 @permission_classes((AllowAny, ))
 class SnapshotViewSet(viewsets.ModelViewSet):
@@ -238,6 +166,30 @@ class AppView(viewsets.ModelViewSet):
 class InstanceAppViewSet(viewsets.ModelViewSet):
     qeueryset = ZeroPlayerGame.objects.all()
 
+
+# class GameList(generics.ListCreateAPIView):
+#     queryset = ZeroPlayerGame.objects.all()
+#     serializer_class = ZeroPlayerGameSerializer
+#
+# class GameDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = ZeroPlayerGame.objects.all()
+#     serializer_class = ZeroPlayerGameSerializer
+#
+# class GameInstanceList(generics.ListCreateAPIView):
+#     queryset = GameInstance.objects.all()
+#     serializer_class = GameInstanceSerializer
+#
+# class GameInstanceDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = GameInstance.objects.all()
+#     serializer_class = GameInstanceSerializer
+
+# class SnapshotList(generics.ListCreateAPIView):
+#     queryset = GameInstanceSnapshot.objects.all()
+#     serializer_class = SnapshotSerializer
+
+# class SnapshotDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = GameInstanceSnapshot.objects.all()
+#     serializer_class = SnapshotSerializer
 
 """
 manually handle REST API below (old)

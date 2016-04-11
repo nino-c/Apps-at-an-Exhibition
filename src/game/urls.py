@@ -30,6 +30,9 @@ class CategoryAppsViewSet(viewsets.ModelViewSet):
     serializer_class = CategoryAppsSerializer
     queryset = Category.objects.all()
 
+    class Meta:
+        ordering = ['-popularity']
+
 @permission_classes((AllowAny, ))
 class AppViewSet(viewsets.ModelViewSet):
     #authentication_classes = (SessionAuthentication,)
@@ -43,6 +46,10 @@ class InstanceViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated,]
     serializer_class = InstanceSerializer
     queryset = GameInstance.objects.all()
+    #queryset = GameInstance.objects.raw('SELECT *, (SELECT * FROM game_seedkeyval) FROM game_gameinstance')
+
+    class Meta:
+        ordering = ['-popularity']
 
 @permission_classes((AllowAny, ))
 class SnapshotViewSet(viewsets.ModelViewSet):
@@ -85,10 +92,9 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^test/', views.test, name="game-test"),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^snapshot/$', views.snapshotList, name="snapshot-list"),
-    url(r'^review_seeds/$', views.review_seeds, name="seed-list"),
-    url(r'^updateSeedLists/$', views.updateSeedLists, name="updateSeedLists"),
+    url(r'^snapshot/$', views.snapshot, name="snapshot-list"),
     url(r'^app-instantiate/(?P<pk>[0-9]+)/$', views.instantiateGame),
+    url(r'^(?P<static_method>[a-zA-Z\-\_0-9]*)/$', views.call_game_instance_static_method, name="method-handler"),
 ]
 
 """ 

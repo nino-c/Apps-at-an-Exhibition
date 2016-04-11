@@ -14,7 +14,8 @@ from django.conf import settings
 #from django.contrib.postgres.fields import JSONField
 #from jsonfield import JSONField
 from django_thumbs.db.models import ImageWithThumbsField
-
+import plsys.settings
+from sets import Set
 
 #from jsonfield import JSONField
 
@@ -98,10 +99,17 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
     def __unicode__(self):
         return "\"%s\", by %s" % (self.title, self.owner.name)
 
+    def simplify_seed(self, seed):
+        return {k:v['value'] for k,v in seed.iteritems() }
+
     def instantiate(self, request, seed=None):
         """
-        does not need to be server-side anymore
+        does not need to be server-side anymore... which is easier?
         """
+
+        if request.user is None:
+            raise Exception("Must be logged in.")
+
         seedDict = json.loads(self.seedStructure)  
         
         # tidy seedStruct first 
@@ -114,10 +122,11 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
 
         # define seed from default
         if seed is None:
-            seed = { k: {
-                        'type':v['type'],
-                        'value':v['default']
-                    } for k,v in seedDict.iteritems() }
+            seed = { 
+                k: {
+                    'type':v['type'],
+                    'value':v['default']
+                } for k,v in seedDict.iteritems() }
         
         for k,v in seed.iteritems():     
 
@@ -126,34 +135,40 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
                 sym = expr.latex(raw=True)
                 v.update(sym)
 
-        if request.user is None:
-            user = request.user
-        else:
-            user = self.owner
-            inst = GameInstance(
-                game=self,
-                instantiator=user,
-                seed=json.dumps(seed),
-            )
 
-            for key, val in seed.iteritems():
-                if type(val) == type(dict()) and 'value' in val:
-                    value = val['value']
-                    jsonval = json.dumps(val)
-                else:
-                    value = val
-                    jsonval = json.dumps(val)
+        # create dict 
+        inst = {
+            'game': self,
+            'instantiator': self.owner,
+            'seed':json.dumps(seed)
+        }
 
-                try:
-                    value = int(val)
-                except ValueError:
-                    pass
+        # create the new instance
+        instance = GameInstance.get_or_create(inst)
+        instance = GameInstance(
+            
+        )
 
-                
-                seedkv = SeedKeyVal(key=key, val=value, jsonval=jsonval)
-                seedkv.save()
-                
-                inst.seedParams.add(seedkv)
+
+
+        for key, val in seed.iteritems():
+            if type(val) == type(dict()) and 'value' in val:
+                value = val['value']
+                jsonval = json.dumps(val)
+            else:
+                value = val
+                jsonval = json.dumps(val)
+
+            try:
+                value = int(val)
+            except ValueError:
+                pass
+
+            
+            seedkv = SeedKeyVal(key=key, val=value, jsonval=jsonval)
+            seedkv.save()
+            
+            inst.seedParams.add(seedkv)
 
         inst.save()
         return inst
@@ -171,15 +186,19 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
 
 class SeedKeyVal(models.Model):
     key = models.CharField(max_length=255, blank=False)
-    val = models.TextField(null=False, blank=False, default='')
+    val = models.CharField(max_length=5000, null=False, blank=False, default='')
     jsonval = models.TextField(null=False, blank=False, default='')
+    ordering = models.IntegerField(null=False, blank=False, default=0)
+
+    class Meta:
+        ordering = ('ordering',)
 
 
 class GameInstance(TimestamperMixin, models.Model):
     game = models.ForeignKey(ZeroPlayerGame, related_name='instances')
     instantiator = models.ForeignKey(User)
     seed = models.TextField()
-    seedParams = models.ManyToManyField(SeedKeyVal, null=True, blank=True)
+    seedParams = models.ManyToManyField(SeedKeyVal, null=True, blank=True, related_name='params')
     popularity = models.IntegerField(default=1)
     #source = models.TextField()
     #pagecache = models.TextField(null=True, blank=True)
@@ -187,11 +206,129 @@ class GameInstance(TimestamperMixin, models.Model):
     def __unicode__(self):
         return "%s's instance of \"%s\", by %s" % (self.instantiator.name, self.game.title, self.game.owner.name)
 
+    def parse_seed(self):
+        
+        for sp in self.seedParams.all():
+            sp.delete()
+
+        seed = json.loads(self.seed)
+        i=0
+        for key, val in seed.iteritems():
+            if type(val) == type(dict()) and 'value' in val:
+                value = val['value']
+                jsonval = json.dumps(val)
+            else:
+                value = val
+                jsonval = json.dumps(val)
+
+            try:
+                value = int(value)
+            except:
+                value = value
+
+            i += 1
+            
+            seedkv = SeedKeyVal(key=key, val=value, jsonval=jsonval, ordering=i)
+            seedkv.save()
+            self.seedParams.add(seedkv)
+
+
     def getImages(self):
         if self.images.count() > 0:
             return [im.image.name.replace("./","") for im in self.images.all()]
         else:
             return []
+
+
+    def __contains__(self, key):
+        return key in self.model.__dict__
+    
+    def __getitem__(self, key):
+        return self.model.__dict__[key]
+
+
+
+    #######################################################################################
+    #############  Static methods
+    #############  or "Meta-Views"
+
+    @staticmethod
+    def updateSeedLists(request):
+
+        out = []
+        instances = GameInstance.objects.all()
+
+        for instance in instances:
+
+            for sp in instance.seedParams.all():
+                sp.delete()
+            
+            seed = json.loads(instance.seed)
+
+            i=0
+            for key, val in seed.iteritems():
+                if type(val) == type(dict()) and 'value' in val:
+                    value = val['value']
+                    jsonval = json.dumps(val)
+                else:
+                    value = val
+                    jsonval = json.dumps(val)
+
+                try:
+                    value = int(value)
+                except:
+                    value = value
+                
+                i += 1
+                seedkv = SeedKeyVal(key=key, val=value, jsonval=jsonval, ordering=i)
+                seedkv.save()
+                instance.seedParams.add(seedkv)
+                out.append(", ".join(map(lambda sp: sp.key+sp.val, instance.seedParams.all())))
+            
+            instance.save()
+
+        return HttpResponse("\n".join(out))
+
+    @staticmethod
+    def clean_images(request):
+        """
+        Removes excess media files (images)
+        created to thin down app for Heroku deploy
+        """
+        out = []
+        imagesInUse = []
+        for instance in GameInstance.objects.all():
+            for im in instance.images.all():
+                imagesInUse.append(im.image.path)
+                imagesInUse.append(im.image.thumbnail(125))
+                imagesInUse.append(im.image.thumbnail(200))
+
+        inUseNames = Set(map(lambda x: os.path.basename(x), imagesInUse))
+        allImages = Set(filter(lambda x: len(x) > 40, os.listdir(plsys.settings.MEDIA_ROOT)))
+        toRemove = allImages.difference(inUseNames)
+
+        ims = map(lambda im: '<img src="/media/'+im+'" height="100" width="100" />', inUseNames)
+        # for im in toRemove:
+        #     os.remove(os.path.join(plsys.settings.MEDIA_ROOT, im))
+        return HttpResponse(''.join(ims))
+
+    @staticmethod
+    def enforce_unique_seedparam_cols(request):
+        out = []
+        for instance in GameInstance.objects.all():
+            seeddict = json.loads(instance.seed)
+            out.append(', '.join(
+                map(lambda x: str(x), 
+                    [instance.game.title, len(seeddict.keys()), instance.seedParams.count()])
+                ))
+           
+            # to check if there are any mismatched seedobjs and seedcols
+
+            # if len(seeddict.keys()) != instance.seedParams.count():
+            #     out.append(insntance.id)
+
+        return HttpResponse('<br />'.join(out))
+
 
 
 class GameInstanceSnapshot(TimestamperMixin, models.Model):

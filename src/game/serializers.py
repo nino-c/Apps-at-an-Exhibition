@@ -128,66 +128,18 @@ class InstanceMixin(serializers.ModelSerializer):
         return object.getImages()
 
     def update(self, instance, validated_data):
-       
-        for sp in instance.seedParams.all():
-            sp.delete()
-
-        seed = json.loads(instance.seed)
-
-        for key, val in seed.iteritems():
-            if type(val) == type(dict()) and 'value' in val:
-                value = val['value']
-                jsonval = json.dumps(val)
-            else:
-                value = val
-                jsonval = json.dumps(val)
-
-            try:
-                value = int(value)
-            except:
-                value = value
-            
-            seedkv = SeedKeyVal(key=key, val=value, jsonval=jsonval)
-            seedkv.save()
-            instance.seedParams.add(seedkv)
-        
+        instance = instance.parse_seed()
         instance.save()
-        
         return instance
 
-
-
     def create(self, validated_data):
-        
         validated_data['instantiator'] = self.context['request'].user
         validated_data['game'] = ZeroPlayerGame.objects.get(pk=validated_data['game_id'])
         validated_data['popularity'] = 34
         del validated_data['game_id']
 
         instance = GameInstance.objects.create(**validated_data)
-        #print instance.seedParams
-
-
-        seeddict = json.loads(instance.seed)
-        for key, val in seed.iteritems():
-            if type(val) == type(dict()) and 'value' in val:
-                value = val['value']
-                jsonval = json.dumps(val)
-            else:
-                value = val
-                jsonval = json.dumps(val)
-
-            try:
-                value = int(val)
-            except ValueError:
-                pass
-
-            
-            seedkv = SeedKeyVal(key=key, val=value, jsonval=jsonval)
-            seedkv.save()
-            
-            inst.seedParams.add(seedkv)
-
+        instance.parse_seed()
         instance.save()
         return instance
 
