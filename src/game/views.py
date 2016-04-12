@@ -29,21 +29,28 @@ def home(request):
 
 @csrf_exempt
 def instantiateGame(request, pk):
+    print '--instantiateGame'
+
     try:
         game = ZeroPlayerGame.objects.get(pk=pk)
     except ZeroPlayerGame.DoesNotExist:
         return HttpResponse(status=404)
 
     if request.method == 'GET':
-        instance = game.instantiate(request)
+        meta, instance = game.instantiate(request)
         serializer = InstanceSerializer(instance)
-        return JsonResponse(serializer.data)
+        sdata = dict(serializer.data)
+        sdata.update(**meta)
+        return JsonResponse(sdata)
 
     elif request.method == 'POST':
         seed = json.loads(request.body)
-        instance = game.instantiate(request, seed)
+        meta, instance = game.instantiate(request, seed)
         serializer = InstanceSerializer(instance)
-        return JsonResponse(serializer.data)
+        sdata = dict(serializer.data)
+        sdata.update(**meta)
+        print '>>sdata', sdata
+        return JsonResponse(sdata)
 
 @csrf_exempt
 def snapshot(request, format=None):

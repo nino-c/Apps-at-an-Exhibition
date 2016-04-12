@@ -10,6 +10,7 @@ from tornado import autoreload
 from tornado.log import LogFormatter, enable_pretty_logging
 import tornado.options
 
+from plsys.settings import DEPLOYMENT_LEVEL
 
 tornado.options.parse_command_line()
 enable_pretty_logging()
@@ -29,9 +30,10 @@ if APP is None:
     print "Cannot import plsys"
     sys.exit()
 
+port = 8000 if DEPLOYMENT_LEVEL == 'local' else 80
 
 http_server = HTTPServer(WSGIContainer(APP))
-http_server.listen(8000)
+http_server.listen(port)
 ioloop = IOLoop.instance()
 
 autoreload.start(ioloop)

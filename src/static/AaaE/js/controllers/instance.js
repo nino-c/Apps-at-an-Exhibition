@@ -101,7 +101,8 @@ angular
 
             $scope.parseSeedList();
             $scope.updateInstance(true);
-        }
+
+        };
 
         
         $scope.featureDisplay = function(content, css) {
@@ -112,14 +113,16 @@ angular
                 content = [content];
 
             $scope.featureDisplayContent = content;
-            $scope.featureDisplayCSS = _.reduce(_.mapObject(css, function(val, key) {
+            $scope.featureDisplayCSS = _.reduce(
+                _.mapObject(css, function(val, key) {
                     return key+':'+val+';';
                 }), function(a,b) { return a+b; }, '');
 
             $timeout(function() {
                 MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             }, 500);
-        }
+
+        };
 
 
         $scope.parseSeedList = function(setToFalse) {
@@ -142,6 +145,11 @@ angular
                 $scope._seed, function(s) {
                     if (s.parsing === undefined) s.parsing = false;
                     if (setToFalse) s.parsing = false;
+
+                    if (s.type == "number") {
+                        s.value = parseInt(s.value);
+                    }
+
                     return s;
                 });
             
@@ -150,7 +158,8 @@ angular
             $timeout(function() {
                 MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             }, 500);
-        }
+
+        };
 
 
         $scope.updateInstance = function(autosnapshot) {
@@ -170,9 +179,11 @@ angular
                         'Content-Type': 'application/json'
                     }
                 }
-                console.log(req);
+
                 $http(req).then(function successCallback(response) {
-                    console.log(response)
+                    
+                    console.log(response);
+                    
                     if (response.data.id) {
 
                         $scope.instance.id = response.data.id;
@@ -186,7 +197,14 @@ angular
                         $scope.seedTouched = false;
                         $scope.readyToSave = false;
 
-                        $rootScope.toast("Saved as new instance.");
+                        if (response.data.alreadyExists) {
+                            $rootScope.toast("Seed-vector exists already."); 
+                            $scope.autosnapshot = false;   
+                        } else {
+                            $rootScope.toast("Saved as new instance.");
+                        }
+                        
+                        var snapshot = response.data.alreadyExists ? false : true;
                         $scope.execute();
 
                     }
@@ -209,12 +227,12 @@ angular
                 $scope.execute();
             }
            
-        }
+        };
 
         
 
         $scope.viewSource = function(ev) {
-            console.log('viewsource')
+
             $mdDialog.show({
                 locals: {
                     app: $scope.instance.game,
@@ -233,13 +251,13 @@ angular
                     if (lang == 'paperscript') { lang = 'javascript'; }
 
                     $scope.cmOptions = {
-                      lineWrapping: true,
-                      lineNumbers: true,
-                      indentWithTabs: true,
-                      viewportMargin: Infinity,
-                      mode: lang,
-                      matchBrackets: true,
-                      gutters: ['codemirror-gutters']
+                        lineWrapping: true,
+                        lineNumbers: true,
+                        indentWithTabs: true,
+                        viewportMargin: Infinity,
+                        mode: lang,
+                        matchBrackets: true,
+                        gutters: ['codemirror-gutters']
                     }
 
                     $scope.app = app;
@@ -299,7 +317,7 @@ angular
                     $mdDialog.hide();
                 }
 
-              }
+            }
         }
 
         $scope.execute = function() {

@@ -4,9 +4,19 @@ from os.path import dirname, join, exists
 import dj_database_url
 import logging.config
 
+# Use 12factor inspired environment variables or from a file
+import environ
+env = environ.Env()
+
+# Ideally move env file should be outside the git repo
+# i.e. BASE_DIR.parent.parent
+env_file = join(dirname(__file__), 'local.env')
+if exists(env_file):
+    environ.Env.read_env(str(env_file))
+
+DEPLOYMENT_LEVEL=env('DEPLOYMENT_LEVEL')
 
 DEBUG = True
-
 BASE_DIR = dirname(dirname(__file__))
 #STATICFILES_DIRS = [join(BASE_DIR, 'static')]
 MEDIA_ROOT = join(BASE_DIR, 'media')
@@ -39,15 +49,9 @@ TEMPLATES = [
 
 TEMPLATES[0]['OPTIONS'].update({'debug': True})
 
-# Use 12factor inspired environment variables or from a file
-import environ
-env = environ.Env()
 
-# Ideally move env file should be outside the git repo
-# i.e. BASE_DIR.parent.parent
-env_file = join(dirname(__file__), 'local.env')
-if exists(env_file):
-    environ.Env.read_env(str(env_file))
+
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/

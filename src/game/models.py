@@ -168,14 +168,15 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
 
         # create the new instance
         instance, isNew = GameInstance.objects.get_or_create(vector=json.dumps(vector))
-        
+        meta = {}
+
         if isNew:
-            instance['alreadyExists'] = False
+            meta['alreadyExists'] = False
             for k,v in inst:
                 instance.__setattr__(k,v)
         else:
-            instance['alreadyExists'] = True
-            return instance
+            meta['alreadyExists'] = True
+            return meta, instance
 
         instance.save()
 
@@ -185,14 +186,16 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
         # deal with case from old seeds without 'value' key
         #kvs = map(lambda (k,v): SeedKeyVal(key=k, val=v['value'], jsonval=json.dumps(v), ordering=0), seed.iteritems())
 
-        kvs = [ SeedKeyVal(key=k, val=v['value'], jsonval=json.dumps(v), ordering=0) for k,v in seed.iteritems() ]
+        kvs = [ SeedKeyVal(key=k, val=v['value'], jsonval=json.dumps(v), ordering=0) \
+            for k,v in seed.iteritems() ]
+
         for i,kv in enumerate(kvs):
             kv.ordering = i
             kv.save()
             instance.seedParams.add(kv)
             
         instance.save()
-        return instance
+        return meta, instance
 
     @property
     def chooseImageSet(order=4):
@@ -267,11 +270,15 @@ class GameInstance(TimestamperMixin, models.Model):
             return []
 
 
-    def __contains__(self, key):
-        return key in self.model.__dict__
+    # def __contains__(self, key):
+    #     return key in self.model.__dict__
     
-    def __getitem__(self, key):
-        return self.model.__dict__[key]
+    # def __getitem__(self, key):
+    #     print '---key', key
+    #     if key in self.model.__dict__:
+    #         return self.model.__dict__[key]
+    #     else:
+    #         raise Exception('no item '+str(key))
 
 
 
