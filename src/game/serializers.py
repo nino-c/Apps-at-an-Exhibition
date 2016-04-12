@@ -113,6 +113,7 @@ class SeedParamSerializer(serializers.ModelSerializer):
 
 
 class InstanceMixin(serializers.ModelSerializer):
+    
     instantiator = UserSerializer(required=False, read_only=True)
     snapshots = serializers.SerializerMethodField(read_only=True)
     sourcecode = serializers.SerializerMethodField(read_only=True)
@@ -134,14 +135,50 @@ class InstanceMixin(serializers.ModelSerializer):
         return instance
 
     # def create(self, validated_data):
-    #     validated_data['instantiator'] = self.context['request'].user
-    #     validated_data['game'] = ZeroPlayerGame.objects.get(pk=validated_data['game_id'])
-    #     validated_data['popularity'] = 34
+
+    #     game = ZeroPlayerGame.objects.get(pk=validated_data['game_id'])
     #     del validated_data['game_id']
 
+    #     validated_data['instantiator'] = self.context['request'].user
+    #     validated_data['game'] = game
+    #     validated_data['popularity'] = 0
+        
     #     instance = GameInstance.objects.create(**validated_data)
+
+    #     seedDict = json.loads(game['seedStructure'])  
+    #     seed = {}
+        
+    #     for k,v in seedDict.iteritems():     
+    #         if 'type' not in v:
+    #             v['type'] = 'string'
+    #         if 'default' not in v:
+    #             if v['type'] == 'number':
+    #                 v = 0
+    #             else:
+    #                 v = ''
+    #         seed[k] = {'type':v['type'], 'value':v['default']}
+
+    #     for k,v in seed.iteritems():     
+    #         if v['type'] == 'math':
+    #             expr = SymbolicExpression(v['value'])
+    #             sym = expr.latex(raw=True)
+    #             v.update(sym)
+    #         if v['type'] == 'number':
+    #             try:
+    #                 v['value'] = int(v['value'])
+    #             except Exception:
+    #                 pass
+
+    #     # make seed vector
+    #     vector = { k:v['value'] for k,v in seed.iteritems() }
+
+    #     instance['vector'] = json.dumps(vector)
+    #     instance['seed'] = JSON.stringify(seed)
+
+    #     instance = GameInstance.objects.get_or_create(**instance)
     #     instance.record_seed_as_cols()
     #     instance.save()
+
     #     return instance
 
     
@@ -166,6 +203,7 @@ class InstanceSerializer_Inline(InstanceMixin, serializers.ModelSerializer):
 
 
 class AppSerializer(serializers.ModelSerializer):
+
     instances = InstanceSerializer_Inline(many=True, read_only=True)
     owner = UserSerializer(required=False, read_only=True)
     category = CategoryField()

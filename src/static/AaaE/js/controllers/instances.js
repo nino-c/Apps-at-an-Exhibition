@@ -51,30 +51,27 @@ angular
       $scope.selectInstance = function(chosenInstance) {
         $scope.selectedInstance = chosenInstance 
         $location.path('/instance/'+$scope.app.id+'/'+chosenInstance.id+'/')
-        //$window.location = 'index.html#/instance/'+$scope.app.id+'/'+chosenInstance.id+'/';
       }
 
       $scope.instantiate = function() {
-        $http({
-          method: 'GET',
-          url: '/game/app-instantiate/' + $scope.app.id + '/'
-        }).then(function successCallback(response) {
-          console.log(response)
-          $location.path('/instance/'+$scope.app.id+'/'+response.data.id+'/')
-          $mdToast.showSimple("New instance created");
-        }, function errorCallback(response) {
-          console.log('error', response)
-        });
+        InstanceService.save()
+            .$promise.then(function(response) {
+                if (response.data.id) {
+
+                    $location.path('/instance/'+$scope.app.id+'/'+response.data.id+'/');
+                    $rootScope.toast("New instance created");
+                }
+            });
       }
 
       $scope.delete = function() {
         if (confirm("Are you sure you want to delete this app?")) {
-          $scope.app.$remove().then(function successCallback(response) {
-            console.log(response)
-            //$location.path('/instance/'+$scope.app.id+'/'+response.data.id+'/')
-            $mdToast.showSimple("App deleted successfully");
-          }, function errorCallback(response) {
-            console.log('error', response)
+          AppService.$delete({id:$scope.app.id}).$promise.then(function(response) {
+            // $scope.app = _.reject(
+            //   $scope.app, function(a) {
+            //     return a.id == $scope.app.id;
+            //   })
+            console.log(response);
           });
         }
       }

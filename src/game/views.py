@@ -71,8 +71,6 @@ def snapshot(request, format=None):
         snap.save()
         file.close()
 
-        #return JsonResponse(im.__dict__)
-
         return JsonResponse({'a':'ok'})
 
 
@@ -80,6 +78,8 @@ def snapshot(request, format=None):
 Test and utility functions below
 """
 
+
+# metaprogramming
 
 def call_game_instance_static_method(request, static_method):
     """
@@ -106,14 +106,12 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
-#@permission_classes((IsAuthenticated, ))
 @permission_classes((AllowAny, ))
 class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
 
 
-#@permission_classes((IsAuthenticated, ))
 @permission_classes((AllowAny, ))
 class CategoryAppsViewSet(viewsets.ModelViewSet):
     serializer_class = CategoryAppsSerializer
@@ -121,46 +119,35 @@ class CategoryAppsViewSet(viewsets.ModelViewSet):
 
 @permission_classes((AllowAny, ))
 class AppViewSet(viewsets.ModelViewSet):
-    #authentication_classes = (SessionAuthentication,)
-    #permission_classes = [IsAuthenticated,]
     serializer_class = AppSerializer
     queryset = ZeroPlayerGame.objects.all()
 
 @permission_classes((AllowAny, ))
+@api_view(http_method_names=['GET', 'POST'])
 class InstanceViewSet(viewsets.ModelViewSet):
-    #authentication_classes = (SessionAuthentication,)
-    #permission_classes = [IsAuthenticated,]
     serializer_class = InstanceSerializer
-    #queryset = GameInstance.objects.all()
+    queryset = GameInstance.objects.all()
 
-    def Vectorize(sp):
-        return sp
-
-    queryset = GameInstance.objects.all() #annotate(vector=Vectorize('seedParams'))
 
 @permission_classes((AllowAny, ))
 class SnapshotViewSet(viewsets.ModelViewSet):
     serializer_class = SnapshotSerializer
     queryset = GameInstanceSnapshot.objects.all()
 
-#@permission_classes((IsAuthenticated, ))
 @permission_classes((AllowAny, ))
 class CodeModuleViewSet(viewsets.ModelViewSet):
-    #authentication_classes = (SessionAuthentication,)
-    #permission_classes = (IsAuthenticated,)
     queryset = CodeModule.objects.all()
     serializer_class = CodeModuleSerializer
 
 @permission_classes((AllowAny, ))
 class AppView(viewsets.ModelViewSet):
-    #authentication_classes = (SessionAuthentication,)
-    #permission_classes = (IsAuthenticated,)
     queryset = ZeroPlayerGame.objects.all()
     serializer_class = AppSerializer
 
 @permission_classes((AllowAny, ))
 class InstanceAppViewSet(viewsets.ModelViewSet):
     qeueryset = ZeroPlayerGame.objects.all()
+
 
 
 # class GameList(generics.ListCreateAPIView):
@@ -191,6 +178,24 @@ class InstanceAppViewSet(viewsets.ModelViewSet):
 manually handle REST API below (old)
 """
 
+# @api_view(['GET', 'POST'])
+# @permission_classes((AllowAny,))
+# def InstanceService(request, format=None):
+#     """
+#     List all apps, or create a new app.
+#     """
+#     if request.method == 'GET':
+#         games = GameInstance.objects.all()
+#         serializer = GameInstanceSerializer(games, many=True)
+#         return Response(serializer.data)
+
+#     elif request.method == 'POST':
+#         data = JSONParser().parse(request)
+#         serializer = GameInstanceSerializer(data=data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=201)
+#         return Response(serializer.errors, status=400)
 
 # @api_view(['GET', 'POST'])
 # @permission_classes((AllowAny,))

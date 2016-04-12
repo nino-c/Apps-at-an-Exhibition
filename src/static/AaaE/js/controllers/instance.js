@@ -99,7 +99,6 @@ angular
                 $scope._seed[$scope.varyParam] = $scope.currentCycleValue;
             }
 
-            $scope.updateSeed();
             $scope.parseSeedList();
             $scope.updateInstance(true);
         }
@@ -125,10 +124,18 @@ angular
 
         $scope.parseSeedList = function(setToFalse) {
             /*
+                process seedList:Array
+                create  _seed:Object
+            */
+            _.each($scope.seedList, function(seed) {
+                $scope._seed[seed[0]] = seed[1];
+            })
+            $scope.instance.seed = JSON.stringify($scope._seed);
+
+            /*
                 process _seed:Object
                 create  seedList:Array
             */
-
             if (setToFalse === undefined) setToFalse = false;
 
             $scope._seed = _.mapObject(
@@ -145,29 +152,12 @@ angular
             }, 500);
         }
 
-        $scope.updateSeed = function() {
-            /*
-                process seedList:Array
-                create  _seed:Object
-            */
-            _.each($scope.seedList, function(seed) {
-                $scope._seed[seed[0]] = seed[1];
-            })
-            $scope.instance.seed = JSON.stringify($scope._seed);
 
-        }
-
-        
         $scope.updateInstance = function(autosnapshot) {
 
-            if (!autosnapshot) {
-                $scope.autosnapshot = false;
-            } else {
-                $scope.autosnapshot = true;
-            }
+            $scope.autosnapshot = autosnapshot ? true : false;
 
             $scope.loading = true;
-            $scope.updateSeed();
             $scope.parseSeedList();
             
             if ($scope.userLoggedIn) {
@@ -180,10 +170,9 @@ angular
                         'Content-Type': 'application/json'
                     }
                 }
-                console.log(req)
-
+                console.log(req);
                 $http(req).then(function successCallback(response) {
-                
+                    console.log(response)
                     if (response.data.id) {
 
                         $scope.instance.id = response.data.id;
@@ -206,6 +195,7 @@ angular
                     console.log('error', response)
                 });
 
+
             } else {
                 
                 $scope.clearCanvas();
@@ -221,7 +211,7 @@ angular
            
         }
 
-        var self_scope = $scope;
+        
 
         $scope.viewSource = function(ev) {
             console.log('viewsource')
@@ -298,13 +288,13 @@ angular
 
                 $scope._updateInstance = function() {
 
-                    $scope.updateSeed();
+                    $scope.parseSeedList();
                     console.log('varyParam', $scope.varyParam);
 
                     if ($scope.varyParam != null) {
                         self_scope.cycleParam($scope.varyParam, $scope.varyMin, $scope.varyMax);
                     } else {
-                        self_scope.updateInstance(true);    
+                        $scope.updateInstance(true);    
                     }
                     $mdDialog.hide();
                 }

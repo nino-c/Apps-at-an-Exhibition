@@ -37,7 +37,8 @@
 
                             <md-button class="md-raised md-warn"  
                                 href="#/apps/{{ app.id }}/edit/" 
-                                role="button" layout-align="center center">
+                                role="button" layout-align="center center"
+                                ng-click="delete()">
                                 <md-icon md-font-set="material-icons">&#xE872;</md-icon>
                                 <span>Delete</span>
                             </md-button>
@@ -89,9 +90,9 @@
                     ng-repeat="instance in app.instances | orderBy:'created':true">
 
                     <md-card ng-click="selectInstance(instance)">
-
                         
-                            <img ng-if="instance.snapshots.length > 0" ng-src="/media/{{ instance.snapshots[0] | thumbnail:200 }}" 
+                            <img ng-if="instance.snapshots.length > 0" 
+                                ng-src="/media/{{ instance.snapshots[0] | thumbnail:200 }}" 
                                 class="thumbnail thumbnail-lg" style="width:100%; height: auto;" />
                         
                         <md-card-content>

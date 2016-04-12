@@ -10,6 +10,9 @@ import game.urls
 import symbolic_math.urls
 from . import views
 
+from socketio import sdjango
+sdjango.autodiscover()
+
 urlpatterns = [
     url(r'^$', views.plerpingapp, name='home'),
     url(r'^preview/$', views.plerpingapp, name='plerpingapp'),

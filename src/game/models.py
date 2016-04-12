@@ -109,8 +109,15 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
     def simplify_seed(self, seed):
         return { k:v['value'] for k,v in seed.iteritems() }
 
-    def instantiate(self, request, seed=None):
+    @staticmethod
+    def simplify_seed(seed):
+        return { k:v['value'] for k,v in seed.iteritems() }
+
+    def instantiate(self, request, seed={}):
         """
+        Now should be the *only place to handle: 
+            - seed creation
+            - kv col management
         does not need to be server-side anymore... which is easier?
         """
 
@@ -119,74 +126,70 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
 
         seedDict = json.loads(self.seedStructure)  
         
-        # tidy seedStruct first 
+        # ensure seedDict has `type` and `default` on each value-dict
         for k,v in seedDict.iteritems():     
             if 'type' not in v:
-                seedDict[k]['type'] = 'string'
+                v['type'] = 'string'
             if 'default' not in v:
                 if v['type'] == 'number':
-                    seedDict['default'] = 0
+                    v = 0
                 else:
-                    seedDict['default'] = ''
+                    v = ''
+            value = v['value'] if 'value' in v else v['default']
+            seed[k] = {'type':v['type'], 'value':value}
 
-        # define seed from default
-        if seed is None:
-            seed = { 
-                k: {
-                    'type':v['type'],
-                    'value':v['default']
-                } for k,v in seedDict.iteritems() }
-        
         for k,v in seed.iteritems():     
-
             if v['type'] == 'math':
                 expr = SymbolicExpression(v['value'])
                 sym = expr.latex(raw=True)
                 v.update(sym)
-
             if v['type'] == 'number':
                 try:
                     v['value'] = int(v['value'])
                 except Exception:
                     pass
-
+            if 'value' not in v:
+                v = {'value':v}
 
         # make seed vector
-        vector = self.simplify_seed(seed)
+        vector = { k:v['value'] for k,v in seed.iteritems() }
 
         # create dict 
         inst = {
             'game': self,
             'instantiator': self.owner,
             'seed': json.dumps(seed),
+        }
+
+        inst2 = {
             'vector': json.dumps(vector)
         }
 
+
         # create the new instance
-        instance, isNew = GameInstance.objects.get_or_create(**inst)
+        instance, isNew = GameInstance.objects.get_or_create(vector=json.dumps(vector))
+        
+        if isNew:
+            instance['alreadyExists'] = False
+            for k,v in inst:
+                instance.__setattr__(k,v)
+        else:
+            instance['alreadyExists'] = True
+            return instance
+
         instance.save()
 
+        for kv in instance.seedParams.all():
+            kv.delete()
+
         # deal with case from old seeds without 'value' key
-        i=0
-        for key, val in seed.iteritems():
-            if type(val) == type(dict()) and 'value' in val:
-                value = val['value']
-                jsonval = json.dumps(val)
-            else:
-                value = val
-                jsonval = json.dumps(val)
+        #kvs = map(lambda (k,v): SeedKeyVal(key=k, val=v['value'], jsonval=json.dumps(v), ordering=0), seed.iteritems())
 
-            if seedDict[key]['type'] == 'number':
-                try:
-                    value['value'] = int(value['value'])
-                except Exception:
-                    pass
-
-            i += 1
-            seedkv = SeedKeyVal(key=key, val=value, jsonval=jsonval, ordering=i)
-            seedkv.save()
-            
-            instance.seedParams.add(seedkv)
+        kvs = [ SeedKeyVal(key=k, val=v['value'], jsonval=json.dumps(v), ordering=0) for k,v in seed.iteritems() ]
+        for i,kv in enumerate(kvs):
+            kv.ordering = i
+            kv.save()
+            instance.seedParams.add(kv)
             
         instance.save()
         return instance
@@ -206,11 +209,14 @@ class SeedKeyVal(models.Model):
 
     key = models.CharField(max_length=255, blank=False)
     val = models.CharField(max_length=5000, null=False, blank=False, default='')
+    valtype = models.CharField(max_length=25, null=False, blank=False, default='string')
     jsonval = models.TextField(null=False, blank=False, default='')
     ordering = models.IntegerField(null=False, blank=False, default=0)
 
     class Meta:
         ordering = ('ordering',)
+
+
 
 
 class GameInstance(TimestamperMixin, models.Model):
@@ -219,6 +225,8 @@ class GameInstance(TimestamperMixin, models.Model):
     instantiator = models.ForeignKey(User)
     seed = models.TextField()
     seedParams = models.ManyToManyField(SeedKeyVal, null=True, blank=True, related_name='params')
+    # seedParams = models.ManyToManyField(SeedKeyVal, null=True, blank=True, \
+    #     through="SeedKeyValRelationship")
     popularity = models.IntegerField(default=1)
     vector = models.CharField(max_length=5000, null=True, blank=False, unique=True)
 
@@ -227,31 +235,30 @@ class GameInstance(TimestamperMixin, models.Model):
 
     def record_seed_as_cols(self):
         
-        for sp in self.seedParams.all():
-            sp.delete()
+        for kv in self.seedParams.all():
+            kv.delete()
 
         seed = json.loads(self.seed)
 
-        i=0
-        for key, val in seed.iteritems():
-            if type(val) == type(dict()) and 'value' in val:
-                value = val['value']
-                jsonval = json.dumps(val)
-            else:
-                value = val
-                jsonval = json.dumps(val)
-
-            try:
-                value = int(value)
-            except:
-                value = value
-
-            i += 1
+        for k,v in seed.iteritems(): 
+            if 'value' not in v:
+                v = {'value':v}    
+            if v['type'] == 'number':
+                try:
+                    v['value'] = int(v['value'])
+                except Exception:
+                    pass
             
-            seedkv = SeedKeyVal(key=key, val=value, jsonval=jsonval, ordering=i)
-            seedkv.save()
-            self.seedParams.add(seedkv)
 
+        # deal with case from old seeds without 'value' key
+        kvs = map(lambda (k,v): SeedKeyVal(key=k, val=v['value'], jsonval=json.dumps(v), 
+            ordering=0, valtype=v['type']), seed.iteritems())
+        for i,kv in enumerate(kvs):
+            kv.ordering = i
+            kv.save()
+            self.seedParams.add(kv)
+            
+        self.save()
 
     def getImages(self):
         if self.images.count() > 0:
@@ -273,41 +280,14 @@ class GameInstance(TimestamperMixin, models.Model):
     #############  or "Meta-Views"
 
     @staticmethod
-    def updateSeedLists(request):
+    def record_seeds(request):
+        out=[]
+        sds = GameInstance.objects.all()
+        for instance in sds:
+            instance.record_seed_as_cols()
+            out.append(str(instance.id))
+        return HttpResponse(', '.join(out))
 
-        out = []
-        instances = GameInstance.objects.all()
-
-        for instance in instances:
-
-            for sp in instance.seedParams.all():
-                sp.delete()
-            
-            seed = json.loads(instance.seed)
-
-            i=0
-            for key, val in seed.iteritems():
-                if type(val) == type(dict()) and 'value' in val:
-                    value = val['value']
-                    jsonval = json.dumps(val)
-                else:
-                    value = val
-                    jsonval = json.dumps(val)
-
-                try:
-                    value = int(value)
-                except:
-                    value = value
-                
-                i += 1
-                seedkv = SeedKeyVal(key=key, val=value, jsonval=jsonval, ordering=i)
-                seedkv.save()
-                instance.seedParams.add(seedkv)
-                out.append(", ".join(map(lambda sp: sp.key+sp.val, instance.seedParams.all())))
-            
-            instance.save()
-
-        return HttpResponse("\n".join(out))
 
     @staticmethod
     def clean_images(request):
@@ -349,6 +329,9 @@ class GameInstance(TimestamperMixin, models.Model):
 
         return JsonResponse(out)
 
+class SeedKeyValRelationship(models.Model):
+    instance = models.ForeignKey(GameInstance, on_delete=models.CASCADE)
+    keyval = models.ForeignKey(SeedKeyVal, on_delete=models.CASCADE)
 
 
 class GameInstanceSnapshot(TimestamperMixin, models.Model):
