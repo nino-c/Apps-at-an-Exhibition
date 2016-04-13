@@ -14,16 +14,16 @@
 - An *∀aa∃* is forbidden to use the `Math.random()` function at all.  This ensures the mathematical purity of the results, enforcing that the actual pure mathematics shine as just what they are, in the purest state.
 
 
-![Alt text](src/static/site/img/screenshots/9.png "Interactive math, music, and art programming")
-
-![Alt text](src/static/site/img/screenshots/8.png "Interactive math, music, and art programming")
-
-![Alt text](src/static/site/img/screenshots/7.png "Interactive math, music, and art programming")
-
-![Alt text](src/static/site/img/screenshots/6.png "Interactive math, music, and art programming")
-
-![Alt text](src/static/site/img/screenshots/3.png "show-source feature")
-
-![Alt text](src/static/site/img/screenshots/4.png "Interactive math, music, and art programming")
-
-![Alt text](src/static/site/img/screenshots/5.png "show-source feature")
+![Alt text](screenshots/Screenshot from 2016-04-13 15:43:34.png "Interactive math, music, and art programming")
+![Alt text](screenshots/Screenshot from 2016-04-13 15:39:40.png "Interactive math, music, and art programming")
+![Alt text](screenshots/Screenshot from 2016-04-13 15:43:59.png "Interactive math, music, and art programming")
+![Alt text](screenshots/Screenshot from 2016-04-13 15:41:07.png "Interactive math, music, and art programming")
+![Alt text](screenshots/Screenshot from 2016-04-13 15:40:16.png "Interactive math, music, and art programming")
+![Alt text](screenshots/Screenshot from 2016-04-13 15:42:38.png "Interactive math, music, and art programming")
+![Alt text](screenshots/Screenshot from 2016-04-13 15:40:51.png "Interactive math, music, and art programming")
+![Alt text](screenshots/Screenshot from 2016-04-13 15:38:41.png "Interactive math, music, and art programming")
+![Alt text](screenshots/Screenshot from 2016-04-13 15:41:21.png "Interactive math, music, and art programming")
+![Alt text](screenshots/Screenshot from 2016-04-13 15:42:01.png "Interactive math, music, and art programming")
+![Alt text](screenshots/Screenshot from 2016-04-13 15:42:59.png "Interactive math, music, and art programming")
+![Alt text](screenshots/Screenshot from 2016-04-13 15:40:28.png "Interactive math, music, and art programming")
+![Alt text](screenshots/Screenshot from 2016-04-13 15:39:15.png "Interactive math, music, and art programming")
