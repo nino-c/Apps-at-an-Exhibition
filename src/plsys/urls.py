@@ -18,8 +18,7 @@ from game.views import *
 #root = views.plerpingapp
 
 urlpatterns = [
-    url(r'^$', game.views.gameindex),
-    #url(r'^app/', views.redirect_to_plerpingapp, name='plerpingapp'),
+    url(r'^$', game.views.gameindex, name='gameindex'),
     url(r'^game/', include(game.urls, namespace='game')),
     url(r'^about/', views.AboutPage.as_view(), name='about'),
     url(r'^users/', include(profiles.urls, namespace='profiles')),
@@ -33,3 +32,4 @@ urlpatterns = [
 
 # User-uploaded files like profile pics need to be served in development
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -26,10 +26,6 @@ easy-thumbnails==2.3
 env-tools==2.0.0
 future==0.15.2
 futures==3.0.3
-#gevent==1.1.1
-#-e git+https://github.com/abourget/gevent-socketio.git@8971328ab467adc49bec98bc9eb7d13c89d9dac6#egg=gevent_socketio
-#gevent-websocket==0.9.5
-#greenlet==0.4.9
 gunicorn==19.4.5
 Jinja2==2.8
 jinja2-time==0.1.0
@@ -49,4 +45,3 @@ sympy==1.0
 tini==3.0.1
 tornado==4.3
 whichcraft==0.1.1
-whitenoise==2.0.6

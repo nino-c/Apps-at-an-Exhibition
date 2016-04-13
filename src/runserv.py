@@ -10,12 +10,10 @@ from tornado import autoreload
 from tornado.log import LogFormatter, enable_pretty_logging
 import tornado.options
 
-#from plsys.settings import DEPLOYMENT_LEVEL
+from plsys.settings import *
 
 tornado.options.parse_command_line()
 enable_pretty_logging()
-
-SERV_ROOT = '/home/ninopq/Projects/AaaE/src/' 
 
 def create_app(): 
     try:
@@ -25,20 +23,20 @@ def create_app():
         return None
     return application
 
-APP = create_app()
-if APP is None:
+app = create_app()
+if app is None:
     print "Cannot import plsys"
     sys.exit()
 
 port = 8000 #if DEPLOYMENT_LEVEL == 'local' else 80
 
-http_server = HTTPServer(WSGIContainer(APP))
+http_server = HTTPServer(WSGIContainer(app))
 http_server.listen(port)
 ioloop = IOLoop.instance()
 
 autoreload.start(ioloop)
 watchlist = []
-for dirpath,_,filenames in os.walk(SERV_ROOT):
+for dirpath,_,filenames in os.walk(BASE_DIR):
     for f in filenames:
         if f.endswith('.py'):
             watchlist.append(os.path.abspath(os.path.join(dirpath, f)))
