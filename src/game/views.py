@@ -19,13 +19,16 @@ import datetime
 import os.path
 import os
 
+from plsys.settings import *
+
 from game.models import *
 from game.serializers import *
+
 
 # def index(request):
 #   return render(request, "game/index.html")
 
-def index(request):
+def gameindex(request):
     angular_dirs = ['modules', 'services', 'controllers', 'directives', 'filters']
     angular_appdir_site = '/static/AaaE/js'
     angular_appdir = os.path.join(STATIC_ROOT, "AaaE/js")

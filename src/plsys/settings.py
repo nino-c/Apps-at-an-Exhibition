@@ -14,7 +14,7 @@ env_file = join(dirname(__file__), 'local.env')
 if exists(env_file):
     environ.Env.read_env(str(env_file))
 
-DEPLOYMENT_LEVEL=env('DEPLOYMENT_LEVEL')
+#DEPLOYMENT_LEVEL=env('DEPLOYMENT_LEVEL')
 
 DEBUG = True
 BASE_DIR = dirname(dirname(__file__))
