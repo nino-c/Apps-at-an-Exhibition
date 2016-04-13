@@ -4,6 +4,74 @@
 		"selected_items":
 		[
 			[
+				"ins",
+				"InstanceService"
+			],
+			[
+				"In",
+				"InstanceSerializer"
+			],
+			[
+				"App",
+				"AppService"
+			],
+			[
+				"seed",
+				"seedParams"
+			],
+			[
+				"clas",
+				"classmethod"
+			],
+			[
+				"G",
+				"GameInstance"
+			],
+			[
+				"class",
+				"classname"
+			],
+			[
+				"image",
+				"imagesInUse"
+			],
+			[
+				"ima",
+				"imagesInUse"
+			],
+			[
+				"JSON",
+				"JsonResponse"
+			],
+			[
+				"insta",
+				"instances"
+			],
+			[
+				"instance",
+				"instance"
+			],
+			[
+				"Seed",
+				"SeedParamSerializer"
+			],
+			[
+				"is",
+				"isPrime"
+			],
+			[
+				"vary",
+				"varyParam"
+			],
+			[
+				"var",
+				"varyMax"
+			],
+			[
+				"DATA",
+				"DATABASE_URL"
+			],
+			[
 				"featureDis",
 				"featureDisplayContent"
 			],
@@ -22,10 +90,6 @@
 			[
 				"sel",
 				"selectedSeedCycle"
-			],
-			[
-				"var",
-				"varyMax"
 			],
 			[
 				"cent",
@@ -66,10 +130,6 @@
 			[
 				"cyc",
 				"cycleArgs"
-			],
-			[
-				"vary",
-				"varyMax"
 			],
 			[
 				"selc",
@@ -134,10 +194,6 @@
 			[
 				"colo",
 				"colorHex2rgb"
-			],
-			[
-				"seed",
-				"seedList"
 			],
 			[
 				"text",
@@ -296,50 +352,50 @@
 	"buffers":
 	[
 		{
-			"file": "src/templates/angular-index.html",
-			"settings":
-			{
-				"buffer_size": 5502,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "src/static/AaaE/js/controllers/instance.js",
 			"settings":
 			{
-				"buffer_size": 21608,
+				"buffer_size": 18909,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/static/AaaE/views/app-display.html",
+			"file": "src/static/AaaE/js/controllers/instances.js",
 			"settings":
 			{
-				"buffer_size": 5564,
+				"buffer_size": 2889,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/static/AaaE/js/filters/filters.js",
+			"file": "src/static/AaaE/views/app-details.html",
 			"settings":
 			{
-				"buffer_size": 751,
+				"buffer_size": 6582,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/static/AaaE/js/directives/directives.js",
+			"file": "src/game/serializers.py",
 			"settings":
 			{
-				"buffer_size": 6600,
+				"buffer_size": 8788,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/static/site/less/main.less",
+			"file": "src/game/views.py",
 			"settings":
 			{
-				"buffer_size": 6801,
+				"buffer_size": 7501,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/game/models.py",
+			"settings":
+			{
+				"buffer_size": 11332,
 				"line_ending": "Unix"
 			}
 		}
@@ -351,17 +407,29 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 327.0,
-		"last_filter": "mark",
+		"height": 96.0,
+		"last_filter": "instal",
 		"selected_items":
 		[
 			[
-				"mark",
-				"Markdown Preview: Preview in Browser"
-			],
-			[
 				"instal",
 				"Package Control: Install Package"
+			],
+			[
+				"spac",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"tabs",
+				"Indentation: Convert to Tabs"
+			],
+			[
+				"key",
+				"Preferences: Key Bindings - User"
+			],
+			[
+				"mark",
+				"Markdown Preview: Preview in Browser"
 			],
 			[
 				"insta",
@@ -369,10 +437,6 @@
 			],
 			[
 				"spaces",
-				"Indentation: Convert to Spaces"
-			],
-			[
-				"spac",
 				"Indentation: Convert to Spaces"
 			],
 			[
@@ -440,7 +504,7 @@
 				"Preferences: Browse Packages"
 			]
 		],
-		"width": 458.0
+		"width": 449.0
 	},
 	"console":
 	{
@@ -472,8 +536,7 @@
 	[
 		"/home/ninopq/Projects/AaaE",
 		"/home/ninopq/Projects/AaaE/src",
-		"/home/ninopq/Projects/AaaE/src/deployments",
-		"/home/ninopq/Projects/AaaE/src/deployments/files",
+		"/home/ninopq/Projects/AaaE/src/game",
 		"/home/ninopq/Projects/AaaE/src/static",
 		"/home/ninopq/Projects/AaaE/src/static/AaaE",
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/js",
@@ -481,20 +544,62 @@
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/modules",
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/temp",
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/views",
-		"/home/ninopq/Projects/AaaE/src/templates",
-		"/home/ninopq/Source/web-starter-kit-0.6.1",
-		"/home/ninopq/Source/web-starter-kit-0.6.1/app",
-		"/home/ninopq/Source/web-starter-kit-0.6.1/docs"
+		"/home/ninopq/Projects/AaaE/src/templates"
 	],
 	"file_history":
 	[
+		"/home/ninopq/Projects/AaaE/src/game/views.py",
+		"/home/ninopq/Projects/AaaE/src/game/serializers.py",
+		"/home/ninopq/Projects/AaaE/src/plsys/settings.py",
+		"/home/ninopq/Projects/AaaE/src/game/urls.py",
+		"/home/ninopq/Projects/AaaE/src/game/_models.py",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/app-display.html",
+		"/home/ninopq/Projects/AaaE/src/game/models.py",
+		"/home/ninopq/Projects/AaaE/src/portfolio/models.py",
+		"/home/ninopq/Projects/AaaE/src/portfolio/admin.py",
+		"/home/ninopq/Projects/AaaE/src/symbolic_math/models.py",
+		"/home/ninopq/Projects/AaaE/src/accounts/models.py",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/controllers/instances.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/services/services.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/controllers/instance.js",
+		"/home/ninopq/Projects/AaaE/src/plsys/views.py",
+		"/home/ninopq/Projects/AaaE/src/templates/angular-index.html",
+		"/home/ninopq/Projects/AaaE/.gitignore",
+		"/home/ninopq/Projects/AaaE/src/game/admin.py",
+		"/home/ninopq/Projects/AaaE/src/game/migrations/0018_auto_20160410_0731.py",
+		"/home/ninopq/Projects/AaaE/src/game/migrations/0019_delete_seedparam.py",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/filters/filters.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/app-details.html",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/category-list.html",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/categories.html",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/controllers/categories.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/seed-editor-dialog.html",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/temp/subgroups.js",
+		"/home/ninopq/Projects/AaaE/src/plsys/urls.py",
+		"/home/ninopq/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap",
+		"/home/ninopq/.config/sublime-text-3/Packages/Default/Default (Linux).sublime-keymap",
+		"/home/ninopq/.config/sublime-text-3/Packages/User/cl.sublime-snippet",
+		"/home/ninopq/.config/sublime-text-3/Packages/Django Manage Commands/DjangoCommands.sublime-settings",
+		"/home/ninopq/Projects/AaaE/src/templates/angular-app-main.html",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/modules/module.exhibition.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/modules/module._ngSilent.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/directives/directives.js",
+		"/home/ninopq/Projects/AaaE/src/static/site/less/main.less",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/controllers/category-apps.js",
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/controllers/instance-editor.js",
+		"/home/ninopq/Projects/AaaE/src/deployments/views.py",
+		"/home/ninopq/Projects/AaaE/src/.env",
+		"/home/ninopq/Projects/AaaE/src/plsys/wsgi.py",
+		"/home/ninopq/Projects/AaaE/src/plsys/__settings/base.py",
+		"/home/ninopq/Projects/AaaE/src/plsys/__settings/production.py",
+		"/home/ninopq/Projects/AaaE/src/plsys/__settings/local.sample.env",
+		"/home/ninopq/Projects/AaaE/src/plsys/__settings/development.py",
+		"/home/ninopq/Projects/AaaE/src/accounts/urls.py",
 		"/home/ninopq/Projects/AaaE/src/deployments/files/bivariate-polynomial-landscape.html",
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/temp/polynomial-landscape2.js",
 		"/home/ninopq/Projects/AaaE/src/deployments/files/bivariate-polynomial-landscape-FREEZE.html",
 		"/home/ninopq/Projects/AaaE/src/deployments/files/multivariate-polynomial-landscape.html",
 		"/home/ninopq/Projects/AaaE/src/deployments/files/cartesian-coordinates.html",
-		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/modules/module.exhibition.js",
-		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/filters/filters.js",
 		"/home/ninopq/Source/web-starter-kit-0.6.1/node_modules/browser-sync/node_modules/lodash/collection/filter.js",
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/modules/module._ng-device-detector.js",
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/modules/module.__re-tree.js",
@@ -502,30 +607,14 @@
 		"/home/ninopq/Source/web-starter-kit-0.6.1/docs/commands.md",
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/controllers/app-editor.js",
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/app-editor.html",
-		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/app-details.html",
-		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/seed-editor-dialog.html",
-		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/controllers/instance.js",
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/seedEditor.html",
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/view-source-dialog.html",
-		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/app-display.html",
-		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/controllers/instances.js",
-		"/home/ninopq/Projects/AaaE/src/static/site/less/main.less",
-		"/home/ninopq/Projects/AaaE/src/static/AaaE/temp/subgroups.js",
 		"/home/ninopq/Projects/AaaE/src/deployments/files/subgroups.html",
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/temp/subgroups.py",
 		"/home/ninopq/Projects/AaaE/src/deployments/files/breathing-cosines-light.html",
 		"/home/ninopq/Projects/AaaE/src/deployments/files/function-in-2-vars-1-param.html",
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/app.js",
-		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/category-list.html",
-		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/directives/directives.js",
-		"/home/ninopq/Projects/AaaE/src/templates/angular-app-main.html",
-		"/home/ninopq/Projects/AaaE/src/templates/angular-index.html",
-		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/categories.html",
-		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/controllers/category-apps.js",
-		"/home/ninopq/Projects/AaaE/src/plsys/settings.py",
-		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/controllers/categories.js",
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/controllers/exhibition.js",
-		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/services/services.js",
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/controllers/exhibition.js.es6",
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/entry-point.js",
 		"/home/ninopq/Source/plsys/package.json",
@@ -534,23 +623,18 @@
 		"/home/ninopq/Projects/AaaE/package.json",
 		"/home/ninopq/Projects/AaaE/gulpfile.js",
 		"/home/ninopq/Source/herokutest/python-getting-started/gettingstarted/settings.py",
-		"/home/ninopq/Projects/AaaE/src/.env",
-		"/home/ninopq/Projects/AaaE/src/plsys/views.py",
-		"/home/ninopq/Projects/AaaE/src/plsys/wsgi.py",
 		"/home/ninopq/Projects/AaaE/src/templates/base.html",
 		"/home/ninopq/Projects/AaaE/src/templates/home.html",
 		"/home/ninopq/Projects/AaaE/Procfile",
 		"/home/ninopq/Source/herokutest/python-getting-started/Procfile.windows",
 		"/home/ninopq/Projects/AaaE/app.json",
 		"/home/ninopq/Projects/AaaE/src/__plsys.__wsgi",
-		"/home/ninopq/Projects/AaaE/.gitignore",
 		"/home/ninopq/Projects/AaaE/index.html",
 		"/home/ninopq/Source/herokutest/python-getting-started/Procfile",
 		"/home/ninopq/Source/herokutest/python-getting-started/runtime.txt",
 		"/home/ninopq/Projects/AaaE/logs/project.log",
 		"/home/ninopq/Projects/AaaE/logs/django.log",
 		"/home/ninopq/Source/herokutest/python-getting-started/gettingstarted/wsgi.py",
-		"/home/ninopq/Projects/AaaE/src/game/views.py",
 		"/home/ninopq/Projects/AaaE/src/manage.py",
 		"/home/ninopq/Projects/AaaE/src/plsys/settings/base.py",
 		"/home/ninopq/Projects/AaaE/src/plsys/settings/development.py",
@@ -563,14 +647,11 @@
 		"/home/ninopq/Projects/AaaE/src/deployments/files/bipoly.html",
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/js/modules/module._symbolic_math.js",
 		"/home/ninopq/Projects/AaaE/src/symbolic_math/views.py",
-		"/home/ninopq/Projects/AaaE/src/symbolic_math/models.py",
 		"/home/ninopq/Projects/AaaE/src/symbolic_math/tests.py",
 		"/home/ninopq/Projects/AaaE/src/deployments/files/affine-transformations.html",
 		"/home/ninopq/Projects/AaaE/src/deployments/files/function-1-var-1-param.html",
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/temp/fractal-trees.coffee",
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/views/app-list.html",
-		"/home/ninopq/Projects/AaaE/src/game/models.py",
-		"/home/ninopq/Projects/AaaE/src/game/urls.py",
 		"/home/ninopq/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
 		"/home/ninopq/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings",
 		"/home/ninopq/Projects/AaaE/src/profiles/templates/profiles/show_profile.html",
@@ -582,8 +663,6 @@
 		"/home/ninopq/Projects/AaaE/src/static/site/css/roboto-font.css",
 		"/home/ninopq/Projects/AaaE/src/static/site/css/bootstrap.css",
 		"/home/ninopq/Projects/AaaE/src/static/site/css/bootstrap.min.css",
-		"/home/ninopq/Projects/AaaE/src/game/serializers.py",
-		"/home/ninopq/Projects/AaaE/src/plsys/urls.py",
 		"/home/ninopq/Projects/AaaE/src/deployments/files/iterations-on-complex-plane.html",
 		"/home/ninopq/Projects/AaaE/src/game/apps.py",
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/_index.html",
@@ -596,30 +675,11 @@
 		"/home/ninopq/Projects/AaaE/src/static/AaaE/temp/audio_viz.js",
 		"/home/ninopq/Projects/AaaE/docs/app_plans/mviz.md",
 		"/home/ninopq/Projects/AaaE/src/static/site/js/lib/paper.js",
-		"/home/ninopq/Projects/AaaE/src/static/AaaE/temp/maze3.js",
-		"/home/ninopq/Projects/AaaE/src/static/AaaE/lib/iron-a11y-keys-behavior/index.html",
-		"/home/ninopq/Projects/AaaE/app-scripts/fractal-trees.coffee",
-		"/home/ninopq/Projects/AaaE/src/deployments/files/audioviz.js",
-		"/home/ninopq/Projects/AaaE/src/static/AaaE/coffee/fractal-trees.coffee",
-		"/home/ninopq/Projects/AaaE/src/deployments/files/2d-maze-solver.html",
-		"/home/ninopq/Projects/AaaE/src/static/site/js/lib/coffee-script.js",
-		"/home/ninopq/Projects/AaaE/src/game/admin.py",
-		"/home/ninopq/Projects/AaaE/app-scripts/polynomial-landscape.js",
-		"/home/ninopq/Projects/AaaE/src/app-extractions.psql.js",
-		"/home/ninopq/Projects/AaaE/src/symbolic_math/admin.py",
-		"/home/ninopq/Projects/AaaE/src/postgres.bak.31216.sql",
-		"/home/ninopq/Projects/AaaE/src/bower_components/codemirror/mode/apl/apl.js",
-		"/home/ninopq/Projects/AaaE/src/symbolic_math/templates/symbolic_math/symmath.html",
-		"/home/ninopq/Projects/AaaE/src/symbolic_math/urls.py",
-		"/home/ninopq/Projects/AaaE/src/static/AaaE/lib/angular/package.json",
-		"/home/ninopq/Projects/AaaE/node_modules/angular-bootstrap-colorpicker/package.json",
-		"/home/ninopq/Projects/AaaE/src/accounts/models.py",
-		"/home/ninopq/.config/sublime-text-3/Packages/User/SublimeLinter.sublime-settings",
-		"/home/ninopq/.config/sublime-text-3/Packages/SublimeLinter/SublimeLinter.sublime-settings"
+		"/home/ninopq/Projects/AaaE/src/static/AaaE/temp/maze3.js"
 	],
 	"find":
 	{
-		"height": 22.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
@@ -640,6 +700,65 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"ZeroPlayerGame",
+			"validated_data",
+			"sprams",
+			"DIALEC",
+			"seedParams",
+			"SeedKeyValMembership",
+			"JSON",
+			"HttpRe",
+			"v",
+			"parse_",
+			"parse_seed",
+			"unico",
+			"import __unicode__",
+			"MEDIA",
+			"MEDIA_R",
+			"GameInstance",
+			"methodname",
+			"_class",
+			"class",
+			"GameInst",
+			"_class",
+			"classname",
+			"name",
+			"instance",
+			"review_seeds",
+			"attributes",
+			"snapshot",
+			"updateGame(",
+			"clean_images",
+			"json",
+			"blog",
+			"content",
+			"125",
+			"seedlists",
+			"clean_images",
+			"json",
+			"JSON",
+			"index",
+			"macro",
+			"autosn",
+			"$location",
+			"macro",
+			"search",
+			"parseSeedList",
+			"$scope.toast",
+			"toast(",
+			"snapshot",
+			"/media",
+			"DATABA",
+			"config",
+			"TIME_ZONE",
+			"'\n",
+			"staticfiles",
+			"usr",
+			"whiten",
+			"white",
+			"MIDDLE",
+			"static",
+			"white",
 			"\\\\linebreak[4]",
 			"\\\\hfill \\\\break",
 			"\\\\newline",
@@ -708,66 +827,7 @@
 			"plsys.settings",
 			"select",
 			"div",
-			"</label>",
-			"md-input-container",
-			"md",
-			"100px",
-			"med",
-			"125",
-			"Edit",
-			"span",
-			"125px",
-			"125",
-			"parseSee",
-			"tab",
-			"bootstrap",
-			"footer",
-			"IsAuthenticated",
-			"views",
-			"a",
-			"{{",
-			"thumb",
-			"category",
-			"AppService",
-			"false",
-			"showCanvas",
-			"$prom",
-			"h2",
-			"exhibition",
-			"button",
-			"transparent",
-			"255",
-			"point",
-			"transformPoint",
-			"0.3",
-			"func",
-			"01",
-			"0",
-			"points1",
-			"path1",
-			"points1",
-			"1",
-			"position",
-			"p",
-			"points",
-			"allpoints",
-			"path2",
-			"path1",
-			"points1",
-			"path1",
-			"LIGHT_GREY",
-			"range(10)",
-			"grid",
-			"i",
-			"grid",
-			"numlines",
-			"grid",
-			"_layer",
-			"numeric.t",
-			"75",
-			"100",
-			"10",
-			"0.9"
+			"</label>"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -775,6 +835,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"$rootScope.toast",
 			"\\\\\\\\\\n",
 			"\\\\linebreak[4]",
 			"\\\\hfill \\\\break",
@@ -806,54 +867,24 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/templates/angular-index.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5502,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2404,
-								2404
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 220.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "src/static/AaaE/js/controllers/instance.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 21608,
+						"buffer_size": 18909,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1881,
-								1881
+								4507,
+								4507
 							]
 						],
 						"settings":
@@ -863,7 +894,37 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 578.0,
+						"translation.y": 1990.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/static/AaaE/js/controllers/instances.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2889,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1652,
+								1652
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -871,19 +932,19 @@
 				},
 				{
 					"buffer": 2,
-					"file": "src/static/AaaE/views/app-display.html",
+					"file": "src/static/AaaE/views/app-details.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5564,
+						"buffer_size": 6582,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								439,
-								439
+								1644,
+								1644
 							]
 						],
 						"settings":
@@ -896,64 +957,64 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "src/static/AaaE/js/filters/filters.js",
+					"file": "src/game/serializers.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 751,
+						"buffer_size": 8788,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								630,
-								630
+								3868,
+								3868
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"syntax": "Packages/Python/Python.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1665.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "src/static/AaaE/js/directives/directives.js",
+					"file": "src/game/views.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6600,
+						"buffer_size": 7501,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5262,
-								5262
+								4257,
+								4257
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"syntax": "Packages/Python/Python.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1680.0,
+						"translation.y": 1837.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -961,32 +1022,32 @@
 				},
 				{
 					"buffer": 5,
-					"file": "src/static/site/less/main.less",
+					"file": "src/game/models.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6801,
+						"buffer_size": 11332,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2042,
-								2042
+								4027,
+								4027
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/LESS/LESS.tmLanguage",
-							"tab_size": 2,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1456.0,
+						"translation.y": 2283.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
@@ -994,7 +1055,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 21.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -1039,7 +1100,7 @@
 	"project": "AaaE.sublime-project",
 	"replace":
 	{
-		"height": 40.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1049,16 +1110,176 @@
 		"selected_items":
 		[
 			[
+				"vie",
+				"src/game/views.py"
+			],
+			[
+				"view",
+				"src/game/views.py"
+			],
+			[
+				"app-d",
+				"src/static/AaaE/views/app-details.html"
+			],
+			[
+				"insta",
+				"src/static/AaaE/js/controllers/instances.js"
+			],
+			[
+				"ser",
+				"src/game/serializers.py"
+			],
+			[
+				"serial",
+				"src/game/serializers.py"
+			],
+			[
+				"sett",
+				"src/plsys/settings.py"
+			],
+			[
+				"model",
+				"src/game/models.py"
+			],
+			[
+				"urls",
+				"src/game/urls.py"
+			],
+			[
+				"seri",
+				"src/game/serializers.py"
+			],
+			[
+				"mode",
+				"src/symbolic_math/models.py"
+			],
+			[
+				"gameurl",
+				"src/game/urls.py"
+			],
+			[
+				"servi",
+				"src/static/AaaE/js/services/services.js"
+			],
+			[
+				"seria",
+				"src/game/serializers.py"
+			],
+			[
+				"url",
+				"src/game/urls.py"
+			],
+			[
+				"mod",
+				"src/game/models.py"
+			],
+			[
+				"instanc",
+				"src/static/AaaE/js/controllers/instances.js"
+			],
+			[
+				"angul",
+				"src/templates/angular-index.html"
+			],
+			[
+				"set",
+				"src/plsys/settings.py"
+			],
+			[
+				"setting",
+				"src/plsys/settings.py"
+			],
+			[
+				"instan",
+				"src/static/AaaE/js/controllers/instance.js"
+			],
+			[
+				"gameadmin",
+				"src/game/admin.py"
+			],
+			[
+				"categ",
+				"src/static/AaaE/js/controllers/categories.js"
+			],
+			[
+				"filter",
+				"src/static/AaaE/js/filters/filters.js"
+			],
+			[
+				"catego",
+				"src/static/AaaE/views/category-list.html"
+			],
+			[
 				"filters",
-				"AaaE/src/static/AaaE/js/filters/filters.js"
+				"src/static/AaaE/js/filters/filters.js"
+			],
+			[
+				"app-de",
+				"src/static/AaaE/views/app-details.html"
+			],
+			[
+				"plsysurl",
+				"src/plsys/urls.py"
+			],
+			[
+				"app-disp",
+				"src/static/AaaE/views/app-display.html"
+			],
+			[
+				"instance",
+				"src/static/AaaE/js/controllers/instances.js"
+			],
+			[
+				"views",
+				"src/game/views.py"
+			],
+			[
+				"insn",
+				"src/static/AaaE/js/controllers/instances.js"
+			],
+			[
+				"app-det",
+				"src/static/AaaE/views/app-details.html"
+			],
+			[
+				"servic",
+				"src/static/AaaE/js/services/services.js"
+			],
+			[
+				"inst",
+				"src/static/AaaE/js/controllers/instances.js"
+			],
+			[
+				"insnt",
+				"src/static/AaaE/js/controllers/instances.js"
+			],
+			[
+				"instances",
+				"src/static/AaaE/js/controllers/instances.js"
+			],
+			[
+				".env",
+				"AaaE/src/.env"
+			],
+			[
+				"settings",
+				"AaaE/src/plsys/settings.py"
+			],
+			[
+				"_settings/base",
+				"AaaE/src/plsys/__settings/base.py"
+			],
+			[
+				"settin",
+				"AaaE/src/plsys/settings.py"
+			],
+			[
+				"angu",
+				"AaaE/src/templates/angular-app-main.html"
 			],
 			[
 				"filters.",
 				"AaaE/src/static/AaaE/js/filters/filters.js"
-			],
-			[
-				"filter",
-				"web-starter-kit-0.6.1/node_modules/browser-sync/node_modules/lodash/collection/filter.js"
 			],
 			[
 				"main.les",
@@ -1069,28 +1290,12 @@
 				"AaaE/src/static/AaaE/js/directives/directives.js"
 			],
 			[
-				"app-disp",
-				"AaaE/src/static/AaaE/views/app-display.html"
-			],
-			[
-				"instan",
-				"AaaE/src/static/AaaE/js/controllers/instance.js"
-			],
-			[
 				"angular-i",
 				"AaaE/src/templates/angular-index.html"
 			],
 			[
 				"app-edi",
 				"src/static/AaaE/js/controllers/app-editor.js"
-			],
-			[
-				"insta",
-				"src/static/AaaE/js/controllers/instance.js"
-			],
-			[
-				"app-de",
-				"src/static/AaaE/views/app-details.html"
 			],
 			[
 				"app-dis",
@@ -1121,14 +1326,6 @@
 				"src/templates/angular-app-main.html"
 			],
 			[
-				"instances",
-				"src/static/AaaE/js/controllers/instances.js"
-			],
-			[
-				"instance",
-				"AaaE/src/static/AaaE/js/controllers/instance.js"
-			],
-			[
 				"cate",
 				"AaaE/src/static/AaaE/js/controllers/category-apps.js"
 			],
@@ -1137,24 +1334,12 @@
 				"AaaE/src/static/AaaE/js/controllers/exhibition.js"
 			],
 			[
-				"categ",
-				"AaaE/src/static/AaaE/js/controllers/category-apps.js"
-			],
-			[
 				"exhib",
 				"AaaE/src/static/AaaE/js/controllers/exhibition.js"
 			],
 			[
-				"servi",
-				"AaaE/src/static/AaaE/js/services/services.js"
-			],
-			[
 				"app-ed",
 				"AaaE/src/static/AaaE/js/controllers/app-editor.js"
-			],
-			[
-				".env",
-				"AaaE/src/.env"
 			],
 			[
 				"plsysviews",
@@ -1177,20 +1362,12 @@
 				"src/static/AaaE/iframe.html"
 			],
 			[
-				"view",
-				"src/game/views.py"
-			],
-			[
 				"plsysview",
 				"src/plsys/views.py"
 			],
 			[
 				"base.py",
 				"src/plsys/settings/base.py"
-			],
-			[
-				"views",
-				"src/game/views.py"
 			],
 			[
 				"affine",
@@ -1205,20 +1382,8 @@
 				"src/static/AaaE/temp/fractal-trees.coffee"
 			],
 			[
-				"app-det",
-				"src/static/AaaE/views/app-details.html"
-			],
-			[
 				"app-list",
 				"src/static/AaaE/views/app-list.html"
-			],
-			[
-				"model",
-				"src/game/models.py"
-			],
-			[
-				"urls",
-				"src/game/urls.py"
 			],
 			[
 				"app.",
@@ -1233,16 +1398,8 @@
 				"src/templates/angular-index.html"
 			],
 			[
-				"serial",
-				"src/game/serializers.py"
-			],
-			[
 				"app-li",
 				"src/static/AaaE/views/app-list.html"
-			],
-			[
-				"catego",
-				"src/static/AaaE/views/category-list.html"
 			],
 			[
 				"affine-",
@@ -1301,10 +1458,6 @@
 				"src/static/AaaE/views/app-details.html"
 			],
 			[
-				"mode",
-				"src/game/models.py"
-			],
-			[
 				"app-edit",
 				"src/static/AaaE/js/controllers/app-editor.js"
 			],
@@ -1315,10 +1468,6 @@
 			[
 				"gamemod",
 				"src/game/models.py"
-			],
-			[
-				"inst",
-				"src/static/AaaE/js/controllers/instance.js"
 			],
 			[
 				"base",
@@ -1352,8 +1501,8 @@
 	"show_minimap": true,
 	"show_open_files": true,
 	"show_tabs": true,
-	"side_bar_visible": true,
-	"side_bar_width": 265.0,
+	"side_bar_visible": false,
+	"side_bar_width": 261.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

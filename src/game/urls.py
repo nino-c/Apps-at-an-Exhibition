@@ -88,7 +88,7 @@ router.register(r'code_modules', CodeModuleViewSet)
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    url(r'^$', views.home, name="game-index"),
+    url(r'^$', views.index, name="game-index"),
     url(r'^api/', include(router.urls)),
     url(r'^test/', views.test, name="game-test"),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),

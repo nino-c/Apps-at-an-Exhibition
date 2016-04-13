@@ -22,14 +22,26 @@ import os
 from game.models import *
 from game.serializers import *
 
+# def index(request):
+#   return render(request, "game/index.html")
 
+def index(request):
+    angular_dirs = ['modules', 'services', 'controllers', 'directives', 'filters']
+    angular_appdir_site = '/static/AaaE/js'
+    angular_appdir = os.path.join(STATIC_ROOT, "AaaE/js")
+    angular_includes = reduce(
+        lambda a,b: a+b, map( 
+            lambda dir: sorted(filter(
+                lambda file: not file.startswith('_'), 
+                    map(lambda f: os.path.join("AaaE/js", dir, f), os.listdir(os.path.join(angular_appdir, dir)))
+                )), angular_dirs)
+        )
 
-def home(request):
-    return render(request, "game/index.html")
+    return render(request, "angular-app-main.html", 
+        {'angular_includes': angular_includes})
 
 @csrf_exempt
 def instantiateGame(request, pk):
-    print '--instantiateGame'
 
     try:
         game = ZeroPlayerGame.objects.get(pk=pk)
@@ -49,7 +61,6 @@ def instantiateGame(request, pk):
         serializer = InstanceSerializer(instance)
         sdata = dict(serializer.data)
         sdata.update(**meta)
-        print '>>sdata', sdata
         return JsonResponse(sdata)
 
 @csrf_exempt

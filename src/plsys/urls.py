@@ -10,9 +10,12 @@ import game.urls
 import symbolic_math.urls
 from . import views
 
+
+root = views.blankhome if DEPLOYMENT_LEVEL == 'local' else views.plerpingapp
+
 urlpatterns = [
-    url(r'^$', views.plerpingapp, name='home'),
-    url(r'^preview/$', views.plerpingapp, name='plerpingapp'),
+    url(r'^$', root, name='home'),
+    url(r'^app/$', views.plerpingapp, name='plerpingapp'),
     url(r'^about/$', views.AboutPage.as_view(), name='about'),
     url(r'^users/', include(profiles.urls, namespace='profiles')),
     url(r'^admin/', include(admin.site.urls)),

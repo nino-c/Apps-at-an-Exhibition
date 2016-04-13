@@ -25,6 +25,8 @@ local.env
 .env
 src/.env
 
+src/media.bak/*
+
 # Django stuff:
 *.mo
 *.pot
