@@ -7,13 +7,38 @@ from django.contrib import messages
 from authtools import views as authviews
 from braces import views as bracesviews
 from django.conf import settings
+#from django.contrib import messages
+
+from plsys.settings import STATIC_ROOT
+import os
+import os.path
+
 from . import forms
 
 User = get_user_model()
 
 
-class LoginView(bracesviews.AnonymousRequiredMixin,
-                authviews.LoginView):
+class AngularMixin(object):
+    def get_context_data(self, **kwargs):
+        angular_dirs = ['modules', 'services', 'controllers', 'directives', 'filters']
+        angular_appdir_site = '/static/AaaE/js'
+        angular_appdir = os.path.join(STATIC_ROOT, "AaaE/js")
+        angular_includes = reduce(
+            lambda a,b: a+b, map( 
+                lambda dir: sorted(filter(
+                    lambda file: not file.startswith('_'), 
+                        map(lambda f: os.path.join("AaaE/js", dir, f), os.listdir(os.path.join(angular_appdir, dir)))
+                    )), angular_dirs)
+            )
+        context = super(LoginView, self).get_context_data(**kwargs)
+        context['angular_includes'] = angular_includes
+        context['isAngularApp'] = False
+        print '----------------', context
+        return context
+
+class LoginView(bracesviews.AnonymousRequiredMixin, 
+                    authviews.LoginView):
+    
     template_name = "accounts/login.html"
     form_class = forms.LoginForm
 
@@ -26,6 +51,24 @@ class LoginView(bracesviews.AnonymousRequiredMixin,
             self.request.session.set_expiry(expiry)
         return redirect
 
+    def get_context_data(self, **kwargs):
+        angular_dirs = ['modules', 'services', 'controllers', 'directives', 'filters']
+        angular_appdir_site = '/static/AaaE/js'
+        angular_appdir = os.path.join(STATIC_ROOT, "AaaE/js")
+        angular_includes = reduce(
+            lambda a,b: a+b, map( 
+                lambda dir: sorted(filter(
+                    lambda file: not file.startswith('_'), 
+                        map(lambda f: os.path.join("AaaE/js", dir, f), os.listdir(os.path.join(angular_appdir, dir)))
+                    )), angular_dirs)
+            )
+        context = super(LoginView, self).get_context_data(**kwargs)
+        context['angular_includes'] = angular_includes
+        context['isAngularApp'] = False
+        print '----------------', context
+        return context
+
+    
 
 class LogoutView(authviews.LogoutView):
     url = reverse_lazy('home')
@@ -34,6 +77,10 @@ class LogoutView(authviews.LogoutView):
 class SignUpView(bracesviews.AnonymousRequiredMixin,
                  bracesviews.FormValidMessageMixin,
                  generic.CreateView):
+
+    # turnem awf
+    #messages.info("Signup is currently closed.")
+
     form_class = forms.SignupForm
     model = User
     template_name = 'accounts/signup.html'
@@ -41,6 +88,7 @@ class SignUpView(bracesviews.AnonymousRequiredMixin,
     form_valid_message = "You're signed up!"
 
     def form_valid(self, form):
+        
         r = super(SignUpView, self).form_valid(form)
         username = form.cleaned_data["email"]
         password = form.cleaned_data["password1"]

@@ -28,6 +28,7 @@ class LoginForm(AuthenticationForm):
             )
 
 
+
 class SignupForm(authtoolsforms.UserCreationForm):
 
     def __init__(self, *args, **kwargs):
@@ -40,9 +41,10 @@ class SignupForm(authtoolsforms.UserCreationForm):
             Field('name', placeholder="Enter Full Name"),
             Field('password1', placeholder="Enter Password"),
             Field('password2', placeholder="Re-enter Password"),
-            Submit('sign_up', 'Sign up', css_class="btn-warning"),
-            )
-
+            # Submit('sign_up', 'Sign up', css_class="btn-warning"),
+            # ),
+            HTML('<input type="submit" disabled="disabled" class="btn btn-lg btn-warning" value="Sign up" />')
+        )
 
 class PasswordChangeForm(authforms.PasswordChangeForm):
 

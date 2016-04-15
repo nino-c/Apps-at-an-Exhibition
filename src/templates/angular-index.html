@@ -1,7 +1,7 @@
 {% load staticfiles %}
 {% load thumbnail %}
 <!doctype html>
-<html ng-app="Exhibition">
+<html{% if isAngularApp %} ng-app="Exhibition"{% endif %}>
 
 <head>
   <meta charset="utf-8">
@@ -85,7 +85,7 @@
  
   <md-toolbar ng-cloak md-whiteframe="3">
       <div id="top-toolbar">
-        <span onclick="window.location='#'" id="brand" flex>∀aa∃</span>
+        <span onclick="window.location='/'" id="brand" flex>∀aa∃</span>
         <span flex>Apps at an Exhibition</span>
         
         <span class="pull-right">
@@ -110,26 +110,66 @@
         {% endif %}
         {% if not user.is_authenticated %}
 
-          <md-button class="btn btn-default" href="{% url 'accounts:login' %}" role="button">Log in</md-button>
-          <md-button class="btn btn-primary" href="{% url 'accounts:signup' %}" role="button">Sign up</md-button>
+          <md-button class="btn btn-default" ng-href="{% url 'accounts:login' %}" role="button">Log in</md-button>
+          <md-button class="btn btn-primary" ng-href="{% url 'accounts:signup' %}" role="button">Sign up</md-button>
         
         {% endif %}
         </span>
       </div>
   </md-toolbar>
   
-  {% block maincontent %}
-  {% endblock maincontent %}
+  <md-content ng-controller="ContentController">
+
+    <main ng-if="isAngularApp" class="main" role="main" flex>
+      <div ng-view class="flex"></div>
+    </main>
+    
+      <div class="main" ng-if="!isAngularApp" role="main" flex>
+        <md-card>
+          <md-card-content>
+            {% block accounts %}
+            {% endblock accounts %}
+          </md-card-content>
+        </md-card>
+      </div>
+    
+
+  </md-content>
+
+
+  
 
 <!--   <footer class="footer-toolbar">
     &copy; 2016 Nino P. Cocchiarella <code>mrcodeswitcher.com</code>
   </footer> -->
 
+<iframe id="bg-iframe" src="/static/AaaE/iframe.html" 
+  frameborder="0" width="100%" height="100%" 
+  ng-show="showBGCanvas" scrolling="no"></iframe>
 
 
-  {% block bottomscripts %}
+{% block bottomscripts %}
 
-  {% endblock bottomscripts %}
+  <script src="{% static 'AaaE/lib/angular/angular.js' %}" type="text/javascript"></script>
+  <script src="{% static 'AaaE/lib/angular-ui-codemirror/ui-codemirror.js' %}" type="text/javascript"></script>
+  <script src="{% static 'AaaE/lib/angular-material/angular-material.min.js' %}" type="text/javascript"></script>
+  <script src="{% static 'AaaE/lib/angular-bootstrap/ui-bootstrap.js' %}" type="text/javascript"></script>
+  <script src="{% static 'AaaE/lib/angular-route/angular-route.js' %}" type="text/javascript"></script>
+  <script src="{% static 'AaaE/lib/angular-resource/angular-resource.js' %}" type="text/javascript"></script>
+  <script src="{% static 'AaaE/lib/angular-cookies/angular-cookies.js' %}" type="text/javascript"></script>
+  <script src="{% static 'AaaE/lib/angular-animate/angular-animate.js' %}" type="text/javascript"></script>
+  <script src="{% static 'AaaE/lib/angular-aria/angular-aria.js' %}" type="text/javascript"></script>
+  <script src="{% static 'AaaE/lib/angular-messages/angular-messages.js' %}" type="text/javascript"></script>
+  <script src="{% static 'AaaE/lib/angular-location-update/angular-location-update.js' %}" type="text/javascript"></script>
+  <script src="{% static 'node/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js' %}" type="text/javascript"></script>
+  <!--<script src="/static/bower/angular-moment/moment.min.js' %}" type="text/javascript"></script>-->
+
+<!-- main angular app  -->
+  {% for include in angular_includes %}
+  <script src="{% static include %}" type="text/javascript"></script>
+  {% endfor %}
+
+{% endblock %}
 
 
  

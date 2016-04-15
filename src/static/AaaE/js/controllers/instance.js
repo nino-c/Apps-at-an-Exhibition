@@ -1,15 +1,26 @@
 angular
   .module('Exhibition')
-  .controller('InstanceController', ['$rootScope', '$window', '$document', '$scope', 
-    '$interval', '$location', '$route', '$resource', '$mdToast', 
-    '$timeout', '$http', '$mdDialog', '$ngSilentLocation',
+  .controller('InstanceController', [
+
+    '$rootScope',
+    '$window',
+    '$document',
+    '$scope',
+    '$interval',
+    '$location',
+    '$route',
+    '$resource',
+    '$mdToast',
+    '$timeout',
+    '$http',
+    '$mdDialog',
+    '$ngSilentLocation',
     'AppService',
     'InstanceService',
+
     function ($rootScope, $window, $document, $scope, $interval, $location, $route, 
         $resource, $mdToast, $timeout, $http, $mdDialog, $ngSilentLocation,
         AppService, InstanceService)  {
-
-        //paper.setup('big-canvas');
 
         var timer;
 

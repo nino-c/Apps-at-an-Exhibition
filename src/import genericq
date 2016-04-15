@@ -1,0 +1,38 @@
+Help on class AnonymousRequiredMixin in module braces.views._access:
+
+class AAnnoonnyymmoouussRReeqquuiirreeddMMiixxiinn(__builtin__.object)
+ |  View mixin which redirects to a specified URL if authenticated.
+ |  Can be useful if you wanted to prevent authenticated users from
+ |  accessing signup pages etc.
+ |  
+ |  NOTE:
+ |      This should be the left-most mixin of a view.
+ |  
+ |  Example Usage
+ |  
+ |      class SomeView(AnonymousRequiredMixin, ListView):
+ |          ...
+ |          # required
+ |          authenticated_redirect_url = "/accounts/profile/"
+ |          ...
+ |  
+ |  Methods defined here:
+ |  
+ |  ddiissppaattcchh(self, request, *args, **kwargs)
+ |  
+ |  ggeett__aauutthheennttiiccaatteedd__rreeddiirreecctt__uurrll(self)
+ |      Return the reversed authenticated redirect url.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |  
+ |  ____ddiicctt____
+ |      dictionary for instance variables (if defined)
+ |  
+ |  ____wweeaakkrreeff____
+ |      list of weak references to the object (if defined)
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data and other attributes defined here:
+ |  
+ |  aauutthheennttiiccaatteedd__rreeddiirreecctt__uurrll = <django.utils.functional.__proxy__ object...

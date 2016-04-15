@@ -1,7 +1,8 @@
 angular
 	.module('Exhibition')
-	.controller('CategoriesController', ['$scope', '$location', 'CategoryWithApps', 
-		function($scope, $location, CategoryWithApps) {
+	.controller('CategoriesController', ['$rootScope', '$scope', 
+		'$location', 'CategoryWithApps', 
+		function($rootScope, $scope, $location, CategoryWithApps) {
 		
 		$scope.loading = true;
 

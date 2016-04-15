@@ -40,8 +40,8 @@ def gameindex(request):
                 )), angular_dirs)
         )
 
-    return render(request, "angular-app-main.html", 
-        {'angular_includes': angular_includes})
+    return render(request, "angular-index.html", 
+        {'angular_includes': angular_includes, 'isAngularApp': True})
 
 @csrf_exempt
 def instantiateGame(request, pk):

@@ -26,17 +26,6 @@ angular.module('Exhibition', [
   }).config(
     function($mdThemingProvider, $routeProvider, $resourceProvider) {
 
-      // $mdThemingProvider.theme('default')
-      //     .primaryPalette('light-green', {
-      //       'default': '200',
-      //       'hue-1': '100',
-      //       'hue-2': '500',
-      //       'hue-3': 'A200'
-      //     })
-      //     .accentPalette('lime', {
-      //       'default': '500'
-      //     })
-
       $mdThemingProvider.theme('default')
         .primaryPalette('blue-grey')
         .accentPalette('orange')
@@ -82,6 +71,7 @@ angular.module('Exhibition', [
 
     $rootScope.showBGCanvas = true;
     $rootScope.showAppCanvas = false;
+    $rootScope.isAngularApp = true;
 
     var history = [];
     $rootScope.$on( "$routeChangeStart", function($event, next, current) {
@@ -96,6 +86,10 @@ angular.module('Exhibition', [
         $rootScope.showAppCanvas = true;
         $rootScope.showBGCanvas = false;
       }
+
+      if ($location.path().indexOf('/accounts/') > -1) {
+        $rootScope.isAngularApp = false;
+      } else $rootScope.isAngularApp = true;
 
       
     })
