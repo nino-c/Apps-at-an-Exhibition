@@ -180,6 +180,7 @@ angular.module('Exhibition')
 
 
                 function getCSSTotal(el, arg) {
+
                     return _.reduce(
                         _.map(['left', 'right'], function(dir) {
                             return parseInt(el.css(arg+'-'+dir).split('px').join(''));
@@ -187,6 +188,7 @@ angular.module('Exhibition')
                 }
 
                 if (scope.$last) {
+
                     var parent_padding = getCSSTotal(parentElement, 'padding'); 
                     var images = parentElement.children();
 
@@ -206,11 +208,9 @@ angular.module('Exhibition')
                         var elem_width = parentElement.width();
                         var im_per_row = Math.floor((elem_width - parent_padding) / basewidth_plus);
                         var im_width = elem_width / im_per_row; 
-
-                        var image_width = Math.floor(im_width 
-                            - (basewidth_plus - basewidth));
+                        var image_width = Math.floor(im_width - (basewidth_plus - basewidth));
+                        console.log('wdiff', (basewidth_plus - basewidth));
                             
-                       
                         _.each(images, function(im) {
                             $(im).css({
                                 width:image_width.toString()+'px', 
@@ -226,10 +226,16 @@ angular.module('Exhibition')
                         adjust();
                         scope.$apply();
                     });
-                    
-                }
 
+                }
                 
+                // causes directive to resize upon first pageload 
+                scope.$watch('loading', function(val) {
+                    if (!val) {
+                        adjust();
+                        scope.$apply();
+                    }
+                })
                 
             }
         }

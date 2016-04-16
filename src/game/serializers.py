@@ -41,6 +41,7 @@ class CategoryField(serializers.Field):
 
 
 class CategorySerializer(serializers.ModelSerializer):
+
     total_popularity = serializers.SerializerMethodField(read_only=True)
     avg_popularity = serializers.SerializerMethodField(read_only=True)
     images = serializers.SerializerMethodField(read_only=True)
@@ -99,9 +100,9 @@ class AppSerializer_Inline(serializers.ModelSerializer):
         include = ('__all__')
 
 class AppSerializer_Category_Inline(serializers.ModelSerializer):
-    snapshots = serializers.SerializerMethodField(read_only=True)
+    images = serializers.SerializerMethodField(read_only=True)
 
-    def get_snapshots(self, obj):
+    def get_images(self, obj):
         snaps = []
         for inst in obj.instances.all():
             for im in inst.images.all():
@@ -122,7 +123,6 @@ class SeedParamSerializer(serializers.ModelSerializer):
 class InstanceMixin(serializers.ModelSerializer):
     
     instantiator = UserSerializer(required=False, read_only=True)
-    snapshots = serializers.SerializerMethodField(read_only=True)
     sourcecode = serializers.SerializerMethodField(read_only=True)
     seedParams = SeedParamSerializer(many=True)
 
@@ -133,7 +133,7 @@ class InstanceMixin(serializers.ModelSerializer):
     def get_sourcecode(self, object):
         return object.game.source
 
-    def get_snapshots(self, object):
+    def get_images(self, object):
         return object.getImages()
 
     def update(self, instance, validated_data):
@@ -141,101 +141,81 @@ class InstanceMixin(serializers.ModelSerializer):
         instance.save()
         return instance
 
-    # def create(self, validated_data):
 
-    #     game = ZeroPlayerGame.objects.get(pk=validated_data['game_id'])
-    #     del validated_data['game_id']
 
-    #     validated_data['instantiator'] = self.context['request'].user
-    #     validated_data['game'] = game
-    #     validated_data['popularity'] = 0
+class InstanceSerializerMinimal(serializers.ModelSerializer):
+    images = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = GameInstance
+        exclude = ('instantiator', 'seed', 'seedParams', 'game', 'popularity', 'vector')
         
-    #     instance = GameInstance.objects.create(**validated_data)
+    def get_images(self, object):
+        return object.getImages()
 
-    #     seedDict = json.loads(game['seedStructure'])  
-    #     seed = {}
-        
-    #     for k,v in seedDict.iteritems():     
-    #         if 'type' not in v:
-    #             v['type'] = 'string'
-    #         if 'default' not in v:
-    #             if v['type'] == 'number':
-    #                 v = 0
-    #             else:
-    #                 v = ''
-    #         seed[k] = {'type':v['type'], 'value':v['default']}
 
-    #     for k,v in seed.iteritems():     
-    #         if v['type'] == 'math':
-    #             expr = SymbolicExpression(v['value'])
-    #             sym = expr.latex(raw=True)
-    #             v.update(sym)
-    #         if v['type'] == 'number':
-    #             try:
-    #                 v['value'] = int(v['value'])
-    #             except Exception:
-    #                 pass
-
-    #     # make seed vector
-    #     vector = { k:v['value'] for k,v in seed.iteritems() }
-
-    #     instance['vector'] = json.dumps(vector)
-    #     instance['seed'] = JSON.stringify(seed)
-
-    #     instance = GameInstance.objects.get_or_create(**instance)
-    #     instance.record_seed_as_cols()
-    #     instance.save()
-
-    #     return instance
-
-    
 
 class InstanceSerializer(InstanceMixin, serializers.ModelSerializer):
     game = AppSerializer_Inline()
+    images = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = GameInstance
-        include = ('snapshots', 'game', 'required_modules')
-        read_only_fields = ('images', 'created', 'updated', 'snapshots')
+        include = '__all__'
+
+    def get_images(self, obj):
+        return obj.getImages()
+        
 
 class InstanceSerializer_Inline(InstanceMixin, serializers.ModelSerializer):
+    images = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = GameInstance
-        include = ('snapshots', 'game')
-        read_only_fields = ('images', 'created', 'updated', 'snapshots')
+        include = ('images', 'game')
+        read_only_fields = ('images', 'created', 'updated')
+
+    def get_images(self, object):
+        return object.getImages()
 
 
 
+class AppSerializerBase(serializers.ModelSerializer):
 
+    instances = InstanceSerializerMinimal(many=True, read_only=True)
+    category = CategoryField()
+    images = serializers.SerializerMethodField(read_only=True)
 
-class AppSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ZeroPlayerGame
+        exclude = ('category', 'source', 'seedStructure')
+
+    def get_images(self, obj):
+        snaps = []
+        for inst in obj.instances.all():
+            for im in inst.images.all():
+                snaps.append(im.image.name.replace("./", ""))
+        snaps.reverse()
+        return snaps[:20]
+
+class AppSerializer(AppSerializerBase):
 
     instances = InstanceSerializer_Inline(many=True, read_only=True)
-    owner = UserSerializer(required=False, read_only=True)
     category = CategoryField()
     extraIncludes = JSLibrarySerializer(read_only=True, many=True)
     display_image = serializers.SerializerMethodField(read_only=True)
-    snapshots = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = ZeroPlayerGame
         depth = 2
         include = '__all__'
+        exclude = None
         read_only_fields = ('id', 'created', 'updated', 'owner',
           'instances', 'display_image')
 
     def get_validation_exclusions(self):
         exclusions = super(InstanceSerializer, self).get_validation_exclusions()
         return exclusions + ['owner']
-
-    def get_snapshots(self, obj):
-        snaps = []
-        for inst in obj.instances.all():
-            for im in inst.images.all():
-                snaps.append(im.image.name.replace("./", ""))
-        snaps.reverse()
-        return snaps
 
     def get_api_url(self, obj):
         return "#/app/%s" % obj.id
@@ -260,18 +240,29 @@ class AppSerializer(serializers.ModelSerializer):
         app = ZeroPlayerGame.objects.create(**validated_data)
         return app
 
+class AppSerializerMinimal(serializers.ModelSerializer):
+    images = serializers.SerializerMethodField(read_only=True)
+    instances = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = ZeroPlayerGame
+        exclude = ('category', 'source', 'seedStructure')
+
+    def get_instances(self, obj):
+        return map(lambda inst: inst.id, obj.instances.all())
+
+    def get_images(self, obj):
+        return obj.getImageSet()
 
 class CategoryAppsSerializer(serializers.ModelSerializer):
-    apps = AppSerializer(read_only=True, many=True)
-    total_popularity = serializers.SerializerMethodField(read_only=True)
-    avg_popularity = serializers.SerializerMethodField(read_only=True)
+    apps = AppSerializerMinimal(read_only=True, many=True)
+    images_per_app = serializers.SerializerMethodField(read_only=True)
 
+    def get_images_per_app(self, obj):
+        return 20 / obj.apps.count()
+        
     class Meta:
         model = Category
         fields = '__all__'
 
-    def get_total_popularity(self, object):
-        return sum(map(lambda app: app.popularity, object.apps.all()))
 
-    def get_avg_popularity(self, object):
-        return sum(map(lambda app: app.popularity, object.apps.all())) / object.apps.count()

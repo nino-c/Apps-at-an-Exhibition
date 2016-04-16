@@ -28,14 +28,14 @@ angular
                         _.pairs($scope.app.instances[i]._seed); 
                 }
 
-                $scope.snapshots = _.flatten(
+                $scope.images = _.flatten(
                     _.map($scope.app.instances, function(inst) {
-                        return inst.snapshots;
+                        return inst.images;
                     })
                 );
                 
-                if ($scope.snapshots.length > 9) {
-                    $scope.snapshots = $scope.snapshots.slice(0,9);
+                if ($scope.images.length > 9) {
+                    $scope.images = $scope.images.slice(0,9);
                 }
 
                 $scope.loading = false;

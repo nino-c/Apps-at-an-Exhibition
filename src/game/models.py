@@ -254,8 +254,12 @@ class GameInstance(TimestamperMixin, models.Model):
             
 
         # deal with case from old seeds without 'value' key
-        kvs = map(lambda (k,v): SeedKeyVal(key=k, val=v['value'], jsonval=json.dumps(v), 
-            ordering=0, valtype=v['type']), seed.iteritems())
+        kvs = map(
+                lambda (k,v): SeedKeyVal(key=k, val=v['value'], 
+                    jsonval=json.dumps(v), 
+                    ordering=0, 
+                    valtype=v['type']), seed.iteritems())
+        
         for i,kv in enumerate(kvs):
             kv.ordering = i
             kv.save()
@@ -268,18 +272,6 @@ class GameInstance(TimestamperMixin, models.Model):
             return [im.image.name.replace("./","") for im in self.images.all()]
         else:
             return []
-
-
-    # def __contains__(self, key):
-    #     return key in self.model.__dict__
-    
-    # def __getitem__(self, key):
-    #     print '---key', key
-    #     if key in self.model.__dict__:
-    #         return self.model.__dict__[key]
-    #     else:
-    #         raise Exception('no item '+str(key))
-
 
 
     #######################################################################################
@@ -335,6 +327,7 @@ class GameInstance(TimestamperMixin, models.Model):
                 out.append(instance.id)
 
         return JsonResponse(out)
+
 
 class SeedKeyValRelationship(models.Model):
     instance = models.ForeignKey(GameInstance, on_delete=models.CASCADE)

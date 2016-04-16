@@ -14,7 +14,7 @@
             $scope.loading = false;
 
           })
-        //$scope.categories = CategoryService.query()
+        
 
         $scope.selectApp = function(chosenApp) {
           $scope.selectedApp = chosenApp
