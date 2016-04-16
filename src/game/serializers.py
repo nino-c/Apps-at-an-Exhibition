@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from rest_framework import serializers
 from authtools.models import User
 from .models import *
+import math
 
 
 def parseDate(d):
@@ -42,6 +43,7 @@ class CategoryField(serializers.Field):
 class CategorySerializer(serializers.ModelSerializer):
     total_popularity = serializers.SerializerMethodField(read_only=True)
     avg_popularity = serializers.SerializerMethodField(read_only=True)
+    images = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Category
@@ -52,6 +54,11 @@ class CategorySerializer(serializers.ModelSerializer):
 
     def get_avg_popularity(self, object):
         return sum(map(lambda app: app.popularity, object.apps.all())) / object.apps.count()
+
+    def get_images(self, object):
+        images_per_app = 20 / object.apps.count()
+        return reduce(lambda a,b: a + b, 
+            map(lambda app: app.getImageSet(order=images_per_app), object.apps.all()))
 
 class CodeModuleSerializer(serializers.ModelSerializer):
     class Meta:

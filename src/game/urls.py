@@ -23,6 +23,9 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
 
+    class Meta:
+        ordering = ['-popularity']
+
 
 #@permission_classes((IsAuthenticated, ))
 @permission_classes((AllowAny, ))

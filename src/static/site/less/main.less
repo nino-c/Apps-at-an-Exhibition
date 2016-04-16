@@ -70,6 +70,13 @@ md-dialog {
   z-index: 2000;
 }
 
+.centered {
+  text-align: center;
+  display: inline;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 h3 {
   color: #666666;
   font-weight: 300;
@@ -182,22 +189,23 @@ h3 {
 }
 
 .nthumbnail {
-    display: block;
-    padding: 4px;
-    margin-bottom: 0px;
-    line-height: 1.42857143;
+    display: inline;
+    //padding: 4px;
+    //margin-bottom: 0px !important;
+    margin: 1px 1px 1px 1px !important;
+    //line-height: 1.42857143;
     background-color: #fff;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    -webkit-transition: border .2s ease-in-out;
-    -o-transition: border .2s ease-in-out;
-    transition: border .2s ease-in-out;
+    //border-radius: 4px;
+    // -webkit-transition: border .2s ease-in-out;
+    // -o-transition: border .2s ease-in-out;
+    // transition: border .2s ease-in-out;
 }
 
 .thumbnail-tiny {
     .nthumbnail;
     width: 80px;
-    height: 80px;
+    height: auto;
 }
 
 .thumbnail-med {

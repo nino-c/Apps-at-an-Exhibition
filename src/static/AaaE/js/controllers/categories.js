@@ -1,28 +1,22 @@
 angular
 	.module('Exhibition')
 	.controller('CategoriesController', ['$rootScope', '$scope', 
-		'$location', 'CategoryWithApps', 
-		function($rootScope, $scope, $location, CategoryWithApps) {
+		'$location', 'CategoryService', 
+		function($rootScope, $scope, $location, CategoryService) {
 		
 		$scope.loading = true;
 
-		CategoryWithApps.query().$promise.then(function(cats) {
-			$scope.categories = _.map(cats, function(cat) {
-				cat.images = _.flatten(
-					_.map(cat.apps, function(app) {
-						return app.snapshots;
-					})
-				);
-				if (cat.images.length > 15) {
-					cat.images = cat.images.slice(0,15);
-				}
-				return cat;
-			});
+		CategoryService.query().$promise.then(function(cats) {
+			$scope.categories = cats;
 			$scope.loading = false;
 		});
 
 		$scope.selectCategory = function(cat) {
 			$location.path('/category/'+cat.id);
+		}
+
+		$scope.onGridLayout = function($event) {
+			//console.log($event)
 		}
 		
 	}]);

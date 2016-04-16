@@ -36,7 +36,7 @@ angular.module('Exhibition')
             template:function(elem, attr) {
                 
                 '<div style="background-color: {{ hex }}; width: 15px; height: '
-                +'15px; border: 2px solid #dddddd;"></div>'
+                    +'15px; border: 2px solid #dddddd;"></div>'
             },
             link: function($scope, elem, attrs, ngModel) {
                 console.log('link', elem, attrs)
@@ -169,6 +169,71 @@ angular.module('Exhibition')
             }
         }
     }])
+    .directive('adjustImage', function($window) {
+        return {
+            restrict: 'A',
+            link: function postLink(scope, element, attrs) {
+                
+                var win = angular.element($window);
+                var basewidth = parseInt(attrs.basewidth);
+                var parentElement = element.parent(); 
+
+
+                function getCSSTotal(el, arg) {
+                    return _.reduce(
+                        _.map(['left', 'right'], function(dir) {
+                            return parseInt(el.css(arg+'-'+dir).split('px').join(''));
+                        }), function(a,b) { return a+b; }, 0);
+                }
+
+                if (scope.$last) {
+                    var parent_padding = getCSSTotal(parentElement, 'padding'); 
+                    var images = parentElement.children();
+
+                    var basewidth_plus;
+                    if (images.length > 0) {
+                        basewidth_plus = basewidth
+                            +  parseInt(getCSSTotal(angular.element(images[0]), 'padding'))
+                            +  parseInt(getCSSTotal(angular.element(images[0]), 'border' ))
+                            +  parseInt(getCSSTotal(angular.element(images[0]), 'margin' ));
+                        
+                    } else {
+                        basewidth_plus = basewidth;
+                    }
+
+                    function adjust() {
+                    
+                        var elem_width = parentElement.width();
+                        var im_per_row = Math.floor((elem_width - parent_padding) / basewidth_plus);
+                        var im_width = elem_width / im_per_row; 
+                        console.log(basewidth, elem_width, im_per_row, im_width);
+
+                        var image_width = im_width - (basewidth_plus - basewidth);
+                       
+                        _.each(images, function(im) {
+                            $(im).css({
+                                width:image_width.toString()+'px', 
+                                height:image_width.toString()+'px'
+                            });
+                        });
+
+                        
+
+                    }
+
+                    adjust();
+                    win.bind('resize', function() {
+                        adjust();
+                        scope.$apply();
+                    });
+                    
+                }
+
+                
+                
+            }
+        }
+    })
     // .component('seedDisplay', {
     //     bindings: {
     //         __seed: '='

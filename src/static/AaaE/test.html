@@ -15,17 +15,21 @@
 
         {{ tester.source }}
 
+        <colorbox hex="#cc0034"></colorbox>
 
-        <script type="text/javascript" src="lib/angular/angular.js"></script>
-        <script type="text/javascript" src="lib/angular-ui-codemirror/ui-codemirror.js"></script>
-        <script src="lib/angular-material/angular-material.min.js"></script>
-        <script src="lib/angular-bootstrap/ui-bootstrap.js"></script>
-        <script src="lib/angular-route/angular-route.js"></script>
-        <script src="lib/angular-resource/angular-resource.js"></script>
-        <script src="lib/angular-cookies/angular-cookies.js"></script>
-        <script src="lib/angular-animate/angular-animate.js"></script>
-        <script src="lib/angular-aria/angular-aria.js"></script>
-        <script src="lib/angular-messages/angular-messages.js"></script>
+
+        <script src="/static/AaaE/lib/angular/angular.js" type="text/javascript"></script>
+      <script src="/static/AaaE/lib/angular-ui-codemirror/ui-codemirror.js" type="text/javascript"></script>
+      <script src="/static/AaaE/lib/angular-material/angular-material.min.js" type="text/javascript"></script>
+      <script src="/static/AaaE/lib/angular-bootstrap/ui-bootstrap.js" type="text/javascript"></script>
+      <script src="/static/AaaE/lib/angular-route/angular-route.js" type="text/javascript"></script>
+      <script src="/static/AaaE/lib/angular-resource/angular-resource.js" type="text/javascript"></script>
+      <script src="/static/AaaE/lib/angular-cookies/angular-cookies.js" type="text/javascript"></script>
+      <script src="/static/AaaE/lib/angular-animate/angular-animate.js" type="text/javascript"></script>
+      <script src="/static/AaaE/lib/angular-aria/angular-aria.js" type="text/javascript"></script>
+      <script src="/static/AaaE/lib/angular-messages/angular-messages.js" type="text/javascript"></script>
+      <script src="/static/AaaE/lib/angular-location-update/angular-location-update.js" type="text/javascript"></script>
+      <script src="/static/node/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js" type="text/javascript"></script>
 
         <script type="text/javascript">
 
@@ -52,22 +56,33 @@
                     }
                 }
             })
-            .directive('includesPlerp', function() {
+            // .directive('includesPlerp', function() {
+            //     return {
+            //         require: 'ngModel',
+            //         link: function(scope, elem, attrs, ctrl) {
+            //             ctrl.$validators.includesPlerp = 
+            //                 function(modelValue, viewValue) {
+
+            //                     // the following is to ensure that
+            //                     // empty models are valid
+            //                     if (ctrl.$isEmpty(modelValue)) {
+            //                         return true;
+            //                     }
+
+            //                     return (viewValue.indexOf('plerp') > -1);
+
+            //                 }
+            //         }
+            //     }
+            // })
+            .directive('colorbox', function() {
                 return {
-                    require: 'ngModel',
-                    link: function(scope, elem, attrs, ctrl) {
-                        ctrl.$validators.includesPlerp = 
-                            function(modelValue, viewValue) {
-
-                                // the following is to ensure that
-                                // empty models are valid
-                                if (ctrl.$isEmpty(modelValue)) {
-                                    return true;
-                                }
-
-                                return (viewValue.indexOf('plerp') > -1);
-
-                            }
+                    template:'<div style="background-color: {{ hex }}; width: 15px; height: '
+                            +'15px; border: 2px solid #dddddd;"></div>',
+                    
+                    link: function(scope, elem, attrs) {
+                        console.log('link', scope, elem[0], attrs)
+                        scope.hex = attrs.hex;
                     }
                 }
             })

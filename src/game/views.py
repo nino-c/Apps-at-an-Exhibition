@@ -29,7 +29,7 @@ from game.serializers import *
 #   return render(request, "game/index.html")
 
 def gameindex(request):
-    angular_dirs = ['modules', 'services', 'controllers', 'directives', 'filters']
+    angular_dirs = ['modules', 'services', 'directives', 'controllers', 'filters']
     angular_appdir_site = '/static/AaaE/js'
     angular_appdir = os.path.join(STATIC_ROOT, "AaaE/js")
     angular_includes = reduce(
@@ -118,7 +118,7 @@ def call_game_instance_static_method(request, static_method):
 
 ##############################
 #                            #
-#            API             #
+#          REST views        #
 #                            #
 ##############################
 
@@ -144,7 +144,7 @@ class AppViewSet(viewsets.ModelViewSet):
     queryset = ZeroPlayerGame.objects.all()
 
 @permission_classes((AllowAny, ))
-@api_view(http_method_names=['GET', 'POST'])
+#@api_view(http_method_names=['GET', 'POST'])
 class InstanceViewSet(viewsets.ModelViewSet):
     serializer_class = InstanceSerializer
     queryset = GameInstance.objects.all()

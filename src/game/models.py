@@ -197,14 +197,14 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
         instance.save()
         return meta, instance
 
-    @property
-    def chooseImageSet(order=4):
+    def getImageSet(self, order=20, shuffled=False):
         images = map(lambda obj: obj.image.name.replace("./", ""), list(itertools.chain(
                     *map(lambda l: l.all(),
                         [instance.images for instance in self.instances.all()]))
                     )
                 )
-        random.shuffle(images)
+        if shuffled:
+            random.shuffle(images)
         return images[:order]
 
 
