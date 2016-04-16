@@ -206,9 +206,10 @@ angular.module('Exhibition')
                         var elem_width = parentElement.width();
                         var im_per_row = Math.floor((elem_width - parent_padding) / basewidth_plus);
                         var im_width = elem_width / im_per_row; 
-                        console.log(basewidth, elem_width, im_per_row, im_width);
 
-                        var image_width = im_width - (basewidth_plus - basewidth);
+                        var image_width = Math.floor(im_width 
+                            - (basewidth_plus - basewidth));
+                            
                        
                         _.each(images, function(im) {
                             $(im).css({
@@ -217,11 +218,10 @@ angular.module('Exhibition')
                             });
                         });
 
-                        
-
                     }
 
                     adjust();
+
                     win.bind('resize', function() {
                         adjust();
                         scope.$apply();
