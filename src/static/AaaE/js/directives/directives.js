@@ -250,6 +250,33 @@ angular.module('Exhibition')
             }
         }
     })
+    .directive('ngRepeatEndCall', function() {
+        return {
+            restrict: 'A',
+            scope: {},
+            link: function (scope, element, attrs) {
+                if (attrs.ngRepeat) {
+                    if (scope.$parent.$last) {
+                        if (attrs.ngRepeatEndCall !== '') {
+                            if (typeof scope.$parent.$parent[attrs.ngRepeatEndCall] === 'function') {
+                                // Executes defined function
+                                scope.$parent.$parent[attrs.ngRepeatEndCall]();
+                            } else {
+                                // For watcher, if you prefer
+                                scope.$parent.$parent[attrs.ngRepeatEndCall] = true;
+                            }
+                        } else {
+                            // If no value was provided than we will provide one on you controller scope, that you can watch
+                            // WARNING: Multiple instances of this directive could yeild unwanted results.
+                            scope.$parent.$parent.ngRepeatEnd = true;
+                        }
+                    }
+                } else {
+                    throw 'ngRepeatEndCall: `ngRepeat` Directive required to use this Directive';
+                }
+            }
+        }
+    })
     // .component('seedDisplay', {
     //     bindings: {
     //         __seed: '='

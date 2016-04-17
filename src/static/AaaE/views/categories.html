@@ -16,6 +16,7 @@
 
 	<div class="container-fluid">
 		<div ng-repeat="category in categories | orderBy: 'avg_popularity': true"
+			ng-repeat-end-call="onCategoryRepeatEnd($event)"
 			class="col-xs-12 col-sm-6 col-md-6 col-lg-4 no-padding">
 
 			<md-card ng-click="selectCategory(category)">

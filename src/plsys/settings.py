@@ -218,6 +218,18 @@ THUMBNAIL_DEBUG = True
 # }
 
 
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+
+
+from boto.s3.connection import S3Connection
+from boto.s3.key import Key
+
+def get_s3_bucket():
+    conn = S3Connection(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+    bucket = conn.get_bucket(AWS_S3_BUCKET)
+    return bucket
 
 # Log everything to the logs directory at the top
 LOGFILE_ROOT = join(dirname(BASE_DIR), 'logs')
