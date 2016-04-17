@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.0.7-master-317c1c8
+ * v1.1.0-rc4-master-4010169
  */
 goog.provide('ng.material.components.list');
 goog.require('ng.material.core');
@@ -155,7 +155,7 @@ function mdListItemDirective($mdAria, $mdConstant, $mdUtil, $timeout) {
 
           // Button which shows ripple and executes primary action.
           var buttonWrap = angular.element(
-            '<md-button class="_md-no-style" md-no-focus-style></md-button>'
+            '<md-button class="_md-no-style"></md-button>'
           );
 
           buttonWrap[0].setAttribute('aria-label', tEl[0].textContent);
@@ -208,7 +208,7 @@ function mdListItemDirective($mdAria, $mdConstant, $mdUtil, $timeout) {
 
       function copyAttributes(item, wrapper) {
         var copiedAttrs = ['ng-if', 'ng-click', 'aria-label', 'ng-disabled',
-          'ui-sref', 'href', 'ng-href', 'ng-attr-ui-sref', 'ui-sref-opts'];
+          'ui-sref', 'href', 'ng-href', 'target', 'ng-attr-ui-sref', 'ui-sref-opts'];
 
         angular.forEach(copiedAttrs, function(attr) {
           if (item.hasAttribute(attr)) {
@@ -355,6 +355,5 @@ function MdListController($scope, $element, $mdListInkRipple) {
   }
 }
 MdListController.$inject = ["$scope", "$element", "$mdListInkRipple"];
-
 
 ng.material.components.list = angular.module("material.components.list");

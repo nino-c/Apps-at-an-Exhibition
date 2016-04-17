@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.0.7-master-317c1c8
+ * v1.1.0-rc4-master-4010169
  */
 goog.provide('ng.material.components.fabToolbar');
 goog.require('ng.material.components.fabActions');
@@ -65,15 +65,17 @@ goog.require('ng.material.core');
    *     <md-button aria-label="Add..."><md-icon icon="/img/icons/plus.svg"></md-icon></md-button>
    *   </md-fab-trigger>
    *
-   *   <md-fab-actions>
-   *     <md-button aria-label="Add User">
-   *       <md-icon icon="/img/icons/user.svg"></md-icon>
-   *     </md-button>
+   *   <md-toolbar>
+   *    <md-fab-actions>
+   *      <md-button aria-label="Add User">
+   *        <md-icon icon="/img/icons/user.svg"></md-icon>
+   *      </md-button>
    *
-   *     <md-button aria-label="Add Group">
-   *       <md-icon icon="/img/icons/group.svg"></md-icon>
-   *     </md-button>
-   *   </md-fab-actions>
+   *      <md-button aria-label="Add Group">
+   *        <md-icon icon="/img/icons/group.svg"></md-icon>
+   *      </md-button>
+   *    </md-fab-actions>
+   *   </md-toolbar>
    * </md-fab-toolbar>
    * </hljs>
    *
@@ -205,4 +207,5 @@ goog.require('ng.material.core');
     }
   }
 })();
+
 ng.material.components.fabToolbar = angular.module("material.components.fabToolbar");

@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.0.7-master-317c1c8
+ * v1.1.0-rc4-master-4010169
  */
 (function( window, angular, undefined ){
 "use strict";
@@ -16,7 +16,41 @@
  */
 angular
     .module('material.components.button', [ 'material.core' ])
-    .directive('mdButton', MdButtonDirective);
+    .directive('mdButton', MdButtonDirective)
+    .directive('a', MdAnchorDirective);
+
+
+/**
+ * @ngdoc directive
+ * @name a
+ * @module material.components.button
+ *
+ * @restrict E
+ *
+ * @description
+ * `a` is a anchnor directive used to inherit theme so stand-alone anchors.
+ * This allows standalone `a` tags to support theme colors for md-primary, md-accent, etc.
+ *
+ * @usage
+ *
+ * <hljs lang="html">
+ *  <md-content md-theme="myTheme">
+ *    <a href="#chapter1" class="md-accent"></a>
+ *  </md-content>
+ * </hljs>
+ */
+function MdAnchorDirective($mdTheming) {
+  return {
+    restrict : 'E',
+    link : function postLink(scope, element) {
+      // Make sure to inherit theme so stand-alone anchors
+      // support theme colors for md-primary, md-accent, etc.
+      $mdTheming(element);
+    }
+  };
+}
+MdAnchorDirective.$inject = ["$mdTheming"];
+
 
 /**
  * @ngdoc directive

@@ -175,19 +175,26 @@ angular.module('Exhibition')
             link: function postLink(scope, element, attrs) {
                 
                 var win = angular.element($window);
-                var basewidth = parseInt(attrs.basewidth);
+                var _basewidth = parseInt(attrs.basewidth);
+                var basewidth = _basewidth;
                 var parentElement = element.parent(); 
-
+                var transform_started = false;
 
                 function getCSSTotal(el, arg) {
 
-                    return _.reduce(
+                    var val = _.reduce(
                         _.map(['left', 'right'], function(dir) {
                             return parseInt(el.css(arg+'-'+dir).split('px').join(''));
                         }), function(a,b) { return a+b; }, 0);
+                    if (isNaN(parseInt(val))) {
+                        val = 0;
+                    }
+                    return val;
                 }
 
-                if (scope.$last) {
+                function transform() {
+
+                    transform_started = true;
 
                     var parent_padding = getCSSTotal(parentElement, 'padding'); 
                     var images = parentElement.children();
@@ -204,7 +211,6 @@ angular.module('Exhibition')
                     }
 
                     function adjust() {
-                    
                         var elem_width = parentElement.width();
                         var im_per_row = Math.floor((elem_width - parent_padding) / basewidth_plus);
                         var im_width = elem_width / im_per_row; 
@@ -217,7 +223,6 @@ angular.module('Exhibition')
                                 height:image_width.toString()+'px'
                             });
                         });
-
                     }
 
                     adjust();
@@ -231,11 +236,16 @@ angular.module('Exhibition')
                 
                 // causes directive to resize upon first pageload 
                 scope.$watch('loading', function(val) {
-                    if (!val) {
-                        adjust();
-                        scope.$apply();
+                    if (!val && !transform_started) {
+                        transform();
                     }
-                })
+                });
+
+                scope.$watch('$last', function(val) {
+                    if (val && !transform_started) {
+                        transform();
+                    }
+                });
                 
             }
         }

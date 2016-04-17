@@ -1,47 +1,40 @@
-<div ng-controller="CategoriesController" layout-xs="column" layout-gt-xs="row" layout-wrap>
+
+
+
+<div ng-controller="CategoriesController">
 	
 	<!-- loading spinner -->
-    <div ng-if="loading" class="loading-bg-base">
-        <div class="loader-lg">
+	<div ng-if="loading" class="loading-bg-base">
+	    <div class="loader-lg">
 			<svg class="circular2">
 			<circle class="path" cx="125" cy="125" r="40" fill="none" stroke-width="4" 
 			    stroke-miterlimit="10"/>
 			</svg>
-        	<div class="loading-text">Loading...</span></div>
-        </div>
-    </div>
+	    	<div class="loading-text">Loading...</span></div>
+	    </div>
+	</div>
 
+	<div class="container-fluid">
+		<div ng-repeat="category in categories | orderBy: 'avg_popularity': true"
+			class="col-xs-12 col-sm-6 col-md-6 col-lg-4 no-padding">
 
-	<div flex-xs="100" flex-gt-xs="50" ng-repeat="category in categories | orderBy: 'avg_popularity': true">
-		<md-card ng-click="selectCategory(category)">
-			<md-card-title>
-				<md-card-title-text>
-					<h3>{{ category.name }}</h3>
-				</md-card-title-text>
-			</md-card-title>
-			<md-card-content>
-				
-				<!-- <md-grid-list md-cols-xs="6" md-cols-sm="4" md-cols-md="5" md-cols-gt-md="6" 
-					md-row-height="1:1" 
-					md-gutter="1px" 
-					md-on-layout="onGridLayout($event)">
-					<md-grid-tile ng-repeat="im in category.images">
-						<fexible-image source="/media/{{ im | thumbnail:125 }}"></fexible-image>
-					</md-grid-tile>
-				</md-grid-list> -->
-				
-				<img ng-src="/media/{{ im | thumbnail:125 }}" 
-					class="nthumbnail pull-left" 
-					adjust-image basewidth="80"
-					ng-repeat="im in category.images" />
+			<md-card ng-click="selectCategory(category)">
+				<md-card-title>
+					<md-card-title-text>
+						<h3>{{ category.name }}</h3>
+					</md-card-title-text>
+				</md-card-title>
+				<md-card-content>
+					
+					<img ng-src="/media/{{ im | thumbnail:125 }}" 
+						class="nthumbnail pull-left" 
+						adjust-image basewidth="80"
+						ng-repeat="im in category.images" />
 
-				<!-- <span ng-repeat="im in category.images">
-					<fexible-image 
-						source="/media/{{ im | thumbnail:125 }}" />
-				</span> -->
+				</md-card-content>
+			</md-card>
 
-			</md-card-content>
-		</md-card>
+		</div>
 	</div>
 
 </div>

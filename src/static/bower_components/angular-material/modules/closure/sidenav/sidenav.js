@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.0.7-master-317c1c8
+ * v1.1.0-rc4-master-4010169
  */
 goog.provide('ng.material.components.sidenav');
 goog.require('ng.material.components.backdrop');
@@ -76,7 +76,7 @@ function SidenavService($mdComponentRegistry, $mdUtil, $q, $log) {
   /**
    * Service API that supports three (3) usages:
    *   $mdSidenav().find("left")                       // sync (must already exist) or returns undefined
-   *   $mdSidenav("left").toggle();                    // sync (must already exist) or returns undefined; deprecated
+   *   $mdSidenav("left").toggle();                    // sync (must already exist) or returns reject promise;
    *   $mdSidenav("left",true).then( function(left){   // async returns instance when available
    *    left.toggle();
    *   });
@@ -85,9 +85,32 @@ function SidenavService($mdComponentRegistry, $mdUtil, $q, $log) {
     if ( angular.isUndefined(handle) ) return service;
 
     var instance = service.find(handle);
-    return  !instance && (enableWait === true) ? service.waitFor(handle) : instance;
+    return  !instance && (enableWait === true) ? service.waitFor(handle) :
+            !instance && angular.isUndefined(enableWait) ? addLegacyAPI(service, handle) : instance;
   };
 
+  /**
+   * For failed instance/handle lookups, older-clients expect an response object with noops
+   * that include `rejected promise APIs`
+   */
+  function addLegacyAPI(service, handle) {
+      var falseFn  = function() { return false; };
+      var rejectFn = function() {
+            return $q.when($mdUtil.supplant(errorMsg, [handle || ""]));
+          };
+
+      return angular.extend({
+        isLockedOpen : falseFn,
+        isOpen       : falseFn,
+        toggle       : rejectFn,
+        open         : rejectFn,
+        close        : rejectFn,
+        then : function(callback) {
+          return waitForInstance(handle)
+            .then(callback || angular.noop);
+        }
+       }, service);
+    }
     /**
      * Synchronously lookup the controller instance for the specified sidNav instance which has been
      * registered with the markup `md-component-id`
@@ -201,7 +224,7 @@ function SidenavFocusDirective() {
  * @param {expression=} md-is-open A model bound to whether the sidenav is opened.
  * @param {boolean=} md-disable-backdrop When present in the markup, the sidenav will not show a backdrop.
  * @param {string=} md-component-id componentId to use with $mdSidenav service.
- * @param {expression=} md-is-locked-open When this expression evalutes to true,
+ * @param {expression=} md-is-locked-open When this expression evaluates to true,
  * the sidenav 'locks open': it falls into the content's flow instead
  * of appearing over it. This overrides the `md-is-open` attribute.
  *

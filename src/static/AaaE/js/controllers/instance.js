@@ -536,12 +536,14 @@ angular
         }
 
         $scope.clearEvalScope = function() {
+            
             // try to delete all vars in scope of previously eval()-ed app 
             try {
                 window.appdestroy();
             } catch (e) { 
                 console.log('no appdestroy()', e); 
-            }
+            };
+
             if ($scope.gameFunction) {
                 delete $scope.gameFunction;
                 console.log('deleting gameFunction')

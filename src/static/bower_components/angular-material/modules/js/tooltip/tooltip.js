@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.0.7-master-317c1c8
+ * v1.1.0-rc4-master-4010169
  */
 (function( window, angular, undefined ){
 "use strict";
@@ -101,6 +101,11 @@ function MdTooltipDirective($timeout, $window, $$rAF, $document, $mdUtil, $mdThe
       content.css('transform-origin', origin);
     }
 
+    function onVisibleChanged (isVisible) {
+      if (isVisible) showTooltip();
+      else hideTooltip();
+    }
+
     function configureWatchers () {
       scope.$on('$destroy', function() {
         scope.visible = false;
@@ -108,12 +113,30 @@ function MdTooltipDirective($timeout, $window, $$rAF, $document, $mdUtil, $mdThe
         angular.element($window).off('resize', debouncedOnResize);
       });
 
-      scope.$watch('visible', function (isVisible) {
-        if (isVisible) showTooltip();
-        else hideTooltip();
-      });
+      if (element[0] && 'MutationObserver' in $window) {
+        var attributeObserver = new MutationObserver(function(mutations) {
+          mutations
+            .forEach(function (mutation) {              
+              if (mutation.attributeName === 'md-visible') {
+                if (!scope.visibleWatcher)
+                  scope.visibleWatcher = scope.$watch('visible', onVisibleChanged );
+              }
+              if (mutation.attributeName === 'md-direction') {
+                updatePosition(scope.direction);
+              }
+            });
+        });
 
-      scope.$watch('direction', updatePosition );
+        attributeObserver.observe(element[0], { attributes: true});
+
+        if (attr.hasOwnProperty('mdVisible')) // build watcher only if mdVisible is being used
+          scope.visibleWatcher = scope.$watch('visible', onVisibleChanged );
+
+      }
+      else { // MutationObserver not supported
+        scope.visibleWatcher = scope.$watch('visible', onVisibleChanged );
+        scope.$watch('direction', updatePosition );
+      }
     }
 
     function addAriaLabel () {
@@ -137,12 +160,13 @@ function MdTooltipDirective($timeout, $window, $$rAF, $document, $mdUtil, $mdThe
       if (parent[0] && 'MutationObserver' in $window) {
         // use an mutationObserver to tackle #2602
         var attributeObserver = new MutationObserver(function(mutations) {
-          mutations.forEach(function (mutation) {
-            if (mutation.attributeName === 'disabled' && parent[0].disabled) {
-              setVisible(false);
-              scope.$digest(); // make sure the elements gets updated
-            }
-          });
+          if (mutations.some(function (mutation) {
+              return (mutation.attributeName === 'disabled' && parent[0].disabled);
+            })) {
+              $mdUtil.nextTick(function() {
+                setVisible(false);
+              });
+          }
         });
 
         attributeObserver.observe(parent[0], { attributes: true});
@@ -205,9 +229,15 @@ function MdTooltipDirective($timeout, $window, $$rAF, $document, $mdUtil, $mdThe
           $timeout(function() {
             scope.visible = setVisible.value;
             setVisible.queued = false;
+            if (!scope.visibleWatcher)
+              onVisibleChanged(scope.visible);
           }, scope.delay);
         } else {
-          $mdUtil.nextTick(function() { scope.visible = false; });
+          $mdUtil.nextTick(function() { 
+            scope.visible = false; 
+            if (!scope.visibleWatcher)
+              onVisibleChanged(false);
+          });
         }
       }
     }

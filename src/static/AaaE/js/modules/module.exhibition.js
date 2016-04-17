@@ -1,6 +1,6 @@
 angular.module('Exhibition', [
   'ngRoute',
-  'ui.bootstrap',
+  // 'ui.bootstrap',
   'ui.codemirror',
   'ngMaterial',
   'ngMessages',
@@ -56,18 +56,15 @@ angular.module('Exhibition', [
 
         $resourceProvider.defaults.stripTrailingSlashes = false;
 
-
-
-
   })
   .run(function($rootScope, $location, $http, $cookies, 
-      $timeout, $mdToast, $window, AppService) {
+        $timeout, $mdToast, $window, AppService) {
 
     $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken']
     $http.defaults.xsrfCookieName = 'csrftoken';
     $http.defaults.xsrfHeaderName = 'X-CSRFToken';
 
-    console.log('cookies', $cookies.getAll())
+    //console.log('cookies', $cookies.getAll())
 
     $rootScope.showBGCanvas = true;
     $rootScope.showAppCanvas = false;
@@ -95,7 +92,6 @@ angular.module('Exhibition', [
     })
 
     // root-scope vars
-
     $rootScope.scriptTypes = [
         'text/javascript', 
         'text/coffeescript', 
@@ -124,11 +120,5 @@ angular.module('Exhibition', [
         );
     }
 
-    
-
-    //paper.setup('big-canvas');
-    //paper.setup(document.getElementById('bg-canvas'));
-    //paper.setup('big-canvas');
-    //paper.install($window);
-
-  })
+ 
+  });
