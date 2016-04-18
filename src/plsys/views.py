@@ -9,10 +9,6 @@ from game.views import *
 import os, os.path
 from .settings import *
 
-#def blankhome(request):
-    #return HttpResponse("<div style=\"font-size: 15px; color: #999999; padding: 50px;\" Mr. Code-switcher, a.k.a. "'dood who \"code-switched\" up-on the word code-switching itself.'")
-    #return HttpResponse("<strong>Mr. Code-switcher</strong><br /><em>'dood who \"code-switched\" up-on the word code-switching itself.'</em>")
-    #return HttpResponse('@')
 
 def index(request):
     return game.views.index
@@ -25,6 +21,9 @@ def redirect_to_plerpingapp(request):
 
 def templatetest(request, template):
     return render(request, template+".html")
+
+def github(request):
+	pass
 
 class AboutPage(generic.TemplateView):
     template_name = "about.html"

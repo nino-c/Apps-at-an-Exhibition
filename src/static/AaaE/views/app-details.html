@@ -11,14 +11,14 @@
         </div>
     </div>
 
-    <md-card>
+    <md-card style="min-height: 1000px;">
         <md-card-title>
             <h3>{{ app.title }}</h3>
         </md-card-title>
-        <md-card-content>
+        <md-card-content layout="column" layout-align="start start">
 
 
-            <div layout="row" layout-wrap>
+            <div layout="row" style="width: 100%;">
                 <div flex>
 
                     <div>by <strong>{{ app.owner.name }}</strong></div>
@@ -54,7 +54,7 @@
                         ng-click="selectFirstInstance()"
                         role="button" layout-align="center center">
                         <md-icon md-font-set="material-icons">&#xE039;</md-icon>
-                        <span>Play App</span>
+                        <span>Instantiate App</span>
                     </md-button>
 
                     <p hide-gt-xs></p>
@@ -63,7 +63,7 @@
                 <div flex="5"></div>
                 <div flex="none">
                 
-                    <div style="width:300px;" ng-if="images.length > 0">
+                    <div style="width:300px; float: right;" ng-if="images.length > 0">
                         <md-grid-list md-cols="3"
                             md-row-height="100px" md-gutter="0px">
                             <md-grid-tile ng-repeat="image in images | limit:9">
@@ -84,9 +84,9 @@
                 Create a new instance
             </button><br /><br /> -->
 
-            <md-content layout="row" layout-wrap>
+            <md-content ng-cloak layout-wrap>
                 
-                <div flex-sm="33" flex-xs="50" style="max-width: 300px;"
+                <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2 no-padding"
                     ng-repeat="instance in app.instances | orderBy:'created':true">
 
                     <md-card ng-click="selectInstance(instance)">
@@ -101,17 +101,24 @@
                             <div ng-repeat="seedling in instance.seedlist">
                                 <div>
                                     <em>{{ seedling[0] }}:</em> 
-                                    
+                         
+
                                         <span ng-if="!seedling[1].type || seedling[1].type == 'string' || seedling[1].type == 'number'" 
                                             class="text-muted">{{ seedling[1].value }}</span>
                                         
                                        
-                                        <div ng-if="seedling[1].type == 'color'" style="display: inline-block; background-color: {{ seedling[1].value }}; width: 15px; height: 15px;"></div>
+                                        <div ng-if="seedling[1].type == 'color'" 
+                                            style="display: inline-block; background-color: {{ seedling[1].value }}; 
+                                            width: 15px; height: 15px;"></div>
                                         
                                         
-                                        <span ng-if="seedling[1].type == 'math'" class="text-muted">${{ seedling[1].latex }}$</span>
+                                        <span ng-if="seedling[1].type == 'math'" class="text-muted">
+                                        ${{ seedling[1].latex }}$
+                                        </span>
 
-                                        <span ng-if="seedling[1].type == 'javascript'" class="text-muted">{{ seedling[1].value }}</span>
+                                        <span ng-if="seedling[1].type == 'javascript'" class="text-muted">
+                                        {{ seedling[1].value }}
+                                        </span>
                                     
                                 </div>
                             </div>

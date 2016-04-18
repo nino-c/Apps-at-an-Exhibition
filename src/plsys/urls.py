@@ -20,6 +20,7 @@ from game.views import *
 urlpatterns = [
     url(r'^$', game.views.gameindex, name='gameindex'),
     url(r'^game/', include(game.urls, namespace='game')),
+    url(r'^github/', views.github, name='github'),
     url(r'^about/', views.AboutPage.as_view(), name='about'),
     url(r'^users/', include(profiles.urls, namespace='profiles')),
     url(r'^admin/', include(admin.site.urls)),

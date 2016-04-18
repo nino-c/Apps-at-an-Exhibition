@@ -10,7 +10,7 @@ angular.module('Exhibition', [
   'colorpicker.module',
   'ng.deviceDetector',
   'ngSilent',
-  'ngRoute'
+  'ngRoute',
   ])
   .value('ui.config', {
     codemirror: {
@@ -119,6 +119,8 @@ angular.module('Exhibition', [
           .position('top')
         );
     }
+
+    $rootScope.hideXS = $window.innerWidth < 400 ? "display: 'none';" : "";
 
  
   });

@@ -6,9 +6,10 @@ angular
     '$http',
     '$window',
     '$mdToast',
+    '$timeout',
     'AppService',  
     'InstanceService',
-    function ($scope, $location, $route, $http, $window, $mdToast, 
+    function ($scope, $location, $route, $http, $window, $mdToast, $timeout,
       AppService, InstanceService) {
 
         $scope.loading = true;
@@ -39,6 +40,7 @@ angular
                 }
 
                 $scope.loading = false;
+                
 
             });
 
