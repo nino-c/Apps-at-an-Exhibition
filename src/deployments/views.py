@@ -1,17 +1,30 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
+from django.shortcuts import render
 import os
+from os.path import *
+from plsys.settings import BASE_DIR, STATIC_URL
 
 def index(request, requestfile):
-	pwd = os.path.dirname(os.path.abspath(__file__))
-	rf = pwd+'/files/'+requestfile
-	if os.path.exists(rf):
-		fname = rf
-	elif os.path.exists(rf+'.html'):
-		fname = rf+'.html'
-	else: 
-		return HttpResponse("can't find yer file")
 
-	f = open(fname, 'r')
-	r = f.read()
-	f.close()
-	return HttpResponse(r)
+	file = join(BASE_DIR, "static/AaaE/temp", requestfile)
+	mimes = (
+		('.js', 'javascript'),
+		('.coffee', 'coffeescript'),
+		('.paper.js', 'paperscript')
+	)
+
+	existing_file = None
+	mimetype = None
+	filename = None
+	for mime in mimes:
+		_file = join(file + mime[0])
+		if os.path.exists(_file):
+			filename = requestfile + mime[0]
+			mimetype = mime[1]
+			existing_file = _file
+			break
+
+	if existing_file is None:
+		raise Http404("File not found.")
+
+	return render(request, "deploy.html", {'mime':mimetype, 'file':filename, "canvas_id":requestfile}) 

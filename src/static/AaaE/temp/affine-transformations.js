@@ -6,7 +6,8 @@ DARK_GREY = new Color(0.6, 0.6, 0.6, 0.5);
 LIGHT_GREY = new Color(0.7, 0.7, 0.7, 0.7);
 
 var cartesian_matrix = new Matrix(1,0,0,-1, view.center.x, view.center.y);
-cartesian_matrix.scale(5)
+cartesian_matrix.scale(5);
+
 var lines = [];
 
 _.each(_.range(-10,11), function(i) {

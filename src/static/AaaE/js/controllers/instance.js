@@ -481,6 +481,7 @@ angular
 
         $scope.snapshot = function() {
 
+            if (!USER_ID) { return; }
             console.log('snapshot');
 
             var canvas = $("#big-canvas");

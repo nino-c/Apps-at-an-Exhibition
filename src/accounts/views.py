@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.core.urlresolvers import reverse_lazy
 from django.views import generic
+from django.views.generic.base import ContextMixin
 from django.contrib.auth import get_user_model
 from django.contrib import auth
 from django.contrib import messages
@@ -8,12 +9,18 @@ from authtools import views as authviews
 from braces import views as bracesviews
 from django.conf import settings
 from . import forms
+from game.views import getAngularFiles
 
 User = get_user_model()
 
+class AngularMixin(ContextMixin):
+    def get_context_data(self, **kwargs):
+        context = super(AngularMixin, self).get_context_data(**kwargs)
+        context['angular_includes'] = getAngularFiles()
+        return context
 
 class LoginView(bracesviews.AnonymousRequiredMixin,
-                authviews.LoginView):
+                authviews.LoginView, AngularMixin):
     template_name = "accounts/login.html"
     form_class = forms.LoginForm
 
@@ -27,17 +34,18 @@ class LoginView(bracesviews.AnonymousRequiredMixin,
         return redirect
 
 
+
 class LogoutView(authviews.LogoutView):
     url = reverse_lazy('gameindex')
 
 
 class SignUpView(bracesviews.AnonymousRequiredMixin,
                  bracesviews.FormValidMessageMixin,
-                 generic.CreateView):
+                 generic.CreateView, AngularMixin):
     form_class = forms.SignupForm
     model = User
     template_name = 'accounts/signup.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('gameindex')
     form_valid_message = "You're signed up!"
 
     def form_valid(self, form):
@@ -49,10 +57,10 @@ class SignUpView(bracesviews.AnonymousRequiredMixin,
         return r
 
 
-class PasswordChangeView(authviews.PasswordChangeView):
+class PasswordChangeView(authviews.PasswordChangeView, AngularMixin):
     form_class = forms.PasswordChangeForm
     template_name = 'accounts/password-change.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('gameindex')
 
     def form_valid(self, form):
         form.save()
@@ -62,7 +70,7 @@ class PasswordChangeView(authviews.PasswordChangeView):
         return super(PasswordChangeView, self).form_valid(form)
 
 
-class PasswordResetView(authviews.PasswordResetView):
+class PasswordResetView(authviews.PasswordResetView, AngularMixin):
     form_class = forms.PasswordResetForm
     template_name = 'accounts/password-reset.html'
     success_url = reverse_lazy('accounts:password-reset-done')

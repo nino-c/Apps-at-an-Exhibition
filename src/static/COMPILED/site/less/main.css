@@ -12,6 +12,11 @@ md-toolbar.md-default-theme:not(.md-menu-toolbar),
 md-toolbar:not(.md-menu-toolbar) {
   background-color: rgba(255, 255, 255, 0.5);
   color: #666666;
+  z-index: 3000;
+  height: 69px;
+}
+._md-open-menu-container._md-active {
+  z-index: 4000;
 }
 md-content {
   background-color: transparent;
@@ -22,9 +27,46 @@ md-input-container {
 md-select-menu {
   background-color: #ffffff;
 }
+md-toast {
+  top: 100px;
+  margin: auto;
+  width: 80%;
+  z-index: 10000;
+}
+#bg-iframe {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  border: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: -1000;
+}
 md-card,
 md-card.md-default-theme {
   background-color: rgba(255, 255, 255, 0.6);
+}
+md-dialog {
+  z-index: 2000;
+}
+.md-dialog-container {
+  z-index: 2000;
+}
+.centered {
+  text-align: center;
+  display: inline;
+  margin-left: auto;
+  margin-right: auto;
+}
+.no-padding {
+  padding: 0px;
+}
+.container-fluid {
+  padding: 0px;
+}
+h3 {
+  color: #666666;
+  font-weight: 300;
 }
 .footer-toolbar {
   padding: 15px 5px 5px 5px;
@@ -38,37 +80,56 @@ md-card.md-default-theme {
 .canvas-full {
   z-index: -1000;
   display: block;
-  height: 0px;
   position: fixed;
   left: 0px;
   width: 100%;
-  height: 100%;
   background: transparent;
   padding: 0px;
+}
+.canvas-inline {
+  z-index: -1000;
+  display: block;
+  width: 90%;
+  height: 90%;
+  margin: auto;
+  border: 1px solid #cccccc;
+  background: transparent;
+  padding: 0px;
+}
+.source-container {
+  max-height: 600px;
 }
 #big-canvas {
   z-index: -1000;
   display: block;
-  height: 0px;
   position: fixed;
   left: 0px;
   width: 100%;
-  height: 100%;
   background: transparent;
   padding: 0px;
-  top: 60px;
+  top: 70px;
+  height: calc(100% - 70px);
+}
+.display-canvas {
+  z-index: -1000;
+  display: block;
+  position: fixed;
+  left: 0px;
+  width: 100%;
+  background: transparent;
+  padding: 0px;
+  top: 70px;
 }
 #bg-canvas {
   z-index: -1000;
   display: block;
-  height: 0px;
   position: fixed;
   left: 0px;
   width: 100%;
-  height: 100%;
   background: transparent;
   padding: 0px;
   top: 0px;
+  height: 100%;
 }
 #top-toolbar {
   padding: 10px;
@@ -81,6 +142,19 @@ md-card.md-default-theme {
   font-weight: bold;
   margin-right: 12px;
   cursor: pointer;
+}
+#sub-brand {
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.feature-display {
+  position: fixed;
+  top: 100px;
+  left: 50px;
+  padding: 10px;
+  background-color: rgba(200, 200, 200, 0.5);
+  border: 1px solid #cccccc;
 }
 .app-display:hover {
   cursor: pointer;
@@ -101,30 +175,34 @@ md-card.md-default-theme {
   font-weight: bold;
 }
 .nthumbnail {
-  display: block;
-  padding: 4px;
-  margin-bottom: 0px;
-  line-height: 1.42857143;
+  display: inline;
+  margin: 2px 2px 2px 2px !important;
   background-color: #fff;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  -webkit-transition: border 0.2s ease-in-out;
-  -o-transition: border 0.2s ease-in-out;
-  transition: border 0.2s ease-in-out;
 }
 .thumbnail-tiny {
-  display: block;
-  padding: 4px;
-  margin-bottom: 0px;
-  line-height: 1.42857143;
+  display: inline;
+  margin: 2px 2px 2px 2px !important;
   background-color: #fff;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  -webkit-transition: border 0.2s ease-in-out;
-  -o-transition: border 0.2s ease-in-out;
-  transition: border 0.2s ease-in-out;
   width: 80px;
-  height: 80px;
+  height: auto;
+}
+.thumbnail-med {
+  display: inline;
+  margin: 2px 2px 2px 2px !important;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  width: 100px;
+  height: 100px;
+}
+.thumbnail-lg {
+  display: inline;
+  margin: 2px 2px 2px 2px !important;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  width: 200px;
+  height: 200px;
 }
 .round-border {
   border: 1px solid #cccccc;
@@ -180,6 +258,10 @@ md-card.md-default-theme {
   line-height: auto;
   box-shadow: 0px 1px 0px #ddd;
   text-align: left;
+  vertical-align: middle;
+}
+#toolbar-bottom div {
+  vertical-align: middle;
 }
 .exhibit {
   padding: 10px;
@@ -187,6 +269,14 @@ md-card.md-default-theme {
   margin-right: auto;
   margin-bottom: 10px;
   margin-top: 10px;
+}
+.loading-bg-base {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 2000;
 }
 .loading-bg {
   position: fixed;
@@ -206,13 +296,30 @@ md-card.md-default-theme {
   color: #333333;
   text-align: center;
 }
+.inDialog pre {
+  margin-left: 25px;
+}
+.codemirror-gutters {
+  width: 13px;
+}
+.loader-base {
+  position: absolute;
+  margin: 0px auto;
+  left: 50%;
+  top: 50%;
+}
 .loader {
   position: absolute;
   margin: 0px auto;
-  width: 100px;
-  height: 100px;
   left: 50%;
   top: 50%;
+  width: 100px;
+  height: 100px;
+}
+.loader-lg {
+  margin: 200px auto;
+  width: 250px;
+  height: 250px;
 }
 .circular {
   animation: rotate 2s linear infinite;
@@ -220,6 +327,19 @@ md-card.md-default-theme {
   transform-origin: center center;
   width: 100px;
   height: 100px;
+  position: relative;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.circular2 {
+  animation: rotate 2s linear infinite;
+  height: 100%;
+  transform-origin: center center;
+  width: 250px;
+  height: 250px;
   position: relative;
   top: 0;
   bottom: 0;

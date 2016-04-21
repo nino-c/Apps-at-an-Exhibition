@@ -28,7 +28,7 @@ from game.serializers import *
 # def index(request):
 #   return render(request, "game/index.html")
 
-def gameindex(request):
+def getAngularFiles():
     angular_dirs = ['modules', 'services', 'directives', 'controllers', 'filters']
     angular_appdir_site = '/static/AaaE/js'
     angular_appdir = os.path.join(STATIC_ROOT, "AaaE/js")
@@ -39,9 +39,11 @@ def gameindex(request):
                     map(lambda f: os.path.join("AaaE/js", dir, f), os.listdir(os.path.join(angular_appdir, dir)))
                 )), angular_dirs)
         )
+    return angular_includes
 
+def gameindex(request):
     return render(request, "angular-index.html", 
-        {'angular_includes': angular_includes, 'isAngularApp': True})
+        {'angular_includes': getAngularFiles(), 'isAngularApp': True})
 
 @csrf_exempt
 def instantiateGame(request, pk):

@@ -1,13 +1,22 @@
 from __future__ import unicode_literals
 from django.views import generic
+from django.views.generic.base import ContextMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from braces.views import LoginRequiredMixin
 from . import forms
 from . import models
+from game.views import getAngularFiles
 
 
-class ShowProfile(LoginRequiredMixin, generic.TemplateView):
+class AngularMixin(ContextMixin):
+    def get_context_data(self, **kwargs):
+        context = super(AngularMixin, self).get_context_data(**kwargs)
+        context['angular_includes'] = getAngularFiles()
+        print '----', context
+        return context
+
+class ShowProfile(LoginRequiredMixin, generic.TemplateView, AngularMixin):
     template_name = "profiles/show_profile.html"
     http_method_names = ['get']
 
@@ -25,7 +34,7 @@ class ShowProfile(LoginRequiredMixin, generic.TemplateView):
         return super(ShowProfile, self).get(request, *args, **kwargs)
 
 
-class EditProfile(LoginRequiredMixin, generic.TemplateView):
+class EditProfile(LoginRequiredMixin, generic.TemplateView, AngularMixin):
     template_name = "profiles/edit_profile.html"
     http_method_names = ['get', 'post']
 

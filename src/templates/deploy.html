@@ -1,0 +1,17 @@
+{% extends "angular-base.html" %}
+
+{% block extra_head_scripts %}
+	<script type="text/{{ mime }}" src="/static/AaaE/temp/{{ file }}" canvas="bg-canvas"></script>
+{% endblock extra_head_scripts %}
+
+{% block iframe %}
+
+{% endblock iframe %}
+
+{{ mime }} {{ file }}
+
+
+
+{% block angular_content %}
+<canvas id="bg-canvas"></canvas>
+{% endblock angular_content %}
