@@ -312,7 +312,7 @@ angular
                 };
 
                 $scope.changeVaryParam = function() {
-                    console.log('changeVaryParam')
+                    console.log('changeVaryParam');
                 }
 
                 $scope._updateInstance = function() {
@@ -475,8 +475,6 @@ angular
 
             }
         }
-    
-
     
 
         $scope.snapshot = function() {

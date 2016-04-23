@@ -9,6 +9,7 @@ from authtools import views as authviews
 from braces import views as bracesviews
 from django.conf import settings
 from . import forms
+import django.forms
 from game.views import getAngularFiles
 
 User = get_user_model()
@@ -42,6 +43,7 @@ class LogoutView(authviews.LogoutView):
 class SignUpView(bracesviews.AnonymousRequiredMixin,
                  bracesviews.FormValidMessageMixin,
                  generic.CreateView, AngularMixin):
+
     form_class = forms.SignupForm
     model = User
     template_name = 'accounts/signup.html'
@@ -49,6 +51,9 @@ class SignUpView(bracesviews.AnonymousRequiredMixin,
     form_valid_message = "You're signed up!"
 
     def form_valid(self, form):
+        #raise django.forms.ValidationError('Registration closed.')
+        #r = super(SignUpView, self).form_invalid(form)
+        #return r
         r = super(SignUpView, self).form_valid(form)
         username = form.cleaned_data["email"]
         password = form.cleaned_data["password1"]
