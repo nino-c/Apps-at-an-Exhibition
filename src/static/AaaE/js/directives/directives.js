@@ -169,7 +169,7 @@ angular.module('Exhibition')
             }
         }
     }])
-    .directive('adjustImage', function($window) {
+    .directive('adjustImage', function($window, $timeout) {
         return {
             restrict: 'A',
             link: function postLink(scope, element, attrs) {
@@ -232,8 +232,15 @@ angular.module('Exhibition')
                         scope.$apply();
                     });
 
+
                 }
                 
+
+                $timeout(function() {
+                    transform();
+                })
+
+
                 // causes directive to resize upon first pageload 
                 scope.$watch('loading', function(val) {
                     if (!val && !transform_started) {

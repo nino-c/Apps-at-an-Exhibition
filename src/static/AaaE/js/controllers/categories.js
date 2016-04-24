@@ -19,4 +19,8 @@ angular
 			//console.log($event)
 		}
 		
+		$scope.init = function() {
+			console.log('scope init');
+		}
+
 	}]);
