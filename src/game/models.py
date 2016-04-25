@@ -304,6 +304,7 @@ class GameInstance(TimestamperMixin, models.Model):
 
         inUseNames = Set(map(lambda x: os.path.basename(x), imagesInUse))
         allImages = Set(filter(lambda x: len(x) > 40, os.listdir(MEDIA_ROOT)))
+        print allImages, inUseNames
         toRemove = allImages.difference(inUseNames)
 
         ims = map(lambda im: '<img src="/media/'+im+'" height="100" width="100" />', inUseNames)
