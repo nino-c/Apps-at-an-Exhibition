@@ -1,3 +1,4 @@
+# server
 cd
 git clone https://github.com/nino-c/Apps-at-an-Exhibition.git app
 sudo apt-get install python-pip
@@ -17,8 +18,12 @@ sudo passwd postgres
 sudo -i -u postgres
 createdb ninopq
 createuser --interactive
-echo ALTER USER ninopq WITH PASSWORD 'pl3rp!!' | psql
+
+# client
+pg_dump AaaE > db.dump
+
 
 
 
 sudo service nginx restart
+sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to 8000
