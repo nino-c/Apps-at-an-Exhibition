@@ -24,7 +24,18 @@ angular.module('Exhibition')
     })
     .directive('spinner', function() {
         return {
-            template: '<span class="glyphicon glyphicon-refresh fa-spin-custom"></span>'
+            restrict: 'EA',
+            scope: {
+                size: '='
+            },
+            template: function(elem, attr) {
+                return '<span class="glyphicon glyphicon-refresh fa-spin-custom {{ sizeClass }}"></span>'
+            },
+            link: function postLink(scope, elem, attrs) {
+                if (scope.attrs.size) {
+                    scope.attrs.sizeClass = 'spinner-' + size;
+                }
+            }
         }
     })
     .directive('colorbox', ['$scope', function($scope) {
@@ -46,43 +57,16 @@ angular.module('Exhibition')
     .directive('seedField', function($compile) {
         return {
             restrict: 'E',
-            //require: 'ngModel',
             scope: {
-                //ngModel: '@',
                 label: '=',
                 type: '=',
                 value: '='
-                //seed: '=ngModel'
-
             },
-            //replace: true,
-            //require: 'ngModel',
-            //transclude: true,
             templateUrl: 'seedField.html',
             link: function(scope, elem, attrs, ctrl) {
-                console.log('------------', scope)
-                console.log(attrs)
-                console.log(attrs.struct)
-                console.log(ctrl)
-
-                //ctrl.$render = function() {
-                    // if (!$viewValue) {
-                    //     $viewValue = {
-                    //         type: seed[1].type,
-                    //         label: seed[0],
-                    //         value: seed[1].value
-                    //     }
-                    // }
-
-                    console.debug(attr.ngModel);
-                    console.debug($scope.$parent.$eval(attr.ngModel));
-
-                    // $scope.type =   ctrl.$viewValue.type;
-                    // $scope.label =  ctrl.$viewValue.label;
-                    // $scope.value =  ctrl.$viewValue.value;
-                    $scope.$apply();
-                //}
-
+               
+                $scope.$apply();
+                
                 ctrl.seedChange = function() {
 
                 }

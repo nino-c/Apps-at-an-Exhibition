@@ -8,41 +8,37 @@ angular
     '$mdToast',
     '$timeout',
     'AppService',  
+    'AppServiceMinimal',
     'InstanceService',
     function ($scope, $location, $route, $http, $window, $mdToast, $timeout,
-      AppService, InstanceService) {
+      AppService, AppServiceMinimal, InstanceService) {
 
         $scope.loading = true;
+        $scope.loadingInstances = true;
 
-        //var apps = AppService.get({id:$route.current.params.id});
-        // well, don't' like them loops, but oh well
-        AppService.get({id:$route.current.params.id})
-            .$promise.then(function(a) {
+        AppServiceMinimal.get({id:$route.current.params.id})
+            .$promise.then(function(app_min) {
 
-                $scope.app = a;
+                $scope.app_minimal = app_min;
+                $scope.loading = false;                
 
-                for (var i=0; i<$scope.app.instances.length; i++) {
-                    $scope.app.instances[i]._seed = 
-                        JSON.parse($scope.app.instances[i].seed);
+                AppService.get({id:$route.current.params.id})
+                    .$promise.then(function(app) {
+                        
+                        $scope.app = app;
 
-                    $scope.app.instances[i].seedlist = 
-                        _.pairs($scope.app.instances[i]._seed); 
-                }
+                        for (var i=0; i<$scope.app.instances.length; i++) {
+                            $scope.app.instances[i]._seed = JSON.parse($scope.app.instances[i].seed);
+                            $scope.app.instances[i].seedlist = _.pairs($scope.app.instances[i]._seed); 
+                        }
 
-                $scope.images = _.flatten(
-                    _.map($scope.app.instances, function(inst) {
-                        return inst.images;
-                    })
-                );
-                
-                if ($scope.images.length > 9) {
-                    $scope.images = $scope.images.slice(0,9);
-                }
+                        $scope.loadingInstances = false;
 
-                $scope.loading = false;
-                
+                    });
 
             });
+
+        
 
         $scope.selectFirstInstance = function() {
             if ($scope.app.instances.length > 0) {

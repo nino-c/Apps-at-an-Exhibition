@@ -30,6 +30,11 @@ class CategoryField(serializers.Field):
             cat = Category.objects.get(name__exact=data)
         return cat
 
+class UserField(serializers.Field):
+    def to_representation(self, obj):
+        return obj.name
+
+
 # class AppInlineField(serializers.Field):
 #     def to_representation(self, obj):
 #         return obj
@@ -253,6 +258,15 @@ class AppSerializerMinimal(serializers.ModelSerializer):
 
     def get_images(self, obj):
         return obj.getImageSet()
+
+class AppSerializerNoInstances(serializers.ModelSerializer):
+    category = CategoryField()
+    owner = UserField()
+    class Meta:
+        model = ZeroPlayerGame
+        depth = 1
+        #fields = ('title', 'category', 'owner',)
+        exclude = ('source', 'seedStructure',)
 
 class CategoryAppsSerializer(serializers.ModelSerializer):
     apps = AppSerializerMinimal(read_only=True, many=True)

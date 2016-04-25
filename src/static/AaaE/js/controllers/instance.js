@@ -1,7 +1,6 @@
 angular
   .module('Exhibition')
   .controller('InstanceController', [
-
     '$rootScope',
     '$window',
     '$document',

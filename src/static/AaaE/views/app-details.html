@@ -13,29 +13,29 @@
 
     <md-card>
         <md-card-title>
-            <h3>{{ app.title }}</h3>
+            <h3>{{ app_minimal.title }}</h3>
         </md-card-title>
         <md-card-content style="min-height:500px;" layout-align="start start">
 
 
             <div layout="row">
                 <div flex="grow">
-                    <div>by <strong>{{ app.owner.name }}</strong></div>
-                    <div><strong>Category:</strong> {{app.category}}</div>
-                    <div class="text-muted">created @ {{ app.created }}</div>
+                    <div>by <strong>{{ app_minimal.owner }}</strong></div>
+                    <div><strong>Category:</strong> {{app_minimal.category}}</div>
+                    <div class="text-muted">created @ {{ app_minimal.created }}</div>
                     <hr />
 
                     <div layout="row">
                         <div ng-if="userLoggedIn">
                             <md-button class="md-raised md-primary"  
-                                href="#/apps/{{ app.id }}/edit/" 
+                                href="#/app_minimals/{{ app_minimal.id }}/edit/" 
                                 role="button" layout-align="center center">
                                 <md-icon md-font-set="material-icons">&#xE254;</md-icon>
                                 <span>Edit</span>
                             </md-button>
 
                             <md-button class="md-raised md-warn"  
-                                href="#/apps/{{ app.id }}/edit/" 
+                                href="#/app_minimals/{{ app_minimal.id }}/edit/" 
                                 role="button" layout-align="center center"
                                 ng-click="delete()">
                                 <md-icon md-font-set="material-icons">&#xE872;</md-icon>
@@ -48,7 +48,7 @@
                     <md-button class="md-raised md-accent"  
                         ng-click="selectFirstInstance()"
                         role="button" layout-align="center center">
-                        <md-icon md-font-set="material-icons">&#xE039;</md-icon>
+                        <md-icon md-font-set="material-icons" ng-cloak>play_circle_outline</md-icon>
                     <span>Instantiate App</span>
                 </md-button>
                 </div>
@@ -59,7 +59,7 @@
                 
 
                 <div class="caption">
-                    <p>{{ app.description }}</p>
+                    <p>{{ app_minimal.description }}</p>
                 </div>
 
 
@@ -87,13 +87,12 @@
 
             <h3>Instances</h3>
 
-            <!-- <button class="btn btn-success" ng-click="instantiate()" ng-if="userLoggedIn">
-                <span class="glyphicon glyphicon-plus-sign"></span>
-                Create a new instance
-            </button><br /><br /> -->
 
-            <md-content ng-cloak layout-wrap>
+            <md-content layout-wrap>
                 
+                <!-- <div class="text-muted">Loading instances...</div> -->
+                <md-progress-linear md-mode="indeterminate" ng-disabled="!loadingInstances"></md-progress-linear>
+
                 <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2 no-padding"
                     ng-repeat="instance in app.instances | orderBy:'created':true">
 
@@ -153,13 +152,11 @@
            
            
             <div ng-if="app.instances.length == 0">
-                <!-- <em>Creating first instance...
-                    <span class="glyphicon glyphicon-refresh fa-spin-custom"></span>
-                </em> -->
+                
                 <md-button class="md-raised md-primary"  
                     ng-click="instantiate()"
                     role="button" layout-align="center center">
-                    <md-icon md-font-set="material-icons">&#xE039;</md-icon>
+                    <md-icon md-font-set="material-icons">add_circle</md-icon>
                     <span>Create first instance</span>
                 </md-button>
             </div>

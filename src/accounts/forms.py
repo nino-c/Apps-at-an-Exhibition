@@ -23,8 +23,10 @@ class LoginForm(AuthenticationForm):
             HTML('<a href="{}">Forgot Password?</a>'.format(
                 reverse("accounts:password-reset"))),
             Field('remember_me'),
-            Submit('sign_in', 'Log in',
-                   css_class="btn btn-lg btn-primary btn-block"),
+            #Submit('sign_in', 'Log in',
+            #       css_class="btn btn-lg btn-primary btn-block"),
+            HTML('<input type="submit" class="btn btn-lg btn-primary btn-block"' + \
+                ' onClick="document.forms[0].submit()" value="Log in" />')
             )
 
 
@@ -41,9 +43,10 @@ class SignupForm(authtoolsforms.UserCreationForm):
             Field('name', placeholder="Enter Full Name"),
             Field('password1', placeholder="Enter Password"),
             Field('password2', placeholder="Re-enter Password"),
-            Submit('sign_up', 'Sign up', css_class="btn-warning"),
+            #Submit('sign_up', 'Sign up', css_class="btn-warning"),
             # ),
-            #HTML('<input type="submit" disabled="disabled" class="btn btn-lg btn-warning" value="Sign up" />')
+            HTML('<input type="submit" class="btn btn-lg btn-warning"' + \
+                ' onClick="document.forms[0].submit()" value="Sign up" />')
         )
 
 class PasswordChangeForm(authforms.PasswordChangeForm):

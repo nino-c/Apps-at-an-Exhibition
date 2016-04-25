@@ -17,7 +17,6 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
-#@permission_classes((IsAuthenticated, ))
 @permission_classes((AllowAny, ))
 class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
@@ -27,7 +26,6 @@ class CategoryViewSet(viewsets.ModelViewSet):
         ordering = ['-popularity']
 
 
-#@permission_classes((IsAuthenticated, ))
 @permission_classes((AllowAny, ))
 class CategoryAppsViewSet(viewsets.ModelViewSet):
     serializer_class = CategoryAppsSerializer
@@ -38,18 +36,13 @@ class CategoryAppsViewSet(viewsets.ModelViewSet):
 
 @permission_classes((AllowAny, ))
 class AppViewSet(viewsets.ModelViewSet):
-    #authentication_classes = (SessionAuthentication,)
-    #permission_classes = [IsAuthenticated,]
     serializer_class = AppSerializer
     queryset = ZeroPlayerGame.objects.all()
 
 @permission_classes((AllowAny, ))
 class InstanceViewSet(viewsets.ModelViewSet):
-    #authentication_classes = (SessionAuthentication,)
-    #permission_classes = [IsAuthenticated,]
     serializer_class = InstanceSerializer
     queryset = GameInstance.objects.all()
-    #queryset = GameInstance.objects.raw('SELECT *, (SELECT * FROM game_seedkeyval) FROM game_gameinstance')
 
     class Meta:
         ordering = ['-popularity']
@@ -59,20 +52,20 @@ class SnapshotViewSet(viewsets.ModelViewSet):
     serializer_class = SnapshotSerializer
     queryset = GameInstanceSnapshot.objects.all()
 
-#@permission_classes((IsAuthenticated, ))
 @permission_classes((AllowAny, ))
 class CodeModuleViewSet(viewsets.ModelViewSet):
-    #authentication_classes = (SessionAuthentication,)
-    #permission_classes = (IsAuthenticated,)
     queryset = CodeModule.objects.all()
     serializer_class = CodeModuleSerializer
 
 @permission_classes((AllowAny, ))
 class AppView(viewsets.ModelViewSet):
-    #authentication_classes = (SessionAuthentication,)
-    #permission_classes = (IsAuthenticated,)
     queryset = ZeroPlayerGame.objects.all()
     serializer_class = AppSerializer
+
+@permission_classes((AllowAny, ))
+class AppMinimalViewSet(viewsets.ModelViewSet):
+    queryset = ZeroPlayerGame.objects.all()
+    serializer_class = AppSerializerNoInstances
 
 @permission_classes((AllowAny, ))
 class InstanceAppViewSet(viewsets.ModelViewSet):
@@ -83,6 +76,7 @@ router.register(r'users', UserViewSet)
 router.register(r'categories', CategoryViewSet)
 router.register(r'categories-with-apps', CategoryAppsViewSet)
 router.register(r'apps', AppViewSet)
+router.register(r'apps-minimal', AppMinimalViewSet)
 router.register(r'instances', InstanceViewSet)
 router.register(r'snapshots', SnapshotViewSet)
 router.register(r'code_modules', CodeModuleViewSet)

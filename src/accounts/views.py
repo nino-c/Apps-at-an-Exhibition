@@ -51,6 +51,8 @@ class SignUpView(bracesviews.AnonymousRequiredMixin,
     form_valid_message = "You're signed up!"
 
     def form_valid(self, form):
+        messages.error(self.request, "Registration closed.")
+        return super(SignUpView, self).form_invalid(form)
         #raise django.forms.ValidationError('Registration closed.')
         #r = super(SignUpView, self).form_invalid(form)
         #return r

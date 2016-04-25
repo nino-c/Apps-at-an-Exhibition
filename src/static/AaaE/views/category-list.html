@@ -19,7 +19,7 @@
         </a>
     </h3>
 
-    <h3 >{{ category.name }}</h3>
+    <h3 ng-if="!userLoggedIn">{{ category.name }}</h3>
 
     
     <md-card ng-repeat="app in apps | orderBy:'popularity':true" 

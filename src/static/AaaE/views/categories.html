@@ -24,10 +24,19 @@
 				</md-card-title>
 				<md-card-content>
 					
-					<img ng-src="/media/{{ im | thumbnail:125 }}" 
-						class="nthumbnail pull-left" 
-						adjust-image basewidth="80"
-						ng-repeat="im in category.images" />
+					<div hide-xs>
+						<img ng-src="/media/{{ im | thumbnail:125 }}" 
+							class="nthumbnail pull-left" 
+							adjust-image basewidth="80"
+							ng-repeat="im in category.images" />
+					</div>
+					<div hide-gt-xs>
+						<img ng-src="/media/{{ im | thumbnail:125 }}" 
+							class="nthumbnail pull-left" 
+							adjust-image basewidth="50"
+							ng-repeat="im in category.images | limit:15" />
+					</div>
+					
 
 				</md-card-content>
 			</md-card>
