@@ -199,7 +199,6 @@ angular.module('Exhibition')
                         var im_per_row = Math.floor((elem_width - parent_padding) / basewidth_plus);
                         var im_width = elem_width / im_per_row; 
                         var image_width = Math.floor(im_width - (basewidth_plus - basewidth));
-                        console.log('wdiff', (basewidth_plus - basewidth));
                             
                         _.each(images, function(im) {
                             $(im).css({
@@ -264,6 +263,20 @@ angular.module('Exhibition')
                     }
                 } else {
                     throw 'ngRepeatEndCall: `ngRepeat` Directive required to use this Directive';
+                }
+            }
+        }
+    })
+    .directive('stickToBottom', function($window) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                console.log('stickToBottom');
+                var el = angular.element(element[0]);
+                var mintop = angular.element($window).height() - el.height();
+                console.log('mintop', mintop, el.offset().top);
+                if (el.offset().top < mintop) {
+                    el.css({position: 'absolute', top: mintop+'px'});
                 }
             }
         }

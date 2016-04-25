@@ -3,69 +3,7 @@
 {% load thumbnail %}
 
  
-{% block angular_content %}
 
-<md-toolbar md-whiteframe="3">
-    <div id="top-toolbar">
-
-        <span onclick="window.location='/'" id="brand" flex="none">∀aa∃</span>
-        <span onclick="window.location='/'" id="sub-brand" flex="auto" hide-xs>Apps at an Exhibition</span>
-
-        <span class="pull-right">
-        {% if user.is_authenticated %}
-
-        <md-menu>
-          <md-button ng-click="$mdOpenMenu()">
-            <img src="{% thumbnail user.profile.picture|default:'default_profile.png' 30x30 crop %}" alt="" />
-            {{ user.get_full_name|truncatechars:20 }}
-            <span class="caret"></span>
-          </md-button>
-          <md-menu-content>
-            <md-menu-item>
-              <md-button href="{% url 'profiles:show_self' %}">Profile</md-button>
-            </md-menu-item>
-            <md-menu-item>
-              <md-button href="{% url 'accounts:logout' %}">Logout</md-button>
-            </md-menu-item>
-          </md-menu-content>
-        </md-menu>
-         
-      {% endif %}
-      {% if not user.is_authenticated %}
-        
-          <md-button class="md-small" ng-cloak ng-href="{% url 'accounts:login' %}" role="button">Log in</md-button>
-          <md-button class="md-small" ng-cloak ng-href="{% url 'accounts:signup' %}" role="button">Sign up</md-button>
-        
-      {% endif %}
-      </span>
-    </div>
-</md-toolbar>
-
-<md-content>
-
-  <main ng-if="isAngularApp" class="main" role="main" flex>
-    <div ng-view class="flex"></div>
-  </main>
-  
-    <div class="main" ng-if="!isAngularApp" role="main" flex>
-      <md-card>
-        <md-card-content>
-          {% block accounts %}
-          {% endblock accounts %}
-        </md-card-content>
-      </md-card>
-    </div>
-  
-</md-content>
-
-
-  
-
-<footer class="footer-toolbar">
-  &copy; 2016 Nino P. Cocchiarella <code>mrcodeswitcher.com</code>
-</footer>
-
-{% endblock angular_content %}
 
 
 

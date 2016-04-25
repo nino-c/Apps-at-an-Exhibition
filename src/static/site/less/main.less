@@ -19,11 +19,13 @@ html, body {
   background-color: transparent;
 }
 
+
 md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
   background-color: rgba(255, 255, 255, 0.5);
   color: #666666;
   z-index: 3000;
   height: 69px;
+  //height: 60px;
 }
 
 ._md-open-menu-container._md-active {
@@ -76,7 +78,7 @@ md-dialog {
 }
 
 .centered {
-  text-align: center;
+  text-align: center;  
   display: inline;
   margin-left: auto;
   margin-right: auto;
@@ -95,11 +97,27 @@ h3 {
   font-weight: 300;
 }
 
+.main-content {
+  min-height: 100%;
+  //margin-bottom: -20px;
+}
+
+.main-content:after {
+  content: "";
+  display: block;
+}
+
+#top-toolbar {
+  padding: 10px;
+  span, md-button {
+    vertical-align: middle;
+  }
+}
+
 .footer-toolbar {
   padding: 15px 5px 5px 5px;
-  position: fixed;
-  bottom: 0px;
-  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+  //height: 20px;
+  background: #ffffff; //linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
 }
 
 .main {
@@ -148,12 +166,7 @@ h3 {
   height: 100%;
 }
 
-#top-toolbar {
-  padding: 10px;
-  span {
-    vertical-align: middle;
-  }
-}
+
 
 #brand {
   font-size: 32px;
@@ -207,18 +220,47 @@ h3 {
   font-weight: bold;
 }
 
+
+.thumbnail {
+  display: block;
+  padding: 4px;
+  margin-bottom: 20px;
+  line-height: 1.42857143;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  -webkit-transition: border .2s ease-in-out;
+       -o-transition: border .2s ease-in-out;
+          transition: border .2s ease-in-out;
+}
+.thumbnail > img,
+.thumbnail a > img {
+  margin-right: auto;
+  margin-left: auto;
+}
+a.thumbnail:hover,
+a.thumbnail:focus,
+a.thumbnail.active {
+  border-color: #337ab7;
+}
+.thumbnail .caption {
+  padding: 9px;
+  color: #333;
+}
+
 .nthumbnail {
     display: inline;
-    //padding: 4px;
-    //margin-bottom: 0px !important;
     margin: 2px 2px 2px 2px !important;
-    //line-height: 1.42857143;
     background-color: #fff;
     border: 1px solid #ddd;
     //border-radius: 4px;
-    // -webkit-transition: border .2s ease-in-out;
-    // -o-transition: border .2s ease-in-out;
-    // transition: border .2s ease-in-out;
+    -webkit-transition: border .2s ease-in-out;
+       -o-transition: border .2s ease-in-out;
+          transition: border .2s ease-in-out;
+}
+
+.nomargin {
+  margin: 0px 0px 0px 0px !important;
 }
 
 .thumbnail-tiny {
@@ -235,8 +277,9 @@ h3 {
 
 .thumbnail-lg {
   .nthumbnail;
-  width: 200px;
-  height: 200px;
+  .nomargin;
+  width: 100%;
+  height: auto;
 }
 
 

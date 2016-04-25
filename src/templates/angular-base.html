@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="keywords" content="Interactive math, music, and art programming"/>
   <meta name="description" content="Mr. Code-switcher :: he who code-switched up-on the word 'code-switching' itself."/>
-  <meta name="viewport" content="initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- opengraph tags -->
   <meta property="og:site_name" content="mrcodeswitcher.com">
@@ -112,11 +112,12 @@
 
 {% block angular_content %}
 
-<md-toolbar md-whiteframe="3">
+<md-toolbar md-whiteframe="3" ng-cloak>
     <div id="top-toolbar">
 
         <span onclick="window.location='/'" id="brand" flex="none">∀aa∃</span>
-        <span onclick="window.location='/'" id="sub-brand" flex="auto" hide-xs>Apps at an Exhibition</span>
+        <span onclick="window.location='/'" id="sub-brand" 
+        flex="auto" hide-xs>Apps at an Exhibition</span>
 
         <span class="pull-right">
         {% if user.is_authenticated %}
@@ -148,7 +149,7 @@
     </div>
 </md-toolbar>
 
-<md-content>
+<md-content class="main-content">
   
   {% if messages %}
   <ul class="messages">
