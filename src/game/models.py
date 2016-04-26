@@ -20,7 +20,7 @@ from django_thumbs.db.models import ImageWithThumbsField
 # that daggum jsonfield... come awn, now, really?  so many!
 #  ---> CONCLUDE: eventually must go to CouchDB
 
-
+# mr codeswitcher is a flip-of-the-lip syntactic dick
 
 from plsys.settings import MEDIA_URL, MEDIA_ROOT
 from sets import Set
@@ -45,6 +45,7 @@ class Category(models.Model):
     parent = models.ForeignKey('self', null=True, blank=True, related_name="children")
     description = models.TextField(null=True, blank=True)
     image = ImageWithThumbsField(null=True, blank=True, sizes=((125,125),(200,200),(300,300)))
+    enabled = models.BooleanField(null=False, blank=False, default=True)
     popularity = models.IntegerField(default=1)
 
     def __unicode__(self):

@@ -222,13 +222,13 @@ h3 {
 
 
 .thumbnail {
-  display: block;
-  padding: 4px;
-  margin-bottom: 20px;
-  line-height: 1.42857143;
+  display: inline;
+  margin: 2px 2px 2px 2px !important;
+  //margin-bottom: 20px;
+  //line-height: 1.42857143;
   background-color: #fff;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 2px;
   -webkit-transition: border .2s ease-in-out;
        -o-transition: border .2s ease-in-out;
           transition: border .2s ease-in-out;
@@ -249,14 +249,7 @@ a.thumbnail.active {
 }
 
 .nthumbnail {
-    display: inline;
-    margin: 2px 2px 2px 2px !important;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    //border-radius: 4px;
-    -webkit-transition: border .2s ease-in-out;
-       -o-transition: border .2s ease-in-out;
-          transition: border .2s ease-in-out;
+   .thumbnail;
 }
 
 .nomargin {
@@ -266,7 +259,7 @@ a.thumbnail.active {
 .thumbnail-tiny {
     .nthumbnail;
     width: 80px;
-    height: auto;
+    height: 80px;
 }
 
 .thumbnail-med {
@@ -278,8 +271,8 @@ a.thumbnail.active {
 .thumbnail-lg {
   .nthumbnail;
   .nomargin;
-  width: 100%;
-  height: auto;
+  width: 200px;
+  height: 200px;
 }
 
 
@@ -325,7 +318,6 @@ a.thumbnail.active {
   top: 0px;
   bottom: 50px;
 }
-
 
 #toolbar-bottom {
     position: fixed;

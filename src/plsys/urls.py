@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^github/', views.github, name='github'),
     url(r'^about/', views.AboutPage.as_view(), name='about'),
     url(r'^users/', include(profiles.urls, namespace='profiles')),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls), name="adminhome"),
     url(r'^portfolio/', include(portfolio.urls, namespace='portfolio')),
     url(r'^deployments/', include(deployments.urls, namespace='deployments')),
     url(r'^symbolic_math/', include(symbolic_math.urls, namespace='symbolic_math')),

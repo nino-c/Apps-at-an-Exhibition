@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.http.request import HttpRequest
 from django.core.files import File
@@ -24,26 +24,35 @@ from plsys.settings import *
 from game.models import *
 from game.serializers import *
 
-
-# def index(request):
-#   return render(request, "game/index.html")
-
 def getAngularFiles():
     angular_dirs = ['modules', 'services', 'directives', 'controllers', 'filters']
     angular_appdir_site = '/static/AaaE/js'
     angular_appdir = os.path.join(STATIC_ROOT, "AaaE/js")
     angular_includes = reduce(
         lambda a,b: a+b, map( 
-            lambda dir: sorted(filter(
-                lambda file: not file.startswith('_'), 
-                    map(lambda f: os.path.join("AaaE/js", dir, f), os.listdir(os.path.join(angular_appdir, dir)))
-                )), angular_dirs)
+            lambda dir: sorted(
+                filter(
+                    lambda file: not file.startswith('_'), 
+                        map(lambda f: os.path.join("AaaE/js", dir, f), os.listdir(os.path.join(angular_appdir, dir)))
+                    )), angular_dirs)
         )
     return angular_includes
 
 def gameindex(request):
     return render(request, "angular-index.html", 
         {'angular_includes': getAngularFiles(), 'isAngularApp': True})
+
+def incrementPopularity(request, obj, id):
+    if obj == 'category':
+        item = Category.objects.get(pk=id)
+    elif obj == 'app':
+        item = ZeroPlayerGame.objects.get(pk=id)
+    
+    if item:
+        item.popularity = item.popularity + 1
+        item.save()
+        return JsonResponse(item.popularity)
+
 
 @csrf_exempt
 def instantiateGame(request, pk):
@@ -132,13 +141,13 @@ class UserViewSet(viewsets.ModelViewSet):
 @permission_classes((AllowAny, ))
 class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
-    queryset = Category.objects.all()
+    queryset = Category.objects.filter(enabled=True)
 
 
 @permission_classes((AllowAny, ))
 class CategoryAppsViewSet(viewsets.ModelViewSet):
     serializer_class = CategoryAppsSerializer
-    queryset = Category.objects.all()
+    queryset = Category.objects.filter(enabled=True)
 
 @permission_classes((AllowAny, ))
 class AppViewSet(viewsets.ModelViewSet):
@@ -166,6 +175,11 @@ class CodeModuleViewSet(viewsets.ModelViewSet):
 class AppView(viewsets.ModelViewSet):
     queryset = ZeroPlayerGame.objects.all()
     serializer_class = AppSerializer
+
+@permission_classes((AllowAny, ))
+class AppMinimalViewSet(viewsets.ModelViewSet):
+    queryset = ZeroPlayerGame.objects.all()
+    serializer_class = AppSerializerNoInstances
 
 @permission_classes((AllowAny, ))
 class InstanceAppViewSet(viewsets.ModelViewSet):

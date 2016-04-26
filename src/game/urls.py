@@ -10,66 +10,67 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import *
 from .serializers import *
 from . import views
+from .views import *
 
 from authtools.models import User
 
-class UserViewSet(viewsets.ModelViewSet):
-    serializer_class = UserSerializer
-    queryset = User.objects.all()
+# class UserViewSet(viewsets.ModelViewSet):
+#     serializer_class = UserSerializer
+#     queryset = User.objects.all()
 
-@permission_classes((AllowAny, ))
-class CategoryViewSet(viewsets.ModelViewSet):
-    serializer_class = CategorySerializer
-    queryset = Category.objects.all()
+# @permission_classes((AllowAny, ))
+# class CategoryViewSet(viewsets.ModelViewSet):
+#     serializer_class = CategorySerializer
+#     queryset = Category.objects.all()
 
-    class Meta:
-        ordering = ['-popularity']
+#     class Meta:
+#         ordering = ['-popularity']
 
 
-@permission_classes((AllowAny, ))
-class CategoryAppsViewSet(viewsets.ModelViewSet):
-    serializer_class = CategoryAppsSerializer
-    queryset = Category.objects.all()
+# @permission_classes((AllowAny, ))
+# class CategoryAppsViewSet(viewsets.ModelViewSet):
+#     serializer_class = CategoryAppsSerializer
+#     queryset = Category.objects.all()
 
-    class Meta:
-        ordering = ['-popularity']
+#     class Meta:
+#         ordering = ['-popularity']
 
-@permission_classes((AllowAny, ))
-class AppViewSet(viewsets.ModelViewSet):
-    serializer_class = AppSerializer
-    queryset = ZeroPlayerGame.objects.all()
+# @permission_classes((AllowAny, ))
+# class AppViewSet(viewsets.ModelViewSet):
+#     serializer_class = AppSerializer
+#     queryset = ZeroPlayerGame.objects.all()
 
-@permission_classes((AllowAny, ))
-class InstanceViewSet(viewsets.ModelViewSet):
-    serializer_class = InstanceSerializer
-    queryset = GameInstance.objects.all()
+# @permission_classes((AllowAny, ))
+# class InstanceViewSet(viewsets.ModelViewSet):
+#     serializer_class = InstanceSerializer
+#     queryset = GameInstance.objects.all()
 
-    class Meta:
-        ordering = ['-popularity']
+#     class Meta:
+#         ordering = ['-popularity']
 
-@permission_classes((AllowAny, ))
-class SnapshotViewSet(viewsets.ModelViewSet):
-    serializer_class = SnapshotSerializer
-    queryset = GameInstanceSnapshot.objects.all()
+# @permission_classes((AllowAny, ))
+# class SnapshotViewSet(viewsets.ModelViewSet):
+#     serializer_class = SnapshotSerializer
+#     queryset = GameInstanceSnapshot.objects.all()
 
-@permission_classes((AllowAny, ))
-class CodeModuleViewSet(viewsets.ModelViewSet):
-    queryset = CodeModule.objects.all()
-    serializer_class = CodeModuleSerializer
+# @permission_classes((AllowAny, ))
+# class CodeModuleViewSet(viewsets.ModelViewSet):
+#     queryset = CodeModule.objects.all()
+#     serializer_class = CodeModuleSerializer
 
-@permission_classes((AllowAny, ))
-class AppView(viewsets.ModelViewSet):
-    queryset = ZeroPlayerGame.objects.all()
-    serializer_class = AppSerializer
+# @permission_classes((AllowAny, ))
+# class AppView(viewsets.ModelViewSet):
+#     queryset = ZeroPlayerGame.objects.all()
+#     serializer_class = AppSerializer
 
-@permission_classes((AllowAny, ))
-class AppMinimalViewSet(viewsets.ModelViewSet):
-    queryset = ZeroPlayerGame.objects.all()
-    serializer_class = AppSerializerNoInstances
+# @permission_classes((AllowAny, ))
+# class AppMinimalViewSet(viewsets.ModelViewSet):
+#     queryset = ZeroPlayerGame.objects.all()
+#     serializer_class = AppSerializerNoInstances
 
-@permission_classes((AllowAny, ))
-class InstanceAppViewSet(viewsets.ModelViewSet):
-    qeueryset = ZeroPlayerGame.objects.all()
+# @permission_classes((AllowAny, ))
+# class InstanceAppViewSet(viewsets.ModelViewSet):
+#     qeueryset = ZeroPlayerGame.objects.all()
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -90,7 +91,8 @@ urlpatterns = [
     url(r'^test/', views.test, name="gametest"),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^snapshot/$', views.snapshot, name="snapshot-list"),
-    url(r'^app-instantiate/(?P<pk>[0-9]+)/$', views.instantiateGame),
+    url(r'^increment-popularity/(?P<obj>[a-zA-Z]+)/(?P<id>[0-9]+)/$', views.incrementPopularity, name="incrementPopularity"),
+    url(r'^app-instantiate/(?P<pk>[0-9]+)/$', views.instantiateGame, name='appInstantiate'),
     url(r'^(?P<static_method>[a-zA-Z\-\_0-9]*)/$', views.call_game_instance_static_method, name="method-handler"),
 ]
 
