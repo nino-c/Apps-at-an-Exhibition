@@ -51,7 +51,7 @@ def incrementPopularity(request, obj, id):
     if item:
         item.popularity = item.popularity + 1
         item.save()
-        return JsonResponse(item.popularity)
+        return HttpResponse(item.popularity)
 
 
 @csrf_exempt
@@ -80,6 +80,7 @@ def instantiateGame(request, pk):
 @csrf_exempt
 def snapshot(request, format=None):
     if request.method == 'POST':
+
         # get raw base64-encoded image
         imageBIN = base64.b64decode(request.POST['image'].split(',')[-1])
         imagename = hashlib.sha224(str(time.time())).hexdigest() + ".png"
@@ -87,7 +88,6 @@ def snapshot(request, format=None):
         # get instance
         instanceid = int(request.POST['instance'])
         instance = GameInstance.objects.get(pk=instanceid)
-        print instance
 
         # write to /tmp
         file = open(os.path.join("/tmp", imagename), 'w')
@@ -105,13 +105,38 @@ def snapshot(request, format=None):
 
         return JsonResponse({'a':'ok'})
 
+@api_view(['GET'])
+@permission_classes((AllowAny, ))
+def instances_ordered(request, id, key=None):
+    app = ZeroPlayerGame.objects.get(pk=id)
+    seedstruct = json.loads(app.seedStructure)
+    
+    key = None
+    searchtype = 'int_val'
+
+    index_keys = [(k,v) for k,v in seedstruct.iteritems() if 'index' in v and v['index'] == True]
+    if len(index_keys) == 0:
+        number_keys = [(k,v) for k,v in seedstruct.iteritems() if v['type'] == 'number']
+        if len(number_keys) > 0:
+            key = number_keys[0][0]
+        else:
+            key = seedstruct.keys()[0]
+            searchtype = 'val'
+    else:
+        key = index_keys[0][0]
+        if seedstruct[key]['type'] != 'number':
+            searchtype = 'val'
+    
+    vectorparam_set = SeedVectorParam.objects.filter(app=app, 
+        key=key).order_by(searchtype).select_related('instance')
+    instances = [element.instance for element in vectorparam_set]
+    serializer = OrderedInstanceSerializer(instances, many=True)
+    return Response(serializer.data)
+
 
 """
 Test and utility functions below
 """
-
-
-# metaprogramming
 
 def call_game_instance_static_method(request, static_method):
     """
@@ -123,7 +148,6 @@ def call_game_instance_static_method(request, static_method):
             return method.__call__(request)
     
     raise Exception("method does not exist")
-
 
 
 
@@ -141,24 +165,43 @@ class UserViewSet(viewsets.ModelViewSet):
 @permission_classes((AllowAny, ))
 class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
-    queryset = Category.objects.filter(enabled=True)
-
+    queryset = Category.objects.filter(enabled=True).order_by('-popularity')
 
 @permission_classes((AllowAny, ))
 class CategoryAppsViewSet(viewsets.ModelViewSet):
     serializer_class = CategoryAppsSerializer
-    queryset = Category.objects.filter(enabled=True)
+    queryset = Category.objects.filter(enabled=True).all()
 
 @permission_classes((AllowAny, ))
 class AppViewSet(viewsets.ModelViewSet):
     serializer_class = AppSerializer
     queryset = ZeroPlayerGame.objects.all()
 
+# @permission_classes((AllowAny, ))
+# class OrderedInstancesViewSet(viewsets.ModelViewSet):
+#     serializer_class = OrderedInstanceSerializer
+#     queryset = ZeroPlayerGame.objects.all()
+
+
+@permission_classes((AllowAny, ))       
+class AppMinimalViewSet(viewsets.ModelViewSet):
+    queryset = ZeroPlayerGame.objects.all()
+    serializer_class = AppSerializerNoInstances
+
 @permission_classes((AllowAny, ))
-#@api_view(http_method_names=['GET', 'POST'])
 class InstanceViewSet(viewsets.ModelViewSet):
     serializer_class = InstanceSerializer
     queryset = GameInstance.objects.all()
+
+@permission_classes((AllowAny, ))
+class InstanceViewSet(viewsets.ModelViewSet):
+    serializer_class = InstanceSerializer
+    queryset = GameInstance.objects.all()
+
+# @permission_classes((AllowAny, ))
+# class InstanceMinimalViewSet(viewsets.ModelViewSet):
+#     serializer_class = InstanceSerializerMinimal
+#     queryset = GameInstance.objects.all()
 
 
 @permission_classes((AllowAny, ))
@@ -171,15 +214,11 @@ class CodeModuleViewSet(viewsets.ModelViewSet):
     queryset = CodeModule.objects.all()
     serializer_class = CodeModuleSerializer
 
-@permission_classes((AllowAny, ))
-class AppView(viewsets.ModelViewSet):
-    queryset = ZeroPlayerGame.objects.all()
-    serializer_class = AppSerializer
+# @permission_classes((AllowAny, ))
+# class AppView(viewsets.ModelViewSet):
+#     queryset = ZeroPlayerGame.objects.prefetch_related('seedParams__valtype')
 
-@permission_classes((AllowAny, ))
-class AppMinimalViewSet(viewsets.ModelViewSet):
-    queryset = ZeroPlayerGame.objects.all()
-    serializer_class = AppSerializerNoInstances
+
 
 @permission_classes((AllowAny, ))
 class InstanceAppViewSet(viewsets.ModelViewSet):

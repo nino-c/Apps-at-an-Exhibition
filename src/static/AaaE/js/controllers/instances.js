@@ -7,11 +7,11 @@ angular
     '$window',
     '$mdToast',
     '$timeout',
-    'AppService',  
+    'OrderedInstanceService',  
     'AppServiceMinimal',
     'InstanceService',
     function ($scope, $location, $route, $http, $window, $mdToast, $timeout,
-      AppService, AppServiceMinimal, InstanceService) {
+      OrderedInstanceService, AppServiceMinimal, InstanceService) {
 
         $scope.loading = true;
         $scope.loadingInstances = true;
@@ -19,30 +19,38 @@ angular
         AppServiceMinimal.get({id:$route.current.params.id})
             .$promise.then(function(app_min) {
 
-                $scope.app_minimal = app_min;
+                $scope.app = app_min;
                 $scope.loading = false;                
 
-                AppService.get({id:$route.current.params.id})
-                    .$promise.then(function(app) {
+                OrderedInstanceService.query({id:$route.current.params.id})
+                    .$promise.then(function(instances) {
                         
-                        $scope.app = app;
+                        $scope.instances = instances;
 
-                        for (var i=0; i<$scope.app.instances.length; i++) {
-                            $scope.app.instances[i]._seed = JSON.parse($scope.app.instances[i].seed);
-                            $scope.app.instances[i].seedlist = _.pairs($scope.app.instances[i]._seed); 
+                        for (var i=0; i<$scope.instances.length; i++) {
+                            $scope.instances[i]._seed = JSON.parse($scope.instances[i].seed);
+                            $scope.instances[i].seedlist = _.pairs($scope.instances[i]._seed); 
                         }
 
                         $scope.loadingInstances = false;
+
+                        $http({
+                            method: 'GET',
+                            url: '/game/increment-popularity/app/' + $scope.app.id + '/'
+                        }).then(function successCallback(response) {
+                            console.log('increment response', response);
+                        }, function errorCallback(error) {
+                            console.log('increment response', error);
+                        });
 
                     });
 
             });
 
-        
 
         $scope.selectFirstInstance = function() {
-            if ($scope.app.instances.length > 0) {
-                $scope.selectInstance($scope.app.instances[0]);
+            if ($scope.instances.length > 0) {
+                $scope.selectInstance($scope.instances[0]);
             } else {
                 $scope.instantiate();
             }

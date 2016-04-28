@@ -79,6 +79,7 @@ router.register(r'categories-with-apps', CategoryAppsViewSet)
 router.register(r'apps', AppViewSet)
 router.register(r'apps-minimal', AppMinimalViewSet)
 router.register(r'instances', InstanceViewSet)
+#router.register(r'instances-ordered', OrderedInstancesViewSet)
 router.register(r'snapshots', SnapshotViewSet)
 router.register(r'code_modules', CodeModuleViewSet)
 
@@ -91,6 +92,8 @@ urlpatterns = [
     url(r'^test/', views.test, name="gametest"),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^snapshot/$', views.snapshot, name="snapshot-list"),
+    url(r'^instances-ordered/(?P<id>[0-9]+)/$', views.instances_ordered),
+    url(r'^instances-ordered-with-key/(?P<id>[0-9]+)/(?P<key>[a-zA-Z\-\_0-9]*)/', views.instances_ordered, name="instances_ordered"),
     url(r'^increment-popularity/(?P<obj>[a-zA-Z]+)/(?P<id>[0-9]+)/$', views.incrementPopularity, name="incrementPopularity"),
     url(r'^app-instantiate/(?P<pk>[0-9]+)/$', views.instantiateGame, name='appInstantiate'),
     url(r'^(?P<static_method>[a-zA-Z\-\_0-9]*)/$', views.call_game_instance_static_method, name="method-handler"),

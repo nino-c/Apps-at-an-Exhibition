@@ -3,6 +3,7 @@ from rest_framework import serializers
 from authtools.models import User
 from .models import *
 import math
+import json
 
 
 def parseDate(d):
@@ -62,7 +63,7 @@ class CategorySerializer(serializers.ModelSerializer):
         return sum(map(lambda app: app.popularity, object.apps.all())) / object.apps.count()
 
     def get_images(self, object):
-        images_per_app = 20 / object.apps.count()
+        images_per_app = 30 / object.apps.count()
         return reduce(lambda a,b: a + b, 
             map(lambda app: app.getImageSet(order=images_per_app), object.apps.all()))
 
@@ -119,9 +120,9 @@ class AppSerializer_Category_Inline(serializers.ModelSerializer):
         exclude = ('source', 'seedStructure')
         #include = ('__all__')
 
-class SeedParamSerializer(serializers.ModelSerializer):
+class SeedVectorParamSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SeedKeyVal
+        model = SeedVectorParam
         include = ('__all__',)
 
 
@@ -129,7 +130,7 @@ class InstanceMixin(serializers.ModelSerializer):
     
     instantiator = UserSerializer(required=False, read_only=True)
     sourcecode = serializers.SerializerMethodField(read_only=True)
-    seedParams = SeedParamSerializer(many=True)
+    vectorparams = SeedVectorParamSerializer(many=True)
 
     def get_validation_exclusions(self):
         exclusions = super(InstanceSerializer, self).get_validation_exclusions()
@@ -153,12 +154,31 @@ class InstanceSerializerMinimal(serializers.ModelSerializer):
 
     class Meta:
         model = GameInstance
-        exclude = ('instantiator', 'seed', 'seedParams', 'game', 'popularity', 'vector')
+        #include = ('images', 'vectorparams')
+        exclude = ('instantiator', 'seed', 'game', 'popularity', 'vector')
         
     def get_images(self, object):
         return object.getImages()
 
 
+class VectorParamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SeedVectorParam
+        include = ('key', 'val', 'int_val')
+        exclude = ('id', 'jsonval', 'ordering', 'instance', 'app')
+
+
+class OrderedInstanceSerializer(serializers.ModelSerializer):
+    images = serializers.SerializerMethodField(read_only=True)
+    vectorparams = VectorParamSerializer(many=True)
+
+    class Meta:
+        model = GameInstance
+        #include = ('images', 'vectorparams')
+        exclude = ('instantiator', 'game', 'popularity', 'vector')
+        
+    def get_images(self, object):
+        return object.getImages()
 
 class InstanceSerializer(InstanceMixin, serializers.ModelSerializer):
     game = AppSerializer_Inline()
@@ -207,6 +227,7 @@ class AppSerializer(AppSerializerBase):
 
     instances = InstanceSerializer_Inline(many=True, read_only=True)
     category = CategoryField()
+    category_id = serializers.SerializerMethodField(read_only=True)
     extraIncludes = JSLibrarySerializer(read_only=True, many=True)
     display_image = serializers.SerializerMethodField(read_only=True)
 
@@ -216,7 +237,7 @@ class AppSerializer(AppSerializerBase):
         include = '__all__'
         exclude = None
         read_only_fields = ('id', 'created', 'updated', 'owner',
-          'instances', 'display_image')
+          'instances', 'display_image', 'category_id')
 
     def get_validation_exclusions(self):
         exclusions = super(InstanceSerializer, self).get_validation_exclusions()
@@ -224,6 +245,9 @@ class AppSerializer(AppSerializerBase):
 
     def get_api_url(self, obj):
         return "#/app/%s" % obj.id
+
+    def get_category_id(self, obj):
+        return obj.id
 
     def get_display_image(self, obj):
         if obj.instances.count() > 0:
@@ -247,11 +271,14 @@ class AppSerializer(AppSerializerBase):
 
 class AppSerializerMinimal(serializers.ModelSerializer):
     images = serializers.SerializerMethodField(read_only=True)
-    instances = serializers.SerializerMethodField(read_only=True)
+    seedstruct = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = ZeroPlayerGame
-        exclude = ('category', 'source', 'seedStructure')
+        exclude = ('source',)
+
+    def get_seedstruct(self, obj):
+        return json.loads(obj.seedStructure)
 
     def get_instances(self, obj):
         return map(lambda inst: inst.id, obj.instances.all())
@@ -262,11 +289,15 @@ class AppSerializerMinimal(serializers.ModelSerializer):
 class AppSerializerNoInstances(serializers.ModelSerializer):
     category = CategoryField()
     owner = UserField()
+    category_id = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = ZeroPlayerGame
         depth = 1
-        #fields = ('title', 'category', 'owner',)
         exclude = ('source', 'seedStructure',)
+
+    def get_category_id(self, obj):
+        return obj.category.id;
 
 class CategoryAppsSerializer(serializers.ModelSerializer):
     apps = AppSerializerMinimal(read_only=True, many=True)

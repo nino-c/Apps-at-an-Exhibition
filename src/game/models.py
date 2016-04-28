@@ -51,6 +51,12 @@ class Category(models.Model):
     def __unicode__(self):
         return self.name
 
+    def get_total_popularity(self):
+        return sum(map(lambda app: app.popularity, self.apps.all()))
+
+    def get_avg_popularity(self):
+        return sum(map(lambda app: app.popularity, self.apps.all())) / self.apps.count()
+
 
 class JSLibrary(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False)
@@ -84,7 +90,6 @@ class CodeModule(TimestamperMixin, models.Model):
     language = models.CharField(max_length=20, choices=DIALECTS, default="javascript")
     source = models.TextField(null=False, blank=False)
     
-
     def __unicode__(self):
         return self.title + ": " + self.source[:50] + "..."    
 
@@ -114,17 +119,7 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
     def simplify_seed(seed):
         return { k:v['value'] for k,v in seed.iteritems() }
 
-    def instantiate(self, request, seed={}):
-        """
-        Now should be the *only place to handle: 
-            - seed creation
-            - kv col management
-        does not need to be server-side anymore... which is easier?
-        """
-
-        if request.user is None:
-            raise Exception("Must be logged in.")
-
+    def getSeedVector(self, seed={}):
         seedDict = json.loads(self.seedStructure)  
         
         # ensure seedDict has `type` and `default` on each value-dict
@@ -139,21 +134,38 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
             value = v['value'] if 'value' in v else v['default']
             seed[k] = {'type':v['type'], 'value':value}
 
-        for k,v in seed.iteritems():     
+        for k,v in seed.iteritems():   
+            if type(v) is not type({}):
+                v = {'value':v}  
+            print '--val',v,  v['value']
             if v['type'] == 'math':
-                expr = SymbolicExpression(v['value'])
+                _val = v['value']
+                expr = SymbolicExpression(_val)
                 sym = expr.latex(raw=True)
                 v.update(sym)
-            if v['type'] == 'number':
+            elif v['type'] == 'number':
                 try:
                     v['value'] = int(v['value'])
                 except Exception:
                     pass
-            if 'value' not in v:
-                v = {'value':v}
+        print seed
+            
 
         # make seed vector
-        vector = { k:v['value'] for k,v in seed.iteritems() }
+        vector = { k:v for k,v in seed.iteritems() }
+        return vector
+
+    def instantiate(self, request, seed={}):
+        """
+        Now should be the *only place to handle: 
+            - seed creation
+            - kv col management
+        does not need to be server-side anymore... which is easier?
+        """
+        if request.user is None:
+            raise Exception("Must be logged in.")
+
+        vector = self.getSeedVector(seed)
 
         # create dict 
         inst = {
@@ -161,11 +173,6 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
             'instantiator': self.owner,
             'seed': json.dumps(seed),
         }
-
-        inst2 = {
-            'vector': json.dumps(vector)
-        }
-
 
         # create the new instance
         instance, isNew = GameInstance.objects.get_or_create(vector=json.dumps(vector))
@@ -180,22 +187,6 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
             return meta, instance
 
         instance.save()
-
-        for kv in instance.seedParams.all():
-            kv.delete()
-
-        # deal with case from old seeds without 'value' key
-        #kvs = map(lambda (k,v): SeedKeyVal(key=k, val=v['value'], jsonval=json.dumps(v), ordering=0), seed.iteritems())
-
-        kvs = [ SeedKeyVal(key=k, val=v['value'], jsonval=json.dumps(v), ordering=0) \
-            for k,v in seed.iteritems() ]
-
-        for i,kv in enumerate(kvs):
-            kv.ordering = i
-            kv.save()
-            instance.seedParams.add(kv)
-            
-        instance.save()
         return meta, instance
 
     def getImageSet(self, order=20, shuffled=False):
@@ -209,64 +200,69 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
         return images[:order]
 
 
-class SeedKeyVal(models.Model):
-
-    key = models.CharField(max_length=255, blank=False)
-    val = models.CharField(max_length=5000, null=False, blank=False, default='')
-    valtype = models.CharField(max_length=25, null=False, blank=False, default='string')
-    jsonval = models.TextField(null=False, blank=False, default='')
-    ordering = models.IntegerField(null=False, blank=False, default=0)
-
-    class Meta:
-        ordering = ('ordering',)
-
-
-
 
 class GameInstance(TimestamperMixin, models.Model):
 
     game = models.ForeignKey(ZeroPlayerGame, related_name='instances')
     instantiator = models.ForeignKey(User)
     seed = models.TextField()
-    seedParams = models.ManyToManyField(SeedKeyVal, null=True, blank=True, related_name='params')
-    # seedParams = models.ManyToManyField(SeedKeyVal, null=True, blank=True, \
-    #     through="SeedKeyValRelationship")
     popularity = models.IntegerField(default=1)
     vector = models.CharField(max_length=5000, null=True, blank=False, unique=True)
 
     def __unicode__(self):
         return "%s's instance of \"%s\", by %s" % (self.instantiator.name, self.game.title, self.game.owner.name)
 
-    def record_seed_as_cols(self):
-        
-        for kv in self.seedParams.all():
-            kv.delete()
+    def getSeedVector(self):
+        seed = json.loads(self.seed)
+        return self.game.getSeedVector(seed)
+
+    def parseVectorParams(self):
 
         seed = json.loads(self.seed)
+        seedDict = json.loads(self.game.seedStructure)
+        for kv in self.vectorparams.all():
+            kv.delete()
 
-        for k,v in seed.iteritems(): 
-            if 'value' not in v:
-                v = {'value':v}    
-            if v['type'] == 'number':
-                try:
-                    v['value'] = int(v['value'])
-                except Exception:
-                    pass
-            
+        kvs = []
+        for k,v in seed.iteritems():
+            if 'type' not in seedDict[k]:
+                seedDict[k]['type'] = 'string'
+            paramdict = {
+                'key':k, 
+                'instance':self,
+                'app':self.game,
+                'val':v['value'], 
+                'jsonval':json.dumps(v), 
+                'valtype':seedDict[k]['type'],
+                'ordering':0
+            }
+            if seedDict[k]['type'] == 'number':
+                paramdict['int_val'] = int(paramdict['val'])
+            print paramdict
+            kvs.append(SeedVectorParam(**paramdict))
 
-        # deal with case from old seeds without 'value' key
-        kvs = map(
-                lambda (k,v): SeedKeyVal(key=k, val=v['value'], 
-                    jsonval=json.dumps(v), 
-                    ordering=0, 
-                    valtype=v['type']), seed.iteritems())
-        
         for i,kv in enumerate(kvs):
             kv.ordering = i
             kv.save()
-            self.seedParams.add(kv)
-            
+            self.vectorparams.add(kv)
+
         self.save()
+        return kvs
+
+    @staticmethod
+    def index_seed_vectors(request):
+        out = []
+        for inst in GameInstance.objects.all():
+            kvs = inst.index_seed_vector()
+            out.append(kvs)
+        return JsonResponse(out)
+
+    def index_seed_vector(self):
+        seed = json.loads(self.seed)
+        #vector = self.getSeedVector()
+        kvs = self.parseVectorParams()
+        self.save()
+        return kvs
 
     def getImages(self):
         if self.images.count() > 0:
@@ -275,9 +271,9 @@ class GameInstance(TimestamperMixin, models.Model):
             return []
 
 
-    #######################################################################################
-    #############  Static methods
-    #############  or "Meta-Views"
+    #######################
+    ##  Static methods
+    ##  or "Meta-Views"
 
     @staticmethod
     def record_seeds(request):
@@ -305,7 +301,7 @@ class GameInstance(TimestamperMixin, models.Model):
 
         inUseNames = Set(map(lambda x: os.path.basename(x), imagesInUse))
         allImages = Set(filter(lambda x: len(x) > 40, os.listdir(MEDIA_ROOT)))
-        print allImages, inUseNames
+        #print allImages, inUseNames
         toRemove = allImages.difference(inUseNames)
 
         ims = map(lambda im: '<img src="/media/'+im+'" height="100" width="100" />', inUseNames)
@@ -331,11 +327,38 @@ class GameInstance(TimestamperMixin, models.Model):
         return JsonResponse(out)
 
 
-class SeedKeyValRelationship(models.Model):
-    instance = models.ForeignKey(GameInstance, on_delete=models.CASCADE)
-    keyval = models.ForeignKey(SeedKeyVal, on_delete=models.CASCADE)
+
+class SeedVectorParam(models.Model):
+
+    instance = models.ForeignKey(GameInstance, related_name='vectorparams')
+    app = models.ForeignKey(ZeroPlayerGame, related_name='instance_vectorparams')
+    key = models.CharField(max_length=255, blank=False)
+    val = models.CharField(max_length=5000, null=True, blank=True, default='')
+    int_val = models.IntegerField(null=True, blank=True)
+    valtype = models.CharField(max_length=25, null=False, blank=False, default='string')
+    jsonval = models.TextField(null=False, blank=False, default='')
+    ordering = models.IntegerField(null=False, blank=False, default=0)
+
+    class Meta:
+        ordering = ('ordering',)
 
 
+# class SeedKeyValRelationship(models.Model):
+#     instance = models.ForeignKey(GameInstance, on_delete=models.CASCADE)
+#     keyval = models.ForeignKey(SeedKeyVal, on_delete=models.CASCADE)
+
+# class SeedKeyVal(models.Model):
+
+#     key = models.CharField(max_length=255, blank=False)
+#     val = models.CharField(max_length=5000, null=False, blank=False, default='')
+#     valtype = models.CharField(max_length=25, null=False, blank=False, default='string')
+#     jsonval = models.TextField(null=False, blank=False, default='')
+#     ordering = models.IntegerField(null=False, blank=False, default=0)
+
+#     class Meta:
+#         ordering = ('ordering',)
+
+    
 class GameInstanceSnapshot(TimestamperMixin, models.Model):
     instance = models.ForeignKey(GameInstance, related_name='images')
     image = ImageWithThumbsField(sizes=((125,125),(200,200)))

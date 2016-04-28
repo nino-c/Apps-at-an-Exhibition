@@ -9,11 +9,7 @@
           })
         }])
         .factory('AppServiceMinimal', ['$resource', function($resource)  {
-          return $resource('/game/api/apps-minimal/:id/', {id:'@id'}, { 
-              update: {
-                  method: 'PUT'
-              }
-          })
+          return $resource('/game/api/apps-minimal/:id/', {id:'@id'})
         }])
         .factory('InstanceService', ['$resource', function($resource)  {
           return $resource('/game/api/instances/:id/', {id:'@id'}, { 
@@ -21,6 +17,13 @@
                   method: 'PUT'
               }
           })
+        }])
+        .factory('OrderedInstanceService', ['$resource', function($resource)  {
+          return $resource('/game/instances-ordered/:id/', 
+            {
+              id:'@id'
+              //key:'@key' 
+            })
         }])
         .factory('CodeModuleService', ['$resource', function($resource)  {
           return $resource('/game/api/code_modules/:id/', {id:'@id'}, { 

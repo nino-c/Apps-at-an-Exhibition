@@ -153,7 +153,7 @@ angular.module('Exhibition')
             }
         }
     }])
-    .directive('adjustImage', function($window, $timeout) {
+    .directive('adjustImage', function($window, $rootScope, $timeout) {
         return {
             restrict: 'A',
             link: function postLink(scope, element, attrs) {
@@ -197,6 +197,7 @@ angular.module('Exhibition')
                     function adjust() {
                         var elem_width = parentElement.width();
                         var im_per_row = Math.floor((elem_width - parent_padding) / basewidth_plus);
+                        //$rootScope.topScope.changeImageLimit(im_per_row * 4);
                         var im_width = elem_width / im_per_row; 
                         var image_width = Math.floor(im_width - (basewidth_plus - basewidth));
                             
@@ -236,6 +237,11 @@ angular.module('Exhibition')
                         transform();
                     }
                 });
+
+                // scope.$watch('$rootScope.topScope.imagelimit', function(val) {
+                //     console.log('imagelimit watcher', val);
+                //     transform();
+                // })
                 
             }
         }

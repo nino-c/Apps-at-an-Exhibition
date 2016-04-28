@@ -29,8 +29,10 @@ class SymbolicExpression(object):
                 function_exponentiation, convert_xor)
             self.expression = parse_expr(expressionString, evaluate=False, 
             transformations=transformations)
+
+            print "expr", self.expressionString
+
         except SyntaxError, e:
-            print e
             raise Exception("Bad syntax")
 
         self.javascript = jscode(self.expression)
@@ -52,8 +54,6 @@ def exec_function(request, funcname):
     and an JSON object representing an expression 
     as a POST parameter
     """
-    print(funcname)
-    print '--------------'
     if request.method == "POST":
         expressionString = request.POST.get('expressionString')
         print request.POST, expressionString

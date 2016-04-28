@@ -71,8 +71,9 @@ angular
                 })
             }
 
-            
-
+            $scope.cancel = function() {
+                $location.path('/apps/'+$scope.app.id);
+            }            
 
             $scope.saveapp = function(event) {
 

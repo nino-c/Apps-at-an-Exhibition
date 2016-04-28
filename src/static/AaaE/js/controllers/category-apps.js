@@ -19,14 +19,14 @@ angular
             
 
             $scope.initialize = function() {
-            	// $http({
-            	// 	method: 'GET',
-            	// 	url: '/game/increment-popularity/category/' + $route.current.params.id + '/'
-            	// }).then(function successCallback(response) {
-            	// 	console.log('increment response', response);
-            	// }, function errorCallback(error) {
-            	// 	console.log('increment response', error);
-            	// });
+            	$http({
+            		method: 'GET',
+            		url: '/game/increment-popularity/category/' + $route.current.params.id + '/'
+            	}).then(function successCallback(response) {
+            		console.log('increment response', response);
+            	}, function errorCallback(error) {
+            		console.log('increment response', error);
+            	});
             }
 
             $scope.selectApp = function(chosenApp) {

@@ -1,4 +1,4 @@
-<md-content ng-controller="InstancesController">
+<md-content ng-controller="InstancesController" ng-init="initialize()">
 
     <!-- loading spinner -->
     <div ng-if="loading" class="loading-bg-base">
@@ -13,29 +13,29 @@
 
     <md-card>
         <md-card-title>
-            <h3>{{ app_minimal.title }}</h3>
+            <h3>{{ app.title }}</h3>
         </md-card-title>
         <md-card-content style="min-height:500px;" layout-align="start start">
 
 
             <div layout="row">
                 <div flex="grow">
-                    <div>by <strong>{{ app_minimal.owner }}</strong></div>
-                    <div><strong>Category:</strong> {{app_minimal.category}}</div>
-                    <div class="text-muted">created @ {{ app_minimal.created }}</div>
+                    <div>by <strong>{{ app.owner }}</strong></div>
+                    <div><strong>Category:</strong> {{app.category}}</div>
+                    <div class="text-muted">created @ {{ app.created }}</div>
                     <hr />
 
                     <div layout="row">
                         <div ng-if="userLoggedIn">
                             <md-button class="md-raised md-primary"  
-                                href="#/app_minimals/{{ app_minimal.id }}/edit/" 
+                                ng-href="#/apps/{{ app.id }}/edit/" 
                                 role="button" layout-align="center center">
                                 <md-icon md-font-set="material-icons">&#xE254;</md-icon>
                                 <span>Edit</span>
                             </md-button>
 
                             <md-button class="md-raised md-warn"  
-                                href="#/app_minimals/{{ app_minimal.id }}/edit/" 
+                                href="#/apps/{{ app.id }}/edit/" 
                                 role="button" layout-align="center center"
                                 ng-click="delete()">
                                 <md-icon md-font-set="material-icons">&#xE872;</md-icon>
@@ -59,7 +59,7 @@
                 
 
                 <div class="caption">
-                    <p>{{ app_minimal.description }}</p>
+                    <p>{{ app.description }}</p>
                 </div>
 
 
@@ -94,7 +94,7 @@
                 <md-progress-linear md-mode="indeterminate" ng-disabled="!loadingInstances"></md-progress-linear>
 
                 <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2 no-padding"
-                    ng-repeat="instance in app.instances | orderBy:'created':true">
+                    ng-repeat="instance in instances">
 
                     <md-card ng-click="selectInstance(instance)">
                         
@@ -133,11 +133,15 @@
                         </md-card-content>
                         
                         <md-card-actions ng-if="userLoggedIn">
-                            <a class="btn btn-danger pull-right" 
+                            <md-button class="md-small pull-right" 
+                                ng-click="deleteInstance($event, instance)"
+                                data-id="{{instance.id}}" 
+                                role="button">Delete</md-button>
+                            <!-- <a class="btn btn-danger pull-right" 
                                 ng-click="deleteInstance($event, instance)"
                                 data-id="{{instance.id}}"
                                 role="button"><span class="glyphicon glyphicon-remove"></span>
-                                Delete</a>
+                                Delete</a> -->
                         </md-card-actions>
 
                        
