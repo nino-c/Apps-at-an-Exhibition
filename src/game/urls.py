@@ -92,6 +92,7 @@ urlpatterns = [
     url(r'^test/', views.test, name="gametest"),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^snapshot/$', views.snapshot, name="snapshot-list"),
+    url(r'^save_gif/$', views.saveGIF, name="saveGIF"),
     url(r'^instances-ordered/(?P<id>[0-9]+)/$', views.instances_ordered),
     url(r'^instances-ordered-with-key/(?P<id>[0-9]+)/(?P<key>[a-zA-Z\-\_0-9]*)/', views.instances_ordered, name="instances_ordered"),
     url(r'^increment-popularity/(?P<obj>[a-zA-Z]+)/(?P<id>[0-9]+)/$', views.incrementPopularity, name="incrementPopularity"),

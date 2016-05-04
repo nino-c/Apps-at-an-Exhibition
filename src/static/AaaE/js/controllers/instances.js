@@ -22,6 +22,8 @@ angular
                 $scope.app = app_min;
                 $scope.loading = false;                
 
+                if ($scope.app.instance_count == 0) return;
+
                 OrderedInstanceService.query({id:$route.current.params.id})
                     .$promise.then(function(instances) {
                         
@@ -49,8 +51,8 @@ angular
 
 
         $scope.selectFirstInstance = function() {
-            if ($scope.instances.length > 0) {
-                $scope.selectInstance($scope.instances[0]);
+            if ($scope.app.instance_count > 0) {
+                $scope.selectInstance($scope.app.first_instance_id);
             } else {
                 $scope.instantiate();
             }
@@ -60,20 +62,34 @@ angular
             
         }
 
-        $scope.selectInstance = function(chosenInstance) {
-            $scope.selectedInstance = chosenInstance
-            $location.path('/instance/'+$scope.app.id+'/'+chosenInstance.id+'/')
+        $scope.selectInstance = function(instance_id) {
+            $location.path('/instance/'+$scope.app.id+'/'+instance_id+'/')
         };
 
         $scope.instantiate = function() {
-            InstanceService.save()
-                .$promise.then(function(response) {
-                    if (response.data.id) {
+            var req = {
+                method: 'GET',
+                url: '/game/app-instantiate/' + $scope.app.id + '/',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
 
-                        $location.path('/instance/'+$scope.app.id+'/'+response.data.id+'/');
-                        $rootScope.toast("New instance created");
-                    }
-                });
+            $http(req).then(function successCallback(response) {
+                
+                console.log(response);
+                
+                if (response.data.id) {
+
+                    $location.path('/instance/'+$scope.app.id+'/'+response.data.id+'/');
+                    $rootScope.toast("New instance created");
+
+                }
+                
+            }, function errorCallback(response) {
+                console.log('error', response)
+            });
+           
         };
 
         $scope.delete = function() {

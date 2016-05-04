@@ -1,0 +1,61 @@
+<div ng-controller="CategoriesController" ng-init="init()">
+	
+	<!-- loading spinner -->
+	<div ng-if="loading" class="loading-bg-base">
+	    <div class="loader-lg">
+			<svg class="circular2">
+			<circle class="path" cx="125" cy="125" r="40" fill="none" stroke-width="4" 
+			    stroke-miterlimit="10"/>
+			</svg>
+	    	<div class="loading-text">Loading...</span></div>
+	    </div>
+	</div>
+	
+	<div class="container-fluid">
+
+
+		<div ng-repeat="category in categories | orderBy: 'avg_popularity': true"
+			ng-repeat-end-call="onCategoryRepeatEnd($event)"
+			class="col-xs-6 no-padding">
+
+			<md-card ng-click="selectCategory(category)">
+				<md-card-title>
+					<md-card-title-text>
+						<h3>{{ category.name }}</h3>
+					</md-card-title-text>
+				</md-card-title>
+				<md-card-content>
+					
+					<!-- <div hide-xs>
+
+						<img ng-src="/media/{{ im | thumbnail:125 }}" 
+							class="nthumbnail pull-left" 
+							adjust-image basewidth="80"
+							ng-repeat="im in category.images | limit:imagelimit" />
+
+					</div>
+					<div hide-gt-xs>
+						<img ng-src="/media/{{ im | thumbnail:125 }}" 
+							class="nthumbnail pull-left" 
+							adjust-image basewidth="60"
+							ng-repeat="im in category.images" />
+					</div> -->
+					
+					<md-grid-list md-cols="3" md-row-height="1:1">
+					  <md-grid-tile ng-repeat="im in category.images | limit:imagelimit">
+					  	<img ng-src="/media/{{ im | thumbnail:125 }}" md-whiteframe="1" />
+					  </md-grid-tile>
+					</md-grid-list>
+
+
+				</md-card-content>
+				<md-card-actions>
+					<div class="text-muted pull-right">{{ category.total_popularity + category.popularity }} views</div>
+				</md-card-actions>
+			</md-card>
+
+		</div>
+		
+	</div>
+
+</div>

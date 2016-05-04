@@ -164,13 +164,18 @@ class InstanceSerializerMinimal(serializers.ModelSerializer):
 class VectorParamSerializer(serializers.ModelSerializer):
     class Meta:
         model = SeedVectorParam
+        include = '__all__'
+
+class VectorParamSerializer_Inline(serializers.ModelSerializer):
+    class Meta:
+        model = SeedVectorParam
         include = ('key', 'val', 'int_val')
         exclude = ('id', 'jsonval', 'ordering', 'instance', 'app')
 
 
 class OrderedInstanceSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField(read_only=True)
-    vectorparams = VectorParamSerializer(many=True)
+    vectorparams = VectorParamSerializer_Inline(many=True)
 
     class Meta:
         model = GameInstance
@@ -183,6 +188,7 @@ class OrderedInstanceSerializer(serializers.ModelSerializer):
 class InstanceSerializer(InstanceMixin, serializers.ModelSerializer):
     game = AppSerializer_Inline()
     images = serializers.SerializerMethodField(read_only=True)
+    vectorparams = VectorParamSerializer(many=True)
 
     class Meta:
         model = GameInstance
@@ -290,6 +296,8 @@ class AppSerializerNoInstances(serializers.ModelSerializer):
     category = CategoryField()
     owner = UserField()
     category_id = serializers.SerializerMethodField(read_only=True)
+    instance_count = serializers.SerializerMethodField(read_only=True)
+    first_instance_id = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = ZeroPlayerGame
@@ -297,7 +305,16 @@ class AppSerializerNoInstances(serializers.ModelSerializer):
         exclude = ('source', 'seedStructure',)
 
     def get_category_id(self, obj):
-        return obj.category.id;
+        return obj.category.id
+
+    def get_instance_count(self, obj):
+        return obj.instances.count()
+
+    def get_first_instance_id(self, obj):
+        if obj.instances.count() > 0:
+            return obj.instances.first().id
+        else:
+            return None
 
 class CategoryAppsSerializer(serializers.ModelSerializer):
     apps = AppSerializerMinimal(read_only=True, many=True)

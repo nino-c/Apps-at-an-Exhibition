@@ -28,6 +28,9 @@ angular
         $scope.seedTouched = false;
         $scope.readyToSave = false;
         $scope.autosnapshot = false;
+        $scope.source = null;
+        $scope.seedcodelines = null;
+        $scope.dialect = null;
 
         $scope.currentCycleValue = null;
         $scope.varyParam = null;
@@ -44,6 +47,7 @@ angular
 
                 $scope.instance = inst;
                 $scope.seedStructure = JSON.parse(inst.game.seedStructure);
+                $scope.dialect = inst.game.scriptType;
                 $scope.execute();
             })
 
@@ -318,9 +322,8 @@ angular
 
                     $scope.parseSeedList();
                     console.log('varyParam', $scope.varyParam);
-
                     if ($scope.varyParam != null) {
-                        self_scope.cycleParam($scope.varyParam, $scope.varyMin, $scope.varyMax);
+                        $scope.cycleParam($scope.varyParam, $scope.varyMin, $scope.varyMax);
                     } else {
                         $scope.updateInstance(true);    
                     }
@@ -348,19 +351,15 @@ angular
                 seedcodelines.push( 'var seed = ' + $scope.instance.seed + ';' );
 
                 // canvas declarations
-                seedcodelines.push( 'var canvas = $("#big-canvas");' )
-                seedcodelines.push( 'var Canvas = document.getElementById("big-canvas");' )
-
-                // control panels
-                //controlPanel = $("#floating-display-control");
-                //controlPanel.css({'display':'block'});
-
-                // canvas declarations
-                seedcodelines.push( 'canvas.css({\'display\':\'block\'});' )
-                seedcodelines.push( 'Canvas.width = $(window).width();' )
-                seedcodelines.push( 'Canvas.height = $(window).height()-50;' )
-                seedcodelines.push( 'console.log(Canvas);' )
-                seedcodelines.push( 'console.log(canvas);' )
+                if ($scope.dialect.indexOf('paperscript') == -1) {
+                    seedcodelines.push( 'var canvas = $("#big-canvas");' )
+                    seedcodelines.push( 'var Canvas = document.getElementById("big-canvas");' )
+                    seedcodelines.push( 'canvas.css({\'display\':\'block\'});' )
+                    seedcodelines.push( 'Canvas.width = $(window).width();' )
+                    seedcodelines.push( 'Canvas.height = $(window).height()-50;' )
+                    seedcodelines.push( 'console.log(Canvas);' )
+                    seedcodelines.push( 'console.log(canvas);' )
+                }
                 
                 // import seed attributes into local namespace
                 for (attr in $scope._seed) {
@@ -443,34 +442,37 @@ angular
                 $scope.appstart = new Date();
                 timer = $interval(updateElapsedTime, 1000);
 
+                //eval( seedcodelines.join("\n") );
+                $scope.seedcodelines = seedcodelines.join("\n");
                 $scope.source = source;
 
+
                 // execute seed code and game script
-                if ($scope.instance.game.scriptType == "text/paperscript") {
+                // if ($scope.instance.game.scriptType == "text/paperscript") {
 
-                    $scope.clearPaperCanvas();
-                    eval( seedcodelines.join("\n") );
+                //     $scope.clearPaperCanvas();
+                //     eval( seedcodelines.join("\n") );
+                //     console.log('papersource', Canvas);
+                //     $scope.gameFunction = new Function('Canvas', 'canvas',
+                //         'paper', //source);
+                //         'with (paper) { ' + source
+                //             + '}')
+
+                //     $scope.gameFunction(Canvas, canvas, paper)
+                //     $scope.loading = false;
+
+                // } else {
+
+                //     $scope.clearCanvas();
+
+                //     console.log(seedcodelines.join("\n"));
+                //     eval( seedcodelines.join("\n") );
                     
-                    $scope.gameFunction = new Function('Canvas', 'canvas',
-                        'paper', //source);
-                        'with (paper) { ' + source
-                            + '}')
+                //     $scope.gameFunction = new Function('Canvas', 'canvas', source)
+                //     $scope.gameFunction(Canvas, canvas)
+                //     $scope.loading = false;
 
-                    $scope.gameFunction(Canvas, canvas, paper)
-                    $scope.loading = false;
-
-                } else {
-
-                    $scope.clearCanvas();
-
-                    console.log(seedcodelines.join("\n"));
-                    eval( seedcodelines.join("\n") );
-                    
-                    $scope.gameFunction = new Function('Canvas', 'canvas', source)
-                    $scope.gameFunction(Canvas, canvas)
-                    $scope.loading = false;
-
-                }
+                // }
 
             }
         }
@@ -479,7 +481,6 @@ angular
         $scope.snapshot = function() {
 
             if (!USER_ID) { return; }
-            console.log('snapshot');
 
             var canvas = $("#big-canvas");
             var Canvas = document.getElementById("big-canvas");
@@ -520,6 +521,11 @@ angular
         }
 
         $scope.clearPaperCanvas = function() {
+
+            $scope.source = null;
+            $scope.seedcodelines = null;
+            //$scope.dialect = null;
+
             try {
                 with (paper) {
                     if (project) {
@@ -530,11 +536,15 @@ angular
                         project.clear();
                     }
                 }
-            } catch (e) { } 
+            } catch (e) { console.log('clearPaperCanvas error', e); } 
         }
 
         $scope.clearEvalScope = function() {
             
+            $scope.source = null;
+            $scope.seedcodelines = null;
+            //$scope.dialect = null;
+
             // try to delete all vars in scope of previously eval()-ed app 
             try {
                 window.appdestroy();

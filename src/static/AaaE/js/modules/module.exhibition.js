@@ -1,6 +1,6 @@
 angular.module('Exhibition', [
   'ngRoute',
-  // 'ui.bootstrap',
+  //'ui.bootstrap',
   'ui.codemirror',
   'ngMaterial',
   'ngMessages',
@@ -32,7 +32,14 @@ angular.module('Exhibition', [
 
       $routeProvider
         .when('/', {
+          //templateUrl: '/static/AaaE/views/categories.html'
+          templateUrl: '/static/AaaE/views/homepage.html'
+        })
+        .when('/categories/', {
           templateUrl: '/static/AaaE/views/categories.html'
+        })
+        .when('/paperscript/:id', {
+          templateUrl: '/static/AaaE/views/paperscript.html'
         })
         .when('/category/:id/', {
           templateUrl: '/static/AaaE/views/category-list.html'
@@ -60,7 +67,7 @@ angular.module('Exhibition', [
   .run(function($rootScope, $location, $http, $cookies, 
         $timeout, $mdToast, $window, AppService) {
 
-    $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken']
+    $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken'];
     $http.defaults.xsrfCookieName = 'csrftoken';
     $http.defaults.xsrfHeaderName = 'X-CSRFToken';
 

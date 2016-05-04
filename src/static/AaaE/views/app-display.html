@@ -12,7 +12,7 @@
     </div>
 
     <!-- app canvas element -->
-    <canvas id="big-canvas" ng-show="showAppCanvas" draw></canvas>
+    <div app-canvas source="source" dialect="dialect" seedcodelines="seedcodelines" loading="loading"></div>
     
     <div class="feature-display" 
         style="{{featureDisplayCSS}}"
@@ -72,12 +72,11 @@
 
     </div>
 
-    <div id="seedDisplay" layout="row" layout-align="center center">
+    <!-- <div id="seedDisplay" layout="row" layout-align="center center"> -->
         
-        <div ng-repeat="seed in seedList">
+        <!-- <div ng-repeat="seed in seedList">
             
-           <!--  <div flex="50"> -->
-
+          
                 <div ng-if="seed[1].type == 'math'">
                     <label>{{ seed[0] }}:</label>
                     <div ng-if="!seed[1].parsing" class="text-muted">${{ seed[1].latex }}$</div>
@@ -102,34 +101,26 @@
                     {{ seed[1].value }}
                 </div>
 
-            <!-- </div> -->
-
-        </div>
-
-        <md-content layout="row" layout-align="start start">
-            <md-button
+           
+        </div> -->
+        <div id="seedDisplay">
+       
+            <md-button class="md-raised"
                 ng-click="editSeed($event)"
-                role="button" 
-                
-                style="font-size:12px;">
-                <md-icon md-font-set="material-icons">&#xE254;</md-icon>
+                role="button">
+                <md-icon md-font-set="material-icons">settings</md-icon>
                 <span>Edit Seed</span>
             </md-button>
-            <!-- <md-button
-                ng-click="editSeed()"
-                role="button" 
-                class="md-fab md-mini"
-                style="font-size:12px;">
-                <md-icon md-font-set="material-icons">&#xE14D;</md-icon>
-                <span>Cycle seed params</span> -->
-            </md-button>
-        </md-content>
+            
+           
+        
+        </div>
 
 
 
-    </div>
+   <!--  </div> -->
 
-<!--  -->
+
     <!-- bottombar -->
     <div id="toolbar-bottom" layout="row" layout-wrap layout-align="center center">
           

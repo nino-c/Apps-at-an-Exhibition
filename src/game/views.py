@@ -63,6 +63,7 @@ def instantiateGame(request, pk):
         return HttpResponse(status=404)
 
     if request.method == 'GET':
+        print 'views.instantiateGame, --GET'
         meta, instance = game.instantiate(request)
         serializer = InstanceSerializer(instance)
         sdata = dict(serializer.data)
@@ -71,11 +72,13 @@ def instantiateGame(request, pk):
 
     elif request.method == 'POST':
         seed = json.loads(request.body)
+        print 'views.instantiateGame, --seed', seed
         meta, instance = game.instantiate(request, seed)
         serializer = InstanceSerializer(instance)
         sdata = dict(serializer.data)
         sdata.update(**meta)
         return JsonResponse(sdata)
+
 
 @csrf_exempt
 def snapshot(request, format=None):
@@ -105,12 +108,30 @@ def snapshot(request, format=None):
 
         return JsonResponse({'a':'ok'})
 
+@csrf_exempt
+def saveGIF(request):
+
+    if request.method == 'POST':
+        # get raw base64-encoded image
+        imageBIN = base64.b64decode(request.POST['image'].split(',')[-1])
+        imagename = hashlib.sha224(str(time.time())).hexdigest() + ".gif"
+        # write to /tmp
+        file = open(os.path.join(MEDIA_ROOT, "animated_gif", imagename), 'w')
+        file.write(imageBIN)
+        file.close()
+        return JsonResponse({'b':'ok'})
+
+
+
 @api_view(['GET'])
 @permission_classes((AllowAny, ))
 def instances_ordered(request, id, key=None):
     app = ZeroPlayerGame.objects.get(pk=id)
     seedstruct = json.loads(app.seedStructure)
-    
+    for k,v in seedstruct.iteritems():
+        if 'type' not in v:
+            v['type'] = 'string'
+
     key = None
     searchtype = 'int_val'
 
@@ -127,6 +148,7 @@ def instances_ordered(request, id, key=None):
         if seedstruct[key]['type'] != 'number':
             searchtype = 'val'
     
+
     vectorparam_set = SeedVectorParam.objects.filter(app=app, 
         key=key).order_by(searchtype).select_related('instance')
     instances = [element.instance for element in vectorparam_set]
@@ -193,6 +215,7 @@ class InstanceViewSet(viewsets.ModelViewSet):
     serializer_class = InstanceSerializer
     queryset = GameInstance.objects.all()
 
+
 @permission_classes((AllowAny, ))
 class InstanceViewSet(viewsets.ModelViewSet):
     serializer_class = InstanceSerializer
@@ -213,12 +236,6 @@ class SnapshotViewSet(viewsets.ModelViewSet):
 class CodeModuleViewSet(viewsets.ModelViewSet):
     queryset = CodeModule.objects.all()
     serializer_class = CodeModuleSerializer
-
-# @permission_classes((AllowAny, ))
-# class AppView(viewsets.ModelViewSet):
-#     queryset = ZeroPlayerGame.objects.prefetch_related('seedParams__valtype')
-
-
 
 @permission_classes((AllowAny, ))
 class InstanceAppViewSet(viewsets.ModelViewSet):

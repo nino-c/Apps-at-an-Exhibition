@@ -5,6 +5,7 @@ import os.path
 import json
 import itertools
 import random
+import copy
 
 from authtools.models import User
 
@@ -119,6 +120,20 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
     def simplify_seed(seed):
         return { k:v['value'] for k,v in seed.iteritems() }
 
+    def getDefaultSeed(self):
+        seedDict = json.loads(self.seedStructure)  
+        seed = {}
+        # ensure seedDict has `type` and `default` on each value-dict
+        for k,v in seedDict.iteritems():     
+            if 'type' not in v:
+                v['type'] = 'string'
+            
+
+            value = v['value'] if 'value' in v else v['default']
+            seed[k] = {'type':v['type'], 'value':value}
+
+        return seed
+
     def getSeedVector(self, seed={}):
         seedDict = json.loads(self.seedStructure)  
         
@@ -128,16 +143,18 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
                 v['type'] = 'string'
             if 'default' not in v:
                 if v['type'] == 'number':
-                    v = 0
+                    v['value'] = 0
                 else:
-                    v = ''
-            value = v['value'] if 'value' in v else v['default']
+                    v['value'] = ''
+
+            value = seed[k]['value'] if 'value' in seed[k] else v['default']
             seed[k] = {'type':v['type'], 'value':value}
 
-        for k,v in seed.iteritems():   
-            if type(v) is not type({}):
-                v = {'value':v}  
-            print '--val',v,  v['value']
+        vector = copy.deepcopy(seed) #{ k:v for k,v in seed.iteritems() }
+        for k,v in vector.iteritems():   
+            if type(v) is not dict:
+                v = {'value':v, 'type':'string'}  
+
             if v['type'] == 'math':
                 _val = v['value']
                 expr = SymbolicExpression(_val)
@@ -148,11 +165,15 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
                     v['value'] = int(v['value'])
                 except Exception:
                     pass
-        print seed
-            
+            elif v['type'] == 'color':
+                try:
+                    v['value'] = int(str(v['value']).replace('#', ''), 16)
+                except Exception:
+                    raise Exception
 
-        # make seed vector
-        vector = { k:v for k,v in seed.iteritems() }
+        # print "==== getSeedVector ===="
+        # print vector
+        
         return vector
 
     def instantiate(self, request, seed={}):
@@ -165,28 +186,44 @@ class ZeroPlayerGame(TimestamperMixin, models.Model):
         if request.user is None:
             raise Exception("Must be logged in.")
 
-        vector = self.getSeedVector(seed)
+        if seed == {}:
+            print '--default seed'
+            seed = self.getDefaultSeed()
+            print seed
 
+
+        vector = self.getSeedVector(seed)
+        print '--seed', seed
+        print '--vector', vector
         # create dict 
         inst = {
             'game': self,
             'instantiator': self.owner,
             'seed': json.dumps(seed),
+            'vector': json.dumps(vector)
         }
-
+        #print '---inst', inst
+        
         # create the new instance
-        instance, isNew = GameInstance.objects.get_or_create(vector=json.dumps(vector))
+        #print "searching gi's for vector: " + inst['vector']
+        isNew = False
+        try:
+            instance = GameInstance.objects.get(vector=inst['vector'])
+        except GameInstance.DoesNotExist:
+            instance = GameInstance.objects.create(**inst)
+            isNew = True
+
         meta = {}
 
         if isNew:
             meta['alreadyExists'] = False
-            for k,v in inst:
-                instance.__setattr__(k,v)
         else:
             meta['alreadyExists'] = True
             return meta, instance
 
+        instance.parseVectorParams()
         instance.save()
+
         return meta, instance
 
     def getImageSet(self, order=20, shuffled=False):
@@ -212,21 +249,34 @@ class GameInstance(TimestamperMixin, models.Model):
     def __unicode__(self):
         return "%s's instance of \"%s\", by %s" % (self.instantiator.name, self.game.title, self.game.owner.name)
 
+    # def save(self, *args, **kwargs):
+    #     print '--save instance'
+    #     kvs, kdict = self.parseVectorParams()
+    #     print kdict
+    #     print '--inserted vector-string', json.dumps(kdict)
+    #     kwargs.update({'vector',json.dumps(kdict)})
+    #     print instance
+    #     super(GameInstance).save(*args, **kwargs)
+
     def getSeedVector(self):
         seed = json.loads(self.seed)
         return self.game.getSeedVector(seed)
 
     def parseVectorParams(self):
-
+        print "============="
+        print 'parseVectorParams'
         seed = json.loads(self.seed)
         seedDict = json.loads(self.game.seedStructure)
         for kv in self.vectorparams.all():
             kv.delete()
 
         kvs = []
+        kdict = {}
         for k,v in seed.iteritems():
+
             if 'type' not in seedDict[k]:
                 seedDict[k]['type'] = 'string'
+
             paramdict = {
                 'key':k, 
                 'instance':self,
@@ -236,10 +286,15 @@ class GameInstance(TimestamperMixin, models.Model):
                 'valtype':seedDict[k]['type'],
                 'ordering':0
             }
+
             if seedDict[k]['type'] == 'number':
                 paramdict['int_val'] = int(paramdict['val'])
-            print paramdict
+            elif seedDict[k]['type'] == 'color':
+                paramdict['int_val'] = int(paramdict['val'].replace('#',''), 16)
+            
+
             kvs.append(SeedVectorParam(**paramdict))
+            kdict[k] = paramdict
 
         for i,kv in enumerate(kvs):
             kv.ordering = i
@@ -247,20 +302,32 @@ class GameInstance(TimestamperMixin, models.Model):
             self.vectorparams.add(kv)
 
         self.save()
-        return kvs
+        print '---parseVectorParams', kdict
+        return kvs, kdict
 
     @staticmethod
     def index_seed_vectors(request):
         out = []
+        not_unique = []
         for inst in GameInstance.objects.all():
-            kvs = inst.index_seed_vector()
+            try:
+                kvs = inst.index_seed_vector()
+            except Exception:
+                not_unique.append(inst.id)
+                #print 'UNIQ', ', '.join(map(str, not_unique))
+                #raise Exception("Dooplikate vektor")
+                continue
+
             out.append(kvs)
+
+        out.append(', '.join(not_unique))        
         return JsonResponse(out)
 
     def index_seed_vector(self):
         seed = json.loads(self.seed)
-        #vector = self.getSeedVector()
-        kvs = self.parseVectorParams()
+        #kvs = self.parseVectorParams()
+        self.vector = json.dumps(self.game.getSeedVector(seed))
+        print "--- self.vector", self.vector
         self.save()
         return kvs
 

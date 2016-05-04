@@ -1,10 +1,4 @@
 angular.module('Exhibition')
-    // .directive('seedDisplay', function() {
-    //     return {
-    //         restrict: 'E',
-    //         templateUrl: 'views/seedDisplay.html'
-    //     }
-    // })
     .directive('validateJson', function() {
         return {
             require: 'ngModel',
@@ -54,47 +48,11 @@ angular.module('Exhibition')
             }
         }
     }])
-    .directive('seedField', function($compile) {
-        return {
-            restrict: 'E',
-            scope: {
-                label: '=',
-                type: '=',
-                value: '='
-            },
-            templateUrl: 'seedField.html',
-            link: function(scope, elem, attrs, ctrl) {
-               
-                $scope.$apply();
-                
-                ctrl.seedChange = function() {
-
-                }
-            }
-        }
-    })
-    .directive('seedEditor', function() {
-        return {
-            restrict: 'E',
-            require: 'ngModel',
-            templateUrl: 'seedEditor.html',
-            link: function(scope, elem, attrs, ngModel) {
-                //ngModel.$render = function() {
-                    scope.seedlist = _.map(ngModel.$viewValue, 
-                        function(item) {
-                            return {label: item[0], value: item[1].value}
-                        })
-                    console.log($scope.seedlist);
-                //}
-            }
-        }
-    })
     .directive('draw', function () {
         return {
             restrict: 'A',
             link: function postLink($scope, element, attrs) {
 
-                
                 function initPaper() {
 
                     paper.install(window);
@@ -102,57 +60,115 @@ angular.module('Exhibition')
                     //paper.view.onFrame
                 }
 
-                //$scope.$apply(function() {
-                    initPaper();
-                //})
-                
-
-
+                initPaper();
+            
             }
         }
     })
-    .directive('paper', function () {
+    .directive('paper', ['$compile', function ($compile) {
         return {
-            replace: true,
-            template: '<canvas class="display-canvas"></canvas>',
-            restrict: 'E',
-            link: function postLink(scope, element, attrs) {
-                var _scope = new paper.PaperScope();
-                _scope.setup(element[0]);
-                _scope.install(window)
-                paper.PaperScript.evaluate(paper.PaperScript.parse(attrs.source), _scope);
+            restrict: 'A',
+            scope: {
+                source: '='
+            },
+            link: function ($scope, element, attrs) {
+
+                $scope.$watch('source', function(val) {
+                    if (val && val.length > 0) {
+                        element.html('<canvas style="width:100%; height:100%;" id="paperscript-canvas"></canvas>'
+                            + '<script type="text/paperscript" canvas="paperscript-canvas">'+val+'</script>')
+                        $compile(element.contents())($scope);
+                        paper.PaperScript.load();
+                    }
+                })
+
             }
         };
-    })
-    .directive('feature-display', ['$scope', function() {
-        return {
-            scope: {
-                featureDisplayContent: '@',
-                featureDisplayCSS: '@'
-            },
-            restrict: 'E',
-            template: function(element, attr) {
-                var style = _.reduce(_.mapObject(featureDisplayCSS, function(val, key) {
-                    return key+':'+val+';';
-                }), function(a,b) { return a+b; }, '');
-                return '<div class="feature-display" style="{{style}}">{{featureDisplayContent}}</div>';
-            },
-            //transclude: true,
-            link: function postLink($scope, element, attrs) {
-                console.log('ss', $scope, element, attrs)
-                
-                function applyCSS() {
-                    $(element[0]).css($scope.featureDisplayCSS);
-                }
-                
-                $scope.$watch("featureDisplayContent.length > 0", function(newValue) {
-                    console.log('fff')
-                    applyCSS();
-                    $(element[0]).html(newValue);
-                });
-            }
-        }
     }])
+    .directive('appCanvas', ['$compile', function ($compile) {
+        return {
+            restrict: 'A',
+            scope: {
+                source: '=',
+                seedcodelines: '=',
+                dialect: '=',
+                loading: '='
+            },
+            link: function ($scope, element, attrs) {
+
+                $scope.$watch('source', function(val) {
+                    if (val && val.length > 0) {
+                        console.log($scope);
+                        switch ($scope.dialect) {
+                            case 'text/paperscript':
+                                $scope.$parent.clearPaperCanvas();
+                                element.html('<canvas id="paperscript-canvas" class="canvas-fullscreen-under-toolbar"></canvas>'
+                                    + '<script type="' + $scope.dialect + '" canvas="paperscript-canvas">'
+                                    + val +'</script>');
+                                $compile(element.contents())($scope);
+
+                                eval( $scope.seedcodelines );
+
+
+                                paper.PaperScript.load();
+                                $scope.loading = false;
+                            break;
+                            default:
+                                $scope.$parent.clearCanvas();
+                                element.html('<canvas id="big-canvas"></canvas>');
+                                $compile(element.contents())($scope);
+                                console.log($scope);
+
+                                // extra_seedcodelines = [ 'var canvas = $("#big-canvas");',
+                                //     'var Canvas = document.getElementById("big-canvas");'];
+
+                                // eval(extra_seedcodelines.join("\n") + "\n" + $scope.seedcodelines );
+
+                                eval($scope.seedcodelines );
+
+                                
+                                $scope.gameFunction = new Function('Canvas', val);
+                                $scope.gameFunction(Canvas);
+                                $scope.loading = false;
+
+                            break;
+                        }
+
+                    }
+                })
+
+            }
+        };
+    }])
+    // .directive('feature-display', ['$scope', function() {
+    //     return {
+    //         scope: {
+    //             featureDisplayContent: '@',
+    //             featureDisplayCSS: '@'
+    //         },
+    //         restrict: 'E',
+    //         template: function(element, attr) {
+    //             var style = _.reduce(_.mapObject(featureDisplayCSS, function(val, key) {
+    //                 return key+':'+val+';';
+    //             }), function(a,b) { return a+b; }, '');
+    //             return '<div class="feature-display" style="{{style}}">{{featureDisplayContent}}</div>';
+    //         },
+    //         //transclude: true,
+    //         link: function postLink($scope, element, attrs) {
+    //             console.log('ss', $scope, element, attrs)
+                
+    //             function applyCSS() {
+    //                 $(element[0]).css($scope.featureDisplayCSS);
+    //             }
+                
+    //             $scope.$watch("featureDisplayContent.length > 0", function(newValue) {
+    //                 console.log('fff')
+    //                 applyCSS();
+    //                 $(element[0]).html(newValue);
+    //             });
+    //         }
+    //     }
+    // }])
     .directive('adjustImage', function($window, $rootScope, $timeout) {
         return {
             restrict: 'A',
@@ -197,7 +213,6 @@ angular.module('Exhibition')
                     function adjust() {
                         var elem_width = parentElement.width();
                         var im_per_row = Math.floor((elem_width - parent_padding) / basewidth_plus);
-                        //$rootScope.topScope.changeImageLimit(im_per_row * 4);
                         var im_width = elem_width / im_per_row; 
                         var image_width = Math.floor(im_width - (basewidth_plus - basewidth));
                             
@@ -216,10 +231,8 @@ angular.module('Exhibition')
                         scope.$apply();
                     });
 
-
                 }
                 
-
                 $timeout(function() {
                     transform();
                 })
@@ -237,11 +250,6 @@ angular.module('Exhibition')
                         transform();
                     }
                 });
-
-                // scope.$watch('$rootScope.topScope.imagelimit', function(val) {
-                //     console.log('imagelimit watcher', val);
-                //     transform();
-                // })
                 
             }
         }
@@ -255,15 +263,11 @@ angular.module('Exhibition')
                     if (scope.$parent.$last) {
                         if (attrs.ngRepeatEndCall !== '') {
                             if (typeof scope.$parent.$parent[attrs.ngRepeatEndCall] === 'function') {
-                                // Executes defined function
                                 scope.$parent.$parent[attrs.ngRepeatEndCall]();
                             } else {
-                                // For watcher, if you prefer
                                 scope.$parent.$parent[attrs.ngRepeatEndCall] = true;
                             }
                         } else {
-                            // If no value was provided than we will provide one on you controller scope, that you can watch
-                            // WARNING: Multiple instances of this directive could yeild unwanted results.
                             scope.$parent.$parent.ngRepeatEnd = true;
                         }
                     }
@@ -273,20 +277,20 @@ angular.module('Exhibition')
             }
         }
     })
-    .directive('stickToBottom', function($window) {
-        return {
-            restrict: 'A',
-            link: function (scope, element, attrs) {
-                console.log('stickToBottom');
-                var el = angular.element(element[0]);
-                var mintop = angular.element($window).height() - el.height();
-                console.log('mintop', mintop, el.offset().top);
-                if (el.offset().top < mintop) {
-                    el.css({position: 'absolute', top: mintop+'px'});
-                }
-            }
-        }
-    })
+    // .directive('stickToBottom', function($window) {
+    //     return {
+    //         restrict: 'A',
+    //         link: function (scope, element, attrs) {
+    //             console.log('stickToBottom');
+    //             var el = angular.element(element[0]);
+    //             var mintop = angular.element($window).height() - el.height();
+    //             console.log('mintop', mintop, el.offset().top);
+    //             if (el.offset().top < mintop) {
+    //                 el.css({position: 'absolute', top: mintop+'px'});
+    //             }
+    //         }
+    //     }
+    // })
     .directive('lazySrc', ['$window', '$document', function($window, $document){
         var doc = $document[0],
             body = doc.body,
@@ -426,7 +430,98 @@ angular.module('Exhibition')
                 });
             }
         };
-    }]);
+    }])
+    // .directive('seedField', function($compile) {
+    //     return {
+    //         restrict: 'E',
+    //         scope: {
+    //             label: '=',
+    //             type: '=',
+    //             value: '='
+    //         },
+    //         templateUrl: 'seedField.html',
+    //         link: function(scope, elem, attrs, ctrl) {
+               
+    //             $scope.$apply();
+                
+    //             ctrl.seedChange = function() {
+
+    //             }
+    //         }
+    //     }
+    // })
+    // .directive('seedEditor', function() {
+    //     return {
+    //         restrict: 'E',
+    //         require: 'ngModel',
+    //         templateUrl: 'seedEditor.html',
+    //         link: function(scope, elem, attrs, ngModel) {
+    //             //ngModel.$render = function() {
+    //                 scope.seedlist = _.map(ngModel.$viewValue, 
+    //                     function(item) {
+    //                         return {label: item[0], value: item[1].value}
+    //                     })
+    //                 console.log($scope.seedlist);
+    //             //}
+    //         }
+    //     }
+    // })
+ 
+    // .directive('imageGrid', function($window, $timeout) {
+    //         return {
+    //             restrict: 'E',
+    //             template: function(elem, attr) {
+    //                 //return '<img ng-src="/media/{{ im | thumbnail:125 }}" class="nthumbnail pull-left" '
+    //                 //+ 'ng-repeat="im in images | limit:{{ imlimit }}" />';
+    //                 return 'elemwidth: {{ elemwidth }} <div ng-repeat="im in images">im {{im}}</div>';
+    //             },
+    //             link: function(scope, element, attrs, ngModel) {
+                    
+    //                 var parentElement = element.parent(); 
+    //                 var _basewidth = (parseInt(attrs.basewidth) || 80);
+    //                 var basewidth = _basewidth;
+
+    //                 function getCSSTotalWidth(el, arg) {
+    //                     var val = _.reduce(
+    //                         _.map(['left', 'right'], function(dir) {
+    //                             return parseInt(el.css(arg+'-'+dir).split('px').join(''));
+    //                         }), function(a,b) { return a+b; }, 0);
+    //                     if (isNaN(parseInt(val))) {
+    //                         val = 0;
+    //                     }
+    //                     return val;
+    //                 }
+
+    //                 function adjust() {
+    //                     var elemwidth = parentElement.width();
+    //                     var parent_padding = getCSSTotalWidth(parentElement, 'padding'); 
+    //                     var im_per_row = Math.floor((elemwidth - parent_padding) / basewidth);
+    //                     var im_width = elemwidth / im_per_row; 
+    //                     //var image_width = Math.floor(im_width - (basewidth_plus - basewidth));
+
+    //                     scope.images = attrs.images;
+    //                     scope.elemwidth = elemwidth;
+    //                     scope.imlimit = im_per_row * 3;
+    //                 }
+    //                 adjust();
+
+    //                 angular.element($window).bind('resize', function() {
+    //                     adjust();
+    //                     scope.$apply();
+    //                 });
+
+    //             }
+    //         }
+    //     })
+    //     .directive('paperJs', function () {
+    //         return {
+    //             restrict: 'A',
+    //             link: function (scope, element, attrs) {
+    //                 element.css({width:'100%', height:'100%'});
+    //                 paper.setup(element.get(0));
+    //             }
+    //         };
+    //     })
     // .component('seedDisplay', {
     //     bindings: {
     //         __seed: '='

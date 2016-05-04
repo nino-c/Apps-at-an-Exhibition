@@ -7,7 +7,7 @@ angular
 		$rootScope.topScope = $scope;
 
 		$scope.loading = true;
-		$scope.imagelimit = 20;
+		$scope.imagelimit = 9;
 		
 		CategoryService.query().$promise.then(function(cats) {
 			_.each(_.range(cats.length), function(i) {
@@ -26,7 +26,8 @@ angular
 			$location.path('/category/'+cat.id);
 		}
 
-		$scope.changeImageLimit = function(n) {
+		$scope.adjustImageLimit = function(n) {
+			$scope.imagelimit = n;
 			console.log('imagelimit change', n);
 
 		}

@@ -26,10 +26,12 @@
 				<md-card-content>
 					
 					<div hide-xs>
+
 						<img ng-src="/media/{{ im | thumbnail:125 }}" 
 							class="nthumbnail pull-left" 
 							adjust-image basewidth="80"
-							ng-repeat="im in category.images" />
+							ng-repeat="im in category.images | limit:imagelimit" />
+
 					</div>
 					<div hide-gt-xs>
 						<img ng-src="/media/{{ im | thumbnail:125 }}" 
