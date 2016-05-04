@@ -1,6 +1,8 @@
 angular
   .module('Exhibition')
-  .controller('InstancesController', ['$scope', 
+  .controller('InstancesController', [
+    '$rootScope',
+    '$scope', 
     '$location', 
     '$route', 
     '$http',
@@ -10,7 +12,7 @@ angular
     'OrderedInstanceService',  
     'AppServiceMinimal',
     'InstanceService',
-    function ($scope, $location, $route, $http, $window, $mdToast, $timeout,
+    function ($rootScope, $scope, $location, $route, $http, $window, $mdToast, $timeout,
       OrderedInstanceService, AppServiceMinimal, InstanceService) {
 
         $scope.loading = true;

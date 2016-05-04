@@ -16,7 +16,7 @@
 
 		<div ng-repeat="category in categories | orderBy: 'avg_popularity': true"
 			ng-repeat-end-call="onCategoryRepeatEnd($event)"
-			class="col-xs-6 no-padding">
+			class="col-xs-12 col-sm-6 no-padding">
 
 			<md-card ng-click="selectCategory(category)">
 				<md-card-title>
@@ -43,7 +43,7 @@
 					
 					<md-grid-list md-cols="3" md-row-height="1:1">
 					  <md-grid-tile ng-repeat="im in category.images | limit:imagelimit">
-					  	<img ng-src="/media/{{ im | thumbnail:125 }}" md-whiteframe="1" />
+					  	<img ng-src="/media/{{ im | thumbnail:125 }}" style="width:95%; height: 95%" md-whiteframe="1" />
 					  </md-grid-tile>
 					</md-grid-list>
 

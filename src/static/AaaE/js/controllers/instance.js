@@ -482,8 +482,9 @@ angular
 
             if (!USER_ID) { return; }
 
-            var canvas = $("#big-canvas");
-            var Canvas = document.getElementById("big-canvas");
+            //var canvas = $("#big-canvas");
+            var Canvas = $scope.dialect.indexOf('paperscript') > -1 ? 
+                document.getElementById("paperscript-canvas") : document.getElementById("big-canvas");
 
             if (window._renderer) {
                 var snapshot = window._renderer.domElement.toDataURL("image/png");  

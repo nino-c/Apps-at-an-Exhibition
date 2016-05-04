@@ -169,6 +169,15 @@ angular.module('Exhibition')
     //         }
     //     }
     // }])
+    // .directive('fitImageToParent', function() {
+    //     return {
+    //         restrict: 'A',
+    //         link: function postLink(scope, element, attrs) {
+    //             var parentElement = element.parent().parent(); 
+    //             console.log('fitImage', parentElement.width());
+    //         }    
+    //     }
+    // })
     .directive('adjustImage', function($window, $rootScope, $timeout) {
         return {
             restrict: 'A',
