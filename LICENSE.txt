@@ -3,13 +3,13 @@ Nino P. Cocchiarella
 
 This is open-source software.   
 However, permission from the author (Nino P. Cocchiarella) must be specifically 
-requested before doing anything using the source code for anything at all beyond 
-studying the code either out of interest or as someone who wishes to contribute.
+requested before doing anything using the source code for anything beyond 
+studying or planning to contribute.
 
-This software may not be deployed anywhere except where the author deploys it, 
-unless specific permission is granted, and if so, then full name and copyright 
-notice (above) remain visible in any other implementation of this software, and 
-that it may NOT be sold for profit by anyone.
+This software may not be deployed by anyone but the author,
+unless specific permission is granted.  In the case that permission is granted, 
+full name and copyright notice (above) must remain visible in any other instance deployed, 
+and no monetary profit is to be made by such deployment.
 
-The author (Nino P. Cocchiarella) also requests that any interest in using this project, 
-(ideas, criticism, etc.) be openly discussed with the author.
+The author (Nino P. Cocchiarella) requests that any ideas and criticisms regarding 
+this project be discussed with the author openly.
