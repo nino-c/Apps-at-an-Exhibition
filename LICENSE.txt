@@ -1,9 +1,8 @@
 Copyright (c) 2014-2016 
 Nino P. Cocchiarella
 
-This is open-source software, and as such, permission is hereby granted, free of charge, 
-to any person to clone, fork, study, or contribute to, on the one condition that the author's 
-(Nino P. Cocchiarella) full name and copyright notice (above) remain visible in any other 
-implementation of this software, and that it may NOT be sold for profit by anyone.
+This is open-source software.   However, permission from the author (Nino P. Cocchiarella) must be specifically requested before doing anything using the source code for anything at all beyond studying the code either out of interest or as someone who wishes to contribute.
 
-The author (Nino P. Cocchiarella) also requests that any interest in using this project, (ideas, criticusm, etc.) be openly discussed with the author.
+This software may not be deployed anywhere except where the author deploys it, unless specific permission is granted, and if so, then full name and copyright notice (above) remain visible in any other implementation of this software, and that it may NOT be sold for profit by anyone.
+
+The author (Nino P. Cocchiarella) also requests that any interest in using this project, (ideas, criticism, etc.) be openly discussed with the author.
